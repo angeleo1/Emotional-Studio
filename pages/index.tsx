@@ -213,32 +213,17 @@ const Home: NextPage = () => {
         {/* Gallery Preview Section */}
         <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center mb-12">Our Gallery</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {galleryImages.slice(0, 6).map((image, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="relative group overflow-hidden rounded-lg"
-                >
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              {galleryImages.map((image, index) => (
+                <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
                   <CloudinaryImage
                     src={image}
                     alt={`Gallery image ${index + 1}`}
-                    width={600}
+                    width={400}
                     height={400}
-                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
-                    <Link
-                      href="/gallery"
-                      className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    >
-                      View More
-                    </Link>
-                  </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
