@@ -186,7 +186,7 @@ const Home: NextPage = () => {
                 >
                   <Link
                     href="/booking"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-[#ff6100] hover:text-white transition-all"
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover-orange transition-all"
                   >
                     Book Now
                   </Link>
@@ -200,7 +200,7 @@ const Home: NextPage = () => {
                 >
                   <Link
                     href="/gallery"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-[#ff6100] hover:text-white transition-all"
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover-orange transition-all"
                   >
                     View Events
                   </Link>
