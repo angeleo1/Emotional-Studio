@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-5xl md:text-7xl font-['RockSalt-Regular'] mb-4 text-[#ff6100]"
+                className="text-5xl md:text-7xl font-rock-salt mb-4 text-[#ff6100]"
               >
                 {heroContents[currentImage].title}
               </motion.h1>
@@ -227,7 +227,7 @@ const Home: NextPage = () => {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-['RockSalt-Regular'] mb-6 text-[#ff6100]">
+              <h2 className="text-4xl md:text-5xl font-rock-salt mb-6 text-[#ff6100]">
                 Emotional Moment
               </h2>
               <p className="text-lg text-[#1a1a1a]/80">

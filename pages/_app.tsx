@@ -1,7 +1,15 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Navbar from '../components/Navbar'
+import { Rock_Salt } from 'next/font/google'
 import Head from 'next/head'
+import Navbar from '../components/Navbar'
+
+const rockSalt = Rock_Salt({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-rock-salt',
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -11,8 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
       </Head>
-      <Navbar />
-      <Component {...pageProps} />
+      <div className={`${rockSalt.variable}`}>
+        <Navbar />
+        <Component {...pageProps} />
+      </div>
     </>
   )
 } 
