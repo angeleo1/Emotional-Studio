@@ -29,7 +29,6 @@ export default function CloudinaryImage({
       className={className}
       onLoad={onLoad}
       quality={75}
-      priority={true}
       unoptimized={true}
     />
   );
