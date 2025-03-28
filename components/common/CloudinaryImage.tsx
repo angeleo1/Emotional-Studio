@@ -17,8 +17,14 @@ export default function CloudinaryImage({
   className = '',
   onLoad,
 }: CloudinaryImageProps) {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  if (!cloudName) {
+    console.error('Cloudinary cloud name is not configured');
+    return null;
+  }
+
   // Cloudinary URL 생성
-  const cloudinaryUrl = `https://res.cloudinary.com/dnwp85rz6/image/upload/${src}`;
+  const cloudinaryUrl = `https://res.cloudinary.com/${cloudName}/image/upload/${src}`;
   
   return (
     <Image
