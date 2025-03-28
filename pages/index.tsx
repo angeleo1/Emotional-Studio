@@ -186,7 +186,7 @@ const Home: NextPage = () => {
                 >
                   <Link
                     href="/booking"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-[#ff6100] hover:text-white transition-all"
                   >
                     Book Now
                   </Link>
@@ -200,7 +200,7 @@ const Home: NextPage = () => {
                 >
                   <Link
                     href="/gallery"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-[#ff6100] hover:text-white transition-all"
                   >
                     View Events
                   </Link>
@@ -227,7 +227,7 @@ const Home: NextPage = () => {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#ff6100] mb-6 animate-tracking-in-expand">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#ff6100] mb-6 tracking-in-expand">
                 Emotional Moment
               </h2>
               <p className="text-lg text-[#1a1a1a]/80">
