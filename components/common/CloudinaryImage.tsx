@@ -17,27 +17,14 @@ export default function CloudinaryImage({
   className = '',
   onLoad,
 }: CloudinaryImageProps) {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  console.log('Cloudinary Image Source:', src);
-  console.log('Cloudinary Cloud Name:', cloudName);
-
-  // Remove any file extension from the src
-  const imageId = src.split('.')[0];
-
   return (
     <CldImage
-      src={imageId}
+      src={src}
       alt={alt}
       width={width}
       height={height}
       className={className}
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      loading="lazy"
       onLoad={onLoad}
-      format="auto"
-      quality="auto"
-      crop="fill"
-      gravity="auto"
     />
   );
 } 
