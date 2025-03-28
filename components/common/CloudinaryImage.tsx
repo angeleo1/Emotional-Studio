@@ -1,4 +1,4 @@
-import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
 
 interface CloudinaryImageProps {
   src: string;
@@ -18,13 +18,15 @@ export default function CloudinaryImage({
   onLoad,
 }: CloudinaryImageProps) {
   return (
-    <CldImage
+    <Image
       src={src}
       alt={alt}
       width={width}
       height={height}
       className={className}
       onLoad={onLoad}
+      quality={75}
+      priority={true}
     />
   );
 } 
