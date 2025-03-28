@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-5xl md:text-7xl font-rocksalt mb-4"
+                className="text-5xl md:text-7xl font-rocksalt text-[#fff0c6] mb-4"
               >
                 {heroContents[currentImage].title}
               </motion.h1>
