@@ -219,7 +219,7 @@ const Home: NextPage = () => {
                 alt="Emotional Moment Background"
                 width={1920}
                 height={1080}
-                className="object-cover transform-gpu"
+                className="w-full h-full object-cover transform-gpu"
               />
             </div>
             <div className="absolute inset-0 bg-[#fff0c6]/0" />
