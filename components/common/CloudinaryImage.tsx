@@ -18,7 +18,7 @@ export default function CloudinaryImage({
   onLoad,
 }: CloudinaryImageProps) {
   // Cloudinary URL 생성
-  const cloudinaryUrl = `https://res.cloudinary.com/dnwp85rz6/image/upload/${src}`;
+  const cloudinaryUrl = `https://res.cloudinary.com/dnwp85rz6/image/upload/f_auto,q_auto/${src}`;
   
   return (
     <Image
@@ -30,6 +30,7 @@ export default function CloudinaryImage({
       onLoad={onLoad}
       quality={75}
       priority={true}
+      unoptimized={true}
     />
   );
 } 
