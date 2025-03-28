@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "about": "关于我们",
+    "service": "服务",
+    "booking": "预约",
+    "store": "商店",
+    "gallery": "画廊",
+    "contact": "联系我们",
+    "support": "支持"
+  },
+  "hero": {
+    "title": "情感工作室",
+    "subtitle": "让回忆栩栩如生",
+    "seeMore": "了解更多"
+  },
+  "theme": {
+    "light": "浅色模式",
+    "dark": "深色模式"
+  },
+  "language": {
+    "en": "English",
+    "zh": "中文"
+  },
+  "inquiry": {
+    "title": "联系我们",
+    "name": "姓名",
+    "email": "电子邮箱",
+    "message": "留言",
+    "submit": "发送消息"
+  },
+  "services": {
+    "title": "我们的服务",
+    "mocktail": {
+      "title": "特色无酒精鸡尾酒",
+      "description": "体验我们用优质原料调制的独特无酒精鸡尾酒"
+    },
+    "studio": {
+      "title": "摄影工作室",
+      "description": "在我们专业配置的工作室空间创造永恒的回忆"
+    }
+  },
+  "gallery": {
+    "title": "作品展示",
+    "all": "全部",
+    "event": "活动",
+    "studio": "工作室",
+    "viewMore": "查看更多",
+    "viewAll": "查看全部作品"
+  },
+  "booking": {
+    "title": "预约体验",
+    "description": "选择我们精心策划的套餐，创造难忘的时刻",
+    "packages": {
+      "mocktail": {
+        "title": "无酒精鸡尾酒体验",
+        "description": "与亲朋好友一起享受我们的特色无酒精鸡尾酒"
+      },
+      "studio": {
+        "title": "摄影服务",
+        "description": "在我们设备齐全的工作室进行专业摄影"
+      },
+      "event": {
+        "title": "特别活动",
+        "description": "为您的特别时刻定制专属套餐"
+      }
+    },
+    "cta": "立即预约"
+  },
+  "common": {
+    "learnMore": "了解更多"
+  }
+} 

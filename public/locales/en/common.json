@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "Emotional Studio",
+    "subtitle": "Where every moment becomes a timeless memory",
+    "seeMore": "See More"
+  },
+  "emotionalMoment": "Emotional Moment",
+  "slidingImages": {
+    "1": "Sliding image 1",
+    "2": "Sliding image 2",
+    "3": "Sliding image 3",
+    "4": "Sliding image 4",
+    "5": "Sliding image 5",
+    "6": "Sliding image 6",
+    "7": "Sliding image 7",
+    "8": "Sliding image 8",
+    "9": "Sliding image 9",
+    "10": "Sliding image 10",
+    "11": "Sliding image 11",
+    "12": "Sliding image 12",
+    "13": "Sliding image 13",
+    "14": "Sliding image 14",
+    "15": "Sliding image 15",
+    "16": "Sliding image 16",
+    "17": "Sliding image 17",
+    "18": "Sliding image 18",
+    "19": "Sliding image 19",
+    "20": "Sliding image 20"
+  },
+  "ABOUT US": "ABOUT US",
+  "SERVICE": "SERVICE",
+  "BOOKING": "BOOKING",
+  "STORE": "POSE GUIDE",
+  "GALLERY": "GALLERY",
+  "CONTACT": "CONTACT",
+  "SUPPORT": "SUPPORT",
+  "Emotional Studio": "Emotional Studio"
+} 

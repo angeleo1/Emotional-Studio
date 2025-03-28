@@ -1,0 +1,73 @@
+{
+  "nav": {
+    "about": "ABOUT US",
+    "service": "SERVICE",
+    "booking": "BOOKING",
+    "store": "STORE",
+    "gallery": "GALLERY",
+    "contact": "CONTACT",
+    "support": "SUPPORT"
+  },
+  "hero": {
+    "title": "Emotional Studio",
+    "subtitle": "Where Memories Come to Life",
+    "seeMore": "SEE MORE"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode"
+  },
+  "language": {
+    "en": "English",
+    "zh": "中文"
+  },
+  "inquiry": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Send Message"
+  },
+  "services": {
+    "title": "Our Services",
+    "mocktail": {
+      "title": "Signature Mocktails",
+      "description": "Experience our unique non-alcoholic cocktails crafted with premium ingredients"
+    },
+    "studio": {
+      "title": "Photo Studio",
+      "description": "Create lasting memories in our professionally equipped studio space"
+    }
+  },
+  "gallery": {
+    "title": "Welcome to Gallery",
+    "description": "Share our special moments together",
+    "enter": "ENTER",
+    "autoRedirect": "Redirecting to gallery in 5 seconds",
+    "mainTitle": "Gallery",
+    "sampleTitle": "Sample Image",
+    "sampleDescription": "Description for the image goes here"
+  },
+  "booking": {
+    "title": "Book Your Experience",
+    "description": "Choose from our carefully curated packages designed to create unforgettable moments",
+    "packages": {
+      "mocktail": {
+        "title": "Mocktail Experience",
+        "description": "Enjoy our signature mocktails with friends and family"
+      },
+      "studio": {
+        "title": "Photo Session",
+        "description": "Professional photo session in our well-equipped studio"
+      },
+      "event": {
+        "title": "Special Events",
+        "description": "Custom packages for your special occasions"
+      }
+    },
+    "cta": "Book Now"
+  },
+  "common": {
+    "learnMore": "Learn More"
+  }
+} 

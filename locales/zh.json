@@ -1,0 +1,15 @@
+{
+  "common": {
+    "darkMode": "深色模式",
+    "lightMode": "浅色模式",
+    "back": "返回"
+  },
+  "home": {
+    "title": "显现",
+    "description": "您的特别时刻"
+  },
+  "detail": {
+    "loading": "加载中...",
+    "notFound": "找不到图片"
+  }
+} 
