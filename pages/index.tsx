@@ -215,7 +215,7 @@ const Home: NextPage = () => {
           <div className="absolute inset-0">
             <div className="absolute inset-0 animate-kenburns transform-gpu">
               <CloudinaryImage
-                src="v1/Outdoor Photography Tips to Improve Your Skills _ OPG_ob1dny"
+                src="v1/Outdoor_Photography_Tips_to_Improve_Your_Skills___OPG_wlsuzd"
                 alt="Emotional Moment Background"
                 width={1920}
                 height={1080}
