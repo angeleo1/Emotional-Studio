@@ -269,10 +269,11 @@ const Home: NextPage = () => {
                     className="flex-none w-[280px] h-[400px] relative mx-2 group"
                   >
                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#ff6100]/3 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                    <Image
+                    <CloudinaryImage
                       src={image}
                       alt={`Gallery image ${index + 1}`}
-                      fill
+                      width={280}
+                      height={400}
                       className="object-cover rounded-2xl transition-all duration-700 group-hover:scale-[1.02]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl" />
