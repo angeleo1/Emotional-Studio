@@ -22,13 +22,13 @@ const Home: NextPage = () => {
 
   const heroContents = [
     {
-      image: 'hero-main-1_ob1dny',
+      image: 'v1/hero-main-1_ob1dny',
       title: 'Emotional Studio',
       subtitle: 'Creating Timeless Moments',
       showBookNow: true
     },
     {
-      image: 'service-studio-2_x3hfuh',
+      image: 'v1/service-studio-2_x3hfuh',
       title: 'Our Elixirs',
       subtitle: 'Elevate Your Memories and the Studio Preserves Your Emotions',
       showViewEvents: true
@@ -48,16 +48,16 @@ const Home: NextPage = () => {
   }
 
   const galleryImages = [
-    'jimmy-fermin-bqe0J0b26RQ-unsplash_tpyzo4',
-    'aiony-haust-3TLl_97HNJo-unsplash_vda4od',
-    'leon-elldot-f6HbVnGtNnY-unsplash_vt63we',
-    'olena-bohovyk-XttWKETqCCQ-unsplash_wryqhq',
-    'jessica-felicio-QS9ZX5UnS14-unsplash_fdjyaf',
-    'ivana-cajina-dnL6ZIpht2s-unsplash_o1zsv1',
-    'blake-carpenter-9ooMr_r7BlY-unsplash_u04ne2',
-    'prince-akachi-4Yv84VgQkRM-unsplash_mczh7g',
-    'IMG_0190_z0su9m',
-    'IMG_0241_zxbg10'
+    'v1/jimmy-fermin-bqe0J0b26RQ-unsplash_tpyzo4',
+    'v1/aiony-haust-3TLl_97HNJo-unsplash_vda4od',
+    'v1/leon-elldot-f6HbVnGtNnY-unsplash_vt63we',
+    'v1/olena-bohovyk-XttWKETqCCQ-unsplash_wryqhq',
+    'v1/jessica-felicio-QS9ZX5UnS14-unsplash_fdjyaf',
+    'v1/ivana-cajina-dnL6ZIpht2s-unsplash_o1zsv1',
+    'v1/blake-carpenter-9ooMr_r7BlY-unsplash_u04ne2',
+    'v1/prince-akachi-4Yv84VgQkRM-unsplash_mczh7g',
+    'v1/IMG_0190_z0su9m',
+    'v1/IMG_0241_zxbg10'
   ]
 
   const socialLinks = [

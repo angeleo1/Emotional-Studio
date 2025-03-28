@@ -17,9 +17,12 @@ export default function CloudinaryImage({
   className = '',
   onLoad,
 }: CloudinaryImageProps) {
+  // Cloudinary URL 생성
+  const cloudinaryUrl = `https://res.cloudinary.com/dnwp85rz6/image/upload/${src}`;
+  
   return (
     <Image
-      src={src}
+      src={cloudinaryUrl}
       alt={alt}
       width={width}
       height={height}
