@@ -210,25 +210,6 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        {/* Gallery Preview Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              {galleryImages.map((image, index) => (
-                <div key={index} className="relative aspect-square overflow-hidden rounded-lg">
-                  <CloudinaryImage
-                    src={image}
-                    alt={`Gallery image ${index + 1}`}
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Emotional Moment Section */}
         <section className="relative py-20 bg-[#fff0c6] overflow-hidden">
           <div className="absolute inset-0">
