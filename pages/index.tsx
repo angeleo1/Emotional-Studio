@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-5xl md:text-7xl font-['RockSalt-Regular'] mb-4"
+                className="text-5xl md:text-7xl font-['RockSalt-Regular'] mb-4 tracking-in-expand text-[#ff6100]"
               >
                 {heroContents[currentImage].title}
               </motion.h1>
@@ -186,7 +186,7 @@ const Home: NextPage = () => {
                 >
                   <Link
                     href="/booking"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover-orange transition-all"
+                    className="inline-block bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-[#ff6100] hover:text-white transition-all duration-300"
                   >
                     Book Now
                   </Link>
@@ -199,8 +199,8 @@ const Home: NextPage = () => {
                   transition={{ delay: 0.6 }}
                 >
                   <Link
-                    href="/gallery"
-                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover-orange transition-all"
+                    href="/events"
+                    className="inline-block bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-[#ff6100] hover:text-white transition-all duration-300"
                   >
                     View Events
                   </Link>
