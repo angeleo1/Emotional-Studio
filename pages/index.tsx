@@ -225,20 +225,14 @@ const Home: NextPage = () => {
             <div className="absolute inset-0 bg-[#fff0c6]/0" />
           </div>
 
-          {/* Content */}
-          <div className="relative z-10 container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-rock-salt text-[#fff0c6] mb-6 relative group">
-                <span className="relative inline-block">
-                  <span className="relative z-10 transition-all duration-300 group-hover:scale-105 group-hover:animate-focus-in-expand">
-                    Emotional Moment
-                  </span>
-                  <span className="absolute inset-0 bg-[#ff6100]/20 blur-[2px] -z-10 transition-all duration-300 group-hover:blur-[4px]"></span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-[#ff6100]/10 via-[#ff6100]/20 to-[#ff6100]/10 animate-pulse -z-10 transition-all duration-300 group-hover:opacity-50"></span>
-                  <span className="absolute -inset-1 bg-[#ff6100]/10 blur-lg opacity-0 group-hover:opacity-100 transition-all duration-300 -z-20"></span>
-                  <span className="absolute -inset-2 bg-[#ff6100]/5 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300 -z-30"></span>
-                </span>
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-6">
+                Emotional Moment
               </h2>
+              <p className="text-lg text-[#1a1a1a]/80">
+                We capture the essence of your special moments, preserving emotions that last a lifetime.
+              </p>
             </div>
 
             {/* Gallery */}
