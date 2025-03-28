@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-5xl md:text-7xl font-rocksalt text-[#fff0c6] mb-4"
+                className="text-5xl md:text-7xl font-rock-salt mb-4"
               >
                 {heroContents[currentImage].title}
               </motion.h1>
@@ -219,7 +219,7 @@ const Home: NextPage = () => {
                 alt="Emotional Moment Background"
                 width={1920}
                 height={1080}
-                className="w-full h-full object-cover transform-gpu"
+                className="w-full h-full object-cover transform-gpu blur-sm"
               />
             </div>
             <div className="absolute inset-0 bg-[#fff0c6]/80" />
