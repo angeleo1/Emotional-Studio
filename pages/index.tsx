@@ -222,15 +222,15 @@ const Home: NextPage = () => {
                 className="w-full h-full object-cover transform-gpu"
               />
             </div>
-            <div className="absolute inset-0 bg-[#fff0c6]/0" />
+            <div className="absolute inset-0 bg-[#fff0c6]/80" />
           </div>
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-rocksalt text-[#fff0c6] mb-6">
+              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-6">
                 Emotional Moment
               </h2>
-              <p className="text-lg text-[#fff0c6]/80">
+              <p className="text-lg text-[#1a1a1a]/80">
                 We capture the essence of your special moments, preserving emotions that last a lifetime.
               </p>
             </div>
