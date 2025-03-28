@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Rock Salt';
+  font-family: 'RockSalt-Regular';
   src: url('/fonts/RockSalt-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;

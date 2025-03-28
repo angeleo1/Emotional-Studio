@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'rock-salt': ['Rock Salt', 'cursive'],
+        'rock-salt': ['RockSalt-Regular', 'cursive'],
         'noto-sans': ['Noto Sans KR', 'sans-serif'],
         rocksalt: ['Rocksalt', 'cursive'],
       },
