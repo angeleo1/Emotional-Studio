@@ -117,7 +117,7 @@ const Home: NextPage = () => {
         {/* Contact Button */}
         <div className="fixed bottom-8 right-8 z-50 group">
           <div className="absolute bottom-full right-0 mb-4 bg-white rounded-lg shadow-lg p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-            <div className="text-sm text-[#2C1711] font-medium">문의하기</div>
+            <div className="text-sm text-[#2C1711] font-medium">Contact Us</div>
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-white transform rotate-45 translate-y-1/2"></div>
           </div>
           <button
