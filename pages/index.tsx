@@ -214,12 +214,12 @@ const Home: NextPage = () => {
         <section className="relative py-20 bg-[#fff0c6] overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute inset-0 animate-kenburns transform-gpu">
-              <Image
-                src="/images/Outdoor Photography Tips to Improve Your Skills _ OPG.jpg"
+              <CloudinaryImage
+                src="v1/Outdoor Photography Tips to Improve Your Skills _ OPG_ob1dny"
                 alt="Emotional Moment Background"
-                fill
+                width={1920}
+                height={1080}
                 className="object-cover transform-gpu"
-                priority
               />
             </div>
             <div className="absolute inset-0 bg-[#fff0c6]/0" />
