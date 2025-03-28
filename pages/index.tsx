@@ -166,7 +166,7 @@ const Home: NextPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-5xl md:text-7xl font-bold mb-4"
+                className="text-5xl md:text-7xl font-rock-salt mb-4"
               >
                 {heroContents[currentImage].title}
               </motion.h1>
@@ -227,10 +227,10 @@ const Home: NextPage = () => {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] mb-6">
+              <h2 className="text-4xl md:text-5xl font-rock-salt text-[#fff0c6] mb-6">
                 Emotional Moment
               </h2>
-              <p className="text-lg text-[#1a1a1a]/80">
+              <p className="text-lg text-[#fff0c6]/80">
                 We capture the essence of your special moments, preserving emotions that last a lifetime.
               </p>
             </div>
