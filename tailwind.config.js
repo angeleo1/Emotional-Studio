@@ -60,6 +60,18 @@ module.exports = {
             filter: 'blur(0)',
             opacity: '1'
           }
+        },
+        'tracking-in-expand': {
+          '0%': {
+            'letter-spacing': '-.5em',
+            opacity: '0'
+          },
+          '40%': {
+            opacity: '.6'
+          },
+          '100%': {
+            opacity: '1'
+          }
         }
       },
       animation: {
@@ -70,7 +82,8 @@ module.exports = {
         'slow-zoom': 'slow-zoom 15s ease-out forwards',
         'slide-left': 'slide-left 2.5s linear infinite',
         'slide-right': 'slide-right 2.5s linear infinite',
-        'focus-in-expand': 'focus-in-expand 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both'
+        'focus-in-expand': 'focus-in-expand 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'tracking-in-expand': 'tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both'
       },
     },
   },
