@@ -10,6 +10,7 @@ import { FaCamera, FaHeart, FaUsers } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
 import { NextPage } from 'next'
+import CloudinaryImage from '../components/common/CloudinaryImage'
 
 const Home: NextPage = () => {
   const [currentImage, setCurrentImage] = useState(0)
@@ -21,13 +22,13 @@ const Home: NextPage = () => {
 
   const heroContents = [
     {
-      image: '/images/KakaoTalk_20250105_095011387.jpg',
+      image: 'hero-main-1_ob1dny',
       title: 'Emotional Studio',
       subtitle: 'Creating Timeless Moments',
       showBookNow: true
     },
     {
-      image: '/images/gallery-event-1.jpg',
+      image: 'service-studio-2_x3hfuh',
       title: 'Our Elixirs',
       subtitle: 'Elevate Your Memories and the Studio Preserves Your Emotions',
       showViewEvents: true
@@ -47,16 +48,16 @@ const Home: NextPage = () => {
   }
 
   const galleryImages = [
-    '/images/gallery-event-1.jpg',
-    '/images/gallery-event-2.jpg',
-    '/images/gallery-event-3.jpg',
-    '/images/gallery-studio-1.jpg',
-    '/images/gallery-studio-2.jpg',
-    '/images/gallery-studio-3.jpg',
-    '/images/service-studio-1.jpg',
-    '/images/service-studio-2.jpg',
-    '/images/service-mocktail-1.jpg',
-    '/images/hero-main-1.jpg'
+    'jimmy-fermin-bqe0J0b26RQ-unsplash_tpyzo4',
+    'aiony-haust-3TLl_97HNJo-unsplash_vda4od',
+    'leon-elldot-f6HbVnGtNnY-unsplash_vt63we',
+    'olena-bohovyk-XttWKETqCCQ-unsplash_wryqhq',
+    'jessica-felicio-QS9ZX5UnS14-unsplash_fdjyaf',
+    'ivana-cajina-dnL6ZIpht2s-unsplash_o1zsv1',
+    'blake-carpenter-9ooMr_r7BlY-unsplash_u04ne2',
+    'prince-akachi-4Yv84VgQkRM-unsplash_mczh7g',
+    'IMG_0190_z0su9m',
+    'IMG_0241_zxbg10'
   ]
 
   const socialLinks = [
@@ -137,79 +138,110 @@ const Home: NextPage = () => {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
-          <AnimatePresence initial={false}>
-            {heroContents.map((content, index) => (
-              currentImage === index && (
-                <motion.div
-                  key={content.image}
-                  initial={{ opacity: 0, x: '100%' }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: '-100%' }}
-                  transition={{ duration: 1.5, ease: "easeInOut" }}
-                  className="absolute inset-0"
-                >
-                  {/* Background Image */}
-                  <div className="absolute inset-0">
-                    <Image
-                      src={content.image}
-                      alt={`Hero Background ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-[#5C3A21]/50" />
-                  </div>
+        <div className="relative h-screen">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentImage}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: isImageLoaded ? 1 : 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0"
+            >
+              <CloudinaryImage
+                src={heroContents[currentImage].image}
+                alt={heroContents[currentImage].title}
+                width={1920}
+                height={1080}
+                className="w-full h-full object-cover"
+                onLoad={handleImageLoad}
+              />
+            </motion.div>
+          </AnimatePresence>
 
-                  {/* Content */}
-                  <div className="relative z-10 h-full flex items-center justify-center">
-                    <div className="text-center text-[#fff0c6]">
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.3 }}
-                        className="text-5xl md:text-7xl font-rock-salt mb-4 relative">
-                        <span className="relative inline-block text-[#fff0c6] [text-shadow:0_0_2px_#fff,0_0_4px_#fff]">
-                          {content.title}
-                        </span>
-                      </motion.div>
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-                        className="text-xl md:text-2xl font-noto-sans mb-8 text-[#fff0c6] [text-shadow:0_0_2px_#fff]"
-                      >
-                        {content.subtitle}
-                      </motion.div>
-                      <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.7 }}
-                        className="space-y-4"
-                      >
-                        {content.showBookNow && (
-                          <Link
-                            href="/booking"
-                            className="inline-block bg-[#ff6100] text-[#fff0c6] px-10 py-4 rounded-full font-noto-sans text-lg font-semibold hover:bg-transparent hover:text-[#ff6100] hover:border-2 hover:border-[#ff6100] hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-[#ff6100]/20"
-                          >
-                            Book Now
-                          </Link>
-                        )}
-                        {content.showViewEvents && (
-                          <Link
-                            href="/support?tab=event"
-                            className="inline-block bg-[#ff6100] text-[#fff0c6] px-10 py-4 rounded-full font-noto-sans text-lg font-semibold hover:bg-transparent hover:text-[#ff6100] hover:border-2 hover:border-[#ff6100] hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-[#ff6100]/20"
-                          >
-                            View Events
-                          </Link>
-                        )}
-                      </motion.div>
-                    </div>
+          {/* Hero Content */}
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <div className="text-center text-white">
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-5xl md:text-7xl font-bold mb-4"
+              >
+                {heroContents[currentImage].title}
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl md:text-2xl mb-8"
+              >
+                {heroContents[currentImage].subtitle}
+              </motion.p>
+              {heroContents[currentImage].showBookNow && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Link
+                    href="/booking"
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+                  >
+                    Book Now
+                  </Link>
+                </motion.div>
+              )}
+              {heroContents[currentImage].showViewEvents && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <Link
+                    href="/gallery"
+                    className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-all"
+                  >
+                    View Events
+                  </Link>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Gallery Preview Section */}
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold text-center mb-12">Our Gallery</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {galleryImages.slice(0, 6).map((image, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="relative group overflow-hidden rounded-lg"
+                >
+                  <CloudinaryImage
+                    src={image}
+                    alt={`Gallery image ${index + 1}`}
+                    width={600}
+                    height={400}
+                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+                    <Link
+                      href="/gallery"
+                      className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      View More
+                    </Link>
                   </div>
                 </motion.div>
-              )
-            ))}
-          </AnimatePresence>
+              ))}
+            </div>
+          </div>
         </section>
 
         {/* Emotional Moment Section */}
