@@ -21,9 +21,12 @@ export default function CloudinaryImage({
   console.log('Cloudinary Image Source:', src);
   console.log('Cloudinary Cloud Name:', cloudName);
 
+  // Remove any file extension from the src
+  const imageId = src.split('.')[0];
+
   return (
     <CldImage
-      src={`${cloudName}/${src}`}
+      src={imageId}
       alt={alt}
       width={width}
       height={height}
