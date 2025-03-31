@@ -50,18 +50,18 @@ export default function Navbar() {
       )}
 
       {/* Desktop Navigation */}
-      <nav className={`fixed left-0 right-0 z-50 bg-[#2C1711] ${isHomePage ? (scrolled ? 'top-0' : 'top-10') : 'top-0'}`}>
+      <nav className={`fixed left-0 right-0 z-50 transition-all duration-300 ${isHomePage ? (scrolled ? 'top-0' : 'top-10') : 'top-0'}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            <Link href="/" className="text-2xl font-rock-salt text-[#fff0c6]">
+            <Link href="/" className="text-2xl font-rock-salt text-white hover:text-[#ff6100] transition-colors duration-300">
               Emotional Studio
             </Link>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-8 bg-black/20 backdrop-blur-md px-8 py-3 rounded-full border border-white/10">
               {navItems.map((item) => (
                 <Link 
                   key={item.href}
                   href={item.href}
-                  className={`text-[#fff0c6] hover:text-[#ff6100] transition-colors duration-300 relative group ${router.pathname === item.href ? 'text-[#ff6100]' : ''}`}
+                  className={`text-white hover:text-[#ff6100] transition-colors duration-300 relative group ${router.pathname === item.href ? 'text-[#ff6100]' : ''}`}
                 >
                   {item.name}
                   <span className={`absolute -bottom-1 left-0 h-0.5 bg-[#ff6100] transition-all duration-300 ${router.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -75,10 +75,10 @@ export default function Navbar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`md:hidden p-2 absolute right-4 ${isHomePage ? (scrolled ? 'top-4' : 'top-14') : 'top-4'}`}
+        className={`md:hidden p-2 absolute right-4 ${isHomePage ? (scrolled ? 'top-4' : 'top-14') : 'top-4'} bg-black/20 backdrop-blur-md rounded-full border border-white/10`}
       >
         <svg
-          className="h-6 w-6 text-[#fff0c6]"
+          className="h-6 w-6 text-white"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -103,17 +103,17 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-[#2C1711] transform ${
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-md transform ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         } md:hidden`}
       >
         <div className="flex flex-col items-center justify-center h-full space-y-8">
-          <div className="flex flex-col space-y-6">
+          <div className="flex flex-col space-y-6 bg-black/20 backdrop-blur-md px-8 py-6 rounded-2xl border border-white/10">
             {navItems.map((item) => (
               <Link 
                 key={item.href}
                 href={item.href}
-                className={`text-[#fff0c6] hover:text-[#ff6100] transition-colors duration-300 relative group ${router.pathname === item.href ? 'text-[#ff6100]' : ''}`}
+                className={`text-white hover:text-[#ff6100] transition-colors duration-300 relative group ${router.pathname === item.href ? 'text-[#ff6100]' : ''}`}
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
