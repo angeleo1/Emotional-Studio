@@ -1,9 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
   theme: {
@@ -12,6 +11,13 @@ module.exports = {
         'rock-salt': ['RockSalt-Regular', 'cursive'],
         'noto-sans': ['Noto Sans KR', 'sans-serif'],
         rocksalt: ['Rocksalt', 'cursive'],
+        'mr-de-haviland': ['Mr De Haviland', 'cursive'],
+        'mrs-sheppards': ['Mrs Sheppards', 'cursive'],
+        'eagle-lake': ['Eagle Lake', 'cursive'],
+        'herr-von': ['Herr Von Muellerhoff', 'cursive'],
+        'beau-rivage': ['Beau Rivage', 'cursive'],
+        'inter': ['Inter', 'sans-serif'],
+        'dm-serif': ['DM Serif Text', 'serif'],
       },
       colors: {
         primary: '#1a1a1a',

@@ -10,6 +10,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'MrDeHaviland';
+  src: url('/fonts/MrDeHaviland-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   html {
     @apply scroll-smooth;
@@ -257,29 +265,23 @@ body {
   100% { background-position: 0% 50% }
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* Timeline Animation */
-@keyframes slideLeft {
+@keyframes slideRight {
   0% {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(0%);
   }
 }
 
 .flex.whitespace-nowrap {
-  animation: slideLeft 30s linear infinite;
+  animation: slideRight 30s linear infinite;
+  display: flex;
+  width: max-content;
+  position: relative;
+  left: 0;
+  right: 0;
+  margin-bottom: 3rem;
 }
 
 .flex.whitespace-nowrap:hover {

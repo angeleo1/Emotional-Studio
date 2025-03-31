@@ -176,9 +176,7 @@ const About: NextPage = () => {
         </div>
 
         {/* Main Content */}
-        <main className="relative z-10 pt-24 pb-20">
-          <Navbar />
-          
+        <main className="relative z-10">
           {/* Hero Section */}
           <section className="h-screen flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 z-0">

@@ -16,57 +16,47 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const router = useRouter()
-  const isHomePage = router.pathname === '/'
 
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY
-      const bannerHeight = 40 // 배너 높이
-      if (offset > bannerHeight) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
+      setScrolled(offset > 50)
     }
 
     window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
     <div className="relative z-50">
-      {/* Event Banner - Only on Home Page */}
-      {isHomePage && (
-        <div className={`fixed top-0 left-0 right-0 bg-[#ff6100] text-white h-10 text-center text-sm font-medium z-[100] transition-transform duration-300 ${scrolled ? '-translate-y-full' : 'translate-y-0'}`}>
-          <div className="container mx-auto px-4 h-full flex items-center justify-center">
-            <Link href="/events" className="flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-              <span>🎉 Ongoing Event</span>
-              <span className="text-[#fff0c6]">▶▶▶</span>
-            </Link>
-          </div>
-        </div>
-      )}
-
       {/* Desktop Navigation */}
-      <nav className={`fixed left-0 right-0 z-50 transition-all duration-300 ${isHomePage ? (scrolled ? 'top-0' : 'top-10') : 'top-0'}`}>
+      <nav className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 border-b ${scrolled ? 'border-black/10' : 'border-white/10'}`}>
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            <Link href="/" className="text-2xl font-rock-salt text-white hover:text-[#ff6100] transition-colors duration-300">
-              Emotional Studio
+          <div className="flex items-center justify-between h-28">
+            <Link href="/" className="relative">
+              <span className="text-[8rem] font-herr-von text-white hover:text-[#ff6100] transition-colors duration-300 leading-none">
+                e.st
+              </span>
             </Link>
-            <div className="hidden md:flex items-center space-x-8 bg-black/20 backdrop-blur-md px-8 py-3 rounded-full border border-white/10">
-              {navItems.map((item) => (
-                <Link 
-                  key={item.href}
-                  href={item.href}
-                  className={`text-white hover:text-[#ff6100] transition-colors duration-300 relative group ${router.pathname === item.href ? 'text-[#ff6100]' : ''}`}
-                >
-                  {item.name}
-                  <span className={`absolute -bottom-1 left-0 h-0.5 bg-[#ff6100] transition-all duration-300 ${router.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                </Link>
-              ))}
+            <div className="hidden md:flex items-center">
+              <div className="relative group">
+                <button className="text-white mix-blend-exclusion text-lg tracking-wider">
+                  MENU
+                </button>
+                <div className="absolute top-full right-0 w-48 bg-black/20 backdrop-blur-md rounded-lg mt-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <div className="py-2">
+                    {navItems.map((item) => (
+                      <Link 
+                        key={item.href}
+                        href={item.href}
+                        className="block px-4 py-2 text-white mix-blend-exclusion hover:bg-black/30 transition-colors duration-300"
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -75,10 +65,10 @@ export default function Navbar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`md:hidden p-2 absolute right-4 ${isHomePage ? (scrolled ? 'top-4' : 'top-14') : 'top-4'} bg-black/20 backdrop-blur-md rounded-full border border-white/10`}
+        className="md:hidden p-2 absolute right-4 top-4 rounded-full"
       >
         <svg
-          className="h-6 w-6 text-white"
+          className="h-6 w-6 text-white mix-blend-exclusion"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -108,16 +98,15 @@ export default function Navbar() {
         } md:hidden`}
       >
         <div className="flex flex-col items-center justify-center h-full space-y-8">
-          <div className="flex flex-col space-y-6 bg-black/20 backdrop-blur-md px-8 py-6 rounded-2xl border border-white/10">
+          <div className="flex flex-col space-y-6 bg-black/20 backdrop-blur-md px-8 py-6 rounded-2xl">
             {navItems.map((item) => (
               <Link 
                 key={item.href}
                 href={item.href}
-                className={`text-white hover:text-[#ff6100] transition-colors duration-300 relative group ${router.pathname === item.href ? 'text-[#ff6100]' : ''}`}
+                className="text-white mix-blend-exclusion hover:opacity-70 transition-opacity duration-300"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
-                <span className={`absolute -bottom-1 left-0 h-0.5 bg-[#ff6100] transition-all duration-300 ${router.pathname === item.href ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
               </Link>
             ))}
           </div>
