@@ -6,7 +6,8 @@
     "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "npm install --legacy-peer-deps && DISABLE_ESLINT_PLUGIN=true next build"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
