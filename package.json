@@ -4,16 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev",
-    "build": "DISABLE_ESLINT_PLUGIN=true next build",
+    "build": "cross-env DISABLE_ESLINT_PLUGIN=true next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^2.2.0",
-    "@heroicons/react": "^2.2.0",
-    "@react-three/drei": "^9.99.0",
-    "@react-three/fiber": "^9.1.1",
-    "@react-three/postprocessing": "^3.0.4",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "@react-three/drei": "^9.88.17",
+    "@react-three/fiber": "^8.15.11",
+    "@react-three/postprocessing": "^2.15.11",
     "@types/node": "20.11.24",
     "@types/react": "18.2.61",
     "@types/react-datepicker": "^6.2.0",
