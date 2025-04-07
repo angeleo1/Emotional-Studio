@@ -357,20 +357,50 @@ const Home: NextPage = () => {
               </div>
             </div>
 
-            {/* Image Modal */}
+            {/* Image Modal with Description */}
             {selectedImage && (
               <div 
-                className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center"
+                className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center"
                 onClick={() => setSelectedImage(null)}
               >
-                <div className="relative w-[80vw] h-[80vh] max-w-7xl">
-                  <Image
-                    src={selectedImage}
-                    alt="Selected Elixir"
-                    fill
-                    className="object-contain"
-                    priority
-                  />
+                <div className="relative w-[90vw] h-[80vh] max-w-7xl flex gap-8">
+                  {/* Image Container */}
+                  <div className="w-1/2 h-full relative">
+                    <Image
+                      src={selectedImage}
+                      alt="Selected Elixir"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  
+                  {/* Description Container */}
+                  <div className="w-1/2 h-full flex flex-col justify-center text-white">
+                    <h3 className="text-5xl font-bold mb-6">
+                      {selectedImage.includes("Orange") ? "PASSIONATE ORANGE" :
+                       selectedImage.includes("Purple") ? "ECSTASY GLOW" :
+                       "RELIEF AURA"}
+                    </h3>
+                    <p className="text-2xl mb-8 leading-relaxed">
+                      {selectedImage.includes("Orange") ? 
+                        "A vibrant blend of citrus and spice, this elixir embodies passion and energy. Perfect for those seeking an invigorating experience that awakens the senses." :
+                       selectedImage.includes("Purple") ? 
+                        "A mystical fusion of berries and herbs, creating an enchanting experience. This elixir brings a sense of euphoria and wonder to every sip." :
+                        "A refreshing harmony of mint and citrus, designed to soothe and revitalize. This elixir offers a moment of tranquility and renewal."}
+                    </p>
+                    <div className="flex flex-col gap-3">
+                      <p className="text-xl opacity-80">Ingredients:</p>
+                      <p className="text-xl">
+                        {selectedImage.includes("Orange") ? 
+                          "Fresh oranges, ginger, cinnamon, and a hint of chili" :
+                         selectedImage.includes("Purple") ? 
+                          "Blueberries, lavender, vanilla, and sparkling water" :
+                          "Mint leaves, lime, cucumber, and elderflower"}
+                      </p>
+                    </div>
+                  </div>
+                  
                   <button 
                     className="absolute top-4 right-4 text-white text-4xl hover:text-[#ff6100] transition-colors duration-300"
                     onClick={() => setSelectedImage(null)}
