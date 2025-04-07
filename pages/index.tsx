@@ -145,7 +145,7 @@ const Home: NextPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[16rem] xl:text-[20rem] font-beau-rivage mb-4 sm:mb-8 text-white hover:text-[#ff6100] transition-colors duration-300 leading-none"
+                className="text-[3rem] sm:text-[4rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] font-beau-rivage mb-4 sm:mb-8 text-white hover:text-[#ff6100] transition-colors duration-300 leading-none"
               >
                 {heroContents[currentImage].title}
               </motion.h1>
@@ -435,23 +435,23 @@ const Home: NextPage = () => {
             </div>
 
             {/* Gallery */}
-            <div className="relative overflow-hidden -mx-[10%] sm:-mx-[20%]">
+            <div className="relative overflow-hidden -mx-4 sm:-mx-[10%] md:-mx-[20%]">
               <div className="flex animate-slideLeft">
                 {[...galleryImages, ...galleryImages, ...galleryImages].map((image, index) => (
                   <div
                     key={index}
-                    className="flex-none w-[200px] sm:w-[280px] h-[300px] sm:h-[400px] relative mx-1 sm:mx-2 group"
+                    className="flex-none w-[150px] sm:w-[200px] md:w-[280px] h-[200px] sm:h-[300px] md:h-[400px] relative mx-1 sm:mx-2 group"
                   >
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#ff6100]/3 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                    <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#ff6100]/3 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
                     <CloudinaryImage
                       src={image}
                       alt={`Gallery image ${index + 1}`}
                       width={280}
                       height={400}
-                      className="object-cover rounded-2xl transition-all duration-700 group-hover:scale-[1.02] grayscale group-hover:grayscale-0"
+                      className="object-cover rounded-xl sm:rounded-2xl transition-all duration-700 group-hover:scale-[1.02] grayscale group-hover:grayscale-0"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-2xl" />
-                    <div className="absolute inset-0 border border-[#ff6100]/5 rounded-2xl group-hover:border-[#ff6100]/20 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-[#ff6100]/5" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-xl sm:rounded-2xl" />
+                    <div className="absolute inset-0 border border-[#ff6100]/5 rounded-xl sm:rounded-2xl group-hover:border-[#ff6100]/20 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-[#ff6100]/5" />
                     <div className="absolute -bottom-4 inset-x-4 h-12 bg-[#1a1a1a]/5 blur-xl rounded-full transform scale-x-[0.85] opacity-0 group-hover:opacity-100 transition-all duration-500" />
                   </div>
                 ))}
@@ -464,8 +464,8 @@ const Home: NextPage = () => {
         <section className="relative py-8 sm:py-16 bg-[#524e4a]">
           <div className="container mx-auto px-4 relative z-10">
             {/* Logo */}
-            <div className="absolute -left-[232px] top-1/2 -translate-y-1/2 hidden lg:block">
-              <span className="text-[16rem] font-herr-von text-[#ff6100]">e.st</span>
+            <div className="absolute -left-[120px] sm:-left-[180px] md:-left-[232px] top-1/2 -translate-y-1/2 hidden lg:block">
+              <span className="text-[8rem] sm:text-[12rem] md:text-[16rem] font-herr-von text-[#ff6100]">e.st</span>
             </div>
 
             {/* Contact Info */}
@@ -473,22 +473,22 @@ const Home: NextPage = () => {
               {/* Contact Info */}
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
                 <div className="group flex items-center gap-3 hover:translate-x-2 transition-all duration-500">
-                  <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                    <span className="text-base sm:text-xl">📍</span>
+                  <div className="w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 rounded-lg sm:rounded-xl bg-white/5 flex items-center justify-center">
+                    <span className="text-sm sm:text-base md:text-xl">📍</span>
                   </div>
                   <div className="text-xs sm:text-sm text-white/80">123 Collins Street, Melbourne</div>
                 </div>
 
                 <div className="group flex items-center gap-3 hover:translate-x-2 transition-all duration-500">
-                  <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                    <span className="text-base sm:text-xl">📞</span>
+                  <div className="w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 rounded-lg sm:rounded-xl bg-white/5 flex items-center justify-center">
+                    <span className="text-sm sm:text-base md:text-xl">📞</span>
                   </div>
                   <div className="text-xs sm:text-sm text-white/80">+61 3 1234 5678</div>
                 </div>
 
                 <div className="group flex items-center gap-3 hover:translate-x-2 transition-all duration-500">
-                  <div className="w-8 sm:w-10 h-8 sm:h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                    <span className="text-base sm:text-xl">✉️</span>
+                  <div className="w-6 sm:w-8 md:w-10 h-6 sm:h-8 md:h-10 rounded-lg sm:rounded-xl bg-white/5 flex items-center justify-center">
+                    <span className="text-sm sm:text-base md:text-xl">✉️</span>
                   </div>
                   <div className="text-xs sm:text-sm text-white/80">info@emotionalstudio.com</div>
                 </div>
@@ -498,18 +498,18 @@ const Home: NextPage = () => {
               <div className="hidden md:block w-px h-12 bg-white/10"></div>
 
               {/* Social Media */}
-              <div className="flex items-center gap-3 sm:gap-4">
+              <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
                 {socialLinks.map((social, index) => (
                   <a
                     key={social.name}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group p-2 sm:p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105"
+                    className="group p-2 sm:p-3 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105"
                   >
                     <div className="relative flex items-center justify-center">
                       <div className="text-white group-hover:text-[#ff6100] transition-colors duration-300">
-                        {React.cloneElement(social.icon, { className: "w-6 h-6 sm:w-8 sm:h-8" })}
+                        {React.cloneElement(social.icon, { className: "w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8" })}
                       </div>
                     </div>
                   </a>
