@@ -291,4 +291,16 @@ body {
 .hover-orange:hover {
   background-color: #ff6100 !important;
   color: white !important;
+}
+
+.section-white {
+  background-color: #ffffff;
+}
+
+.section-black {
+  background-color: #000000;
+}
+
+.section-red {
+  background-color: #ff0000;
 } 

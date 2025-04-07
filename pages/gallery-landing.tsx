@@ -1,11 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+// 이미지 프리로딩을 위한 컴포넌트
+const PreloadImages = ({ images }: { images: string[] }) => {
+  useEffect(() => {
+    images.forEach(src => {
+      const imgElement = document.createElement('img');
+      imgElement.src = src;
+    });
+  }, [images]);
+  return null;
+};
 
 export default function GalleryLanding() {
   const router = useRouter();
   const [showContent, setShowContent] = useState(false);
   const [showImages, setShowImages] = useState(true);
+
+  // 이미지 배열을 메모이제이션
+  const firstSetImages = useMemo(() => [
+    '/images/0f9f9c7f-0182-46a8-856b-23fe948d7c5c.jpg',
+    '/images/93604fc7-7652-49aa-be76-15898c012176.jpg',
+    '/images/19f91264-41e6-454a-a4cb-007a97003550.jpg',
+    '/images/b53d49fc-f701-4806-8060-d37768c5b328.jpg',
+    '/images/374a1414-94ed-47a0-94d3-9d56780fd243.jpg',
+    '/images/IMG_0179.jpg',
+    '/images/IMG_0241.jpg'
+  ], []);
+
+  const secondSetImages = useMemo(() => [
+    '/images/b92e53e6-436a-471c-b077-7cac4113e46e.jpg',
+    '/images/bad178c7-1de1-4fa3-9576-5fa0ca04b9db.jpg',
+    '/images/e2cb65ef-30e1-427e-8f22-48e660ea8e4f.jpg',
+    '/images/919adfeb-b341-4006-8f21-576a1871f48e.jpg',
+    '/images/19f91264-41e6-454a-a4cb-007a97003550.jpg',
+    '/images/IMG_0241.jpg',
+    '/images/IMG_0190.jpg'
+  ], []);
+
+  // 모든 이미지 URL을 하나의 배열로 결합
+  const allImages = useMemo(() => [...firstSetImages, ...secondSetImages], [firstSetImages, secondSetImages]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -29,28 +65,11 @@ export default function GalleryLanding() {
     router.push('/gallery');
   };
 
-  const firstSetImages = [
-    '/images/0f9f9c7f-0182-46a8-856b-23fe948d7c5c.jpg',
-    '/images/93604fc7-7652-49aa-be76-15898c012176.jpg',
-    '/images/19f91264-41e6-454a-a4cb-007a97003550.jpg',
-    '/images/b53d49fc-f701-4806-8060-d37768c5b328.jpg',
-    '/images/374a1414-94ed-47a0-94d3-9d56780fd243.jpg',
-    '/images/IMG_0179.jpg',
-    '/images/IMG_0241.jpg'
-  ];
-
-  const secondSetImages = [
-    '/images/b92e53e6-436a-471c-b077-7cac4113e46e.jpg',
-    '/images/bad178c7-1de1-4fa3-9576-5fa0ca04b9db.jpg',
-    '/images/e2cb65ef-30e1-427e-8f22-48e660ea8e4f.jpg',
-    '/images/919adfeb-b341-4006-8f21-576a1871f48e.jpg',
-    '/images/19f91264-41e6-454a-a4cb-007a97003550.jpg',
-    '/images/IMG_0241.jpg',
-    '/images/IMG_0190.jpg'
-  ];
-
   return (
     <div className="relative min-h-screen overflow-hidden">
+      {/* 이미지 프리로딩 */}
+      <PreloadImages images={allImages} />
+
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -60,6 +79,7 @@ export default function GalleryLanding() {
           sizes="100vw"
           className="object-cover"
           priority
+          quality={75}
         />
       </div>
 
@@ -73,6 +93,8 @@ export default function GalleryLanding() {
                 alt={`Gallery image ${index + 1}`}
                 fill
                 className="object-cover"
+                quality={75}
+                loading="lazy"
               />
             </div>
           ))}
@@ -89,6 +111,8 @@ export default function GalleryLanding() {
                 alt={`Gallery image ${index + 6}`}
                 fill
                 className="object-cover"
+                quality={75}
+                loading="lazy"
               />
             </div>
           ))}

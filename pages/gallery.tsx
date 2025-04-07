@@ -57,27 +57,9 @@ export default function Gallery() {
       </div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-orange-500/80 backdrop-blur-md border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-xl font-rock-salt tracking-wider hover:text-gray-300 transition-colors text-[#fff0c6] [text-shadow:0_0_2px_#fff]">
-              EMOTIONAL STUDIO
-            </Link>
-            <nav className="hidden md:flex space-x-8">
-              {categories.map(category => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`text-sm tracking-wider transition-colors ${
-                    selectedCategory === category.id
-                      ? 'text-white border-b border-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
-            </nav>
           </div>
         </div>
       </header>
