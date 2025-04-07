@@ -4,10 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev",
-    "build": "next build",
+    "build": "DISABLE_ESLINT_PLUGIN=true next build",
     "start": "next start",
-    "lint": "next lint",
-    "vercel-build": "npm install --legacy-peer-deps && DISABLE_ESLINT_PLUGIN=true next build"
+    "lint": "next lint"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
