@@ -213,8 +213,8 @@ const About: NextPage = () => {
           </section>
 
           {/* Studio Section */}
-          <section className="py-16 sm:py-32 relative text-white overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-            <div className="container mx-auto px-4 py-16 sm:py-32 relative z-10">
+          <section className="py-32 relative text-white overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
+            <div className="container mx-auto px-4 py-32 relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -222,44 +222,57 @@ const About: NextPage = () => {
                 viewport={{ margin: "-100px" }}
                 className="max-w-6xl mx-auto"
               >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                   {/* Text Content */}
-                  <div className="space-y-6 sm:space-y-8">
+                  <div className="space-y-8">
                     <motion.h2 
                       initial={{ opacity: 0, x: -50 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.8 }}
                       viewport={{ margin: "-100px" }}
-                      className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-herr-von mb-4 sm:mb-6 relative text-white hover:text-[#ff6100] transition-colors duration-300"
+                      className="text-6xl sm:text-7xl md:text-8xl font-herr-von mb-6 relative text-white hover:text-[#ff6100] transition-colors duration-300"
                     >
                       emotional studios
                     </motion.h2>
-                    <motion.p
+                    <motion.div 
                       initial={{ opacity: 0, x: -50 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.8, delay: 0.2 }}
                       viewport={{ margin: "-100px" }}
-                      className="text-base sm:text-lg md:text-xl text-white/80"
+                      className="space-y-6 text-lg opacity-90 text-white hover:text-[#ff6100] transition-colors duration-300"
                     >
-                      We are a creative studio specializing in capturing the essence of your special moments through photography and videography.
-                    </motion.p>
+                      <p>
+                        Our studio is not just a photography space – it's a sanctuary where artistry meets comfort. 
+                        We've created an environment where photographers and clients can engage in meaningful conversations 
+                        while capturing unforgettable moments.
+                      </p>
+                      <p>
+                        From our welcoming main studio with its warm ambiance to our specialized beverage photography setup, 
+                        every corner is designed to inspire creativity and foster connection.
+                      </p>
+                    </motion.div>
                   </div>
 
-                  {/* Image Content */}
-                  <motion.div
+                  {/* Image */}
+                  <motion.div 
                     initial={{ opacity: 0, x: 50 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
                     viewport={{ margin: "-100px" }}
-                    className="relative aspect-square rounded-2xl overflow-hidden"
+                    className="relative h-[600px] rounded-3xl overflow-hidden group"
                   >
-                    <Image
-                      src="/images/about.jpg"
-                      alt="About Emotional Studio"
-                      fill
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent" />
+                    <video
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-cover"
+                    >
+                      <source src="/videos/1 (5).mp4" type="video/mp4" />
+                    </video>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#5C3A21] via-transparent to-transparent opacity-30" />
+                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <Link href="/videos/studio-tour" className="absolute inset-0" />
                   </motion.div>
                 </div>
               </motion.div>
@@ -334,7 +347,7 @@ const About: NextPage = () => {
           </section>
 
           {/* Project Section */}
-          <section className="py-16 sm:py-32 relative bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
+          <section className="py-32 relative bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
             <div className="container mx-auto px-4 relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
@@ -343,18 +356,18 @@ const About: NextPage = () => {
                 viewport={{ margin: "-100px" }}
                 className="max-w-6xl mx-auto"
               >
-                <div className="text-center mb-12 sm:mb-20">
-                  <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-herr-von text-white mb-4 sm:mb-6 relative hover:text-[#ff6100] transition-colors duration-300">
+                <div className="text-center mb-20">
+                  <h2 className="text-6xl sm:text-7xl md:text-8xl font-herr-von text-white mb-6 relative hover:text-[#ff6100] transition-colors duration-300">
                     Our Projects
                   </h2>
-                  <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto hover:text-[#ff6100] transition-colors duration-300">
+                  <p className="text-xl text-white/80 max-w-2xl mx-auto hover:text-[#ff6100] transition-colors duration-300">
                     Creating moments that matter
                   </p>
                 </div>
 
                 {/* Main Video */}
-                <div className="mb-16 sm:mb-32">
-                  <div className="relative aspect-video rounded-xl sm:rounded-3xl overflow-hidden group">
+                <div className="mb-32">
+                  <div className="relative aspect-video rounded-3xl overflow-hidden group">
                     <video
                       autoPlay
                       loop
@@ -365,7 +378,7 @@ const About: NextPage = () => {
                       <source src="/videos/1 (7).mp4" type="video/mp4" />
                     </video>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#5C3A21] via-[#5C3A21]/30 to-transparent" />
-                    <div className="absolute -top-2 -right-2 w-3 sm:w-4 h-3 sm:h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
 

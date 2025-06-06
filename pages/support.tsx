@@ -224,19 +224,21 @@ const Support: NextPage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="fixed inset-0 z-[1]">
-        <Image
-          src="/images/화면 캡처 2025-03-28 003814.jpg"
-          alt="Background"
-          fill
-          className="object-cover opacity-20"
-          priority
-        />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute w-full h-full object-cover"
+        >
+          <source src="/videos/1 (7).mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Content Overlay */}
-      <div className="fixed inset-0 z-[2] bg-[#fff0c6]/20 backdrop-blur-sm" />
+      <div className="fixed inset-0 z-[2] bg-black/40" />
 
       <Navbar />
 

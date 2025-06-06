@@ -21,6 +21,7 @@
 @layer base {
   html {
     @apply scroll-smooth;
+    font-family: 'Cinzel Decorative', cursive;
   }
   
   body {
@@ -118,6 +119,122 @@
 
   .font-title {
     font-family: 'Cinzel Decorative', cursive;
+  }
+
+  .logo {
+    mix-blend-mode: difference;  /* 색상 반전 효과 */
+    isolation: isolate;  /* 혼합 모드에서 겹치는 영역을 분리 */
+  }
+
+  .logo svg {
+    color: #ffffff;  /* 로고 기본 색상 */
+  }
+
+  /* Hologram Animation */
+  @keyframes hologram {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .hologram-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .hologram-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(0,255,255,0.3), rgba(183,0,255,0.3), rgba(255,0,255,0.3));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(4px);
+    animation: hologram 2s linear infinite;
+  }
+
+  .hologram-button:hover::before {
+    opacity: 1;
+  }
+
+  .hologram-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  }
+
+  .hologram-button:active {
+    transform: scale(0.95);
+  }
+
+  .transparent-text {
+    color: transparent;
+    -webkit-text-stroke: 1px white;
+    text-stroke: 1px white;
+    mix-blend-mode: difference;
+  }
+
+  .emotional-studio-text:hover .transparent-text {
+    color: transparent;
+    -webkit-text-stroke: 1px black;
+    text-stroke: 1px black;
+  }
+
+  .emotional-studio-text .rounded-full {
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+  }
+
+  .emotional-studio-text:hover .rounded-full {
+    background-color: white;
+  }
+
+  .emotional-studio-text span {
+    position: relative;
+    z-index: 3;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    letter-spacing: 0.2em;
+  }
+
+  .group:hover .transparent-text {
+    color: black;
+    -webkit-text-stroke: 1px black;
+  }
+
+  .hologram-effect {
+    background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(0,255,255,0.3), rgba(183,0,255,0.3), rgba(255,0,255,0.3));
+    filter: blur(4px);
+    animation: hologram 2s linear infinite;
+  }
+
+  .rca-style-text {
+    color: transparent;
+    -webkit-text-stroke: 1px white;
+    text-stroke: 1px white;
+    mix-blend-mode: difference;
+    transition: all 0.3s ease;
+  }
+
+  .emotional-studio-text:hover .rca-style-text {
+    color: transparent;
+    -webkit-text-stroke: 1px black;
+    text-stroke: 1px black;
+  }
+
+  .emotional-studio-text:hover .rounded-full {
+    background-color: white;
+    mix-blend-mode: difference;
   }
 }
 
@@ -265,12 +382,21 @@ body {
   100% { background-position: 0% 50% }
 }
 
+@keyframes slideLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes slideRight {
   0% {
     transform: translateX(-50%);
   }
   100% {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
 }
 
@@ -303,4 +429,46 @@ body {
 
 .section-red {
   background-color: #ff0000;
+}
+
+.animate-slideLeft {
+  animation: slideLeft 20s linear infinite;
+  will-change: transform;
+}
+
+.animate-slideRight {
+  animation: slideRight 20s linear infinite;
+  will-change: transform;
+}
+
+/* Hide borders for Emotional Moments section */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scrollLeft 20s linear infinite;
+  will-change: transform;
+}
+
+nav {
+  background-color: transparent;  /* 네비바 배경 투명 */
+}
+
+.logo {
+  mix-blend-mode: difference;  /* 색상 반전 효과 */
+  isolation: isolate;  /* 겹침 방지 */
+}
+
+.logo svg {
+  color: #ffffff;  /* 로고 기본 색상 */
 } 

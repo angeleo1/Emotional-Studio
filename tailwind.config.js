@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+// [삭제됨] tailwind.config.js는 ts 버전과 중복되어 삭제되었습니다.
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',

@@ -65,19 +65,21 @@ const Booking: NextPage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="fixed inset-0 z-[1]">
-        <Image
-          src="/images/b92e53e6-436a-471c-b077-7cac4113e46e.jpg"
-          alt="Background"
-          fill
-          className="object-cover"
-          priority
-        />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute w-full h-full object-cover"
+        >
+          <source src="/videos/234241.mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Content Overlay */}
-      <div className="fixed inset-0 z-[2]" />
+      <div className="fixed inset-0 z-[2] bg-black/40" />
 
       <Navbar />
 

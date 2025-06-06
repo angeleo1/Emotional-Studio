@@ -7,19 +7,21 @@ import Navbar from '../components/Navbar';
 const Contact: NextPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="fixed inset-0 z-[1]">
-        <Image
-          src="/images/miles-burke-idhx-MOCDSk-unsplash.jpg"
-          alt="Background"
-          fill
-          className="object-cover opacity-40"
-          priority
-        />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute w-full h-full object-cover"
+        >
+          <source src="/videos/1 (6).mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Content Overlay */}
-      <div className="fixed inset-0 z-[2] bg-[#fff0c6]/10 backdrop-blur-sm" />
+      <div className="fixed inset-0 z-[2] bg-black/40" />
 
       <Navbar />
 

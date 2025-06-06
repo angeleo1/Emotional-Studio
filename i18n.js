@@ -1,4 +1,4 @@
-import i18n from 'i18next'
+// [삭제됨] i18n.js는 ts 버전과 중복되어 삭제되었습니다.
 import { initReactI18next } from 'react-i18next'
 
 const resources = {
