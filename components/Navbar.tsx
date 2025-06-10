@@ -12,7 +12,7 @@ const AnimatePresence = dynamic(() => import('framer-motion').then(mod => mod.An
 
 const navItems = [
   { name: 'ABOUT US', href: '/about' },
-  { name: 'SERVICE', href: '/services' },
+  { name: 'SERVICES', href: '/services' },
   { name: 'BOOKING', href: '/booking' },
   { name: 'GALLERY', href: '/gallery-landing' },
   { name: 'CONTACT', href: '/contact' },
@@ -47,7 +47,7 @@ export default function Navbar() {
         style={{
           position: 'fixed',
           top: '-6rem',
-          left: '2rem',
+          left: '5vw',
           zIndex: 9999,
           mixBlendMode: 'difference',
           color: '#ffffff',
@@ -62,7 +62,7 @@ export default function Navbar() {
         <div 
           className="inline-block"
           style={{
-            padding: '2rem',
+            padding: '0.5rem',
             position: 'relative'
           }}
           onMouseEnter={(e) => {
@@ -117,7 +117,7 @@ export default function Navbar() {
       <div className="relative z-50">
         <nav className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 bg-transparent`}>
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-end h-28 pt-12">
+            <div className="flex items-center justify-end h-28">
               <div className="flex items-center">
                 <button 
                   onClick={() => setIsOpen(!isOpen)}

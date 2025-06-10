@@ -17,34 +17,9 @@ export default function Services() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background Video */}
-      <div className="fixed inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute w-full h-full object-cover opacity-60"
-        >
-          <source src="/videos/1 (5).mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Background Image Overlay with Ken-burns */}
-      <div className="fixed inset-0 z-[1] scale-[1.02]">
-        <div className="relative w-full h-full animate-kenburns">
-          <Image
-            src="/images/image_fx_ (11).jpg"
-            alt="Background"
-            fill
-            className="object-cover opacity-40"
-            priority
-          />
-        </div>
-      </div>
-
-      {/* Dark Overlay */}
-      <div className="fixed inset-0 z-[1] bg-black/40" />
+      {/* Removed: Background Video */}
+      {/* Removed: Background Image Overlay with Ken-burns */}
+      {/* Removed: Dark Overlay */}
 
       <Navbar />
       
@@ -283,7 +258,7 @@ export default function Services() {
                       <div>
                         <h3 className="text-white text-center mb-1">{item.name}</h3>
                         <p className="text-white/60 text-sm text-center mb-2">{item.description}</p>
-                        {'colors' in item && (
+                        {item.colors && Array.isArray(item.colors) && (
                           <div className="flex justify-center gap-2">
                             {item.colors.map((color) => (
                               <div 

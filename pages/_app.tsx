@@ -1,17 +1,22 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Inter } from 'next/font/google'
-import CustomCursor from '../components/CustomCursor.jsx'
+import { Rock_Salt } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import SplashCursor from '../components/ui/splash-cursor'
+// useRouter는 현재 사용되지 않으므로 주석 처리하거나 삭제 가능
+// import { useRouter } from 'next/router' 
+import React, { useEffect, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { motion } from 'framer-motion'
 
-const inter = Inter({ subsets: ['latin'] })
+const rockSalt = Rock_Salt({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-rock-salt',
+})
 
-export default function App({ Component, pageProps, router }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -25,23 +30,17 @@ export default function App({ Component, pageProps, router }: AppProps) {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
       </Head>
-      <div className={inter.className}>
+      <div className={`${rockSalt.variable}`}>
+        <SplashCursor />
         <Navbar />
-        {mounted && (
+        {mounted ? (
           <AnimatePresence mode="wait">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              style={{ zIndex: 1 }}
-            >
-              <Component key={router.asPath} {...pageProps} />
-            </motion.div>
+            <Component key={(pageProps as any).router?.asPath || ''} {...pageProps} /> 
           </AnimatePresence>
+        ) : (
+          <Component {...pageProps} />
         )}
       </div>
-      {/* RCA-style custom cursor always above all content */}
-      <CustomCursor />
     </>
   )
 } 
