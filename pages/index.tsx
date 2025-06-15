@@ -47,21 +47,21 @@ const Home: NextPage = () => {
 
   const heroContents = [
     {
-      image: 'v1/hero-main-1_ob1dny',
+      image: '/images/hero-main-1_ob1dny.webp',
       title: 'e.st',
       subtitle: 'Creating Timeless Moments',
       showBookNow: true,
       showViewEvents: false
     },
     {
-      image: 'v1/service-studio-2_x3hfuh',
+      image: '/images/service-studio-2_x3hfuh.webp',
       title: 'e.st',
       subtitle: 'Elevate Your Memories and the Studio Preserves Your Emotions',
       showBookNow: false,
       showViewEvents: true
     },
     {
-      image: 'v1/IMG_0190_z0su9m',
+      image: '/images/IMG_0190_z0su9m.webp',
       title: 'e.st',
       subtitle: 'Photographer in Action',
       showBookNow: true,
@@ -360,12 +360,12 @@ const Home: NextPage = () => {
         {/* 3d블록 섹션에 View Events, Book Now 버튼 추가 */}
         
         {/* Emotional Moments Section */}
-        <section className="relative py-12 sm:py-20 overflow-hidden">
+        <section className="relative py-4 sm:py-8 overflow-hidden">
           <div className="absolute inset-0 bg-[#191919]"></div>
           <div className="relative z-10 w-full">
             <div className="overflow-hidden w-full">
-              <div className="flex whitespace-nowrap">
-                {Array(20).fill("Emotional Moments").map((text, index) => (
+              <div className="flex whitespace-nowrap animate-slideLeft">
+                {Array(20).fill("emotional moments").map((text, index) => (
                   <Link 
                     href="/gallery-landing" 
                     key={index} 
@@ -378,7 +378,6 @@ const Home: NextPage = () => {
                 ))}
               </div>
             </div>
-
             {/* Gallery */}
             <div className="relative overflow-hidden -mx-[10%] sm:-mx-[20%]">
               <div className="flex animate-slideLeft">
@@ -404,12 +403,11 @@ const Home: NextPage = () => {
             </div>
           </div>
         </section>
-        {/* Emotional Elixirs Section */}
-        <section className="relative py-8 sm:py-12 overflow-hidden">
-          <div className="absolute inset-0 bg-[#FF4D00]"></div>
+        {/* Emotional Elixirs Section - emotional moments 형식으로, 배경만 주황색, 사진 흐름만 반대로 */}
+        <section className="relative py-4 sm:py-8 overflow-hidden bg-[#FF4D00]">
           <div className="relative z-10 w-full">
             <div className="overflow-hidden w-full">
-              <div className="flex whitespace-nowrap animate-scroll-left">
+              <div className="flex whitespace-nowrap animate-slideRight">
                 {Array(20).fill("e.st Collaboration").map((text, index) => (
                   <Link 
                     href="/gallery-landing" 
@@ -423,46 +421,21 @@ const Home: NextPage = () => {
                 ))}
               </div>
             </div>
-
             {/* Gallery */}
             <div className="relative overflow-hidden -mx-[10%] sm:-mx-[20%]">
               <div className="flex animate-slideRight">
-                {[                  "/images/cocktails/Miami Vice Cocktail.jpg",
-                  "/images/cocktails/61909ad4-3675-4e07-a41b-9e651780927c.jpg",
-                  "/images/cocktails/You Magazine.jpg",
-                  "/images/cocktails/Download free image of Cocktail hand holding drink_  by Napas about holding cocktail, cocktail fruits, bartender cocktail, cocktail women, and cosmopolitan cocktail 12068799.jpg",
-                  "/images/cocktails/9a837b4c-5454-4fa1-9f16-d7a6a5fb746b.jpg",
-                  "/images/cocktails/Drunken Cherry Martini.jpg",
-                  "/images/cocktails/ESPRESSO MARTINI COCKTAIL MIXER - 10 SERVES - 1 Bottle.jpg",
-                  "/images/cocktails/Cocktails & Mixology.jpg",
-                  "/images/cocktails/36c8d234-0a9e-4a28-adbe-46d32a71706c.jpg",
-                  "/images/cocktails/You Have To Make This Cocktail_ Double Smoked Old Fashioned.jpg",
-                  "/images/cocktails/Miami Vice Cocktail.jpg",
-                  "/images/cocktails/61909ad4-3675-4e07-a41b-9e651780927c.jpg",
-                  "/images/cocktails/You Magazine.jpg",
-                  "/images/cocktails/Download free image of Cocktail hand holding drink_  by Napas about holding cocktail, cocktail fruits, bartender cocktail, cocktail women, and cosmopolitan cocktail 12068799.jpg",
-                  "/images/cocktails/9a837b4c-5454-4fa1-9f16-d7a6a5fb746b.jpg",
-                  "/images/cocktails/Drunken Cherry Martini.jpg",
-                  "/images/cocktails/ESPRESSO MARTINI COCKTAIL MIXER - 10 SERVES - 1 Bottle.jpg",
-                  "/images/cocktails/Cocktails & Mixology.jpg",
-                  "/images/cocktails/36c8d234-0a9e-4a28-adbe-46d32a71706c.jpg",
-                  "/images/cocktails/You Have To Make This Cocktail_ Double Smoked Old Fashioned.jpg"
-                ].map((image, index) => (
+                {[...galleryImages, ...galleryImages, ...galleryImages].map((image, index) => (
                   <div
                     key={index}
                     className="flex-none w-[300px] sm:w-[400px] h-[400px] sm:h-[500px] relative mx-1 sm:mx-2 group"
                   >
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#ff6100]/3 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                    <Image
+                    <CloudinaryImage
                       src={image}
-                      alt={`Cocktail image ${index + 1}`}
+                      alt={`Collaboration image ${index + 1}`}
                       width={400}
                       height={500}
-                      className={`object-cover transition-all duration-[2000ms] group-hover:scale-[1.02] ${colorizedImages[index] ? 'grayscale-0' : 'grayscale'} group-hover:grayscale-0`}
+                      className={`object-cover transition-all duration-[2000ms] group-hover:scale-[1.02]`}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/50 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                    <div className="absolute inset-0 border border-[#ff6100]/5 group-hover:border-[#ff6100]/20 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-[#ff6100]/5" />
-                    <div className="absolute -bottom-4 inset-x-4 h-12 bg-[#1a1a1a]/5 blur-xl rounded-full transform scale-x-[0.85] opacity-0 group-hover:opacity-100 transition-all duration-500" />
                   </div>
                 ))}
               </div>
@@ -537,175 +510,57 @@ const Home: NextPage = () => {
           </Link>
         </section>
         {/* Our Elixirs Section */}
-        <section className="relative py-32 sm:py-40 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a] z-0"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-80 z-0"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#ff6100_0%,transparent_100%)] opacity-[0.03] z-0"></div>
-          <div className="relative z-10 w-full">
-            <div className="text-center mb-24">
-              <div className="w-full h-[1px] bg-white/30 mb-8"></div>
-              <motion.h2 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
-                className="text-[6vw] font-bold leading-none tracking-tighter text-white relative"
-              >
-                <motion.span
-                  className="inline-block"
-                  animate={{ 
-                    color: [
-                      '#ffffff',
-                      '#ff6100',
-                      '#ffd700',
-                      '#ff8c42',
-                      '#ff4d4d',
-                      '#ffa066',
-                      '#ff1493',
-                      '#ff6100',
-                      '#ff2400',
-                      '#ff00ff',
-                      '#98FF98',
-                      '#ffffff'
-                    ],
-                  }}
-                  transition={{ 
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
+        <section className="relative py-16 bg-[#0a0a0a]">
+          <div className="container mx-auto px-4 flex flex-col items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 tracking-widest neon-title">Our Elixirs</h2>
+            <div className="w-full flex flex-col items-center gap-8">
+              {cocktails.map((cocktail, idx) => (
+                <div
+                  key={cocktail.name}
+                  className="w-full flex flex-col items-center cursor-pointer group"
+                  onClick={() => handleCocktailClick(cocktail)}
                 >
-                  OUR ELIXIRS
-                </motion.span>
-              </motion.h2>
-              <div className="w-full h-[1px] bg-white/30 mt-8"></div>
-            </div>
-            <div className="w-full overflow-hidden">
-              {/* First row - moving left */}
-              <div 
-                className="relative whitespace-nowrap animate-scroll-left group h-[12vw] cursor-pointer"
-                onClick={() => handleCocktailClick(cocktails[0])}
-              >
-                <div className="inline-flex w-full relative z-10">
-                  <div className="relative inline-block">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF2400)' }}>
-                      PASSIONATE ORANGE
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF2400)' }}>
-                      PASSIONATE ORANGE
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF2400)' }}>
-                      PASSIONATE ORANGE
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF2400)' }}>
-                      PASSIONATE ORANGE
-                    </h3>
-                  </div>
+                  <span
+                    className="block text-center font-extrabold uppercase leading-none neon-cocktail-name"
+                    style={{
+                      fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+                      color: idx === 0 ? '#ff4d00' : idx === 1 ? '#ff33e0' : '#7cffb2',
+                      textShadow: idx === 0
+                        ? '0 0 24px #ff4d00, 0 0 48px #ffb300'
+                        : idx === 1
+                        ? '0 0 24px #ff33e0, 0 0 48px #fff'
+                        : '0 0 24px #7cffb2, 0 0 48px #fff',
+                      letterSpacing: '0.04em',
+                      transition: 'transform 0.2s',
+                    }}
+                  >
+                    {cocktail.name}
+                  </span>
+                  <span
+                    className="block text-center mt-2 text-white/80 text-base sm:text-lg max-w-2xl group-hover:text-white transition-colors"
+                    style={{textShadow: '0 0 8px #000'}}
+                  >
+                    {cocktail.description}
+                  </span>
                 </div>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0">
-                  <div className="relative w-[400%] h-full">
-                    <Image
-                      src="/images/Elegant Orange Cocktail.jpeg"
-                      alt="Passionate Orange"
-                      fill
-                      className="object-cover mix-blend-screen"
-                      priority
-                      sizes="400vw"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Second row - moving right */}
-              <div 
-                className="relative whitespace-nowrap animate-scroll-right group h-[12vw] cursor-pointer"
-                onClick={() => handleCocktailClick(cocktails[1])}
-              >
-                <div className="inline-flex w-full relative z-10">
-                  <div className="relative inline-block">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF00FF)' }}>
-                      ECSTASY GLOW
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF00FF)' }}>
-                      ECSTASY GLOW
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF00FF)' }}>
-                      ECSTASY GLOW
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #FF00FF)' }}>
-                      ECSTASY GLOW
-                    </h3>
-                  </div>
-                </div>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0">
-                  <div className="relative w-[400%] h-full">
-                    <Image
-                      src="/images/Vibrant Purple Cocktail.jpeg"
-                      alt="Ecstasy Glow"
-                      fill
-                      className="object-cover mix-blend-screen"
-                      priority
-                      sizes="400vw"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Third row - moving left */}
-              <div 
-                className="relative whitespace-nowrap animate-scroll-left group h-[12vw] cursor-pointer"
-                onClick={() => handleCocktailClick(cocktails[2])}
-              >
-                <div className="inline-flex w-full relative z-10">
-                  <div className="relative inline-block">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #98FF98)' }}>
-                      RELIEF AURA
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #98FF98)' }}>
-                      RELIEF AURA
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #98FF98)' }}>
-                      RELIEF AURA
-                    </h3>
-                  </div>
-                  <div className="relative inline-block ml-8">
-                    <h3 className="text-[12vw] font-bold leading-none tracking-tighter transition-colors duration-500" style={{ color: 'var(--text-color, #98FF98)' }}>
-                      RELIEF AURA
-                    </h3>
-                  </div>
-                </div>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0">
-                  <div className="relative w-[400%] h-full">
-                    <Image
-                      src="/images/Springtime Cocktail Delight.jpeg"
-                      alt="Relief Aura"
-                      fill
-                      className="object-cover mix-blend-screen"
-                      priority
-                      sizes="400vw"
-                    />
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
+          <style jsx>{`
+            .neon-title {
+              color: #fff;
+              text-shadow: 0 0 12px #ff4d00, 0 0 32px #ffb300;
+            }
+            .neon-cocktail-name {
+              cursor: pointer;
+              transition: transform 0.2s;
+            }
+            .neon-cocktail-name:hover {
+              transform: scale(1.04) skewX(-2deg);
+              filter: brightness(1.2);
+            }
+          `}</style>
         </section>
-
         {/* Cocktail Description Modal */}
         {selectedCocktail && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
