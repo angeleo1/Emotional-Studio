@@ -16,17 +16,11 @@ export default function Services() {
   const [isContactOpen, setIsContactOpen] = useState(false)
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Removed: Background Video */}
-      {/* Removed: Background Image Overlay with Ken-burns */}
-      {/* Removed: Dark Overlay */}
-
-      <Navbar />
-      
-      <main className="pt-24 pb-20 relative z-10">
-          <div className="container mx-auto px-4">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
+      <main className="relative z-10 pt-24 pb-20">
+        <div className="container mx-auto px-4">
           {/* Services Menu Card */}
-          <div className="max-w-5xl mx-auto backdrop-blur-xl bg-black/30 rounded-[2rem] p-8 md:p-12 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <div className="max-w-5xl mx-auto p-8 md:p-12 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
             
             {/* Provided as Standard Section */}
             <motion.div

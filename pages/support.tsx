@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 
@@ -223,25 +222,7 @@ const Support: NextPage = () => {
   }, [router.query]);
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background Video */}
-      <div className="fixed inset-0 z-[1]">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute w-full h-full object-cover"
-        >
-          <source src="/videos/1 (7).mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Content Overlay */}
-      <div className="fixed inset-0 z-[2] bg-black/40" />
-
-      <Navbar />
-
+    <div className="relative min-h-screen overflow-hidden bg-[#ff6100]">
       <main className="relative z-10 pt-48 pb-20">
         <div className="container mx-auto px-4">
           <motion.div

@@ -2,29 +2,10 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
-import Navbar from '../components/Navbar';
 
 const Contact: NextPage = () => {
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background Video */}
-      <div className="fixed inset-0 z-[1]">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute w-full h-full object-cover"
-        >
-          <source src="/videos/1 (6).mp4" type="video/mp4" />
-        </video>
-      </div>
-
-      {/* Content Overlay */}
-      <div className="fixed inset-0 z-[2] bg-black/40" />
-
-      <Navbar />
-
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
       <main className="relative z-10 pt-24 pb-20">
         <Head>
           <title>Contact Us | Emotional Studio</title>
@@ -35,7 +16,7 @@ const Contact: NextPage = () => {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
               {/* Contact Information */}
-              <div className="bg-white/40 dark:bg-[#2c1711]/40 backdrop-blur-xl rounded-3xl p-12 shadow-2xl shadow-[#ff6100]/5 hover:shadow-[#ff6100]/10 transition-all duration-500">
+              <div className="p-12 shadow-2xl shadow-[#ff6100]/5 hover:shadow-[#ff6100]/10 transition-all duration-500">
                 <h2 className="text-4xl font-rock-salt text-[#2c1711] dark:text-[#fff0c6] mb-12 opacity-90">Get in Touch</h2>
                 <div className="space-y-10 mb-10">
                   <div className="flex items-center gap-6 group">
@@ -77,7 +58,7 @@ const Contact: NextPage = () => {
               </div>
 
               {/* Contact Form */}
-              <div className="bg-white/40 dark:bg-[#2c1711]/40 backdrop-blur-xl rounded-3xl p-12 shadow-2xl shadow-[#ff6100]/5 hover:shadow-[#ff6100]/10 transition-all duration-500">
+              <div className="p-12 shadow-2xl shadow-[#ff6100]/5 hover:shadow-[#ff6100]/10 transition-all duration-500">
                 <form className="space-y-8">
                   <div>
                     <label htmlFor="name" className="block text-sm text-[#2c1711]/40 dark:text-[#fff0c6]/40 mb-3 tracking-wider uppercase">

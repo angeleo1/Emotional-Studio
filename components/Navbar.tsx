@@ -115,7 +115,7 @@ export default function Navbar() {
       </div>
 
       <div className="relative z-50">
-        <nav className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 bg-transparent`}>
+        <nav className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 bg-transparent`} style={{ mixBlendMode: 'difference' }}>
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-end h-28">
               <div className="flex items-center">
