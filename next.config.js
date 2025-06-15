@@ -5,7 +5,10 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: [
+      'res.cloudinary.com',
+      'images.unsplash.com',
+    ],
   },
   eslint: {
     ignoreDuringBuilds: true,

@@ -7,6 +7,10 @@ import Head from 'next/head'
 import { useRef, useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { AnimatePresence } from 'framer-motion'
+import dynamic from "next/dynamic";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import VideoCarousel from '../components/ui/VideoCarousel';
+import ParticleTextEffect from "@/components/ParticleTextEffect";
 
 const FloatingImage = ({ src, position, showText }: { src: string; position: { x: number; y: number; rotate: number; scale: number }; showText: boolean }) => {
   const startPosition = () => {
@@ -77,6 +81,8 @@ const FloatingImage = ({ src, position, showText }: { src: string; position: { x
     </motion.div>
   )
 }
+
+const HeroScrollDemo = dynamic(() => import("@/components/ui/demo").then(mod => mod.HeroScrollDemo), { ssr: false });
 
 const About: NextPage = () => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -168,288 +174,153 @@ const About: NextPage = () => {
 
       <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
         {/* Main Content */}
-        <main className="relative z-10">
-          {/* Hero Section */}
-          <section className="h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-            {/* Floating Images */}
-            <div className="absolute inset-0">
-              {isVisible && images.map((src, index) => (
-                <FloatingImage
-                  key={`${src}-${index}`}
-                  src={src}
-                  position={imagePositions[index]}
-                  showText={showText}
+        <main className="relative z-10 flex flex-col gap-0">
+          {/* 섹션 0: Welcome */}
+          <section className="relative w-full h-screen min-h-[600px] overflow-hidden">
+            <ParticleTextEffect
+              text={"Capture the moment\nSip the Magic"}
+              className="absolute inset-0 w-full h-full"
+            />
+          </section>
+
+          {/* 카드 1: Capture the moment */}
+          <section className="w-full min-h-[600px]" style={{background: 'linear-gradient(90deg, #ffe066 0%, #b2ff59 100%)'}}>
+            <ContainerScroll
+              titleComponent={
+                <h1 className="text-6xl md:text-8xl font-extrabold text-[#22223b] mb-14 text-center drop-shadow-lg">
+                  About Us
+                </h1>
+              }
+            >
+              <div className="group relative w-full h-full flex justify-center items-center">
+                <img
+                  src="/images/aboutus1.png"
+                  alt="aboutus1"
+                  className="object-cover w-full h-full rounded-2xl transition duration-500 group-hover:filter group-hover:invert"
                 />
-              ))}
-            </div>
-
-            {/* Text with Glass Effect */}
-            <AnimatePresence>
-              {showText && (
-                <motion.div 
-                  initial={{ y: 50 }}
-                  animate={{ y: 0 }}
-                  exit={{ y: 50 }}
-                  transition={{ duration: 0.8 }}
-                  className="relative z-10 text-center w-full px-4 flex flex-col items-center justify-center h-full"
-                >
-                  <motion.h1 
-                    className="text-[3rem] sm:text-[4rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] font-herr-von relative z-10 text-white mb-6 hover:text-[#ff6100] transition-colors duration-300"
-                    initial={{ scale: 0.9 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 1, delay: 3 }}
-                  >
-                    Capture the moment, sip the magic
-                  </motion.h1>
-                  <motion.p 
-                    className="text-[3rem] sm:text-[4rem] md:text-[6rem] lg:text-[8rem] xl:text-[10rem] font-herr-von text-white hover:text-[#ff6100] transition-colors duration-300"
-                    transition={{ duration: 1, delay: 3.2 }}
-                  >
-                    turn emotions into memories
-                  </motion.p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+              </div>
+            </ContainerScroll>
           </section>
 
-          {/* Studio Section */}
-          <section className="py-32 relative text-white overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-            <div className="container mx-auto px-4 py-32 relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ margin: "-100px" }}
-                className="max-w-6xl mx-auto"
-              >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                  {/* Text Content */}
-                  <div className="space-y-8">
-                    <motion.h2 
-                      initial={{ opacity: 0, x: -50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8 }}
-                      viewport={{ margin: "-100px" }}
-                      className="text-6xl sm:text-7xl md:text-8xl font-herr-von mb-6 relative text-white hover:text-[#ff6100] transition-colors duration-300"
-                    >
-                      emotional studios
-                    </motion.h2>
-                    <motion.div 
-                      initial={{ opacity: 0, x: -50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.8, delay: 0.2 }}
-                      viewport={{ margin: "-100px" }}
-                      className="space-y-6 text-lg opacity-90 text-white hover:text-[#ff6100] transition-colors duration-300"
-                    >
-                      <p>
-                        Our studio is not just a photography space – it's a sanctuary where artistry meets comfort. 
-                        We've created an environment where photographers and clients can engage in meaningful conversations 
-                        while capturing unforgettable moments.
-                      </p>
-                      <p>
-                        From our welcoming main studio with its warm ambiance to our specialized beverage photography setup, 
-                        every corner is designed to inspire creativity and foster connection.
-                      </p>
-                    </motion.div>
-                  </div>
-
-                  {/* Image */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    viewport={{ margin: "-100px" }}
-                    className="relative h-[600px] rounded-3xl overflow-hidden group"
-                  >
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover"
-                    >
-                      <source src="/videos/1 (5).mp4" type="video/mp4" />
-                    </video>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#5C3A21] via-transparent to-transparent opacity-30" />
-                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <Link href="/videos/studio-tour" className="absolute inset-0" />
-                  </motion.div>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-
-          {/* Records Section */}
-          <section className="py-32 relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-            <div className="container mx-auto px-4 relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ margin: "-100px" }}
-                className="max-w-6xl mx-auto"
-              >
-                <div className="text-center mb-20">
-                  <h2 className="text-6xl sm:text-7xl md:text-8xl font-herr-von text-white mb-6 relative hover:text-[#ff6100] transition-colors duration-300">
-                    The Records
-                  </h2>
-                  <p className="text-xl text-white/80 max-w-2xl mx-auto hover:text-[#ff6100] transition-colors duration-300">
-                    From person to culture, from culture to history
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                  {/* Image Gallery */}
-                  <div className="grid grid-cols-2 gap-4">
-                    {[
-                      '/images/Elegant Cocktail Close-Up.jpeg',
-                      '/images/Elegant Orange Cocktail.jpeg',
-                      '/images/Springtime Cocktail Delight.jpeg',
-                      '/images/Sophisticated Sips Trio.jpeg'
-                    ].map((src, index) => (
-                      <motion.div
-                        key={src}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: index * 0.1 }}
-                        viewport={{ margin: "-100px" }}
-                        className="relative aspect-square rounded-xl overflow-hidden group"
-                      >
-                        <Image
-                          src={src}
-                          alt="Record"
-                          fill
-                          className="object-cover transition-all duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Text Content */}
-                  <div className="space-y-6 text-lg text-white/80 hover:text-[#ff6100] transition-colors duration-300">
-                    <p className="leading-relaxed">
-                      Every photograph we capture becomes part of a larger narrative. As these images accumulate, 
-                      they form a visual diary of moments, emotions, and artistic evolution.
+          {/* 카드 2: emotional studios */}
+          <section className="w-full min-h-[600px]" style={{background: 'linear-gradient(90deg, #ff512f 0%, #dd2476 100%)'}}>
+            <ContainerScroll
+              titleComponent={
+                <h1 className="text-6xl md:text-8xl font-extrabold text-[#ffe066] mb-14 text-center drop-shadow-lg lowercase">emotional studios</h1>
+              }
+            >
+              <div className="group relative w-full h-full">
+                <img
+                  src="/images/aboutus2.png"
+                  alt="aboutus2"
+                  className="object-cover w-full h-full rounded-2xl"
+                />
+                <div className="absolute inset-0 bg-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-10">
+                  <div className="w-full flex flex-col items-center">
+                    <p className="block text-white text-xl md:text-3xl text-center mx-auto max-w-2xl whitespace-normal break-words drop-shadow-lg !leading-[3.5rem] mb-4">
+                      Our studio is not just a photography space – it's a sanctuary where artistry meets comfort.
                     </p>
-                    <p className="leading-relaxed">
-                      Our archive is more than just a collection of photographs – it's a testament to the stories 
-                      we've helped tell, the emotions we've captured, and the connections we've fostered through our work.
+                    <p className="block text-white text-xl md:text-3xl text-center mx-auto max-w-2xl whitespace-normal break-words drop-shadow-lg !leading-[3.5rem] mb-4">
+                      We've created an environment where photographers and clients can engage in meaningful conversations while capturing unforgettable moments.
                     </p>
-                    <p className="leading-relaxed">
-                      Each drawer in our records holds countless memories, and as one fills up, another opens, 
-                      ready to embrace new stories and preserve them for generations to come.
+                    <p className="block text-white text-xl md:text-3xl text-center mx-auto max-w-2xl whitespace-normal break-words drop-shadow-lg !leading-[3.5rem]">
+                      From our welcoming main studio with its warm ambiance to our specialized beverage photography setup, every corner is designed to inspire creativity and foster connection.
                     </p>
                   </div>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-
-          {/* Project Section */}
-          <section className="py-32 relative bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-            <div className="container mx-auto px-4 relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ margin: "-100px" }}
-                className="max-w-6xl mx-auto"
-              >
-                <div className="text-center mb-20">
-                  <h2 className="text-6xl sm:text-7xl md:text-8xl font-herr-von text-white mb-6 relative hover:text-[#ff6100] transition-colors duration-300">
-                    Our Projects
-                  </h2>
-                  <p className="text-xl text-white/80 max-w-2xl mx-auto hover:text-[#ff6100] transition-colors duration-300">
-                    Creating moments that matter
-                  </p>
-                </div>
-
-                {/* Main Video */}
-                <div className="mb-32">
-                  <div className="relative aspect-video rounded-3xl overflow-hidden group">
-                    <video
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover"
-                    >
-                      <source src="/videos/1 (7).mp4" type="video/mp4" />
-                    </video>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#5C3A21] via-[#5C3A21]/30 to-transparent" />
-                    <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                </div>
-
-                {/* Video Carousel */}
-                <div className="relative overflow-hidden">
-                  <div className="flex whitespace-nowrap gap-x-8">
-                    <div className="flex items-center space-x-8 animate-slide">
-                      {[
-                        '/videos/1 (1).mp4',
-                        '/videos/1 (2).mp4',
-                        '/videos/1 (3).mp4',
-                        '/videos/1 (4).mp4',
-                        '/videos/1 (5).mp4',
-                        '/videos/1 (6).mp4',
-                        '/videos/1 (7).mp4',
-                        '/videos/1 (8).mp4',
-                        '/videos/1 (9).mp4',
-                        '/videos/1 (10).mp4'
-                      ].map((src, index) => (
-                        <div key={src} className="relative w-[400px] aspect-video rounded-xl overflow-hidden group">
-                          <video
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                          >
-                            <source src={src} type="video/mp4" />
-                          </video>
-                          <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#ff6100] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-
-          {/* Footer Section */}
-          <section className="py-32 relative bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-            <div className="container mx-auto px-4 relative z-10">
-              <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-20">
-                  <h2 className="text-6xl sm:text-7xl md:text-8xl font-herr-von text-white mb-6 relative hover:text-[#ff6100] transition-colors duration-300">
-                    Connect With Us
-                  </h2>
-                  <p className="text-xl text-white/80 max-w-2xl mx-auto hover:text-[#ff6100] transition-colors duration-300">
-                    Follow our journey through social media
-                  </p>
-                </div>
-
-                <div className="flex justify-center items-center space-x-12">
-                  <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                    <div className="text-white hover:text-[#ff6100] transition-colors duration-300">
-                      <FaInstagram size={48} />
-                    </div>
-                  </Link>
-                  <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                    <div className="text-white hover:text-[#ff6100] transition-colors duration-300">
-                      <FaFacebook size={48} />
-                    </div>
-                  </Link>
-                  <Link href="https://youtube.com" target="_blank" rel="noopener noreferrer">
-                    <div className="text-white hover:text-[#ff6100] transition-colors duration-300">
-                      <FaYoutube size={48} />
-                    </div>
-                  </Link>
                 </div>
               </div>
-            </div>
+            </ContainerScroll>
+          </section>
+
+          {/* 카드 3: The Records */}
+          <section className="w-full min-h-[600px]" style={{background: 'linear-gradient(90deg, #fc00ff 0%, #00dbde 100%)'}}>
+            <ContainerScroll
+              titleComponent={
+                <h1 className="text-6xl md:text-8xl font-extrabold text-[#64ffda] mb-14 text-center drop-shadow-lg">The Records</h1>
+              }
+            >
+              <div className="group relative w-full h-full">
+                <img
+                  src="/images/aboutus3.png"
+                  alt="aboutus3"
+                  className="object-cover w-full h-full rounded-2xl"
+                />
+                <div className="absolute inset-0 bg-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-10">
+                  <div className="w-full flex flex-col items-center">
+                    <p className="block text-white text-xl md:text-3xl text-center mx-auto max-w-2xl whitespace-normal break-words drop-shadow-lg !leading-[3.5rem] mb-4">
+                      Every photograph we capture becomes part of a larger narrative. As these images accumulate, they form a visual diary of moments, emotions, and artistic evolution.
+                    </p>
+                    <p className="block text-white text-xl md:text-3xl text-center mx-auto max-w-2xl whitespace-normal break-words drop-shadow-lg !leading-[3.5rem] mb-4">
+                      Our archive is more than just a collection of photographs – it's a testament to the stories we've helped tell, the emotions we've captured, and the connections we've fostered through our work.
+                    </p>
+                    <p className="block text-white text-xl md:text-3xl text-center mx-auto max-w-2xl whitespace-normal break-words drop-shadow-lg !leading-[3.5rem]">
+                      Each drawer in our records holds countless memories, and as one fills up, another opens, ready to embrace new stories and preserve them for generations to come.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </ContainerScroll>
+          </section>
+
+          {/* 카드 4: Our Projects */}
+          <section className="w-full min-h-[600px]" style={{background: 'linear-gradient(90deg, #f953c6 0%, #b91d73 100%)'}}>
+            <ContainerScroll
+              titleComponent={
+                <h1 className="text-6xl md:text-8xl font-extrabold text-[#ffb6d5] mb-14 text-center drop-shadow-lg">Our Projects</h1>
+              }
+            >
+              <div className="group relative w-full h-full">
+                <img
+                  src="/images/aboutus4.png"
+                  alt="aboutus4"
+                  className="object-cover w-full h-full rounded-2xl transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl z-10" />
+                <div className="absolute inset-0 flex items-center justify-center p-10 pointer-events-none z-20">
+                  <div className="w-full h-full flex items-center justify-center pointer-events-auto opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <VideoCarousel />
+                  </div>
+                </div>
+              </div>
+            </ContainerScroll>
+          </section>
+
+          {/* 카드 5: Connect with Us */}
+          <section className="w-full min-h-[600px]" style={{background: 'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)'}}>
+            <ContainerScroll
+              titleComponent={
+                <h1 className="text-6xl md:text-8xl font-extrabold text-[#0d3f2c] mb-14 text-center drop-shadow-lg">Connect with Us</h1>
+              }
+            >
+              <div className="group relative w-full h-full flex justify-center items-center">
+                <img
+                  src="/images/aboutus5.png"
+                  alt="aboutus5"
+                  className="object-cover w-full h-full rounded-2xl"
+                />
+                <div className="absolute inset-0 bg-black/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-10 h-full w-full">
+                  <div className="w-full flex flex-col items-center">
+                    <div className="text-white text-3xl md:text-4xl text-center max-w-3xl leading-loose drop-shadow-lg mb-12">
+                      Follow Our Journey throguh social media
+                    </div>
+                    <div className="flex justify-center items-center gap-8 mt-8">
+                      {/* Instagram SVG */}
+                      <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="mx-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 256 256"><path fill="#fff" d="M128 23.064c34.177 0 38.225.13 51.722.745 12.48.57 19.258 2.655 23.769 4.408 5.974 2.322 10.238 5.096 14.717 9.575 4.48 4.479 7.253 8.743 9.575 14.717 1.753 4.511 3.838 11.289 4.408 23.768.615 13.498.745 17.546.745 51.723 0 34.178-.13 38.226-.745 51.723-.57 12.48-2.655 19.257-4.408 23.768-2.322 5.974-5.096 10.239-9.575 14.718-4.479 4.479-8.743 7.253-14.717 9.574-4.511 1.753-11.289 3.839-23.769 4.408-13.495.616-17.543.746-51.722.746-34.18 0-38.228-.13-51.723-.746-12.48-.57-19.257-2.655-23.768-4.408-5.974-2.321-10.239-5.095-14.718-9.574-4.479-4.48-7.253-8.744-9.574-14.718-1.753-4.51-3.839-11.288-4.408-23.768-.616-13.497-.746-17.545-.746-51.723 0-34.177.13-38.225.746-51.722.57-12.48 2.655-19.258 4.408-23.769 2.321-5.974 5.095-10.238 9.574-14.717 4.48-4.48 8.744-7.253 14.718-9.575 4.51-1.753 11.288-3.838 23.768-4.408 13.497-.615 17.545-.745 51.723-.745M128 0C93.237 0 88.878.147 75.226.77c-13.625.622-22.93 2.786-31.071 5.95-8.418 3.271-15.556 7.648-22.672 14.764C14.367 28.6 9.991 35.738 6.72 44.155 3.555 52.297 1.392 61.602.77 75.226.147 88.878 0 93.237 0 128c0 34.763.147 39.122.77 52.774.622 13.625 2.785 22.93 5.95 31.071 3.27 8.417 7.647 15.556 14.763 22.672 7.116 7.116 14.254 11.492 22.672 14.763 8.142 3.165 17.446 5.328 31.07 5.95 13.653.623 18.012.77 52.775.77s39.122-.147 52.774-.77c13.624-.622 22.929-2.785 31.07-5.95 8.418-3.27 15.556-7.647 22.672-14.763 7.116-7.116 11.493-14.254 14.764-22.672 3.164-8.142 5.328-17.446 5.95-31.07.623-13.653.77-18.012.77-52.775s-.147-39.122-.77-52.774c-.622-13.624-2.786-22.929-5.95-31.07-3.271-8.418-7.648-15.556-14.764-22.672C227.4 14.368 220.262 9.99 211.845 6.72c-8.142-3.164-17.447-5.328-31.071-5.95C167.122.147 162.763 0 128 0Zm0 62.27C91.698 62.27 62.27 91.7 62.27 128c0 36.302 29.428 65.73 65.73 65.73 36.301 0 65.73-29.428 65.73-65.73 0-36.301-29.429-65.73-65.73-65.73Zm0 108.397c-23.564 0-42.667-19.103-42.667-42.667S104.436 85.333 128 85.333s42.667 19.103 42.667 42.667-19.103 42.667-42.667 42.667Zm83.686-110.994c0 8.484-6.876 15.36-15.36 15.36-8.483 0-15.36-6.876-15.36-15.36 0-8.483 6.877-15.36 15.36-15.36 8.484 0 15.36 6.877 15.36 15.36Z"/></svg>
+                      </a>
+                      {/* Facebook SVG */}
+                      <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="mx-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" height="64" width="64"><circle cx="18" cy="18" r="18" fill="#fff"/><path fill="#222" d="m25 23 .8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"/></svg>
+                      </a>
+                      {/* YouTube SVG */}
+                      <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="mx-2">
+                        <svg viewBox="0 0 256 180" width="64" height="64" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><rect width="256" height="180" rx="36" fill="#fff"/><path fill="#222" d="m102.421 128.06 66.328-38.418-66.328-38.418z"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ContainerScroll>
           </section>
         </main>
       </div>
