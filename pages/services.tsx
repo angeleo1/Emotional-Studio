@@ -1,339 +1,325 @@
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import Link from 'next/link'
-import { FaUsers } from 'react-icons/fa'
-import Navbar from '../components/Navbar'
-import ContactPopup from '../components/ContactPopup'
-import { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
-declare global {
-  interface Window {
-    openChatModal: () => void;
-  }
-}
+const pages = [
+  // 1. Provided as Standard
+  {
+    images: ['/images/Service1.png'],
+    text: (
+      <div className="space-y-10 text-white pt-8">
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <span>🍸</span>
+            <span>Welcome Drink</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Choose according to your feelings. A sweet break for those tired of everyday life, spend a special time with Emotion Elixirs</p>
+        </div>
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <span>📸</span>
+            <span>Photo Shoot</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Create your own photo story in 20 minutes! Make special memories with a variety of props</p>
+        </div>
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <span>🖼️</span>
+            <span>Select Photos</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Select 2 Photos for 20mins. More than just photos. We add value with professional retouching and printing</p>
+        </div>
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <span>🎬</span>
+            <span>Time-lapse Video</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Unforgettable behind-the-scenes cuts from the set, take them home as precious souvenirs</p>
+        </div>
+      </div>
+    ),
+    title: 'Provided as Standard',
+  },
+  // 2. Shooting Type
+  {
+    images: ['/images/Service2-1.png', '/images/Service2-2.jpg'],
+    text: (
+      <div className="space-y-10 text-white pt-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span>👤</span><span>Solo</span></div>
+          <span className="text-3xl font-bold text-right ml-4">$55</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span>👥</span><span>Couple</span></div>
+          <span className="text-3xl font-bold text-right ml-4">$98</span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <span className="relative w-14 h-10 inline-block align-middle ml-[-20px]">
+              <span className="absolute left-0 top-0 text-3xl" style={{zIndex:3}}>👤</span>
+              <span className="absolute left-4 top-0 text-3xl" style={{zIndex:2, filter:'brightness(0.7)'}}>👤</span>
+              <span className="absolute left-8 top-0 text-3xl" style={{zIndex:1}}>👤</span>
+            </span>
+            <span>3-4 People</span>
+          </div>
+          <span className="text-3xl font-bold text-right ml-4">$150</span>
+        </div>
+        <div className="flex items-center justify-between mt-8">
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span>◑</span><span>Black & White</span></div>
+          <span className="text-3xl font-bold text-right ml-4">Standard</span>
+        </div>
+        <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span>🎨</span><span>Colour</span></div>
+          <span className="text-3xl font-bold text-right ml-4">+$10</span>
+        </div>
+      </div>
+    ),
+    title: 'Shooting Type',
+  },
+  // 3. Other Goods
+  {
+    images: ['/images/Service3-1.png', '/images/Service3-2.png', '/images/Service3-3.png'],
+    text: (
+      <div className="space-y-10 text-white pt-8">
+        <div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+              <span className="w-8 h-8 inline-block align-middle">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M6 7V3h12v4"/><path d="M6 17h12v4H6z"/></svg>
+              </span>
+              <span>A4 Print</span>
+            </div>
+            <span className="text-3xl font-bold text-right ml-4">$10</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">High quality prints on premium paper</p>
+        </div>
+        <div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+              <span className="w-8 h-8 inline-block align-middle">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+              </span>
+              <span>A4 Frame</span>
+            </div>
+            <span className="text-3xl font-bold text-right ml-4">$15</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Elegant frames in various colors <span style={{marginLeft:'0.5em'}}><span style={{color:'#222', fontSize:'1.5em'}}>●</span> <span style={{color:'#f5e9d6', fontSize:'1.5em'}}>●</span> <span style={{color:'#ff9800', fontSize:'1.5em'}}>●</span> <span style={{color:'#b97a56', fontSize:'1.5em'}}>●</span></span></p>
+        </div>
+        <div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+              <span className="w-8 h-8 inline-block align-middle">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><path d="M6 17v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/></svg>
+              </span>
+              <span>Original Digital Film</span>
+            </div>
+            <span className="text-3xl font-bold text-right ml-4">$20</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Full resolution digital copies</p>
+        </div>
+        <div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+              <span className="w-8 h-8 inline-block align-middle">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+              </span>
+              <span>Calendar</span>
+            </div>
+            <span className="text-3xl font-bold text-right ml-4">$45</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">Personalized photo calendar</p>
+        </div>
+      </div>
+    ),
+    title: 'Other Goods',
+  },
+  // 4. Special
+  {
+    images: ['/images/Service-4.png', '/images/Service5.png'],
+    text: (
+      <div className="space-y-10 text-white pt-8">
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>💗</span><span>Wedding Package</span></div>
+          <p className="text-lg mt-1 mb-4">Celebrate Your Love Story with Our Bespoke Wedding Package</p>
+        </div>
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>👥</span><span>Group Package</span></div>
+          <p className="text-lg mt-1 mb-4">Making Memories Together: The Ultimate Package for Large Group Celebrations</p>
+        </div>
+        <div className="mt-6">
+          <p className="text-lg font-semibold mt-1 mb-4">Contact us for more details about the packages</p>
+        </div>
+      </div>
+    ),
+    title: 'Special',
+  },
+];
 
 export default function Services() {
-  const [isContactOpen, setIsContactOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
+  const numOfPages = pages.length;
+  const animTime = 1000;
+  const scrolling = useRef(false);
+
+  const navigateUp = () => {
+    if (currentPage > 1) setCurrentPage(p => p - 1);
+  };
+
+  const navigateDown = () => {
+    if (currentPage < numOfPages) setCurrentPage(p => p + 1);
+  };
+
+  const handleWheel = (e: WheelEvent) => {
+    if (scrolling.current) return;
+    scrolling.current = true;
+    e.deltaY > 0 ? navigateDown() : navigateUp();
+    setTimeout(() => (scrolling.current = false), animTime);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (scrolling.current) return;
+    if (e.key === 'ArrowUp') {
+      scrolling.current = true;
+      navigateUp();
+      setTimeout(() => (scrolling.current = false), animTime);
+    } else if (e.key === 'ArrowDown') {
+      scrolling.current = true;
+      navigateDown();
+      setTimeout(() => (scrolling.current = false), animTime);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('wheel', handleWheel);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [currentPage]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#2a2a2a] to-[#1a1a1a]">
-      <main className="relative z-10 pt-24 pb-20">
-        <div className="container mx-auto px-4">
-          {/* Services Menu Card */}
-          <div className="max-w-5xl mx-auto p-8 md:p-12 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-            
-            {/* Provided as Standard Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-rock-salt text-[#fff0c6] mb-12 text-center">
-                Provided as Standard
-              </h2>
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="group bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#ff6100] to-[#ff8c00] rounded-full text-white font-bold text-xl">
-                      1
-                    </div>
-                    <div>
-                      <h3 className="text-xl text-white mb-2 flex items-center gap-3">
-                        <span className="text-2xl bg-gradient-to-br from-[#ff6100] to-[#ff8c00] p-2 rounded-lg">🍸</span>
-                        Welcome Drink
-                      </h3>
-                      <p className="text-white/70 leading-relaxed">
-                        Choose according to your feelings. A sweet break for those tired of everyday life, 
-                        spend a special time with Emotion Elixirs
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 2 */}
-                <div className="group bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#ff6100] to-[#ff8c00] rounded-full text-white font-bold text-xl">
-                      2
-                    </div>
-                    <div>
-                      <h3 className="text-xl text-white mb-2 flex items-center gap-3">
-                        <span className="text-2xl bg-gradient-to-br from-[#ff6100] to-[#ff8c00] p-2 rounded-lg">📸</span>
-                        Photo Shoot
-                      </h3>
-                      <p className="text-white/70 leading-relaxed">
-                        Create your own photo story in 20 minutes! Make special memories with a variety of props
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 3 */}
-                <div className="group bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#ff6100] to-[#ff8c00] rounded-full text-white font-bold text-xl">
-                      3
-                    </div>
-                    <div>
-                      <h3 className="text-xl text-white mb-2 flex items-center gap-3">
-                        <span className="text-2xl bg-gradient-to-br from-[#ff6100] to-[#ff8c00] p-2 rounded-lg">🖼️</span>
-                        Select Photos
-                      </h3>
-                      <p className="text-white/70 leading-relaxed">
-                        Select 2 Photos for 20mins. More than just photos. We add value with professional retouching and printing
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Step 4 */}
-                <div className="group bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gradient-to-br from-[#ff6100] to-[#ff8c00] rounded-full text-white font-bold text-xl">
-                      4
-                    </div>
-                    <div>
-                      <h3 className="text-xl text-white mb-2 flex items-center gap-3">
-                        <span className="text-2xl bg-gradient-to-br from-[#ff6100] to-[#ff8c00] p-2 rounded-lg">🎬</span>
-                        Time-lapse Video
-                      </h3>
-                      <p className="text-white/70 leading-relaxed">
-                        Unforgettable behind-the-scenes cuts from the set, take them home as precious souvenirs
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Shooting Type Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-rock-salt text-[#fff0c6] mb-12 text-center">
-                Shooting Type
-              </h2>
-              
-              <div className="grid md:grid-cols-3 gap-6">
-                {/* Solo */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300 overflow-hidden">
-                  <div className="relative w-full h-60">
-                    <Image
-                      src="/images/noah-buscher-8A7fD6Y5VF8-unsplash.jpg"
-                      alt="Solo"
-                      fill
-                      className="opacity-90 group-hover:opacity-100 transition-all duration-500 object-cover scale-100 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                  </div>
-                  <div className="p-6 relative">
-                    <h3 className="text-xl text-white text-center mb-2">Solo</h3>
-                    <p className="text-2xl bg-gradient-to-r from-[#ff6100] to-[#ff8c00] bg-clip-text text-transparent text-center font-bold">$55</p>
-                  </div>
-                </div>
-
-                {/* Couple */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300 overflow-hidden">
-                  <div className="relative w-full h-60">
-                    <Image
-                      src="/images/44 (1).jpg"
-                      alt="Couple"
-                      fill
-                      className="opacity-90 group-hover:opacity-100 transition-all duration-500 object-cover scale-100 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                  </div>
-                  <div className="p-6 relative">
-                    <h3 className="text-xl text-white text-center mb-2">Couple</h3>
-                    <p className="text-2xl bg-gradient-to-r from-[#ff6100] to-[#ff8c00] bg-clip-text text-transparent text-center font-bold">$98</p>
-                  </div>
-                </div>
-
-                {/* Triple */}
-                <div className="group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300 overflow-hidden">
-                  <div className="relative w-full h-60">
-                    <Image
-                      src="/images/44 (2).jpg"
-                      alt="Triple"
-                      fill
-                      className="opacity-90 group-hover:opacity-100 transition-all duration-500 object-cover scale-100 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                  </div>
-                  <div className="p-6 relative">
-                    <h3 className="text-xl text-white text-center mb-2">Triple</h3>
-                    <p className="text-2xl bg-gradient-to-r from-[#ff6100] to-[#ff8c00] bg-clip-text text-transparent text-center font-bold">$150</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Color Options */}
-              <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-8">
-                <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10">
-                  <div className="w-8 h-8 rounded-full relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-gray-600 to-white"></div>
-                  </div>
-                  <span className="text-white/90">Black & White : Standard</span>
-                </div>
-                <div className="flex items-center gap-4 bg-white/5 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10">
-                  <div className="w-8 h-8 rounded-full relative overflow-hidden shadow-lg">
-                    <div 
-                      className="absolute inset-0 animate-spin-slow"
-                      style={{
-                        background: 'conic-gradient(from 0deg, #FF0000, #FF8000, #FFFF00, #00FF00, #00FFFF, #0000FF, #8000FF, #FF00FF, #FF0000)'
-                      }}
-                    ></div>
-                    <div className="absolute inset-0 bg-gradient-radial from-transparent to-white/20"></div>
-                  </div>
-                  <span className="text-white/90">Colour : +$10</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Other Goods Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-rock-salt text-[#fff0c6] mb-12 text-center">
-                Other Goods
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                  { 
-                    name: 'A4 Print', 
-                    price: '$10', 
-                    image: '/images/14tkwls.jpg',
-                    description: 'High quality prints on premium paper'
-                  },
-                  { 
-                    name: 'A4 Frame', 
-                    price: '$15', 
-                    image: '/images/sddasd.jpg',
-                    description: 'Elegant frames in various colors',
-                    colors: [
-                      { name: 'Black', color: '#1a1a1a' },
-                      { name: 'Ivory', color: '#fff0c6' },
-                      { name: 'Orange', color: '#ff6100' },
-                      { name: 'Wood', color: '#8B4513' }
-                    ]
-                  },
-                  { 
-                    name: 'Original Digital Film', 
-                    price: '$20', 
-                    image: '/images/film.jpg',
-                    description: 'Full resolution digital copies'
-                  },
-                  { 
-                    name: 'Calendar', 
-                    price: '$45', 
-                    image: '/images/tkwlsekffur.jpg',
-                    description: 'Personalized photo calendar'
-                  },
-                ].map((item) => (
-                  <div key={item.name} className="group bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300 overflow-hidden">
-                    <div className="relative aspect-square">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="object-cover transition-all duration-500 opacity-90 group-hover:opacity-100 scale-100 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                    </div>
-                    <div className="p-4 h-[160px] flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-white text-center mb-1">{item.name}</h3>
-                        <p className="text-white/60 text-sm text-center mb-2">{item.description}</p>
-                        {item.colors && Array.isArray(item.colors) && (
-                          <div className="flex justify-center gap-2">
-                            {item.colors.map((color) => (
-                              <div 
-                                key={color.name}
-                                className="group/color relative"
-                              >
-                                <div 
-                                  className="w-6 h-6 rounded-full border border-white/20 shadow-lg cursor-pointer hover:scale-110 transition-transform duration-300"
-                                  style={{ backgroundColor: color.color }}
-                                />
-                                <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/80 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover/color:opacity-100 transition-opacity whitespace-nowrap">
-                                  {color.name}
-                                </div>
-                              </div>
-                            ))}
+    <div className="relative overflow-hidden h-screen bg-black">
+      {(() => {
+        const page = pages[currentPage - 1];
+        return (
+          <div key={currentPage} className="absolute inset-0">
+            {/* PC: 좌/우 반반, 교차 배치 */}
+            <div className="hidden md:flex w-full h-full">
+              {/* Provided(1), Other Goods(3): 이미지 왼쪽, 텍스트 오른쪽 */}
+              {/* Shooting Type(2), Special(4): 텍스트 왼쪽, 이미지 오른쪽 */}
+              {([1, 3].includes(currentPage)) ? (
+                <>
+                  {/* Left: 이미지 (흰 배경) */}
+                  <div className="w-1/2 h-full flex items-center justify-center bg-white">
+                    <div className={`w-full px-8 flex flex-col gap-4 items-center justify-center`}>
+                      {/* Provided: 세로로 더 크게 */}
+                      {currentPage === 1 && (
+                        <div className="relative w-full h-[90vh] max-w-4xl mx-auto flex items-center justify-center">
+                          <div className="relative w-full h-full max-w-none shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                           </div>
-                        )}
-                      </div>
-                      <p className="text-xl bg-gradient-to-r from-[#ff6100] to-[#ff8c00] bg-clip-text text-transparent text-center font-bold mt-2">{item.price}</p>
+                        </div>
+                      )}
+                      {/* Other Goods: 세로 배치 */}
+                      {currentPage === 3 && page.images.map((img, j) => (
+                        <div key={j} className="relative w-full h-[40vh] max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                          <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                  {/* Right: 텍스트 (검정 배경) */}
+                  <div className="w-1/2 h-full flex flex-col items-center justify-center px-8 bg-black">
+                    <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4">{page.title}</div>
+                    <div className="border-b-2 border-white/30 w-full mx-auto" />
+                    <div className="pt-16 w-full max-w-xl mx-auto">{page.text}</div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Left: 텍스트 (검정 배경) */}
+                  <div className="w-1/2 h-full flex flex-col items-center justify-center px-8 bg-black">
+                    <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4">{page.title}</div>
+                    <div className="border-b-2 border-white/30 w-full mx-auto" />
+                    <div className="pt-16 w-full max-w-xl mx-auto">{page.text}</div>
+                  </div>
+                  {/* Right: 이미지 (흰 배경) */}
+                  <div className="w-1/2 h-full flex items-center justify-center bg-white">
+                    <div className={`w-full px-8 flex ${currentPage === 2 ? 'flex-row gap-10 items-center justify-center' : 'flex-col gap-4 items-center justify-center'}`}>
+                      {/* Shooting Type: 가로로 2장, 큼직하게 예쁘게 */}
+                      {currentPage === 2 && (
+                        <div className="flex flex-row gap-10 w-full justify-center items-center">
+                          {page.images.map((img, j) => (
+                            <div key={j} className="relative w-full h-[70vh] max-w-2xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                              <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {/* Special: 가로로 2장, 큼직하게 예쁘게 */}
+                      {currentPage === 4 && (
+                        <div className="flex flex-row gap-10 w-full justify-center items-center">
+                          <div className="relative w-[70%] h-[70vh] max-w-4xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                          </div>
+                          <div className="relative w-full h-[70vh] max-w-2xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                            <Image src={page.images[1]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
-            </motion.div>
-
-            {/* Special Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <h2 className="text-3xl md:text-4xl font-rock-salt text-[#fff0c6] mb-12 text-center">
-                Special
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <Link href="/wedding" className="group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300 overflow-hidden">
-                  <div className="relative w-full h-60">
-                    <Image
-                      src="/images/231123.jpg"
-                      alt="Wedding Package"
-                      fill
-                      className="opacity-90 group-hover:opacity-100 transition-all duration-500 object-cover scale-100 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+            {/* 모바일: 한 컬럼 */}
+            <div className="md:hidden flex flex-col w-full h-full">
+              {/* 이미지: 흰 배경 */}
+              <div className={`flex flex-col gap-4 w-full px-4 pt-8 items-center bg-white`}>
+                {/* Provided: 세로로 크게 */}
+                {currentPage === 1 && (
+                  <div className="relative w-full h-64 max-w-md mx-auto flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-none shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                      <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                    </div>
                   </div>
-                  <div className="p-6 relative">
-                    <h3 className="text-xl text-white mb-3">Wedding Package</h3>
-                    <p className="text-white/70">Celebrate Your Love Story with Our Bespoke Wedding Package</p>
+                )}
+                {/* Shooting Type: 한 장씩 세로로, 큼직하게 예쁘게 */}
+                {currentPage === 2 && (
+                  <div className="flex flex-col gap-6 w-full justify-center items-center">
+                    {page.images.map((img, j) => (
+                      <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                        <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                      </div>
+                    ))}
                   </div>
-                </Link>
-
-                <Link href="/group" className="group relative bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-[#ff6100]/30 transition-all duration-300 overflow-hidden">
-                  <div className="relative w-full h-60">
-                    <Image
-                      src="/images/2w1312.jpg"
-                      alt="Group Package"
-                      fill
-                      className="opacity-90 group-hover:opacity-100 transition-all duration-500 object-cover scale-100 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                )}
+                {/* Other Goods, Special: 기존대로(세로 배치) */}
+                {(currentPage !== 1 && currentPage !== 2) && page.images.map((img, j) => (
+                  <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                    <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                   </div>
-                  <div className="p-6 relative">
-                    <h3 className="text-xl text-white mb-3">Group Package</h3>
-                    <p className="text-white/70">Making Memories Together: The Ultimate Package for Large Group Celebrations</p>
+                ))}
+                {/* Special: 가로로 2장, 큼직하게 예쁘게 (모바일) */}
+                {currentPage === 4 && (
+                  <div className="flex flex-col gap-6 w-full justify-center items-center">
+                    {page.images.map((img, j) => (
+                      <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                        <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                      </div>
+                    ))}
                   </div>
-                </Link>
+                )}
               </div>
-              <button
-                onClick={() => setIsContactOpen(true)}
-                className="w-full bg-[#ff6100] text-white py-4 rounded-full font-noto-sans text-lg font-semibold hover:bg-[#ff6100]/90 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-[#ff6100]/20"
-              >
-                Contact us for the above package
-              </button>
-            </motion.div>
-
+              {/* 텍스트: 검정 배경 */}
+              <div className="flex flex-col items-center justify-center flex-1 px-4 pb-8 bg-black">
+                <h2 className="text-2xl font-bold uppercase mb-4 text-white text-center tracking-widest">{page.title}</h2>
+                <div className="w-full max-w-md mx-auto">{page.text}</div>
+              </div>
+            </div>
           </div>
-        </div>
-      </main>
-
-      {/* Contact Popup */}
-      <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+        );
+      })()}
     </div>
-  )
+  );
 } 

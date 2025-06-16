@@ -509,77 +509,110 @@ const Home: NextPage = () => {
             </div>
           </Link>
         </section>
-        {/* Our Elixirs Section */}
-        <section className="relative py-16 bg-[#0a0a0a]">
-          <div className="container mx-auto px-4 flex flex-col items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 tracking-widest neon-title">Our Elixirs</h2>
-            <div className="w-full flex flex-col items-center gap-8">
-              {cocktails.map((cocktail, idx) => (
-                <div
-                  key={cocktail.name}
-                  className="w-full flex flex-col items-center cursor-pointer group"
-                  onClick={() => handleCocktailClick(cocktail)}
-                >
+        {/* Our Elixirs Section (최신 요구 반영) */}
+        <section className="w-full min-h-[100vh] h-[100vh] bg-[#111] flex flex-col items-center justify-center relative overflow-hidden px-0">
+          <div className="absolute inset-0 z-0" style={{background: 'linear-gradient(120deg, #111 0%, #181513 40%, #1a1816 100%)', opacity: 1}} />
+          <h2 className="text-5xl sm:text-7xl font-extrabold text-center mb-6 tracking-widest neon-title z-10 relative" style={{letterSpacing:'0.08em', color:'#ff2222'}}>OUR ELIXIRS</h2>
+          <div className="w-full flex flex-col items-center justify-center space-y-0 select-none z-10 relative" style={{height:'calc(100vh - 120px)'}}>
+            {/* 1번째 칵테일 - 우측 무한 슬라이드 */}
+            <div className="w-full overflow-hidden flex justify-start" style={{height:'24vw', minHeight:'180px', maxHeight:'340px', marginBottom:'-2vw'}}>
+              <div className="w-full animate-slideRight flex">
+                {[...Array(2)].map((_,i)=>(
                   <span
-                    className="block text-center font-extrabold uppercase leading-none neon-cocktail-name"
+                    key={i}
+                    className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
-                      fontSize: 'clamp(2.5rem, 8vw, 6rem)',
-                      color: idx === 0 ? '#ff4d00' : idx === 1 ? '#ff33e0' : '#7cffb2',
-                      textShadow: idx === 0
-                        ? '0 0 24px #ff4d00, 0 0 48px #ffb300'
-                        : idx === 1
-                        ? '0 0 24px #ff33e0, 0 0 48px #fff'
-                        : '0 0 24px #7cffb2, 0 0 48px #fff',
-                      letterSpacing: '0.04em',
-                      transition: 'transform 0.2s',
+                      fontSize: 'clamp(4rem, 18vw, 15rem)',
+                      color: '#ff2222',
+                      letterSpacing: '0.01em',
+                      whiteSpace: 'nowrap',
                     }}
+                    onClick={()=>handleCocktailClick(cocktails[0])}
                   >
-                    {cocktail.name}
+                    {cocktails[0].name}
                   </span>
+                ))}
+              </div>
+            </div>
+            {/* 2번째 칵테일 - 좌측 무한 슬라이드 */}
+            <div className="w-full overflow-hidden flex justify-end" style={{height:'24vw', minHeight:'180px', maxHeight:'340px', marginBottom:'-2vw'}}>
+              <div className="w-full animate-slideLeft flex">
+                {[...Array(2)].map((_,i)=>(
                   <span
-                    className="block text-center mt-2 text-white/80 text-base sm:text-lg max-w-2xl group-hover:text-white transition-colors"
-                    style={{textShadow: '0 0 8px #000'}}
+                    key={i}
+                    className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
+                    style={{
+                      fontSize: 'clamp(4rem, 18vw, 15rem)',
+                      color: '#ff00b8',
+                      letterSpacing: '0.01em',
+                      whiteSpace: 'nowrap',
+                    }}
+                    onClick={()=>handleCocktailClick(cocktails[1])}
                   >
-                    {cocktail.description}
+                    {cocktails[1].name}
                   </span>
-                </div>
-              ))}
+                ))}
+              </div>
+            </div>
+            {/* 3번째 칵테일 - 우측 무한 슬라이드, 이름 AURA RELIEF로 수정 */}
+            <div className="w-full overflow-hidden flex justify-start" style={{height:'24vw', minHeight:'180px', maxHeight:'340px'}}>
+              <div className="w-full animate-slideRight flex">
+                {[...Array(2)].map((_,i)=>(
+                  <span
+                    key={i}
+                    className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
+                    style={{
+                      fontSize: 'clamp(4rem, 18vw, 15rem)',
+                      color: '#7cffb2',
+                      letterSpacing: '0.01em',
+                      whiteSpace: 'nowrap',
+                    }}
+                    onClick={()=>handleCocktailClick({...cocktails[2], name:'AURA RELIEF'})}
+                  >
+                    {'AURA RELIEF'}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
           <style jsx>{`
             .neon-title {
-              color: #fff;
-              text-shadow: 0 0 12px #ff4d00, 0 0 32px #ffb300;
+              color: #ff2222;
             }
-            .neon-cocktail-name {
-              cursor: pointer;
-              transition: transform 0.2s;
+            @keyframes slideRight {
+              0% { transform: translateX(-50%); }
+              100% { transform: translateX(0%); }
             }
-            .neon-cocktail-name:hover {
-              transform: scale(1.04) skewX(-2deg);
-              filter: brightness(1.2);
+            @keyframes slideLeft {
+              0% { transform: translateX(0%); }
+              100% { transform: translateX(-50%); }
+            }
+            .animate-slideRight {
+              animation: slideRight 12s linear infinite;
+            }
+            .animate-slideLeft {
+              animation: slideLeft 12s linear infinite;
             }
           `}</style>
         </section>
-        {/* Cocktail Description Modal */}
+        {/* Cocktail Description Modal (복구된 버전) */}
         {selectedCocktail && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div 
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/90 backdrop-blur-sm"
               onClick={() => setSelectedCocktail(null)}
             />
-            <div className="relative w-full max-w-4xl mx-4 bg-[#1a1a1a] rounded-2xl overflow-hidden">
-              <div className="relative h-[60vh]">
+            <div className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl">
+              <div className="relative w-full md:w-1/2 h-[320px] md:h-[500px] flex items-center justify-center bg-black">
                 <Image
                   src={selectedCocktail.image}
                   alt={selectedCocktail.name}
                   fill
-                  className="object-cover"
+                  className="object-contain rounded-l-2xl"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
               </div>
-              <div className="p-8">
+              <div className="p-8 flex-1 flex flex-col justify-center">
                 <h3 className="text-4xl font-bold text-white mb-4">{selectedCocktail.name}</h3>
                 <p className="text-white/80 text-lg leading-relaxed">{selectedCocktail.description}</p>
               </div>

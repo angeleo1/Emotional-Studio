@@ -116,49 +116,67 @@ export default function Navbar() {
 
       <div className="relative z-50">
         <nav className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 bg-transparent`} style={{ mixBlendMode: 'difference' }}>
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-end h-28">
-              <div className="flex items-center">
-                <button 
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="relative w-12 h-12 flex flex-col items-center justify-center group focus:outline-none mr-32"
-                  style={{
-                    mixBlendMode: 'difference',
-                    color: '#ffffff',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.4s ease'
-                  }}
-                >
-                  {/* Hamburger lines */}
-                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{
-                      background: 'linear-gradient(45deg, rgba(255,255,255,0.3), rgba(0,255,255,0.3), rgba(183,0,255,0.3), rgba(255,0,255,0.3))',
-                      filter: 'blur(4px)',
-                      animation: 'hologram 2s linear infinite',
-                      zIndex: 1
-                    }}
-                  />
-                  <div className="relative flex flex-col justify-center items-center w-8 h-8 z-10">
-                    <span
-                      className={`block w-8 h-1 bg-white rounded transition-all duration-400 ease-in-out
-                        ${isOpen ? 'rotate-45 translate-y-3' : 'group-hover:rotate-45 group-hover:translate-y-3'}`}
-                      style={{ marginBottom: '6px' }}
-                    />
-                    <span
-                      className={`block w-8 h-1 bg-white rounded transition-all duration-400 ease-in-out
-                        ${isOpen ? 'opacity-0' : 'group-hover:opacity-0'}`}
-                      style={{ marginBottom: '6px' }}
-                    />
-                    <span
-                      className={`block w-8 h-1 bg-white rounded transition-all duration-400 ease-in-out
-                        ${isOpen ? '-rotate-45 -translate-y-3' : 'group-hover:-rotate-45 group-hover:-translate-y-3'}`}
-                    />
-                  </div>
-                </button>
+          <div className="flex items-center justify-end h-28 w-full relative">
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-12 h-12 flex flex-col items-center justify-center group focus:outline-none"
+              style={{
+                right: '6rem',
+                top: '2.2rem',
+                position: 'fixed',
+                mixBlendMode: 'difference',
+                color: '#ffffff',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.4s ease'
+              }}
+              onMouseEnter={e => {
+                const btn = e.currentTarget;
+                btn.style.transform = 'scale(1.05)';
+                btn.style.color = '#ffffff';
+                btn.style.filter = 'hue-rotate(180deg) brightness(1.2)';
+                btn.style.textShadow = `
+                  0 0 10px rgba(255, 255, 255, 0.8),
+                  0 0 20px rgba(0, 255, 255, 0.6),
+                  0 0 30px rgba(183, 0, 255, 0.4),
+                  0 0 40px rgba(255, 0, 255, 0.4)
+                `;
+              }}
+              onMouseLeave={e => {
+                const btn = e.currentTarget;
+                btn.style.transform = 'scale(1)';
+                btn.style.color = '#ffffff';
+                btn.style.filter = 'none';
+                btn.style.textShadow = 'none';
+              }}
+            >
+              {/* Hamburger lines */}
+              <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: 'linear-gradient(45deg, rgba(255,255,255,0.3), rgba(0,255,255,0.3), rgba(183,0,255,0.3), rgba(255,0,255,0.3))',
+                  filter: 'blur(4px)',
+                  animation: 'hologram 2s linear infinite',
+                  zIndex: 1
+                }}
+              />
+              <div className="relative flex flex-col justify-center items-center w-8 h-8 z-10">
+                <span
+                  className={`block w-8 h-1 bg-white rounded transition-all duration-400 ease-in-out
+                    ${isOpen ? 'rotate-45 translate-y-3' : 'group-hover:rotate-45 group-hover:translate-y-3'}`}
+                  style={{ marginBottom: '6px' }}
+                />
+                <span
+                  className={`block w-8 h-1 bg-white rounded transition-all duration-400 ease-in-out
+                    ${isOpen ? 'opacity-0' : 'group-hover:opacity-0'}`}
+                  style={{ marginBottom: '6px' }}
+                />
+                <span
+                  className={`block w-8 h-1 bg-white rounded transition-all duration-400 ease-in-out
+                    ${isOpen ? '-rotate-45 -translate-y-3' : 'group-hover:-rotate-45 group-hover:-translate-y-3'}`}
+                />
               </div>
-            </div>
+            </button>
           </div>
         </nav>
 
