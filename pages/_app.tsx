@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app'
 import { Rock_Salt } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
-import SplashCursor from '../components/ui/splash-cursor'
 import { useRouter } from 'next/router' 
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -28,7 +27,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <div className={`${rockSalt.variable}`}>
         <ClientOnly>
-          <SplashCursor />
           <Navbar />
         </ClientOnly>
         <AnimatePresence mode="wait">
