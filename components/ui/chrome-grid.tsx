@@ -15,6 +15,7 @@ interface BoxProps {
   rippleScale?: number;
   rippleRadius?: number;
   color?: string;
+  isGold?: boolean;
 }
 
 const Box = ({ 
@@ -26,7 +27,8 @@ const Box = ({
     hoveredBox,
     rippleScale = 0.3,
     rippleRadius = 3,
-    color = "#23272A"
+    color = "#23272A",
+    isGold = false,
 }: BoxProps) => {
     const meshRef = useRef<THREE.Mesh>(null);
     const [currentScale, setCurrentScale] = useState(1);
@@ -65,6 +67,22 @@ const Box = ({
             geometry.dispose();
         };
     }, [geometry]);
+
+    const goldMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
+      color: 0xFFD700,
+      metalness: 0.9,
+      roughness: 0.2,
+      clearcoat: 0.5,
+      clearcoatRoughness: 0.2,
+      reflectivity: 0.8,
+      side: THREE.DoubleSide
+    }), []);
+    
+    useEffect(() => {
+        return () => {
+            goldMaterial.dispose();
+        };
+    }, [goldMaterial]);
 
     useFrame(() => {
         if (meshRef.current) {
@@ -120,16 +138,19 @@ const Box = ({
             geometry={geometry}
             position={position}
             rotation={[Math.PI / 2, 0, 0]}
+            material={isGold ? goldMaterial : undefined}
         >
-            <meshPhysicalMaterial 
-                color={color} 
-                roughness={0.5} 
-                metalness={1}
-                clearcoat={1}
-                clearcoatRoughness={0}
-                clearcoatNormalScale={1}
-                clearcoatNormalMap={null}
-            />
+            {!isGold && (
+              <meshPhysicalMaterial 
+                  color={color} 
+                  roughness={0.5} 
+                  metalness={1}
+                  clearcoat={1}
+                  clearcoatRoughness={0}
+                  clearcoatNormalScale={1}
+                  clearcoatNormalMap={null}
+              />
+            )}
         </mesh>
         </>
     );
@@ -178,15 +199,16 @@ function GridOfBoxes() {
   const rippleScale = 2.5;
   const rippleRadius = 2;
   const orangeBlocks = new Set([
-    '1,3',    // 좌상단 쪽(한 칸 아래)
-    '2,8',    // 좌하단 쪽
-    '8,2',    // 우상단 쪽
-    '7,8',    // 우하단 쪽
-    '3,6',    // 왼쪽 중간
-    '7,4',    // 오른쪽 중간
-    '4,4',    // 중앙에서 좌측으로 1칸
-    '0,5'     // 왼쪽으로 4칸 부분(한 칸 아래)
+    '1,3',
+    '2,8',
+    '3,6',
+    '4,4',
+    '0,5',
+    '6,5',
+    '8,8',
+    '5,7'
   ]);
+
   const boxes: React.ReactNode[] = [];
   let spotLightProps: { position: [number, number, number], color: string } | null = null;
   for (let x = 0; x < gridSize; x++) {
@@ -201,6 +223,7 @@ function GridOfBoxes() {
           color: isOrange ? "#FF6100" : "#fff8e1"
         };
       }
+
       boxes.push(
         <Box 
           key={`${x}-${z}`} 

@@ -86,11 +86,11 @@ const fragmentShaderSource = `
     float mouseIntensity = smoothstep(300.0, 0.0, mouseDist);
     
     // Enhanced color gradient with better text definition
-    vec3 primaryColor = vec3(1.0, 0.5, 0.0);
-    vec3 secondaryColor = vec3(1.0, 0.3, 0.0);
-    vec3 accentColor = vec3(1.0, 0.7, 0.2);
-    vec3 glowColor = vec3(1.0, 0.6, 0.1);
-    vec3 coreColor = vec3(1.0, 0.9, 0.7);
+    vec3 primaryColor = vec3(1.0, 1.0, 1.0);
+    vec3 secondaryColor = vec3(0.95, 0.95, 0.95);
+    vec3 accentColor = vec3(0.85, 0.85, 0.85);
+    vec3 glowColor = vec3(1.0, 1.0, 1.0);
+    vec3 coreColor = vec3(1.0, 1.0, 1.0);
     
     // Multi-layered color mixing
     float timeWave = sin(u_time * 0.0008) * 0.5 + 0.5;
@@ -317,7 +317,7 @@ const ParticleTextEffect = ({ text = "Capture the moment", className }: Particle
     particlesRef.current = [];
     const lines = (config.text || '').split('\n');
     const fontSize = Math.min(140, window.innerWidth / 7);
-    ctx.font = `bold ${fontSize}px Montserrat, sans-serif`;
+    ctx.font = `bold ${fontSize}px 'Herr Von Muellerhoff', cursive`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const totalHeight = fontSize * lines.length + (lines.length - 1) * fontSize * 0.3;

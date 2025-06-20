@@ -125,8 +125,6 @@ body {
   mix-blend-mode: normal; /* 로고 텍스트는 부모의 difference 효과를 받지 않도록 */
 }
 
-
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -182,8 +180,6 @@ body {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {

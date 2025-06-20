@@ -7,95 +7,90 @@ import React from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import Image from "next/image";
 
-const DemoOne = () => {
-  const text1 = "emotional";
-  const text2 = "studios";
+interface DemoOneProps {
+  scrollProgress?: number;
+}
 
+const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress }) => {
   return (
-    <div className="h-screen relative">
-      <ChromeGrid/>
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 10,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          mixBlendMode: 'difference',
-          width: 'auto',
-          whiteSpace: 'nowrap',
-          padding: '0 20px',
-        }}
-      >
-        <span
-          className="transparent-text emotional-studio-text"
-          style={{
-            fontSize: '2.8rem',
-            fontWeight: 700,
-            textTransform: 'lowercase',
-            letterSpacing: '1em',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            color: 'white',
-          }}
-        >
-          emotional
-        </span>
-        <span
-          className="transparent-text emotional-studio-text"
-          style={{
-            fontSize: '2.8rem',
-            fontWeight: 700,
-            textTransform: 'lowercase',
-            letterSpacing: '1em',
-            marginLeft: '1em',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            color: 'white',
-          }}
-        >
-          studios
-        </span>
+    <div className="h-screen relative flex items-center justify-center">
+      {/* Layer 1: ChromeGrid (always present) */}
+      <div className="absolute inset-0 z-0">
+          <ChromeGrid />
       </div>
-      <div
-        style={{
-          position: 'absolute',
-          left: '20px',
-          bottom: '20px',
-          transform: 'none',
-          zIndex: 30,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Link href="/support#events">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="hologram-button px-8 py-3 bg-transparent border-2 border-white text-white rounded-full text-base font-medium hover:border-transparent transition-all duration-300 relative overflow-hidden group block w-48 whitespace-nowrap"
-          >
-            <span className="relative z-10 group-hover:text-white transition-colors duration-300">
-              View Events
-            </span>
-          </motion.button>
-        </Link>
-        <Link href="/booking">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="hologram-button px-8 py-3 bg-transparent border-2 border-white text-white rounded-full text-base font-medium hover:border-transparent transition-all duration-300 relative overflow-hidden group block w-48 whitespace-nowrap"
-          >
-            <span className="relative z-10 group-hover:text-white transition-colors duration-300">
-              Book Now
-            </span>
-          </motion.button>
-        </Link>
+
+      {/* Layer 2: Text with mix-blend-mode */}
+      <div className="relative z-20 mix-blend-difference px-5">
+        <h1 
+            className="text-3xl md:text-5xl font-bold lowercase text-white"
+            style={{
+                letterSpacing: '1em',
+                userSelect: 'none',
+            }}
+        >
+            <span>emotional studios</span>
+        </h1>
       </div>
+
+      {/* Layer 3: Buttons */}
+      <div
+        className="absolute left-0 right-0 bottom-16 md:bottom-20 lg:bottom-[100px] z-30 flex justify-center"
+      >
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 md:gap-16 lg:gap-[100px]">
+          <Link href="/support#events">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="border-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 bg-transparent border-2 border-white text-white rounded-full text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 relative overflow-hidden group w-48 sm:w-52 md:w-56 whitespace-nowrap"
+            >
+              <span className="relative z-10">
+                View Events
+              </span>
+            </motion.button>
+          </Link>
+          <Link href="/booking">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="border-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 bg-transparent border-2 border-white text-white rounded-full text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 relative overflow-hidden group w-48 sm:w-52 md:w-56 whitespace-nowrap"
+            >
+              <span className="relative z-10">
+                Book Now
+              </span>
+            </motion.button>
+          </Link>
+        </div>
+      </div>
+      <style jsx>{`
+        @keyframes blink {
+          from, to { border-color: transparent }
+          50% { border-color: white; }
+        }
+        .border-button::before {
+          content: '';
+          position: absolute;
+          width: 150%;
+          height: 150%;
+          top: 50%;
+          left: 50%;
+          background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, white 5deg, transparent 10deg);
+          animation: rotate 4s linear infinite;
+          transform: translate(-50%, -50%);
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .border-button:hover::before {
+          opacity: 1;
+        }
+        @keyframes rotate {
+          from {
+            transform: translate(-50%, -50%) rotate(0deg);
+          }
+          to {
+            transform: translate(-50%, -50%) rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 };
