@@ -114,6 +114,10 @@ const Home: NextPage = () => {
                     className="md:hidden bg-black bg-opacity-90 absolute top-20 left-0 right-0"
                     >
                     <nav className="flex flex-col items-center space-y-4 py-8">
+                        <Link href="/about" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">About Us</a></Link>
+                        <Link href="/services" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Services</a></Link>
+                        <Link href="/gallery-landing" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Gallery</a></Link>
+                        <Link href="/booking" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Booking</a></Link>
                         <button onClick={() => { setIsContactOpen(true); setIsMenuOpen(false); }} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Contact</button>
                     </nav>
                     </motion.div>
@@ -198,6 +202,20 @@ const Home: NextPage = () => {
         </main>
         
         <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+
+        {/* Floating Chat Icon */}
+        <div className="fixed bottom-8 right-8 z-50">
+            <button
+                className="w-16 h-16 rounded-full flex items-center justify-center text-white transition-transform duration-300 hover:scale-110"
+                style={{ mixBlendMode: 'difference' }}
+                onClick={() => setIsContactOpen(true)}
+            >
+                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01"></path>
+                </svg>
+            </button>
+        </div>
       </motion.div>
     </div>
   )
