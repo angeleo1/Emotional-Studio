@@ -5,26 +5,26 @@ import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import ContactPopup from '../components/ContactPopup'
-import IntroAnimation from '../components/IntroAnimation'
+import ContactPopup from '@/components/ContactPopup'
+import IntroAnimation from '@/components/IntroAnimation'
 
 const DynamicDemoOne = dynamic(() => import("@/components/ui/demo").then(mod => mod.DemoOne), {
   ssr: false,
 })
 
-const OurElixirs = dynamic(() => import('../components/homepage/OurElixirs'), {
+const OurElixirs = dynamic(() => import('@/components/homepage/OurElixirs'), {
   ssr: false,
 });
 
-const EmotionalMoments = dynamic(() => import('../components/homepage/EmotionalMoments'), {
+const EmotionalMoments = dynamic(() => import('@/components/homepage/EmotionalMoments'), {
   ssr: false,
 });
 
-const CollaborationGallery = dynamic(() => import('../components/homepage/CollaborationGallery'), {
+const CollaborationGallery = dynamic(() => import('@/components/homepage/CollaborationGallery'), {
   ssr: false,
 });
 
-const Footer = dynamic(() => import('../components/homepage/Footer'), {
+const Footer = dynamic(() => import('@/components/homepage/Footer'), {
   ssr: false,
 });
 
@@ -32,7 +32,6 @@ const Home: NextPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isIntroDone, setIsIntroDone] = useState(false);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [colorizedImages, setColorizedImages] = useState<{ [key: number]: boolean }>({})
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
 
@@ -83,48 +82,16 @@ const Home: NextPage = () => {
         <meta name="description" content="A creative space for emotional expression." />
       </Head>
 
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {!isIntroDone && isMounted && (
           <IntroAnimation onComplete={() => setIsIntroDone(true)} />
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
-      <motion.div
-        initial={false}
-        animate={{ opacity: isIntroDone ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+      <div
         className="relative z-10"
+        // style={{ opacity: isIntroDone ? 1 : 0, transition: 'opacity 0.8s ease-in-out' }}
       >
-        <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-end h-20">
-                <div className="md:hidden">
-                <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white" style={{mixBlendMode: 'difference'}}>
-                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-                </div>
-            </div>
-            </div>
-            <AnimatePresence>
-                {isMenuOpen && (
-                    <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="md:hidden bg-black bg-opacity-90 absolute top-20 left-0 right-0"
-                    >
-                    <nav className="flex flex-col items-center space-y-4 py-8">
-                        <Link href="/about" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">About Us</a></Link>
-                        <Link href="/services" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Services</a></Link>
-                        <Link href="/gallery-landing" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Gallery</a></Link>
-                        <Link href="/booking" legacyBehavior><a onClick={() => setIsMenuOpen(false)} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Booking</a></Link>
-                        <button onClick={() => { setIsContactOpen(true); setIsMenuOpen(false); }} className="text-2xl font-medium text-white hover:text-orange-500 transition-colors">Contact</button>
-                    </nav>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </header>
-        
         <main>
             <Suspense fallback={<div className="h-screen w-full bg-black" />}>
               <DynamicDemoOne />
@@ -141,8 +108,8 @@ const Home: NextPage = () => {
                 <source src="/videos/4214.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-              <Link href="/pose-guide">
-                <div
+              <Link href="/pose-guide" passHref legacyBehavior>
+                <a
                   style={{
                     position: 'absolute',
                     left: '50%',
@@ -160,6 +127,7 @@ const Home: NextPage = () => {
                     padding: '0 5vw',
                     overflow: 'hidden',
                     cursor: 'pointer',
+                    textDecoration: 'none',
                   }}
                 >
                   <span
@@ -191,7 +159,7 @@ const Home: NextPage = () => {
                   >
                     GUIDE
                   </span>
-                </div>
+                </a>
               </Link>
             </section>
 
@@ -210,13 +178,13 @@ const Home: NextPage = () => {
                 style={{ mixBlendMode: 'difference' }}
                 onClick={() => setIsContactOpen(true)}
             >
-                <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01"></path>
                 </svg>
             </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

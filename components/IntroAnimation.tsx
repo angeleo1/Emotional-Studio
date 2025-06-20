@@ -36,8 +36,8 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onComplete }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black z-[100] flex items-center justify-center"
-      exit={{ opacity: 0, transition: { duration: 0.8, ease: 'easeInOut' } }}
+      className="fixed inset-0 bg-black z-[9999] flex items-center justify-center"
+      exit={{ opacity: 0, pointerEvents: 'none', transition: { duration: 0.8, ease: 'easeInOut' } }}
     >
         <motion.h1
           variants={containerVariants}

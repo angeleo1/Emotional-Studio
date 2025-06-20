@@ -4,10 +4,10 @@ import { Rock_Salt } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import SplashCursor from '../components/ui/splash-cursor'
-// useRouter는 현재 사용되지 않으므로 주석 처리하거나 삭제 가능
-// import { useRouter } from 'next/router' 
+import { useRouter } from 'next/router' 
 import React, { useEffect, useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import ClientOnly from '@/components/ClientOnly'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -17,11 +17,7 @@ const rockSalt = Rock_Salt({
 })
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const router = useRouter()
 
   return (
     <>
@@ -31,15 +27,21 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta httpEquiv="Expires" content="0" />
       </Head>
       <div className={`${rockSalt.variable}`}>
-        <SplashCursor />
-        <Navbar />
-        {mounted ? (
-          <AnimatePresence mode="wait">
-            <Component key={(pageProps as any).router?.asPath || ''} {...pageProps} /> 
-          </AnimatePresence>
-        ) : (
-          <Component {...pageProps} />
-        )}
+        <ClientOnly>
+          <SplashCursor />
+          <Navbar />
+        </ClientOnly>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={router.asPath}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+          >
+            <Component {...pageProps} />
+          </motion.div>
+        </AnimatePresence>
       </div>
     </>
   )
