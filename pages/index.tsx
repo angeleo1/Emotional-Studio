@@ -122,14 +122,28 @@ const Home: NextPage = () => {
         {/* Floating Chat Icon */}
         <div className="fixed bottom-8 right-8 z-50">
           <button
-            className="w-16 h-16 rounded-full flex items-center justify-center text-white transition-transform duration-300 hover:scale-110"
+            className="w-16 h-16 rounded-full svg-glitch-wrapper"
             style={{ mixBlendMode: 'difference' }}
             onClick={() => setIsContactOpen(true)}
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01"></path>
-            </svg>
+            <div className="base-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="white" strokeWidth="2"/>
+                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="white">?</text>
+              </svg>
+            </div>
+            <div className="glitch-layer one">
+              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+              </svg>
+            </div>
+            <div className="glitch-layer two">
+              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+              </svg>
+            </div>
           </button>
         </div>
       </div>

@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Always respond in Korean.  I'm using typescript, so I need to avoid conflicts with other languages. Stick to the prompts and don't make arbitrary modifications.'Dny a and stick to the prompts

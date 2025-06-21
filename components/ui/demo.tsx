@@ -38,60 +38,24 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
         className="absolute left-0 right-0 bottom-16 md:bottom-20 lg:bottom-[100px] z-30 flex justify-center"
       >
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 md:gap-16 lg:gap-[100px]">
-          <Link href="/support#events">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="border-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 bg-transparent border-2 border-white text-white rounded-full text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 relative overflow-hidden group w-48 sm:w-52 md:w-56 whitespace-nowrap"
+          <Link href="/support#events" className="glitch-button-wrapper">
+            <button
+              data-text="View Events"
+              className="contact-style-glitch-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 rounded-full text-sm sm:text-base md:text-lg font-semibold w-48 sm:w-52 md:w-56 whitespace-nowrap"
             >
-              <span className="relative z-10">
-                View Events
-              </span>
-            </motion.button>
+              View Events
+            </button>
           </Link>
-          <Link href="/booking">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="border-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 bg-transparent border-2 border-white text-white rounded-full text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 relative overflow-hidden group w-48 sm:w-52 md:w-56 whitespace-nowrap"
+          <Link href="/booking" className="glitch-button-wrapper">
+            <button
+              data-text="Book Now"
+              className="contact-style-glitch-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 rounded-full text-sm sm:text-base md:text-lg font-semibold w-48 sm:w-52 md:w-56 whitespace-nowrap"
             >
-              <span className="relative z-10">
-                Book Now
-              </span>
-            </motion.button>
+              Book Now
+            </button>
           </Link>
         </div>
       </div>
-      <style jsx>{`
-        @keyframes blink {
-          from, to { border-color: transparent }
-          50% { border-color: white; }
-        }
-        .border-button::before {
-          content: '';
-          position: absolute;
-          width: 150%;
-          height: 150%;
-          top: 50%;
-          left: 50%;
-          background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, white 5deg, transparent 10deg);
-          animation: rotate 4s linear infinite;
-          transform: translate(-50%, -50%);
-          opacity: 0;
-          transition: opacity 0.3s;
-        }
-        .border-button:hover::before {
-          opacity: 1;
-        }
-        @keyframes rotate {
-          from {
-            transform: translate(-50%, -50%) rotate(0deg);
-          }
-          to {
-            transform: translate(-50%, -50%) rotate(360deg);
-          }
-        }
-      `}</style>
     </div>
   );
 };
