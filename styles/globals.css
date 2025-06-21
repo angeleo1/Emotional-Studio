@@ -828,3 +828,33 @@ nav {
   90%  { transform: translate(5px, -1px); clip-path: inset(3% 0 91% 0); }
   100% { transform: translate(0, 0); clip-path: inset(0); }
 }
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: #ff6100; }
+}
+
+.typing-text {
+  color: #ff6100;
+  overflow: hidden;
+  border-right: 0.1em solid #ff6100;
+  white-space: nowrap;
+  animation:
+    typing 2.5s steps(17, end),
+    blink .75s step-end infinite;
+  animation-fill-mode: forwards;
+  transition: color 1.5s ease-in-out;
+}
+
+.animation-done .typing-text {
+  color: white;
+  border-color: transparent;
+  animation: none;
+  width: auto;
+  overflow: visible;
+}

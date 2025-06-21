@@ -3,7 +3,7 @@
 import { ChromeGrid } from "@/components/ui/chrome-grid";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import Image from "next/image";
 
@@ -13,29 +13,64 @@ interface DemoOneProps {
 }
 
 const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
+  const [isGridReady, setIsGridReady] = useState(false);
+  const [isTypingFinished, setIsTypingFinished] = useState(false);
+
+  useEffect(() => {
+    const typingTimer = setTimeout(() => {
+      setIsTypingFinished(true);
+    }, 2500); // CSS animation duration
+
+    return () => clearTimeout(typingTimer);
+  }, []);
+
+  const buttonContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1.5,
+        ease: "easeInOut"
+      }
+    }
+  };
+
   return (
     <div className="h-screen relative flex items-center justify-center">
       {/* Layer 1: ChromeGrid (always present) */}
-      <div className="absolute inset-0 z-0">
-        <ChromeGrid onReady={onReady} />
-      </div>
+      <motion.div
+        className="absolute inset-0 z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isTypingFinished ? 1 : 0 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+      >
+        {isTypingFinished && (
+          <ChromeGrid onReady={() => {
+            if (onReady) onReady();
+            setIsGridReady(true);
+          }} />
+        )}
+      </motion.div>
 
       {/* Layer 2: Text with mix-blend-mode */}
-      <div className="relative z-20 mix-blend-difference px-5">
-        <h1 
-            className="text-3xl md:text-5xl font-bold lowercase text-white"
+      <div className={`relative z-20 px-5 ${isTypingFinished && isGridReady ? 'animation-done mix-blend-difference' : ''}`}>
+        <h1
+            className="typing-text text-3xl md:text-5xl font-bold lowercase"
             style={{
                 letterSpacing: '1em',
                 userSelect: 'none',
             }}
         >
-            <span>emotional studios</span>
+            emotional studios
         </h1>
       </div>
 
       {/* Layer 3: Buttons */}
-      <div
+      <motion.div
         className="absolute left-0 right-0 bottom-16 md:bottom-20 lg:bottom-[100px] z-30 flex justify-center"
+        variants={buttonContainerVariants}
+        initial="hidden"
+        animate={isTypingFinished && isGridReady ? "visible" : "hidden"}
       >
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 md:gap-16 lg:gap-[100px]">
           <Link href="/support#events" className="glitch-button-wrapper">
@@ -55,7 +90,7 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
             </button>
           </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
