@@ -9,14 +9,15 @@ import Image from "next/image";
 
 interface DemoOneProps {
   scrollProgress?: number;
+  onReady?: () => void;
 }
 
-const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress }) => {
+const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
   return (
     <div className="h-screen relative flex items-center justify-center">
       {/* Layer 1: ChromeGrid (always present) */}
       <div className="absolute inset-0 z-0">
-          <ChromeGrid />
+        <ChromeGrid onReady={onReady} />
       </div>
 
       {/* Layer 2: Text with mix-blend-mode */}

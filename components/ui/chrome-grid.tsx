@@ -264,15 +264,21 @@ function GridOfBoxes() {
   );
 }
 
-export function ChromeGrid() {
+interface ChromeGridProps {
+  onReady?: () => void;
+}
+
+export function ChromeGrid({ onReady }: ChromeGridProps) {
   return (
     <div className="h-full w-full bg-black relative z-0">
-
-      <Canvas camera={{ 
-        position: [-9.31, 12, 24.72], 
-        rotation: [-0.65, -0.2, -0.13],
-        fov: 35 
-      }}>
+      <Canvas
+        camera={{ 
+          position: [-9.31, 12, 24.72], 
+          rotation: [-0.65, -0.2, -0.13],
+          fov: 35 
+        }}
+        onCreated={() => { if (onReady) onReady(); }}
+      >
         <ambientLight intensity={1} />
         
         <directionalLight 
@@ -310,4 +316,4 @@ export function ChromeGrid() {
       </Canvas>
     </div>
   )
-} 
+}

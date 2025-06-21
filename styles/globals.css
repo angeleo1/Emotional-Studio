@@ -20,12 +20,12 @@
 
 @layer base {
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth bg-black;
     font-family: 'Cinzel Decorative', cursive;
   }
   
   body {
-    @apply bg-secondary text-primary font-noto-sans;
+    @apply bg-black text-primary font-noto-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
