@@ -28,6 +28,7 @@
     @apply bg-black text-primary font-noto-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor: none;
   }
 
   /* Custom Animations */
@@ -857,4 +858,75 @@ nav {
   animation: none;
   width: auto;
   overflow: visible;
+}
+
+/* --- Custom Cursor --- */
+body {
+    cursor: none;
+}
+
+.cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+}
+
+.cursor-outer {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease-out;
+}
+
+.cursor-inner {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+}
+
+.cursor-logo {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.2s ease-out;
+    font-family: 'Herr Von Muellerhoff', cursive;
+    font-size: 28px;
+    font-weight: normal;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.cursor.hover .cursor-outer {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-width: 1px;
+}
+
+.cursor.hover .cursor-inner {
+    opacity: 0;
+}
+
+.cursor.hover .cursor-logo {
+    opacity: 1;
+}
+
+.cursor.click .cursor-outer {
+    width: 30px;
+    height: 30px;
+}
+
+.cursor.click .cursor-inner {
+    width: 12px;
+    height: 12px;
 }

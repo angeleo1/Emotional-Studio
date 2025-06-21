@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ClientOnly from '@/components/ClientOnly'
+import CustomCursor from '@/components/CustomCursor'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <div className={`${rockSalt.variable}`}>
         <ClientOnly>
+          <CustomCursor />
           <Navbar />
         </ClientOnly>
         <AnimatePresence mode="wait">
