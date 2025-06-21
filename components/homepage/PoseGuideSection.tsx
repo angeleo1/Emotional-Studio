@@ -4,15 +4,17 @@ const PoseGuideSection = () => (
   <section className="w-full h-screen relative bg-black flex items-center justify-center">
     <video
       className="w-full h-full object-cover"
+      style={{ objectPosition: 'bottom' }}
       autoPlay
       loop
       muted
       playsInline
     >
-      <source src="/videos/4214.mp4" type="video/mp4" />
+      <source src="/videos/main2.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
     <Link href="/pose-guide"
+      className="glitch-wrapper"
       style={{
         position: 'absolute',
         left: '50%',
@@ -34,6 +36,8 @@ const PoseGuideSection = () => (
       }}
     >
       <span
+        className="glitch"
+        data-text="POSE"
         style={{
           fontSize: '3.5rem',
           fontWeight: 700,
@@ -48,6 +52,8 @@ const PoseGuideSection = () => (
         POSE
       </span>
       <span
+        className="glitch"
+        data-text="GUIDE"
         style={{
           fontSize: '3.5rem',
           fontWeight: 700,
