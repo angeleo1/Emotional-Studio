@@ -4,10 +4,11 @@ import { Rock_Salt } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router' 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ClientOnly from '@/components/ClientOnly'
 import CustomCursor from '@/components/CustomCursor'
+import ContactPopup from '@/components/ContactPopup'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -18,6 +19,7 @@ const rockSalt = Rock_Salt({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
+  const [isContactOpen, setIsContactOpen] = useState(false)
 
   return (
     <>
@@ -31,17 +33,33 @@ export default function App({ Component, pageProps }: AppProps) {
           <CustomCursor />
           <Navbar />
         </ClientOnly>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={router.asPath}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+        <Component {...pageProps} />
+        <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+        <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
+          <button
+            className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
+            onClick={() => setIsContactOpen(true)}
           >
-            <Component {...pageProps} />
-          </motion.div>
-        </AnimatePresence>
+            <div className="base-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+              </svg>
+            </div>
+            <div className="glitch-layer one">
+              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+              </svg>
+            </div>
+            <div className="glitch-layer two">
+              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+              </svg>
+            </div>
+          </button>
+        </div>
       </div>
     </>
   )

@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import ContactPopup from '@/components/ContactPopup'
 import ClientOnly from '@/components/ClientOnly'
 import { useRouter } from 'next/router'
 
@@ -34,11 +33,11 @@ const PoseGuideSection = dynamic(() => import('@/components/homepage/PoseGuideSe
 const Home: NextPage = () => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
   const [colorizedImages, setColorizedImages] = useState<{ [key: number]: boolean }>({})
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null)
   // 3D Grid가 마운트된 후 PoseGuideSection을 렌더하기 위한 상태
   const [showPoseGuide, setShowPoseGuide] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,6 +50,26 @@ const Home: NextPage = () => {
       return () => cancelAnimationFrame(id);
     }
   }, [isMounted]);
+
+  useEffect(() => {
+    const handleRouteChangeStart = (url: string) => {
+      if (router.asPath !== url) {
+        setIsExiting(true);
+      }
+    };
+
+    const handleRouteChangeComplete = () => {
+      setIsExiting(false);
+    };
+
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+      router.events.off('routeChangeComplete', handleRouteChangeComplete);
+    };
+  }, [router]);
 
   const galleryImages = [
     'v1/jimmy-fermin-bqe0J0b26RQ-unsplash_tpyzo4', 'v1/aiony-haust-3TLl_97HNJo-unsplash_vda4od', 'v1/leon-elldot-f6HbVnGtNnY-unsplash_vt63we',
@@ -98,56 +117,38 @@ const Home: NextPage = () => {
   }, [galleryImages.length]);
 
   return (
-    <div className="relative overflow-hidden bg-black">
-      <Head>
-        <title>e.st - emotional studios</title>
-        <meta name="description" content="A creative space for emotional expression." />
-      </Head>
-      <div className="relative z-10">
-        <main>
-          <ClientOnly>
-            <div key={router.pathname}>
-              <div style={{ position: 'relative', zIndex: 0, width: '100vw', height: '100vh', background: '#111' }}>
-                <DynamicDemoOne />
-              </div>
-              <PoseGuideSection />
-            </div>
-          </ClientOnly>
-          <EmotionalMoments colorizedImages={colorizedImages} />
-          <CollaborationGallery />
-          <OurElixirs />
-          <Footer />
-        </main>
-        <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-        {/* Floating Chat Icon */}
-        <div className="fixed bottom-8 right-8 z-50">
-          <button
-            className="w-16 h-16 rounded-full svg-glitch-wrapper"
-            style={{ mixBlendMode: 'difference' }}
-            onClick={() => setIsContactOpen(true)}
-          >
-            <div className="base-icon">
-              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="none" stroke="white" strokeWidth="2"/>
-                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="white">?</text>
-              </svg>
-            </div>
-            <div className="glitch-layer one">
-              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-              </svg>
-            </div>
-            <div className="glitch-layer two">
-              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-              </svg>
-            </div>
-          </button>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={router.asPath}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
+      >
+        <div className="relative overflow-hidden bg-black">
+          <Head>
+            <title>e.st - emotional studios</title>
+            <meta name="description" content="A creative space for emotional expression." />
+          </Head>
+          <div className="relative z-10">
+            <main>
+              <ClientOnly>
+                <div key={router.pathname}>
+                  <div style={{ position: 'relative', zIndex: 0, width: '100vw', height: '100vh', background: '#111' }}>
+                    {!isExiting && <DynamicDemoOne />}
+                  </div>
+                  <PoseGuideSection />
+                </div>
+              </ClientOnly>
+              <EmotionalMoments colorizedImages={colorizedImages} />
+              <CollaborationGallery />
+              <OurElixirs />
+              <Footer />
+            </main>
+          </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

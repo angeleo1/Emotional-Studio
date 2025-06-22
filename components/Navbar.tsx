@@ -113,44 +113,44 @@ export default function Navbar() {
   return (
     <>
       <Link href="/" legacyBehavior>
-        <a className="glitch-wrapper" style={{ position: 'fixed', top: '-8rem', left: '4rem', zIndex: 1001, mixBlendMode: 'difference', color: '#ffffff', textDecoration: 'none' }}>
+        <a className="glitch-wrapper" style={{ position: 'fixed', top: '-4rem', left: '4rem', zIndex: 1001, mixBlendMode: 'difference', color: '#ffffff', textDecoration: 'none' }}>
           <span 
             className="glitch" 
             data-text="e.st"
-            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '20rem', fontWeight: '500', padding: '0 4rem' }}
+            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '15.12rem', fontWeight: '500', padding: '0 4rem' }}
           >
             e.st
           </span>
         </a>
       </Link>
 
-      <header className="fixed top-0 left-0 right-0 z-[999] py-16 pl-8 pr-24 flex justify-end items-center">
+      <header className="fixed top-0 left-0 right-0 py-16 pl-8 pr-24 flex justify-end items-center" style={{ zIndex: 999, mixBlendMode: 'difference' }}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-12 h-12 flex flex-col items-center justify-center group focus:outline-none"
+          className="w-12 h-12 flex flex-col items-center justify-center group focus:outline-none text-white"
           style={{
             background: 'transparent',
             border: 'none',
             cursor: 'pointer',
           }}
         >
-          <div className="relative w-8 h-8 hamburger-glitch-wrapper" style={{ mixBlendMode: 'difference' }}>
+          <div className="relative w-8 h-8 hamburger-glitch-wrapper">
             {/* Base Icon - always visible unless open */}
             <div className="base-icon">
               <motion.span
-                className="block absolute h-1 w-full bg-white rounded-full"
+                className="block absolute h-1 w-full bg-current rounded-full"
                 style={{ top: '25%' }}
                 animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 8 : 0 }}
                 transition={{ duration: 0.3 }}
               />
               <motion.span
-                className="block absolute h-1 w-full bg-white rounded-full"
+                className="block absolute h-1 w-full bg-current rounded-full"
                 style={{ top: '50%' }}
                 animate={{ opacity: isOpen ? 0 : 1 }}
                 transition={{ duration: 0.2 }}
               />
               <motion.span
-                className="block absolute h-1 w-full bg-white rounded-full"
+                className="block absolute h-1 w-full bg-current rounded-full"
                 style={{ top: '75%', transform: 'translateY(-100%)' }}
                 animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -8 : 0 }}
                 transition={{ duration: 0.3 }}
