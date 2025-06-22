@@ -892,6 +892,7 @@ body {
     position: absolute;
     transform: translate(-50%, -50%);
     transition: all 0.2s ease-out;
+    mix-blend-mode: difference;
 }
 
 .cursor-logo {
