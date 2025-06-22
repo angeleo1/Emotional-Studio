@@ -2,14 +2,15 @@ import { NextPage } from 'next';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
-import { LiquidGlassHero } from '@/components/ui/LiquidGlass';
+import GlassContainer from '@/components/ui/GlassContainer';
+import '../styles/glass.css';
 
 const Support: NextPage = () => {
   const router = useRouter();
-  const [activeMainTab, setActiveMainTab] = useState('faq');
+  const [activeMainTab, setActiveMainTab] = useState<string | null>(null);
   const [activeFaqTab, setActiveFaqTab] = useState('all');
   const [openQuestion, setOpenQuestion] = useState<string | null>(null);
 
@@ -154,7 +155,6 @@ const Support: NextPage = () => {
       title: "Studio Operating Hours Update",
       date: "2024.03.01",
       isNew: true,
-      image: "/images/image_fx_ (6)1.jpg"
     },
     {
       status: 'notice',
@@ -162,7 +162,6 @@ const Support: NextPage = () => {
       title: "New Photography Equipment Introduction",
       date: "2024.02.25",
       isNew: true,
-      image: "/images/image_fx_ (7).jpg"
     },
     {
       status: 'notice',
@@ -170,7 +169,6 @@ const Support: NextPage = () => {
       title: "March Holiday Schedule Announcement",
       date: "2024.02.20",
       isNew: false,
-      image: "/images/image_fx_ (8).jpg"
     },
     {
       status: 'notice',
@@ -178,7 +176,6 @@ const Support: NextPage = () => {
       title: "Studio Renovation Notice",
       date: "2024.02.15",
       isNew: false,
-      image: "/images/image_fx_ (8)1.jpg"
     },
     {
       status: 'notice',
@@ -186,7 +183,6 @@ const Support: NextPage = () => {
       title: "Photography Workshop Registration Open",
       date: "2024.02.10",
       isNew: false,
-      image: "/images/44421 (1).jpg"
     },
     {
       status: 'notice',
@@ -194,7 +190,6 @@ const Support: NextPage = () => {
       title: "Updated Booking System Guide",
       date: "2024.02.05",
       isNew: false,
-      image: "/images/44421 (2).jpg"
     },
     {
       status: 'notice',
@@ -202,12 +197,11 @@ const Support: NextPage = () => {
       title: "New Photo Package Options Available",
       date: "2024.02.01",
       isNew: false,
-      image: "/images/44421 (3).jpg"
     }
   ];
 
-  const filteredFaqs = activeFaqTab === 'all' 
-    ? faqs 
+  const filteredFaqs = activeFaqTab === 'all'
+    ? faqs
     : faqs.filter(faq => faq.category === activeFaqTab);
 
   const handleQuestionClick = (question: string) => {
@@ -221,140 +215,165 @@ const Support: NextPage = () => {
     }
   }, [router.query]);
 
+  const handleMainTabClick = (tabId: string) => {
+    setActiveMainTab(activeMainTab === tabId ? null : tabId);
+  };
+
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      <section className="h-screen relative z-10">
-        <LiquidGlassHero />
-      </section>
+    <div className={`glass-page-background ${activeMainTab ? 'layout-active' : ''}`}>
+      <Head>
+        <title>Support | Emotional Studio</title>
+        <meta name="description" content="Find answers and support for Emotional Studio services" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Borel&display=swap" rel="stylesheet" />
+        <svg style={{ display: 'none' }}>
+          <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+            <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+            <feDisplacementMap in="SourceGraphic" in2="blurred" scale="120" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </svg>
+      </Head>
+      
+      <div className="support-title-wrapper">
+        <h1 className="support-title">Support</h1>
+        <p className="support-description">
+          Find answers to frequently asked questions about our services
+        </p>
+      </div>
 
-      <main className="relative z-10 pt-20 pb-20 bg-[#1a1a1a]">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-20"
+      <div className="support-nav-wrapper">
+        {mainTabs.map((tab) => (
+          <GlassContainer 
+            key={tab.id} 
+            className="glass-container--medium"
+            onClick={() => handleMainTabClick(tab.id)}
           >
-            <h1 className="text-5xl font-rock-salt text-white mb-8">Support</h1>
-            <p className="text-xl text-white font-medium max-w-2xl mx-auto">
-              Find answers to frequently asked questions about our services
-            </p>
-          </motion.div>
-
-          <div className="flex justify-center gap-8 mb-8">
-            {mainTabs.map((tab) => (
+            <div className="glass-content">
               <button
-                key={tab.id}
-                onClick={() => setActiveMainTab(tab.id)}
-                className={`text-lg font-medium transition-all duration-300 pb-2 border-b-2
-                  ${activeMainTab === tab.id
-                    ? 'text-orange-500 border-orange-500'
-                    : 'text-white border-transparent hover:text-orange-500'
-                  }`}
+                className={`glass-item ${activeMainTab === tab.id ? 'glass-item--active' : ''}`}
               >
                 {tab.label}
               </button>
-            ))}
-          </div>
+              <div className="glass-overlay"></div>
+              <div className="glass-filter"></div>
+              <div className="glass-specular"></div>
+            </div>
+          </GlassContainer>
+        ))}
+      </div>
 
-          {activeMainTab === 'faq' && (
-            <>
-              <div className="flex flex-wrap justify-center gap-4 mb-12">
-                {faqTabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveFaqTab(tab.id)}
-                    className={`px-6 py-2 rounded-full font-medium transition-all duration-300
-                      ${activeFaqTab === tab.id
-                        ? 'bg-orange-500 text-white shadow-lg'
-                        : 'bg-white/50 text-white hover:bg-white/70'
-                      }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
+      <div className="support-content-wrapper">
+        <AnimatePresence>
+          {activeMainTab && (
+            <motion.div
+              key={activeMainTab}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}
+            >
+              {activeMainTab === 'faq' && (
+                <>
+                  <GlassContainer className="glass-container--large" style={{ flexShrink: 0 }}>
+                    <div className="glass-content" style={{flexWrap: 'wrap', justifyContent: 'center'}}>
+                      {faqTabs.map((tab) => (
+                        <GlassContainer 
+                          key={tab.id}
+                          className="glass-container--rounded"
+                          onClick={() => setActiveFaqTab(tab.id)}
+                          style={{margin: '0.25rem'}}
+                        >
+                           <div className="glass-content" style={{padding: '0.25rem 1rem'}}>
+                            <button
+                              className={`glass-item ${activeFaqTab === tab.id ? 'glass-item--active' : ''}`}
+                              style={{padding: 0}}
+                            >
+                              {tab.label}
+                            </button>
+                            <div className="glass-overlay"></div>
+                            <div className="glass-filter"></div>
+                            <div className="glass-specular"></div>
+                          </div>
+                        </GlassContainer>
+                      ))}
+                    </div>
+                  </GlassContainer>
 
-              <div className="w-full">
-                {filteredFaqs.map((faq) => (
-                  <div key={faq.question} className="border-b border-white/20">
-                    <button
-                      onClick={() => handleQuestionClick(faq.question)}
-                      className="w-full flex justify-between items-center text-left py-6"
-                    >
-                      <span className="text-xl font-medium text-white">{faq.question}</span>
-                      <FiChevronDown
-                        className={`w-6 h-6 text-white transition-transform duration-300 ${
-                          openQuestion === faq.question ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                    {openQuestion === faq.question && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="pb-6 text-white/80"
-                      >
-                        {faq.answer}
-                  </motion.div>
-                    )}
+                  <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {filteredFaqs.map((faq) => (
+                      <GlassContainer key={faq.question} className="glass-container--medium">
+                        <div className="glass-content" style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '0.75rem 1.5rem' }}>
+                          <button onClick={() => handleQuestionClick(faq.question)} style={{ all: 'unset', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '0.5rem 0' }}>
+                            <span>{faq.question}</span>
+                            <FiChevronDown style={{ transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+                          </button>
+                          <AnimatePresence>
+                            {openQuestion === faq.question && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                style={{ overflow: 'hidden', paddingTop: '0.5rem', width: '100%' }}
+                              >
+                                <p style={{margin: 0}}>{faq.answer}</p>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </GlassContainer>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </>
-          )}
+                </>
+              )}
 
-          {activeMainTab === 'event' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {events.map((event, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group"
-                    >
-                  <div className="overflow-hidden rounded-lg mb-4">
-                          <Image
-                            src={event.image}
-                            alt={event.title}
-                      width={400}
-                      height={300}
-                      className="w-full h-auto object-cover transform transition-transform duration-300 group-hover:scale-105"
-                          />
+              {activeMainTab === 'event' && (
+                <div className="grid-for-glass">
+                  {events.map((event) => (
+                    <GlassContainer key={event.title} className="glass-container--large">
+                      <div className="glass-content glass-content--inline">
+                        <div className="player">
+                          <div className="player__thumb">
+                            <Image className="player__img" src={event.image} alt={event.title} width={80} height={80} />
+                            <div className="player__legend">
+                              <h3 className="player__legend__title">{event.title}</h3>
+                              {event.isNew && <span className="player__legend__sub-title">NEW</span>}
+                            </div>
+                          </div>
                         </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{event.title}</h3>
-                            {event.isNew && (
-                    <span className="text-sm font-bold text-orange-500">NEW</span>
-                            )}
-                    </motion.div>
+                         <div className="glass-overlay"></div>
+                         <div className="glass-filter"></div>
+                         <div className="glass-specular"></div>
+                      </div>
+                    </GlassContainer>
                   ))}
-            </div>
-          )}
+                </div>
+              )}
 
-          {activeMainTab === 'notice' && (
-                <div className="space-y-4">
-                  {notices.map((notice, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-lg flex items-center justify-between bg-white/5"
-                >
-      <div>
-                    <h3 className="text-xl font-bold text-white">{notice.title}</h3>
-                    <p className="text-sm text-white/60">{notice.date}</p>
+              {activeMainTab === 'notice' && (
+                <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {notices.map((notice) => (
+                    <GlassContainer key={notice.title} className="glass-container--medium">
+                      <div className="glass-content" style={{justifyContent: 'space-between', width: '100%'}}>
+                        <div>
+                          <h3>{notice.title}</h3>
+                          <p style={{margin: '0.25rem 0 0', fontSize: '0.9rem'}}>{notice.date}</p>
                         </div>
-                            {notice.isNew && (
-                    <span className="text-sm font-bold text-orange-500">NEW</span>
-                            )}
-                    </motion.div>
+                        {notice.isNew && <span style={{fontWeight: 'bold'}}>NEW</span>}
+                      </div>
+                       <div className="glass-overlay"></div>
+                       <div className="glass-filter"></div>
+                       <div className="glass-specular"></div>
+                    </GlassContainer>
                   ))}
-            </div>
+                </div>
+              )}
+            </motion.div>
           )}
-        </div>
-      </main>
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
