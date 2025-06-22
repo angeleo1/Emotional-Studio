@@ -215,7 +215,6 @@ const Support: NextPage = () => {
   };
 
   useEffect(() => {
-    // URL에서 tab 파라미터를 확인하고 해당 탭으로 이동
     const { tab } = router.query;
     if (tab && typeof tab === 'string' && ['faq', 'event', 'notice'].includes(tab)) {
       setActiveMainTab(tab);
@@ -241,7 +240,6 @@ const Support: NextPage = () => {
             </p>
           </motion.div>
 
-          {/* Main Tabs */}
           <div className="flex justify-center gap-8 mb-8">
             {mainTabs.map((tab) => (
               <button
@@ -260,7 +258,6 @@ const Support: NextPage = () => {
 
           {activeMainTab === 'faq' && (
             <>
-              {/* FAQ Category Tabs */}
               <div className="flex flex-wrap justify-center gap-4 mb-12">
                 {faqTabs.map((tab) => (
                   <button
@@ -277,7 +274,6 @@ const Support: NextPage = () => {
                 ))}
               </div>
 
-              {/* FAQ Accordion */}
               <div className="w-full">
                 {filteredFaqs.map((faq) => (
                   <div key={faq.question} className="border-b border-white/20">
@@ -346,7 +342,7 @@ const Support: NextPage = () => {
                   transition={{ delay: index * 0.1 }}
                   className="p-6 rounded-lg flex items-center justify-between bg-white/5"
                 >
-                  <div>
+      <div>
                     <h3 className="text-xl font-bold text-white">{notice.title}</h3>
                     <p className="text-sm text-white/60">{notice.date}</p>
                         </div>

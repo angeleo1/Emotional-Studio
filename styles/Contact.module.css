@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&display=swap');
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0ebe5; /* Light beige background */
+  color: #1a1a1a;
+  font-family: 'Poppins', sans-serif;
+  padding: 8rem 4rem 4rem; /* Add padding for navbar */
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a; /* Charcoal background */
+  z-index: 0;
+  clip-path: url(#wavy-divider);
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 1600px;
+  margin: auto;
+  gap: 5rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  transform: translateY(3rem); /* Move all content down by 3rem */
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  line-height: 1.1;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.title span {
+  font-style: italic;
+  font-weight: 400; /* Italic text should not be bold */
+}
+
+.italic {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.small {
+  font-size: 80%;
+}
+
+.bottomRightText {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: #333;
+  margin-top: 2rem;
+  padding-left: 0.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.strapline {
+  font-family: 'Borel', cursive;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  color: #1a1a1a;
+  margin-top: 2rem;
+  text-align: right;
+  width: 100%;
+  padding-right: 0.5rem; /* Maintain base alignment */
+  transform: translateX(-12rem); /* Move 12rem to the left */
+}
+
+.subtleText {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 2rem);
+  color: #5c524c;
+  font-weight: 300;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4rem;
+  position: relative; /* Ensure content is layered correctly */
+  padding-left: 5rem; /* Move content to the right */
+}
+
+.rightColumn,
+.rightColumn .newsletterTitle,
+.rightColumn .contactEmail,
+.rightColumn .socialLink,
+.rightColumn .newsletterInput,
+.rightColumn .submitButton {
+  color: #f0ebe5; /* Light color for all text on dark background */
+}
+
+.contactInfo, .socialSection, .newsletterSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contactEmail {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  text-decoration: none;
+  border-bottom: 1px solid #888;
+  padding-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.contactEmail:hover {
+  color: #fff;
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.socialLink:hover {
+  color: #fff;
+}
+
+.newsletterTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.newsletterForm {
+  width: 100%;
+  position: relative;
+}
+
+.newsletterInput {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #f0ebe5;
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.newsletterInput::placeholder {
+  color: #aaa;
+}
+
+.newsletterInput:focus {
+  outline: none;
+  border-bottom-color: #fff;
+}
+
+.submitButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .container::after {
+    display: none; /* Hide split background on mobile */
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 5rem;
+    text-align: center;
+  }
+  .leftColumn, .rightColumn {
+    align-items: center;
+  }
+  .contactInfo, .socialSection, .newsletterSection {
+    align-items: center;
+  }
+  .container {
+    padding: 6rem 2rem 4rem;
+  }
+
+  /* Reset colors for mobile view */
+  .rightColumn,
+  .rightColumn .newsletterTitle {
+    color: #1a1a1a;
+  }
+  .contactEmail {
+    color: #5c524c;
+    border-bottom-color: #c9c3bb;
+  }
+  .contactEmail:hover {
+    color: #1a1a1a;
+  }
+  .socialLink {
+    color: #333;
+  }
+  .socialLink:hover {
+    color: #000;
+  }
+  .newsletterInput {
+    color: #333;
+    border-bottom-color: #333;
+  }
+  .newsletterInput::placeholder {
+    color: #888;
+  }
+  .newsletterInput:focus {
+    border-bottom-color: #000;
+  }
+  .submitButton {
+    color: #333;
+  }
+
+  .rightColumn {
+    padding-left: 0; /* Reset padding for mobile */
+  }
+} 

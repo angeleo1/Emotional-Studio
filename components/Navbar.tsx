@@ -96,7 +96,7 @@ export default function Navbar() {
   return (
     <>
       <Link href="/" legacyBehavior>
-        <a className="glitch-wrapper" style={{ position: 'fixed', top: '-4rem', left: '4rem', zIndex: 1001, mixBlendMode: 'difference', color: '#ffffff', textDecoration: 'none' }}>
+        <a className="glitch-wrapper" style={{ position: 'fixed', top: '-5rem', left: '4rem', zIndex: 1001, mixBlendMode: 'difference', color: '#ffffff', textDecoration: 'none' }}>
           <span 
             className="glitch" 
             data-text="e.st"
