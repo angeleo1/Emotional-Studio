@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         'herr': ['var(--font-herr)', 'Herr Von Muellerhoff', 'cursive'],
+        'playfair': ['var(--font-playfair)', 'Playfair Display', 'serif'],
       },
     },
   },

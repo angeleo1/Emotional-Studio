@@ -125,27 +125,27 @@ const Home: NextPage = () => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5, ease: 'easeInOut' }}
       >
-        <div className="relative overflow-hidden bg-black">
-          <Head>
-            <title>e.st - emotional studios</title>
-            <meta name="description" content="A creative space for emotional expression." />
-          </Head>
-          <div className="relative z-10">
-            <main>
-              <ClientOnly>
-                <div key={router.pathname}>
-                  <div style={{ position: 'relative', zIndex: 0, width: '100vw', height: '100vh', background: '#111' }}>
+    <div className="relative overflow-hidden bg-black">
+      <Head>
+        <title>e.st - emotional studios</title>
+        <meta name="description" content="A creative space for emotional expression." />
+      </Head>
+      <div className="relative z-10">
+        <main>
+          <ClientOnly>
+            <div key={router.pathname}>
+              <div style={{ position: 'relative', zIndex: 0, width: '100vw', height: '100vh', background: '#111' }}>
                     {!isExiting && <DynamicDemoOne />}
-                  </div>
-                  <PoseGuideSection />
-                </div>
-              </ClientOnly>
-              <EmotionalMoments colorizedImages={colorizedImages} />
-              <CollaborationGallery />
-              <OurElixirs />
-              <Footer />
-            </main>
-          </div>
+              </div>
+              <PoseGuideSection />
+            </div>
+          </ClientOnly>
+          <EmotionalMoments colorizedImages={colorizedImages} />
+          <CollaborationGallery />
+          <OurElixirs />
+          <Footer />
+        </main>
+            </div>
         </div>
       </motion.div>
     </AnimatePresence>

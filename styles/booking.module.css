@@ -1,0 +1,410 @@
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+@import url("https://fonts.cdnfonts.com/css/thegoodmonolith");
+
+:root {
+  --grid-columns: 12;
+  --grid-padding: 2rem;
+  --grid-gutter: 1rem;
+
+  /* Font variables */
+  --font-primary: "PP Neue Montreal", sans-serif;
+  --font-mono: "TheGoodMonolith", sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-bold: 800;
+  --letter-spacing-tight: -0.02em;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #111;
+    color: #eee;
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+}
+
+.noScroll {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-gap: var(--grid-gutter);
+  padding: var(--grid-padding);
+  padding-top: 0;
+  padding-bottom: 0;
+  max-width: 100vw;
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-gap: var(--grid-gutter);
+  width: 100%;
+  padding: var(--grid-padding);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.5rem;
+  letter-spacing: var(--letter-spacing-tight);
+  align-items: start;
+}
+
+.headerWordLeft {
+  grid-column: 1 / span 3;
+  text-align: left;
+}
+
+.headerWordCenter {
+  grid-column: 7 / span 3;
+  text-align: left;
+}
+
+.headerWordRight {
+  grid-column: 10 / span 3;
+  text-align: right;
+}
+
+.mainTitle {
+  grid-column: 2 / span 4;
+  align-self: center;
+  font-size: clamp(1rem, 0.75rem + 2vw, 2.25rem);
+  line-height: 1.2;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.imageContainer {
+  grid-column: 7 / span 6;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  padding: 4rem 0;
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
+  position: relative;
+}
+
+.mainImage {
+  width: 90%;
+  height: 90%;
+  margin: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.orangeText {
+  color: #ff6100;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  grid-gap: var(--grid-gutter);
+  width: 100%;
+  padding: var(--grid-padding);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  align-items: end;
+}
+
+.coordinates {
+  grid-column: 1 / span 4;
+  text-align: left;
+}
+
+.mysteriousMessage {
+  grid-column: 7 / span 6;
+  text-align: right;
+}
+
+.clickButton {
+    position: absolute;
+    bottom: 8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem 3.5rem;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clickButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    color: white;
+}
+
+.bookingSection {
+  padding: 8rem var(--grid-padding);
+  background-color: #111;
+  color: #eee;
+  min-height: 100vh;
+}
+
+.bookingGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--grid-gutter) 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.bookingTitle {
+  grid-column: 1 / -1;
+  font-size: clamp(3rem, 1rem + 8vw, 8rem);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-bold);
+  text-align: left;
+  margin-bottom: 5rem;
+  line-height: 1;
+  color: #eee;
+}
+
+.formColumn {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formSectionTitle {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.formControl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formControl label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.formControl input,
+.formControl select,
+.formControl textarea {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #eee;
+  padding: 0.75rem 0.25rem;
+  font-size: 1.125rem;
+  font-family: var(--font-primary);
+  transition: all 0.3s ease;
+}
+
+.formControl input:focus,
+.formControl select:focus,
+.formControl textarea:focus {
+  outline: none;
+  border-color: #ff6100;
+}
+
+.formCheckboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.checkboxControl {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checkboxControl input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: #ff6100;
+}
+
+.checkboxControl label {
+    font-size: 1rem;
+}
+
+.marginTop {
+    margin-top: 2rem;
+}
+
+.submitContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.submitButton {
+  background-color: transparent;
+  color: #eee;
+  border: 1px solid #eee;
+  padding: 1.25rem 4rem;
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submitButton:hover {
+  background-color: #eee;
+  color: #111;
+}
+
+.skewedN {
+  display: inline-block;
+  transform: rotate(15deg);
+  color: #ff6100;
+}
+
+.snsContainer {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+  color: white;
+}
+
+.snsIconWrapper {
+  position: relative;
+  cursor: pointer;
+  width: 54px;
+  height: 54px;
+}
+
+.baseIcon {
+  width: 100%;
+  height: 100%;
+}
+
+.glitchLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.snsIconWrapper:hover .glitchLayer {
+  opacity: 1;
+}
+
+.glitchLayer1 {
+  color: #00ffff;
+  transform: translate(2px, -2px);
+  animation: glitch-anim-1 0.5s infinite;
+}
+
+.glitchLayer2 {
+  color: #ff00ff;
+  transform: translate(-2px, 2px);
+   animation: glitch-anim-2 0.5s infinite;
+}
+
+@keyframes glitch-anim-1 {
+  0% { transform: translate(2px, -2px); }
+  25% { transform: translate(-2px, 2px); }
+  50% { transform: translate(2px, 2px); }
+  75% { transform: translate(-2px, -2px); }
+  100% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { transform: translate(-2px, 2px); }
+  25% { transform: translate(2px, -2px); }
+  50% { transform: translate(-2px, -2px); }
+  75% { transform: translate(2px, 2px); }
+  100% { transform: translate(-2px, 2px); }
+}
+
+@media (max-width: 1024px) {
+  .mainTitle {
+    grid-column: 1 / span 4;
+  }
+
+  .imageContainer {
+    grid-column: 5 / span 8;
+  }
+
+  .headerWordCenter {
+    grid-column: 5 / span 3;
+  }
+
+  .headerWordRight {
+    grid-column: 8 / span 5;
+  }
+
+  .mysteriousMessage {
+    grid-column: 5 / span 8;
+  }
+
+  .formColumn {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .gridContainer,
+  .header,
+  .footer {
+    grid-template-columns: 1fr;
+  }
+
+  .headerWordLeft,
+  .headerWordCenter,
+  .headerWordRight {
+    grid-column: 1;
+    text-align: left;
+    margin-bottom: 0.5rem;
+  }
+
+  .mainTitle {
+    grid-column: 1;
+    margin-bottom: 2rem;
+  }
+
+  .imageContainer {
+    grid-column: 1;
+    max-width: 100%;
+  }
+
+  .coordinates,
+  .mysteriousMessage {
+    grid-column: 1;
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .formColumn {
+    grid-column: 1 / -1;
+  }
+} 

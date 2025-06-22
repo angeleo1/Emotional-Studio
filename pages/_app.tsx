@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { Rock_Salt } from 'next/font/google'
+import { Rock_Salt, Playfair_Display } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router' 
@@ -17,6 +17,12 @@ const rockSalt = Rock_Salt({
   variable: '--font-rock-salt',
 })
 
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-playfair',
+})
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const [isContactOpen, setIsContactOpen] = useState(false)
@@ -28,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
       </Head>
-      <div className={`${rockSalt.variable}`}>
+      <div className={`${rockSalt.variable} ${playfairDisplay.variable}`}>
         <ClientOnly>
           <CustomCursor />
           <Navbar />

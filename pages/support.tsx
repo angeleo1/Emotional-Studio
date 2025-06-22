@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
+import { LiquidGlassHero } from '@/components/ui/LiquidGlass';
 
 const Support: NextPage = () => {
   const router = useRouter();
@@ -222,16 +223,20 @@ const Support: NextPage = () => {
   }, [router.query]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#ff6100]">
-      <main className="relative z-10 pt-48 pb-20">
+    <div className="relative min-h-screen overflow-hidden">
+      <section className="h-screen relative z-10">
+        <LiquidGlassHero />
+      </section>
+
+      <main className="relative z-10 pt-20 pb-20 bg-[#1a1a1a]">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-20"
           >
-            <h1 className="text-5xl font-rock-salt text-[#2c1711] mb-8">Support</h1>
-            <p className="text-xl text-[#2c1711] font-medium max-w-2xl mx-auto">
+            <h1 className="text-5xl font-rock-salt text-white mb-8">Support</h1>
+            <p className="text-xl text-white font-medium max-w-2xl mx-auto">
               Find answers to frequently asked questions about our services
             </p>
           </motion.div>
@@ -244,8 +249,8 @@ const Support: NextPage = () => {
                 onClick={() => setActiveMainTab(tab.id)}
                 className={`text-lg font-medium transition-all duration-300 pb-2 border-b-2
                   ${activeMainTab === tab.id
-                    ? 'text-[#ff6100] border-[#ff6100]'
-                    : 'text-[#2c1711] border-transparent hover:text-[#ff6100]'
+                    ? 'text-orange-500 border-orange-500'
+                    : 'text-white border-transparent hover:text-orange-500'
                   }`}
               >
                 {tab.label}
@@ -263,8 +268,8 @@ const Support: NextPage = () => {
                     onClick={() => setActiveFaqTab(tab.id)}
                     className={`px-6 py-2 rounded-full font-medium transition-all duration-300
                       ${activeFaqTab === tab.id
-                        ? 'bg-[#ff6100] text-[#fff0c6] shadow-lg'
-                        : 'bg-white/50 text-[#2c1711] hover:bg-white/70'
+                        ? 'bg-orange-500 text-white shadow-lg'
+                        : 'bg-white/50 text-white hover:bg-white/70'
                       }`}
                   >
                     {tab.label}
@@ -273,157 +278,83 @@ const Support: NextPage = () => {
               </div>
 
               {/* FAQ Accordion */}
-              <div className="max-w-3xl mx-auto space-y-4">
-                {filteredFaqs.map((faq, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg"
-                  >
+              <div className="w-full">
+                {filteredFaqs.map((faq) => (
+                  <div key={faq.question} className="border-b border-white/20">
                     <button
                       onClick={() => handleQuestionClick(faq.question)}
-                      className="w-full px-6 py-4 flex items-center justify-between text-left"
+                      className="w-full flex justify-between items-center text-left py-6"
                     >
-                      <span className="text-[#2c1711] font-medium">{faq.question}</span>
+                      <span className="text-xl font-medium text-white">{faq.question}</span>
                       <FiChevronDown
-                        className={`w-5 h-5 text-[#ff6100] transition-transform duration-300
-                          ${openQuestion === faq.question ? 'rotate-180' : ''}`}
+                        className={`w-6 h-6 text-white transition-transform duration-300 ${
+                          openQuestion === faq.question ? 'rotate-180' : ''
+                        }`}
                       />
                     </button>
                     {openQuestion === faq.question && (
-                      <div className="px-6 pb-4">
-                        <p className="text-[#2c1711]">{faq.answer}</p>
-                      </div>
-                    )}
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="pb-6 text-white/80"
+                      >
+                        {faq.answer}
                   </motion.div>
+                    )}
+                  </div>
                 ))}
               </div>
             </>
           )}
 
           {activeMainTab === 'event' && (
-            <div className="max-w-5xl mx-auto">
-              <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-8 shadow-lg">
-                <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {events.map((event, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="group hover:bg-white/50 rounded-xl transition-all duration-300"
+                  transition={{ delay: index * 0.1 }}
+                  className="group"
                     >
-                      <div className="flex items-center gap-6 p-4">
-                        {/* Thumbnail Image */}
-                        <div className="relative w-32 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="overflow-hidden rounded-lg mb-4">
                           <Image
                             src={event.image}
                             alt={event.title}
-                            fill
-                            className="object-cover"
+                      width={400}
+                      height={300}
+                      className="w-full h-auto object-cover transform transition-transform duration-300 group-hover:scale-105"
                           />
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-[#ff6100] text-sm font-medium px-2 py-1 bg-[#ff6100]/10 rounded-full">
-                              {event.type}
-                            </span>
-                            <span className="text-emerald-600 text-sm font-medium px-2 py-1 bg-emerald-50 rounded-full">
-                              {event.status}
-                            </span>
+                  <h3 className="text-xl font-bold text-white mb-2">{event.title}</h3>
                             {event.isNew && (
-                              <span className="text-blue-600 text-sm font-medium px-2 py-1 bg-blue-50 rounded-full">
-                                new
-                              </span>
+                    <span className="text-sm font-bold text-orange-500">NEW</span>
                             )}
-                          </div>
-                          <h3 className="text-lg font-medium text-[#2c1711] group-hover:text-[#ff6100] transition-colors">
-                            {event.title}
-                          </h3>
-                        </div>
-                      </div>
                     </motion.div>
                   ))}
-                </div>
-                <div className="mt-8 flex justify-center gap-2">
-                  {[1, 2, 3, 4, 5].map((page) => (
-                    <button
-                      key={page}
-                      className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors
-                        ${page === 1
-                          ? 'bg-[#ff6100] text-white'
-                          : 'text-[#2c1711] hover:bg-[#ff6100]/10'
-                        }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
 
           {activeMainTab === 'notice' && (
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white/40 backdrop-blur-xl rounded-2xl p-8 shadow-lg">
                 <div className="space-y-4">
                   {notices.map((notice, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="group hover:bg-white/50 rounded-xl transition-all duration-300"
-                    >
-                      <div className="flex items-center gap-6 p-4">
-                        {/* Thumbnail Image */}
-                        <div className="relative w-32 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                          <Image
-                            src={notice.image}
-                            alt={notice.title}
-                            fill
-                            className="object-cover"
-                          />
+                  transition={{ delay: index * 0.1 }}
+                  className="p-6 rounded-lg flex items-center justify-between bg-white/5"
+                >
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{notice.title}</h3>
+                    <p className="text-sm text-white/60">{notice.date}</p>
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-[#ff6100] text-sm font-medium px-2 py-1 bg-[#ff6100]/10 rounded-full">
-                              {notice.type}
-                            </span>
-                            <span className="text-emerald-600 text-sm font-medium px-2 py-1 bg-emerald-50 rounded-full">
-                              {notice.date}
-                            </span>
                             {notice.isNew && (
-                              <span className="text-blue-600 text-sm font-medium px-2 py-1 bg-blue-50 rounded-full">
-                                new
-                              </span>
+                    <span className="text-sm font-bold text-orange-500">NEW</span>
                             )}
-                          </div>
-                          <h3 className="text-lg font-medium text-[#2c1711] group-hover:text-[#ff6100] transition-colors">
-                            {notice.title}
-                          </h3>
-                        </div>
-                      </div>
                     </motion.div>
                   ))}
-                </div>
-                <div className="mt-8 flex justify-center gap-2">
-                  {[1, 2, 3, 4, 5].map((page) => (
-                    <button
-                      key={page}
-                      className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors
-                        ${page === 1
-                          ? 'bg-[#ff6100] text-white'
-                          : 'text-[#2c1711] hover:bg-[#ff6100]/10'
-                        }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
         </div>

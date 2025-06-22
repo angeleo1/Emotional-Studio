@@ -1,0 +1,233 @@
+:root {
+	--angle: 45deg;
+	--background: hsl(35, 30%, 80%);
+	--color: #171716;
+	--hover-color: #1468e5;
+	--white: #ffffff;
+	--font-primary: "Poppins", sans-serif;
+	--font-secondary: "Quicksand", sans-serif;
+	--f-sm: 0.8rem;
+	--f-md: 1rem;
+	--f-lg: 1.2rem;
+	--f-xl: 1.5rem;
+	--f-2xl: 2.5rem;
+	--f-3xl: 3rem;
+	--f-4xl: 4rem;
+}
+
+.wavy-booking-page {
+	padding: 0;
+	font-family: var(--font-primary);
+	color: var(--color);
+	background: var(--background);
+	min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.top-section {
+	padding: 8rem 1rem 8rem 1rem;
+	max-width: 48rem;
+  margin: 0 auto;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+}
+
+nav {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+}
+
+header a {
+	text-transform: uppercase;
+	text-decoration: none;
+	font-size: var(--f-sm);
+	color: var(--color);
+	transition: all 0.2s ease-in-out;
+}
+
+header a:hover {
+	color: var(--hover-color);
+}
+
+#logo {
+	font-size: var(--f-lg);
+	font-weight: bold;
+}
+
+h1 {
+	font-family: var(--font-secondary);
+	font-size: var(--f-xl);
+	font-weight: 400;
+	display: flex;
+	flex-direction: column;
+}
+
+strong {
+	font-size: var(--f-3xl);
+	text-transform: uppercase;
+	margin: -0.7rem 0 1rem 0;
+}
+
+.booking-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group h3 {
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  font-size: var(--f-lg);
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  padding-bottom: 0.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control label {
+  font-size: var(--f-sm);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-control input,
+.form-control select,
+.form-control textarea,
+.react-datepicker-wrapper input {
+  font: inherit;
+  font-size: var(--f-md);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color);
+  background-color: transparent;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-control input:focus,
+.form-control select:focus,
+.form-control textarea:focus {
+  outline: 2px solid var(--hover-color);
+  border-color: transparent;
+}
+
+.form-checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.checkbox-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-control input {
+    width: 1rem;
+    height: 1rem;
+}
+
+.checkbox-control label {
+    font-size: var(--f-sm);
+}
+
+#cta {
+	font: inherit;
+	font-size: var(--f-md);
+	padding: 0.75rem 1.5rem;
+	border: 1px solid var(--color);
+	background-color: transparent;
+	cursor: pointer;
+	border-radius: 35px;
+	transition: all 0.2s ease-in-out;
+  align-self: center;
+  margin-top: 1rem;
+}
+
+#cta:hover {
+	background-color: var(--color);
+	color: var(--white);
+}
+
+.divider-top {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+	line-height: 0;
+}
+
+.divider-top svg {
+	position: relative;
+	display: block;
+	width: calc(147% + 1.3px);
+	height: 200px;
+}
+
+.divider-bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+	line-height: 0;
+	transform: rotate(180deg);
+}
+
+.divider-bottom svg {
+	position: relative;
+	display: block;
+	width: calc(147% + 1.3px);
+	height: 200px;
+}
+
+#squiggleAlt {
+	visibility: hidden;
+}
+
+@media (width >= 48rem) {
+	#logo {
+		font-size: var(--f-xl);
+	}
+
+	header a {
+		font-size: var(--f-lg);
+	}
+
+	h1 {
+		font-size: var(--f-2xl);
+	}
+
+	strong {
+		font-size: var(--f-4xl);
+	}
+
+	#cta {
+		font-size: var(--f-xl);
+	}
+} 

@@ -138,16 +138,16 @@ const pages = [
     text: (
       <div className="flex flex-col h-full space-y-10 text-white pt-8">
         <div>
-          <div>
-            <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>💗</span><span>Wedding Package</span></div>
-            <p className="text-lg mt-1 mb-4">Celebrate Your Love Story with Our Bespoke Wedding Package</p>
-          </div>
-          <div>
-            <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>👥</span><span>Group Package</span></div>
-            <p className="text-lg mt-1 mb-4">Making Memories Together: The Ultimate Package for Large Group Celebrations</p>
-          </div>
-          <div className="mt-6">
-            <p className="text-lg font-semibold mt-1 mb-4">Contact us for more details about the packages</p>
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>💗</span><span>Wedding Package</span></div>
+          <p className="text-lg mt-1 mb-4">Celebrate Your Love Story with Our Bespoke Wedding Package</p>
+        </div>
+        <div>
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>👥</span><span>Group Package</span></div>
+          <p className="text-lg mt-1 mb-4">Making Memories Together: The Ultimate Package for Large Group Celebrations</p>
+        </div>
+        <div className="mt-6">
+          <p className="text-lg font-semibold mt-1 mb-4">Contact us for more details about the packages</p>
           </div>
         </div>
         <div className="flex-grow" />
@@ -267,9 +267,9 @@ export default function Services() {
                           <div className="animate-infinite-slide">
                             {[...page.images, ...page.images].map((img, j) => (
                               <div key={`${j}-${img}`} className="relative w-full h-[40vh] shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center mb-4">
-                                <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
-                              </div>
-                            ))}
+                          <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                        </div>
+                      ))}
                           </div>
                         </div>
                       )}
