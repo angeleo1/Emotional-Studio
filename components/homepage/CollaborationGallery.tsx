@@ -26,6 +26,7 @@ export default function CollaborationGallery() {
                 href="/gallery-landing" 
                 key={index} 
                 className="ml-4 sm:ml-8 first:ml-0 flex-none cursor-pointer hover:opacity-80 transition-opacity elixir-section"
+                data-hover
               >
                 <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-dm-serif leading-tight ${[3, 8, 13, 18].includes(index) ? 'text-white' : 'text-[#191919]'}`}>
                   {text}

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 
 const CustomCursor = () => {
     const cursorRef = useRef<HTMLDivElement>(null);
@@ -54,6 +53,26 @@ const CustomCursor = () => {
                 cursorLogoRef.current.style.left = `${outerX}px`;
                 cursorLogoRef.current.style.top = `${outerY}px`;
             }
+
+            if (cursorRef.current) {
+                const el = document.elementFromPoint(mousePos.current.x, mousePos.current.y);
+                let currentEl = el;
+                let isHovering = false;
+                
+                while(currentEl) {
+                    if (window.getComputedStyle(currentEl).cursor === 'pointer') {
+                        isHovering = true;
+                        break;
+                    }
+                    currentEl = currentEl.parentElement;
+                }
+
+                if (isHovering) {
+                    cursorRef.current.classList.add('hover');
+                } else {
+                    cursorRef.current.classList.remove('hover');
+                }
+            }
             
             requestRef.current = requestAnimationFrame(loop);
         };
@@ -70,26 +89,6 @@ const CustomCursor = () => {
             }
         };
     }, []);
-
-    const router = useRouter();
-
-    useEffect(() => {
-        const addHoverClass = () => cursorRef.current?.classList.add('hover');
-        const removeHoverClass = () => cursorRef.current?.classList.remove('hover');
-
-        const hoverElements = document.querySelectorAll('a, button, [data-hover]');
-        hoverElements.forEach(element => {
-            element.addEventListener('mouseenter', addHoverClass);
-            element.addEventListener('mouseleave', removeHoverClass);
-        });
-        
-        return () => {
-             hoverElements.forEach(element => {
-                element.removeEventListener('mouseenter', addHoverClass);
-                element.removeEventListener('mouseleave', removeHoverClass);
-            });
-        }
-    }, [router.asPath]);
 
     return (
         <div className="cursor" ref={cursorRef}>
