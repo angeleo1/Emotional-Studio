@@ -748,17 +748,17 @@ nav {
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  opacity: 0;
-  mix-blend-mode: screen;
-
-  /* Replicate button styles */
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: inherit; /* Use parent's border-radius */
+  z-index: 0;
+  background: transparent;
+  opacity: 0;
+  mix-blend-mode: screen;
+  border-radius: inherit;
   border: 2px solid;
   padding: inherit;
+  white-space: nowrap;
 }
 
 .glitch-button-wrapper:hover .contact-style-glitch-button::before,

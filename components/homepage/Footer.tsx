@@ -29,7 +29,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Logo */}
         <div className="absolute -left-[200px] top-1/2 -translate-y-1/2 hidden lg:block">
-          <span className="text-[17.5rem] font-herr-von text-[#FF4D00]">e.st</span>
+          <span className="text-[17.5rem] font-herr-von text-[#FF6100]">e.st</span>
         </div>
 
         {/* Contact Info */}

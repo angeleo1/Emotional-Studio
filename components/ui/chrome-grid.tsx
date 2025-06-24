@@ -4,6 +4,7 @@ import React, { useRef, useState, useMemo, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { ExtrudeGeometry, Shape } from 'three'
 import * as THREE from 'three'
+import { Html } from '@react-three/drei'
 
 interface BoxProps {
   position: [number, number, number];
@@ -189,7 +190,7 @@ function HoverDetector({
 }
 
 function GridOfBoxes() {
-  const gridSize = 10;
+  const gridSize = 14;
   const boxWidth = 4;
   const boxLength = 4;
   const gap = 0.05;
@@ -198,15 +199,17 @@ function GridOfBoxes() {
   const [hoveredBox, setHoveredBox] = useState<[number, number] | null>(null);
   const rippleScale = 2.5;
   const rippleRadius = 2;
-  const orangeBlocks = new Set([
+  const orangeBlocks: Set<string> = new Set([
+    '3,5',
+    '2,7',
+    '6,6',
+    '5,8',
+    '8,7',
+    '7,9',
+    '4,10',
     '1,3',
-    '2,8',
-    '3,6',
-    '4,4',
-    '0,5',
-    '6,5',
-    '8,8',
-    '5,7'
+    '10,5',
+    '2,10',
   ]);
 
   const boxes: React.ReactNode[] = [];
@@ -271,6 +274,25 @@ interface ChromeGridProps {
 export function ChromeGrid({ onReady }: ChromeGridProps) {
   return (
     <div className="h-full w-full bg-black relative z-0">
+      <div
+        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+        style={{ zIndex: 10 }}
+      >
+        <span
+          style={{
+            color: '#fff',
+            fontSize: '2.6rem',
+            fontFamily: 'PP Neue Montreal, \'Cinzel Decorative\', \"TheGoodMonolith\", sans-serif',
+            letterSpacing: '0.85em',
+            fontWeight: 700,
+            textShadow: '0 2px 16px rgba(0,0,0,0.18)',
+            userSelect: 'none',
+            display: 'inline-block',
+          }}
+        >
+          emotional studios
+        </span>
+      </div>
       <Canvas
         camera={{ 
           position: [-9.31, 12, 24.72], 

@@ -13,8 +13,8 @@ interface DemoOneProps {
 }
 
 const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
-  const [isGridReady, setIsGridReady] = useState(false);
   const [isTypingFinished, setIsTypingFinished] = useState(false);
+  const [showGrid, setShowGrid] = useState(false);
 
   useEffect(() => {
     const typingTimer = setTimeout(() => {
@@ -23,6 +23,12 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
 
     return () => clearTimeout(typingTimer);
   }, []);
+
+  useEffect(() => {
+    if (isTypingFinished) {
+      setShowGrid(true);
+    }
+  }, [isTypingFinished]);
 
   const buttonContainerVariants = {
     hidden: { opacity: 0 },
@@ -36,29 +42,25 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
   };
 
   return (
-    <div className="h-screen relative flex items-center justify-center">
-      {/* Layer 1: ChromeGrid (always present) */}
+    <div className="h-screen relative flex items-center justify-center bg-black">
+      {/* Layer 1: ChromeGrid (fades in later) */}
       <motion.div
         className="absolute inset-0 z-0"
         initial={{ opacity: 0 }}
-        animate={{ opacity: isTypingFinished ? 1 : 0 }}
+        animate={{ opacity: showGrid ? 1 : 0 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
       >
-        {isTypingFinished && (
-          <ChromeGrid onReady={() => {
-            if (onReady) onReady();
-            setIsGridReady(true);
-          }} />
-        )}
+        <ChromeGrid onReady={onReady} />
       </motion.div>
 
       {/* Layer 2: Text with mix-blend-mode */}
-      <div className={`relative z-20 px-5 ${isTypingFinished && isGridReady ? 'animation-done mix-blend-difference' : ''}`}>
+      <div className={`relative z-20 px-5 ${isTypingFinished ? 'animation-done' : ''} ${showGrid ? 'mix-blend-difference' : ''}`}>
         <h1
-            className="typing-text text-3xl md:text-5xl font-bold lowercase"
+            className="text-3xl md:text-5xl font-bold lowercase typing-text"
             style={{
                 letterSpacing: '1em',
                 userSelect: 'none',
+                color: showGrid ? 'white' : '#FF6100',
             }}
         >
             emotional studios
@@ -70,7 +72,7 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
         className="absolute left-0 right-0 bottom-16 md:bottom-20 lg:bottom-[100px] z-30 flex justify-center"
         variants={buttonContainerVariants}
         initial="hidden"
-        animate={isTypingFinished && isGridReady ? "visible" : "hidden"}
+        animate={showGrid ? "visible" : "hidden"}
       >
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 md:gap-16 lg:gap-[100px]">
           <Link href="/support#events" className="glitch-button-wrapper">

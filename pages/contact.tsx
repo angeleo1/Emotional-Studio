@@ -7,13 +7,13 @@ import WavyClipPath from '@/components/WavyClipPath';
 const Contact: NextPage = () => {
   return (
     <>
-      <Head>
+        <Head>
         <title>Contact | Emotional Studio</title>
         <meta name="description" content="Every Photo Tells a Story, Every Elixir Completes It" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&family=Borel&display=swap" rel="stylesheet" />
-      </Head>
+        </Head>
       <div className={styles.container}>
         <WavyClipPath clipId="wavy-divider" />
         <main className={styles.mainGrid}>
@@ -24,14 +24,14 @@ const Contact: NextPage = () => {
               <span>Every</span> Elixir <span>Completes It</span>.
             </h1>
             <p className={styles.strapline}>Precious Moments in e.st</p>
-          </div>
+                    </div>
 
           <div className={styles.rightColumn}>
             <div className={styles.contactInfo}>
               <a href="mailto:info@emotionalstudio.com" className={styles.contactEmail}>
                 info@emotionalstudio.com
               </a>
-            </div>
+                    </div>
 
             <div className={styles.socialSection}>
               <div className={styles.socialGrid}>
@@ -40,7 +40,7 @@ const Contact: NextPage = () => {
                 <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaInstagram />&nbsp;Instagram</a>
                 <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaYoutube />&nbsp;YouTube</a>
               </div>
-            </div>
+                  </div>
 
             <div className={styles.newsletterSection}>
               <h2 className={styles.newsletterTitle}>Collaboration Inquiry</h2>
@@ -48,12 +48,12 @@ const Contact: NextPage = () => {
                 <input type="email" placeholder="Your Email Address" className={styles.newsletterInput} />
                 <button type="submit" className={styles.submitButton}>
                   <FaArrowRight />
-                </button>
-              </form>
+                  </button>
+                </form>
             </div>
           </div>
-        </main>
-      </div>
+      </main>
+    </div>
     </>
   );
 };

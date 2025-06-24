@@ -1,6 +1,4 @@
 import { ReactNode } from 'react';
-import Footer from './Footer';
-import InquiryButton from '../common/InquiryButton';
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,8 +10,7 @@ export default function Layout({ children }: LayoutProps) {
       <main className="flex-grow">
         {children}
       </main>
-      <Footer />
-      <InquiryButton />
+      {/* <InquiryButton /> */}
     </div>
   );
 } 

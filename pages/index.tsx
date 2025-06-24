@@ -7,6 +7,9 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import ClientOnly from '@/components/ClientOnly'
 import { useRouter } from 'next/router'
+import { ChromeGrid } from '@/components/ui/chrome-grid'
+import IntroAnimation from '@/components/IntroAnimation'
+import InquiryButton from '@/components/common/InquiryButton'
 
 const DynamicDemoOne = dynamic(() => import("@/components/ui/demo").then(mod => mod.DemoOne), {
   ssr: false,
@@ -38,6 +41,7 @@ const Home: NextPage = () => {
   // 3D Grid가 마운트된 후 PoseGuideSection을 렌더하기 위한 상태
   const [showPoseGuide, setShowPoseGuide] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     setIsMounted(true);
@@ -117,38 +121,69 @@ const Home: NextPage = () => {
   }, [galleryImages.length]);
 
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={router.asPath}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5, ease: 'easeInOut' }}
-      >
-    <div className="relative overflow-hidden bg-black">
-      <Head>
-        <title>e.st - emotional studios</title>
-        <meta name="description" content="A creative space for emotional expression." />
-      </Head>
-      <div className="relative z-10">
-        <main>
-          <ClientOnly>
-            <div key={router.pathname}>
-              <div style={{ position: 'relative', zIndex: 0, width: '100vw', height: '100vh', background: '#111' }}>
-                    {!isExiting && <DynamicDemoOne />}
-              </div>
-              <PoseGuideSection />
+    <>
+      <AnimatePresence>
+        {showIntro && (
+          <IntroAnimation onFinish={() => setShowIntro(false)} />
+        )}
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={router.asPath}
+          initial={{ opacity: showIntro ? 0 : 0 }}
+          animate={{ opacity: showIntro ? 0 : 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+          style={{ pointerEvents: showIntro ? 'none' : 'auto' }}
+        >
+          <div className="relative overflow-hidden bg-black">
+            <Head>
+              <title>e.st - emotional studios</title>
+              <meta name="description" content="A creative space for emotional expression." />
+            </Head>
+            <div className="relative z-10">
+              <main>
+                <ClientOnly>
+                  <div key={router.pathname}>
+                    <div style={{ position: 'relative', zIndex: 0, width: '100vw', height: '100vh', background: '#111' }}>
+                      <ChromeGrid />
+                      {/* emotional studios 텍스트 바로 아래 버튼 */}
+                      <div className="absolute left-1/2 bottom-[7rem] flex flex-row items-center gap-32 -translate-x-1/2 z-50">
+                        <div className="glitch-button-wrapper">
+                          <a
+                            href="/support#events"
+                            className="contact-style-glitch-button px-10 py-4 rounded-full border-2 font-bold text-lg relative overflow-hidden"
+                            data-text="View Events"
+                            style={{backdropFilter:'blur(2px)'}}
+                          >
+                            <span className="relative z-10 whitespace-nowrap">View Events</span>
+                          </a>
+                        </div>
+                        <div className="glitch-button-wrapper">
+                          <a
+                            href="/booking"
+                            className="contact-style-glitch-button px-10 py-4 rounded-full border-2 font-bold text-lg relative overflow-hidden"
+                            data-text="Book Now"
+                            style={{backdropFilter:'blur(2px)'}}
+                          >
+                            <span className="relative z-10 whitespace-nowrap">Book Now</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <PoseGuideSection />
+                  </div>
+                </ClientOnly>
+                <EmotionalMoments colorizedImages={colorizedImages} />
+                <CollaborationGallery />
+                <OurElixirs />
+                <Footer />
+              </main>
             </div>
-          </ClientOnly>
-          <EmotionalMoments colorizedImages={colorizedImages} />
-          <CollaborationGallery />
-          <OurElixirs />
-          <Footer />
-        </main>
-            </div>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </>
   )
 }
 

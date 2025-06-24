@@ -67,7 +67,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleRouteChange = () => {
-      setIsOpen(false);
+    setIsOpen(false);
     };
 
     if (isOpen) {
@@ -82,7 +82,7 @@ export default function Navbar() {
       }, 3000);
 
       router.events.on('routeChangeStart', handleRouteChange);
-      
+
       return () => {
         clearInterval(intervalId);
         document.body.style.overflow = 'auto';
@@ -150,21 +150,21 @@ export default function Navbar() {
             >
               <div className="w-6 h-6 relative">
                 {/* Top Line */}
-                <motion.span
+              <motion.span
                   className="block absolute h-0.5 bg-white rounded-full"
                   style={{ top: '25%', right: 0, width: '80%' }}
                   animate={{ y: isOpen ? 6 : 0, rotate: isOpen ? 45 : 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                />
+              />
                 {/* Middle Line */}
-                <motion.span
+              <motion.span
                   className="block absolute h-0.5 bg-white rounded-full"
                   style={{ top: '50%', right: 0, width: '80%' }}
-                  animate={{ opacity: isOpen ? 0 : 1 }}
+                animate={{ opacity: isOpen ? 0 : 1 }}
                   transition={{ duration: 0.2, ease: "easeInOut" }}
-                />
+              />
                 {/* Bottom Line */}
-                <motion.span
+              <motion.span
                   className="block absolute h-0.5 bg-white rounded-full"
                   style={{ top: '75%', right: 0, width: '80%' }}
                   animate={{ 
@@ -172,8 +172,8 @@ export default function Navbar() {
                       rotate: isOpen ? -45 : 0
                   }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                />
-              </div>
+              />
+            </div>
             </motion.button>
           </div>
         </motion.div>
@@ -189,35 +189,35 @@ export default function Navbar() {
             exit="closed"
           >
             <div className="fixed left-48 top-1/2 -translate-y-1/2 w-[25vw] h-[70vh] pointer-events-none">
-                <AnimatePresence>
-                  {shuffledImages.length > 0 && (
-                    <motion.div
-                      key={currentImageIndex}
-                      className="absolute inset-0"
-                      initial={{ opacity: 0, scale: 1.05 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 1.5, ease: 'easeInOut' }}
-                    >
-                      <Image
-                        src={shuffledImages[currentImageIndex]}
-                        alt="Creative menu display"
-                        layout="fill"
-                        objectFit="cover"
-                        priority
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <AnimatePresence>
+                {shuffledImages.length > 0 && (
+                  <motion.div
+                    key={currentImageIndex}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 1.5, ease: 'easeInOut' }}
+                  >
+                    <Image
+                      src={shuffledImages[currentImageIndex]}
+                      alt="Creative menu display"
+                      layout="fill"
+                      objectFit="cover"
+                      priority
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             <div className="w-full h-full flex items-center justify-end pr-[20%]">
               <nav className="flex flex-col items-start space-y-6" onClick={(e) => e.stopPropagation()}>
-                {navItems.map((item, i) => (
-                  <motion.div
-                    key={item.href}
+              {navItems.map((item, i) => (
+                <motion.div
+                  key={item.href}
                     custom={i}
-                    variants={navLinkVariants}
+                  variants={navLinkVariants}
                     initial="closed"
                     animate="open"
                     exit="closed"
@@ -231,10 +231,10 @@ export default function Navbar() {
                         {item.name}
                       </a>
                     </Link>
-                  </motion.div>
-                ))}
-              </nav>
-            </div>
+                </motion.div>
+              ))}
+            </nav>
+              </div>
           </motion.div>
         )}
       </AnimatePresence>

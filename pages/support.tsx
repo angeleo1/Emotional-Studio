@@ -200,8 +200,8 @@ const Support: NextPage = () => {
     }
   ];
 
-  const filteredFaqs = activeFaqTab === 'all'
-    ? faqs
+  const filteredFaqs = activeFaqTab === 'all' 
+    ? faqs 
     : faqs.filter(faq => faq.category === activeFaqTab);
 
   const handleQuestionClick = (question: string) => {
@@ -239,12 +239,12 @@ const Support: NextPage = () => {
       <div className="support-title-wrapper">
         <h1 className="support-title">Support</h1>
         <p className="support-description">
-          Find answers to frequently asked questions about our services
-        </p>
+              Find answers to frequently asked questions about our services
+            </p>
       </div>
 
       <div className="support-nav-wrapper">
-        {mainTabs.map((tab) => (
+            {mainTabs.map((tab) => (
           <GlassContainer 
             key={tab.id} 
             className="glass-container--medium"
@@ -261,8 +261,8 @@ const Support: NextPage = () => {
               <div className="glass-specular"></div>
             </div>
           </GlassContainer>
-        ))}
-      </div>
+            ))}
+          </div>
 
       <div className="support-content-wrapper">
         <AnimatePresence>
@@ -275,31 +275,31 @@ const Support: NextPage = () => {
               transition={{ duration: 0.5 }}
               style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}
             >
-              {activeMainTab === 'faq' && (
-                <>
+          {activeMainTab === 'faq' && (
+            <>
                   <GlassContainer className="glass-container--large" style={{ flexShrink: 0 }}>
                     <div className="glass-content" style={{flexWrap: 'wrap', justifyContent: 'center'}}>
-                      {faqTabs.map((tab) => (
+                {faqTabs.map((tab) => (
                         <GlassContainer 
-                          key={tab.id}
+                    key={tab.id}
                           className="glass-container--rounded"
-                          onClick={() => setActiveFaqTab(tab.id)}
+                    onClick={() => setActiveFaqTab(tab.id)}
                           style={{margin: '0.25rem'}}
                         >
                            <div className="glass-content" style={{padding: '0.25rem 1rem'}}>
                             <button
                               className={`glass-item ${activeFaqTab === tab.id ? 'glass-item--active' : ''}`}
                               style={{padding: 0}}
-                            >
-                              {tab.label}
-                            </button>
+                  >
+                    {tab.label}
+                  </button>
                             <div className="glass-overlay"></div>
                             <div className="glass-filter"></div>
                             <div className="glass-specular"></div>
                           </div>
                         </GlassContainer>
-                      ))}
-                    </div>
+                ))}
+              </div>
                   </GlassContainer>
 
                   <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -312,24 +312,24 @@ const Support: NextPage = () => {
                           </button>
                           <AnimatePresence>
                             {openQuestion === faq.question && (
-                              <motion.div
+                  <motion.div
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
                                 style={{ overflow: 'hidden', paddingTop: '0.5rem', width: '100%' }}
-                              >
+                    >
                                 <p style={{margin: 0}}>{faq.answer}</p>
                               </motion.div>
                             )}
                           </AnimatePresence>
-                        </div>
+                      </div>
                       </GlassContainer>
-                    ))}
-                  </div>
-                </>
-              )}
+                ))}
+              </div>
+            </>
+          )}
 
-              {activeMainTab === 'event' && (
+          {activeMainTab === 'event' && (
                 <div className="grid-for-glass">
                   {events.map((event) => (
                     <GlassContainer key={event.title} className="glass-container--large">
@@ -340,7 +340,7 @@ const Support: NextPage = () => {
                             <div className="player__legend">
                               <h3 className="player__legend__title">{event.title}</h3>
                               {event.isNew && <span className="player__legend__sub-title">NEW</span>}
-                            </div>
+                        </div>
                           </div>
                         </div>
                          <div className="glass-overlay"></div>
@@ -349,10 +349,10 @@ const Support: NextPage = () => {
                       </div>
                     </GlassContainer>
                   ))}
-                </div>
-              )}
+            </div>
+          )}
 
-              {activeMainTab === 'notice' && (
+          {activeMainTab === 'notice' && (
                 <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {notices.map((notice) => (
                     <GlassContainer key={notice.title} className="glass-container--medium">
@@ -373,7 +373,7 @@ const Support: NextPage = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+        </div>
     </div>
   );
 };

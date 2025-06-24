@@ -11,10 +11,13 @@ export default function InquiryButton() {
       {/* Inquiry Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 right-8 bg-accent text-white p-4 rounded-full shadow-lg hover:bg-opacity-90 transition-all z-50"
+        className="fixed bottom-8 right-8 text-white hover:text-accent transition-all z-50"
         aria-label="Open inquiry"
       >
-        <ChatBubbleLeftIcon className="w-6 h-6" />
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="20" stroke="white" strokeWidth="3" fill="none" />
+          <text x="22" y="29" textAnchor="middle" fontSize="28" fontWeight="bold" fill="white" fontFamily="inherit" dominantBaseline="middle">?</text>
+        </svg>
       </button>
 
       {/* Inquiry Modal */}

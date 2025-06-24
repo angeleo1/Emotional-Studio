@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import ClientOnly from '@/components/ClientOnly'
 import CustomCursor from '@/components/CustomCursor'
 import ContactPopup from '@/components/ContactPopup'
+import Layout from '../components/layout/Layout'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -39,7 +40,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <CustomCursor />
           <Navbar />
         </ClientOnly>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
         <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
           <button
