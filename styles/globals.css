@@ -263,6 +263,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 60% 50%;
     --chart-5: 340 70% 50%;
+    --grid-columns: 12;
+    --grid-padding: 2rem;
+    --grid-gutter: 1rem;
+    --font-primary: "PP Neue Montreal", sans-serif;
+    --font-mono: "TheGoodMonolith", sans-serif;
+    --font-weight-normal: 400;
+    --font-weight-bold: 800;
+    --letter-spacing-tight: -0.02em;
   }
 
   .dark {

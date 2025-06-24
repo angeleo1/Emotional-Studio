@@ -281,9 +281,9 @@ export function ChromeGrid({ onReady }: ChromeGridProps) {
         <span
           style={{
             color: '#fff',
-            fontSize: '2.6rem',
-            fontFamily: 'PP Neue Montreal, \'Cinzel Decorative\', \"TheGoodMonolith\", sans-serif',
-            letterSpacing: '0.85em',
+            fontSize: '3.1rem',
+            fontFamily: 'PP Neue Montreal, \'Cinzel Decorative\', "TheGoodMonolith", sans-serif',
+            letterSpacing: '1.05em',
             fontWeight: 700,
             textShadow: '0 2px 16px rgba(0,0,0,0.18)',
             userSelect: 'none',

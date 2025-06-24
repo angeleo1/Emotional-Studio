@@ -42,9 +42,9 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
         <span
           style={{
             color: '#FF7A00',
-            fontSize: '2.8rem',
+            fontSize: '3.2rem',
             fontFamily: 'PP Neue Montreal, \'Cinzel Decorative\', \"TheGoodMonolith\", sans-serif',
-            letterSpacing: '0.7em',
+            letterSpacing: '0.95em',
             whiteSpace: 'pre',
             borderRight: typingDone ? 'none' : '2px solid #FF7A00',
             paddingRight: '0.2em',
