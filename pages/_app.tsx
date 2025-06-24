@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/glass.css'
 import type { AppProps } from 'next/app'
 import { Rock_Salt, Playfair_Display } from 'next/font/google'
 import Head from 'next/head'

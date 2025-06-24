@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import GlassContainer from '@/components/ui/GlassContainer';
-import '../styles/glass.css';
 
 const Support: NextPage = () => {
   const router = useRouter();
