@@ -18,6 +18,24 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'LeMurmure-Regular';
+  src: url('/fonts/LeMurmure-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gulax';
+  src: url('/fonts/Gulax-Regular.woff2') format('woff2'),
+       url('/fonts/Gulax-Regular.woff') format('woff'),
+       url('/fonts/Gulax-Regular.eot') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   html {
     @apply scroll-smooth bg-black;

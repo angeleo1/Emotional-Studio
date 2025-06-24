@@ -271,6 +271,38 @@ interface ChromeGridProps {
   onReady?: () => void;
 }
 
+const TYPING_TEXT = 'emotional studios';
+const TYPING_SPEED = 93;
+
+function TypingText() {
+  const [displayed, setDisplayed] = useState('');
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (displayed.length < TYPING_TEXT.length) {
+      timeout = setTimeout(() => {
+        setDisplayed(TYPING_TEXT.slice(0, displayed.length + 1));
+      }, TYPING_SPEED);
+    }
+    return () => clearTimeout(timeout);
+  }, [displayed]);
+  return (
+    <span
+      style={{
+        color: '#fff',
+        fontSize: '3.1rem',
+        fontFamily: "PP Neue Montreal, 'Cinzel Decorative', 'TheGoodMonolith', sans-serif",
+        letterSpacing: '1.05em',
+        fontWeight: 700,
+        textShadow: '0 2px 16px rgba(0,0,0,0.18)',
+        userSelect: 'none',
+        display: 'inline-block',
+      }}
+    >
+      {displayed}
+    </span>
+  );
+}
+
 export function ChromeGrid({ onReady }: ChromeGridProps) {
   return (
     <div className="h-full w-full bg-black relative z-0">
@@ -278,20 +310,7 @@ export function ChromeGrid({ onReady }: ChromeGridProps) {
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
         style={{ zIndex: 10 }}
       >
-        <span
-          style={{
-            color: '#fff',
-            fontSize: '3.1rem',
-            fontFamily: 'PP Neue Montreal, \'Cinzel Decorative\', "TheGoodMonolith", sans-serif',
-            letterSpacing: '1.05em',
-            fontWeight: 700,
-            textShadow: '0 2px 16px rgba(0,0,0,0.18)',
-            userSelect: 'none',
-            display: 'inline-block',
-          }}
-        >
-          emotional studios
-        </span>
+        <TypingText />
       </div>
       <Canvas
         camera={{ 

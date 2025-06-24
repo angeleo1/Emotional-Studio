@@ -42,7 +42,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             letterSpacing: '-0.04em',
             lineHeight: 1,
             marginLeft: '4vw',
-            fontFamily: 'inherit, sans-serif',
+            fontFamily: 'Gulax',
             userSelect: 'none',
             marginTop: '6rem',
           }}
@@ -66,15 +66,15 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             zIndex: 9000,
           }}
         >
-          <span style={{ fontWeight: 700, fontSize: '2.21rem', color: '#FF6100', letterSpacing: '0.13em' }}>Our Elixirs</span>
+          <span style={{ fontWeight: 700, fontSize: '2.21rem', color: '#FF6100', letterSpacing: '0.13em', fontFamily: 'Gulax' }}>Our Elixirs</span>
           <div style={{ display: 'flex', gap: '1.5rem', margin: '0.7rem 0' }}>
             <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>
             <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>
             <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>
           </div>
           <span>Elevate Your Emotions, Frame Your Memories</span>
-          <span style={{ color: '#aaa', fontSize: '1.2rem', fontWeight: 400, marginTop: '1.5rem' }}>Every Photo Tells a Story, Every Elixir Completes It</span>
-          <span style={{ color: '#fff', opacity: 0.18, fontSize: '1.2rem', fontWeight: 400, letterSpacing: '0.04em', marginTop: '1.5rem' }}>Emotional studio is what makes two elements a unified experience</span>
+          <span style={{ color: '#aaa', fontSize: '1.2rem', fontWeight: 400, marginBottom: '1.5rem' }}>Every Photo Tells a Story, Every Elixir Completes It</span>
+          <span style={{ color: '#fff', opacity: 0.18, fontSize: '1.2rem', fontWeight: 400, letterSpacing: '0.04em', marginTop: 0 }}>Emotional studio is what makes two elements a unified experience</span>
         </div>
         {/* Private Self-Studio in Melbourne 우측 하단 아이콘 왼쪽에 위치 */}
         <span
