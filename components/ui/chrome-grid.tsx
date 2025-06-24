@@ -299,7 +299,15 @@ export function ChromeGrid({ onReady }: ChromeGridProps) {
           rotation: [-0.65, -0.2, -0.13],
           fov: 35 
         }}
-        onCreated={() => { if (onReady) onReady(); }}
+        onCreated={() => {
+          if (onReady) {
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                onReady();
+              });
+            });
+          }
+        }}
       >
         <ambientLight intensity={1} />
         
