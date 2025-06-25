@@ -44,6 +44,7 @@
     "react-i18next": "^14.0.5",
     "react-icons": "^5.5.0",
     "react-use": "^17.6.0",
+    "roughjs": "^4.6.6",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.175.0",

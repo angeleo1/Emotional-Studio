@@ -98,9 +98,9 @@ export default function Navbar() {
       <Link href="/" legacyBehavior>
         <a className="glitch-wrapper" style={{ position: 'fixed', top: '-5rem', left: '4rem', zIndex: 1001, mixBlendMode: 'difference', color: '#ffffff', textDecoration: 'none' }}>
           <span 
-            className="glitch" 
+            className="glitch"
             data-text="e.st"
-            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '15.12rem', fontWeight: '500', padding: '0 4rem' }}
+            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '15.12rem', fontWeight: '500', padding: '0 4rem', transition: 'color 0.1s' }}
           >
             e.st
           </span>
@@ -243,6 +243,12 @@ export default function Navbar() {
         
         .font-serif {
           font-family: 'Libre Baskerville', serif;
+        }
+        .glitch-wrapper, .glitch {
+          transition: color 0.1s;
+        }
+        .glitch-wrapper:hover .glitch {
+          color: transparent;
         }
       `}</style>
     </>
