@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="agrave" format="2">
+	<advance width="578"/>
+	<unicode hex="00E0"/>
+	<outline>
+		<contour>
+			<point x="270" y="507" type="line"/>
+			<point x="270" y="454" type="line"/>
+			<point x="294" y="454" type="line"/>
+			<point x="294" y="507" type="line"/>
+		</contour>
+		<component base="a"/>
+		<component base="grave" xOffset="-98"/>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.leftMetricsKey</key>
+			<string>o</string>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>n</string>
+		</dict>
+	</lib>
+</glyph>

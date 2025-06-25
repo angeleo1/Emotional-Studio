@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="ST.liga" format="2">
+	<advance width="930"/>
+	<outline>
+		<contour>
+			<point x="402" y="723" type="line"/>
+			<point x="402" y="638" type="line"/>
+			<point x="548" y="638" type="line"/>
+			<point x="548" y="723" type="line"/>
+		</contour>
+		<component base="S"/>
+		<component base="T" xOffset="485"/>
+	</outline>
+</glyph>

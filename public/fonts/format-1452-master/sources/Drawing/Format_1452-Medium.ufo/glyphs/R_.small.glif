@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="R.small" format="2">
+	<advance width="527"/>
+	<outline>
+		<contour>
+			<point x="228" y="440" type="line"/>
+			<point x="141" y="440" type="line"/>
+			<point x="338" y="0" type="line"/>
+			<point x="425" y="0" type="line"/>
+		</contour>
+		<component base="P.small"/>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>R</string>
+		</dict>
+	</lib>
+</glyph>

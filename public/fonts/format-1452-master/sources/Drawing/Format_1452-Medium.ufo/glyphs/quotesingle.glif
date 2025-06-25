@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="quotesingle" format="2">
+	<advance width="264"/>
+	<unicode hex="0027"/>
+	<note>
+		quotesingle
+  </note>
+	<outline>
+		<contour>
+			<point x="232" y="723" type="line"/>
+			<point x="152" y="723" type="line"/>
+			<point x="152" y="720" type="line"/>
+			<point x="149" y="720" type="line"/>
+			<point x="149" y="656"/>
+			<point x="97" y="604"/>
+			<point x="32" y="604" type="curve"/>
+			<point x="32" y="601" type="line"/>
+			<point x="30" y="601" type="line"/>
+			<point x="30" y="521" type="line"/>
+			<point x="32" y="521" type="line"/>
+			<point x="32" y="518" type="line"/>
+			<point x="144" y="518"/>
+			<point x="234" y="608"/>
+			<point x="234" y="720" type="curve"/>
+			<point x="232" y="720" type="line"/>
+		</contour>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.leftMetricsKey</key>
+			<string>comma</string>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>comma</string>
+		</dict>
+	</lib>
+</glyph>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="ST.small" format="2">
+	<advance width="945"/>
+	<outline>
+		<contour>
+			<point x="431" y="484" type="line"/>
+			<point x="431" y="398" type="line"/>
+			<point x="593" y="398" type="line"/>
+			<point x="593" y="484" type="line"/>
+		</contour>
+		<component base="s"/>
+		<component base="T.small" xOffset="500"/>
+	</outline>
+</glyph>

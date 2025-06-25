@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="R.alt.small" format="2">
+	<advance width="527"/>
+	<outline>
+		<contour>
+			<point x="427" y="189" type="line"/>
+			<point x="340" y="189" type="line"/>
+			<point x="378" y="0" type="line"/>
+			<point x="465" y="0" type="line"/>
+		</contour>
+		<component base="P.small"/>
+	</outline>
+</glyph>

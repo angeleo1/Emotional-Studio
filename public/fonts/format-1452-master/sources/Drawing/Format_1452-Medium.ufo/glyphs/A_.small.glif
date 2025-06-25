@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="A.small" format="2">
+	<advance width="444"/>
+	<anchor x="222" y="484" name="top"/>
+	<outline>
+		<contour>
+			<point x="362" y="131" type="line"/>
+			<point x="329" y="216" type="line"/>
+			<point x="115" y="216" type="line"/>
+			<point x="82" y="131" type="line"/>
+		</contour>
+		<component base="v" yScale="-1" yOffset="484"/>
+	</outline>
+</glyph>

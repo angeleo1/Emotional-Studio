@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="RT.small" format="2">
+	<advance width="972"/>
+	<outline>
+		<component base="R.small"/>
+		<component base="T.small" xOffset="527"/>
+	</outline>
+</glyph>

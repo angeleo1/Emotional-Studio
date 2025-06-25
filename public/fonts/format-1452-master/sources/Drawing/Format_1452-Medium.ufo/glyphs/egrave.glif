@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="egrave" format="2">
+	<advance width="500"/>
+	<unicode hex="00E8"/>
+	<outline>
+		<contour>
+			<point x="270" y="538" type="line"/>
+			<point x="270" y="454" type="line"/>
+			<point x="293" y="454" type="line"/>
+			<point x="293" y="538" type="line"/>
+		</contour>
+		<component base="e"/>
+		<component base="grave" xOffset="-99"/>
+	</outline>
+</glyph>

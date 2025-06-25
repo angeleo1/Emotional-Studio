@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="j" format="2">
+	<advance width="251"/>
+	<unicode hex="006A"/>
+	<note>
+		j
+  </note>
+	<outline>
+		<contour>
+			<point x="191" y="486" type="line"/>
+			<point x="105" y="486" type="line"/>
+			<point x="105" y="-63" type="line"/>
+			<point x="191" y="-63" type="line"/>
+		</contour>
+		<contour>
+			<point x="191" y="-63" type="curve"/>
+			<point x="105" y="-63" type="line"/>
+			<point x="105" y="-92"/>
+			<point x="82" y="-114"/>
+			<point x="53" y="-114" type="curve"/>
+			<point x="53" y="-200" type="line"/>
+			<point x="129" y="-200"/>
+			<point x="191" y="-139"/>
+		</contour>
+		<contour>
+			<point x="10" y="-114" type="line"/>
+			<point x="10" y="-200" type="line"/>
+			<point x="53" y="-200" type="line"/>
+			<point x="53" y="-114" type="line"/>
+		</contour>
+		<contour>
+			<point x="191" y="639" type="line"/>
+			<point x="105" y="639" type="line"/>
+			<point x="105" y="553" type="line"/>
+			<point x="191" y="553" type="line"/>
+		</contour>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>i</string>
+		</dict>
+	</lib>
+</glyph>

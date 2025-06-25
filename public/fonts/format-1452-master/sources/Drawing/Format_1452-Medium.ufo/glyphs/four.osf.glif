@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="four.osf" format="2">
+	<advance width="500"/>
+	<outline>
+		<contour>
+			<point x="330" y="485" type="line"/>
+			<point x="327" y="485" type="line"/>
+			<point x="327" y="482" type="line"/>
+			<point x="327" y="85" type="line"/>
+			<point x="127" y="85" type="line"/>
+			<point x="253" y="401" type="line"/>
+			<point x="250" y="402" type="line"/>
+			<point x="250" y="405" type="line"/>
+			<point x="171" y="405" type="line"/>
+			<point x="171" y="402" type="line"/>
+			<point x="168" y="403" type="line"/>
+			<point x="8" y="4" type="line"/>
+			<point x="11" y="3" type="line"/>
+			<point x="11" y="0" type="line"/>
+			<point x="88" y="0" type="line"/>
+			<point x="91" y="0" type="line"/>
+			<point x="290" y="0" type="line"/>
+			<point x="327" y="0" type="line"/>
+			<point x="327" y="-197" type="line"/>
+			<point x="327" y="-200" type="line"/>
+			<point x="330" y="-200" type="line"/>
+			<point x="370" y="-200" type="line"/>
+			<point x="410" y="-200" type="line"/>
+			<point x="413" y="-200" type="line"/>
+			<point x="413" y="-197" type="line"/>
+			<point x="413" y="0" type="line"/>
+			<point x="489" y="0" type="line"/>
+			<point x="492" y="0" type="line"/>
+			<point x="492" y="3" type="line"/>
+			<point x="492" y="83" type="line"/>
+			<point x="492" y="85" type="line"/>
+			<point x="489" y="85" type="line"/>
+			<point x="413" y="85" type="line"/>
+			<point x="413" y="482" type="line"/>
+			<point x="413" y="485" type="line"/>
+			<point x="410" y="485" type="line"/>
+		</contour>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.leftMetricsKey</key>
+			<string>four</string>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>four</string>
+		</dict>
+	</lib>
+</glyph>

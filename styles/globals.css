@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,7 +21,9 @@
 
 @font-face {
   font-family: 'LeMurmure-Regular';
-  src: url('/fonts/LeMurmure-Regular.woff2') format('woff2');
+  src: url('/fonts/murmure-main/fonts/webfonts/LeMurmure-Regular.woff2') format('woff2'),
+       url('/fonts/murmure-main/fonts/webfonts/LeMurmure-Regular.woff') format('woff'),
+       url('/fonts/murmure-main/fonts/webfonts/LeMurmure-Regular.eot') format('embedded-opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -31,6 +34,70 @@
   src: url('/fonts/Gulax-Regular.woff2') format('woff2'),
        url('/fonts/Gulax-Regular.woff') format('woff'),
        url('/fonts/Gulax-Regular.eot') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Format_1452';
+  src: url('/fonts/Format_1452.woff2') format('woff2'),
+       url('/fonts/Format_1452.woff') format('woff'),
+       url('/fonts/Format_1452.eot') format('embedded-opentype'),
+       url('/fonts/Format_1452.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Britney-Regular';
+  src: url('/fonts/Britney_Complete/Fonts/WEB/fonts/Britney-Regular.woff2') format('woff2'),
+       url('/fonts/Britney_Complete/Fonts/WEB/fonts/Britney-Regular.woff') format('woff'),
+       url('/fonts/Britney_Complete/Fonts/WEB/fonts/Britney-Regular.eot') format('embedded-opentype'),
+       url('/fonts/Britney_Complete/Fonts/WEB/fonts/Britney-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BespokeStencil-Regular';
+  src: url('/fonts/BespokeStencil_Complete/Fonts/WEB/fonts/BespokeStencil-Regular.woff2') format('woff2'),
+       url('/fonts/BespokeStencil_Complete/Fonts/WEB/fonts/BespokeStencil-Regular.woff') format('woff'),
+       url('/fonts/BespokeStencil_Complete/Fonts/WEB/fonts/BespokeStencil-Regular.eot') format('embedded-opentype'),
+       url('/fonts/BespokeStencil_Complete/Fonts/WEB/fonts/BespokeStencil-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Melodrama-Regular';
+  src: url('/fonts/Melodrama_Complete/Fonts/WEB/fonts/Melodrama-Regular.woff2') format('woff2'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/fonts/Melodrama-Regular.woff') format('woff'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/fonts/Melodrama-Regular.eot') format('embedded-opentype'),
+       url('/fonts/Melodrama_Complete/Fonts/WEB/fonts/Melodrama-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ClashDisplay-Regular';
+  src: url('/fonts/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Regular.woff2') format('woff2'),
+       url('/fonts/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Regular.woff') format('woff'),
+       url('/fonts/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Regular.eot') format('embedded-opentype'),
+       url('/fonts/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'murmure-main';
+  src: url('/fonts/murmure-main/fonts/le-murmure.otf') format('opentype'),
+       url('/fonts/murmure-main/fonts/le-murmure.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;

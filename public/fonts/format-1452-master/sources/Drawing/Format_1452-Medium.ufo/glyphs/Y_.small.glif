@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="Y.small" format="2">
+	<advance width="424"/>
+	<anchor x="212" y="484" name="top"/>
+	<outline>
+		<contour>
+			<point x="255" y="134" type="line"/>
+			<point x="170" y="133" type="line"/>
+			<point x="170" y="0" type="line"/>
+			<point x="255" y="0" type="line"/>
+		</contour>
+		<contour>
+			<point x="416" y="484" type="line"/>
+			<point x="330" y="484" type="line"/>
+			<point x="212" y="219" type="line"/>
+			<point x="94" y="484" type="line"/>
+			<point x="8" y="484" type="line"/>
+			<point x="212" y="26" type="line"/>
+		</contour>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.leftMetricsKey</key>
+			<string>v</string>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>v</string>
+		</dict>
+	</lib>
+</glyph>

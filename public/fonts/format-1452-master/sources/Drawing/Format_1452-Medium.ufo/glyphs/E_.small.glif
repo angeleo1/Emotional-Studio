@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<glyph name="E.small" format="2">
+	<advance width="474"/>
+	<anchor x="271" y="484" name="top"/>
+	<outline>
+		<contour>
+			<point x="73" y="484" type="line"/>
+			<point x="70" y="484" type="line"/>
+			<point x="70" y="482" type="line"/>
+			<point x="70" y="3" type="line"/>
+			<point x="70" y="0" type="line"/>
+			<point x="73" y="0" type="line"/>
+			<point x="451" y="0" type="line"/>
+			<point x="454" y="0" type="line"/>
+			<point x="454" y="3" type="line"/>
+			<point x="454" y="83" type="line"/>
+			<point x="454" y="86" type="line"/>
+			<point x="451" y="86" type="line"/>
+			<point x="156" y="86" type="line"/>
+			<point x="156" y="193" type="line"/>
+			<point x="372" y="193" type="line"/>
+			<point x="375" y="193" type="line"/>
+			<point x="375" y="195" type="line"/>
+			<point x="375" y="275" type="line"/>
+			<point x="375" y="278" type="line"/>
+			<point x="372" y="278" type="line"/>
+			<point x="156" y="278" type="line"/>
+			<point x="156" y="399" type="line"/>
+			<point x="451" y="399" type="line"/>
+			<point x="454" y="399" type="line"/>
+			<point x="454" y="402" type="line"/>
+			<point x="454" y="482" type="line"/>
+			<point x="454" y="484" type="line"/>
+			<point x="451" y="484" type="line"/>
+		</contour>
+	</outline>
+	<lib>
+		<dict>
+			<key>com.schriftgestaltung.Glyphs.leftMetricsKey</key>
+			<string>E</string>
+			<key>com.schriftgestaltung.Glyphs.rightMetricsKey</key>
+			<string>E</string>
+		</dict>
+	</lib>
+</glyph>

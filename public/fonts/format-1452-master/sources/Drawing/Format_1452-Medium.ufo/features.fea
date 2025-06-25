@@ -1,0 +1,100 @@
+# Prefix: Languagesystems
+# automatic
+languagesystem DFLT dflt;
+
+feature aalt {
+sub a by a.alt;
+sub R by R.alt;
+} aalt;
+
+feature liga {
+sub f i by fi.liga;
+sub s t by st.liga;
+sub S T by ST.liga;
+sub r t by rt.liga;
+} liga;
+
+feature smcp {
+sub a by A.small;
+sub aacute by Aacute.small;
+sub acircumflex by Acircumflex.small;
+sub adieresis by Adieresis.small;
+sub agrave by Agrave.small;
+sub atilde by Atilde.small;
+sub aring by Aring.small;
+sub b by B.small;
+sub c by C.small;
+sub ccedilla by Ccedilla.small;
+sub d by D.small;
+sub e by E.small;
+sub eacute by Eacute.small;
+sub egrave by Egrave.small;
+sub edieresis by Edieresis.small;
+sub f by F.small;
+sub g by G.small;
+sub h by H.small;
+sub i by I.small;
+sub iacute by Iacute.small;
+sub icircumflex by Icircumflex.small;
+sub idieresis by Idieresis.small;
+sub igrave by Igrave.small;
+sub j by J.small;
+sub k by K.small;
+sub l by L.small;
+sub m by M.small;
+sub n by N.small;
+sub ntilde by Ntilde.small;
+sub o by O.small;
+sub p by P.small;
+sub q by Q.small;
+sub r by R.small;
+sub s by S.small;
+sub t by T.small;
+sub u by U.small;
+sub ugrave by Ugrave.small;
+sub uacute by Uacute.small;
+sub ucircumflex by Ucircumflex.small;
+sub udieresis by Udieresis.small;
+sub v by V.small;
+sub w by W.small;
+sub y by Y.small;
+sub yacute by Yacute.small;
+sub ydieresis by Ydieresis.small;
+sub z by Z.small;
+sub oe by OE.small;
+sub ae by AE.small;
+sub quotesingle by quotesingle.small;
+sub ampersand by ampersand.small;
+sub fi.liga by FI.small;
+sub st.liga by ST.small;
+sub rt.liga by RT.small;
+} smcp;
+
+feature lnum {
+# automatic
+sub zero.osf by zero;
+sub one.osf by one;
+sub two.osf by two;
+sub three.osf by three;
+sub four.osf by four;
+sub five.osf by five;
+sub six.osf by six;
+sub seven.osf by seven;
+sub eight.osf by eight;
+sub nine.osf by nine;
+} lnum;
+
+feature onum {
+# automatic
+sub zero by zero.osf;
+sub one by one.osf;
+sub two by two.osf;
+sub three by three.osf;
+sub four by four.osf;
+sub five by five.osf;
+sub six by six.osf;
+sub seven by seven.osf;
+sub eight by eight.osf;
+sub nine by nine.osf;
+} onum;
+
