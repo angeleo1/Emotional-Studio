@@ -219,7 +219,7 @@ const Support: NextPage = () => {
   };
 
   return (
-    <div className={`glass-page-background ${activeMainTab ? 'layout-active' : ''}`}>
+    <div className={`glass-page-background${activeMainTab === 'faq' ? ' faq-bg' : ''}${activeMainTab === 'event' ? ' event-bg' : ''}${activeMainTab === 'notice' ? ' notice-bg' : ''} ${activeMainTab ? 'layout-active' : ''}`}>
       <Head>
         <title>Support | Emotional Studio</title>
         <meta name="description" content="Find answers and support for Emotional Studio services" />
@@ -243,27 +243,22 @@ const Support: NextPage = () => {
       </div>
 
       <div className="support-nav-wrapper">
-            {mainTabs.map((tab) => (
+        {mainTabs.map((tab) => (
           <GlassContainer 
             key={tab.id} 
             className="glass-container--medium"
             onClick={() => handleMainTabClick(tab.id)}
           >
-            <div className="glass-content">
-              <button
-                className={`glass-item ${activeMainTab === tab.id ? 'glass-item--active' : ''}`}
-              >
-                {tab.label}
-              </button>
-              <div className="glass-overlay"></div>
-              <div className="glass-filter"></div>
-              <div className="glass-specular"></div>
-            </div>
+            <button
+              className={`glass-item ${activeMainTab === tab.id ? 'glass-item--active' : ''}`}
+            >
+              {tab.label}
+            </button>
           </GlassContainer>
-            ))}
-          </div>
+        ))}
+      </div>
 
-      <div className="support-content-wrapper">
+      <div className={`support-content-wrapper${activeMainTab ? ' active-section-bg' : ''}`}>
         <AnimatePresence>
           {activeMainTab && (
             <motion.div
@@ -276,99 +271,88 @@ const Support: NextPage = () => {
             >
           {activeMainTab === 'faq' && (
             <>
-                  <GlassContainer className="glass-container--large" style={{ flexShrink: 0 }}>
-                    <div className="glass-content" style={{flexWrap: 'wrap', justifyContent: 'center'}}>
-                {faqTabs.map((tab) => (
-                        <GlassContainer 
-                    key={tab.id}
-                          className="glass-container--rounded"
-                    onClick={() => setActiveFaqTab(tab.id)}
-                          style={{margin: '0.25rem'}}
-                        >
-                           <div className="glass-content" style={{padding: '0.25rem 1rem'}}>
-                            <button
-                              className={`glass-item ${activeFaqTab === tab.id ? 'glass-item--active' : ''}`}
-                              style={{padding: 0}}
-                  >
-                    {tab.label}
-                  </button>
-                            <div className="glass-overlay"></div>
-                            <div className="glass-filter"></div>
-                            <div className="glass-specular"></div>
-                          </div>
-                        </GlassContainer>
-                ))}
-              </div>
-                  </GlassContainer>
-
-                  <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {filteredFaqs.map((faq) => (
-                      <GlassContainer key={faq.question} className="glass-container--medium">
-                        <div className="glass-content" style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '0.75rem 1.5rem' }}>
-                          <button onClick={() => handleQuestionClick(faq.question)} style={{ all: 'unset', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '0.5rem 0' }}>
-                            <span>{faq.question}</span>
-                            <FiChevronDown style={{ transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
-                          </button>
-                          <AnimatePresence>
-                            {openQuestion === faq.question && (
-                  <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                style={{ overflow: 'hidden', paddingTop: '0.5rem', width: '100%' }}
+              <GlassContainer className="glass-container--large" style={{ flexShrink: 0 }}>
+                <div className="faq-tab-row">
+                  {faqTabs.map((tab) => (
+                    <GlassContainer 
+                      key={tab.id}
+                      className="glass-container--rounded"
+                      onClick={() => setActiveFaqTab(tab.id)}
+                      style={{margin: '0.25rem'}}
                     >
-                                <p style={{margin: 0}}>{faq.answer}</p>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                      </div>
-                      </GlassContainer>
+                      <button
+                        className={`glass-item ${activeFaqTab === tab.id ? 'glass-item--active' : ''}`}
+                        style={{padding: 0}}
+                      >
+                        {tab.label}
+                      </button>
+                    </GlassContainer>
+                  ))}
+                </div>
+              </GlassContainer>
+
+              <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {filteredFaqs.map((faq) => (
+                  <GlassContainer key={faq.question} className="glass-container--medium">
+                    <div style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '0.75rem 1.5rem', display: 'flex' }}>
+                      <button onClick={() => handleQuestionClick(faq.question)} style={{ all: 'unset', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '0.5rem 0' }}>
+                        <span>{faq.question}</span>
+                        <FiChevronDown style={{ transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+                      </button>
+                      <AnimatePresence>
+                        {openQuestion === faq.question && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            style={{ overflow: 'hidden', paddingTop: '0.5rem', width: '100%' }}
+                          >
+                            <p style={{margin: 0}}>{faq.answer}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </GlassContainer>
                 ))}
               </div>
             </>
           )}
 
           {activeMainTab === 'event' && (
-                <div className="grid-for-glass">
-                  {events.map((event) => (
-                    <GlassContainer key={event.title} className="glass-container--large">
-                      <div className="glass-content glass-content--inline">
-                        <div className="player">
-                          <div className="player__thumb">
-                            <Image className="player__img" src={event.image} alt={event.title} width={80} height={80} />
-                            <div className="player__legend">
-                              <h3 className="player__legend__title">{event.title}</h3>
-                              {event.isNew && <span className="player__legend__sub-title">NEW</span>}
+            <div className="grid-for-glass">
+              {events.map((event) => (
+                <GlassContainer key={event.title} className="glass-container--large">
+                  <div className="glass-content glass-content--inline">
+                    <div className="player">
+                      <div className="player__thumb">
+                        <Image className="player__img" src={event.image} alt={event.title} width={80} height={80} />
+                        <div className="player__legend">
+                          <h3 className="player__legend__title">{event.title}</h3>
+                          {event.isNew && <span className="player__legend__sub-title">NEW</span>}
                         </div>
-                          </div>
-                        </div>
-                         <div className="glass-overlay"></div>
-                         <div className="glass-filter"></div>
-                         <div className="glass-specular"></div>
                       </div>
-                    </GlassContainer>
-                  ))}
+                    </div>
+                  </div>
+                </GlassContainer>
+              ))}
             </div>
           )}
 
           {activeMainTab === 'notice' && (
-                <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  {notices.map((notice) => (
-                    <GlassContainer key={notice.title} className="glass-container--medium">
-                      <div className="glass-content" style={{justifyContent: 'space-between', width: '100%'}}>
-                        <div>
-                          <h3>{notice.title}</h3>
-                          <p style={{margin: '0.25rem 0 0', fontSize: '0.9rem'}}>{notice.date}</p>
-                        </div>
-                        {notice.isNew && <span style={{fontWeight: 'bold'}}>NEW</span>}
-                      </div>
-                       <div className="glass-overlay"></div>
-                       <div className="glass-filter"></div>
-                       <div className="glass-specular"></div>
-                    </GlassContainer>
-                  ))}
-                </div>
-              )}
+            <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {notices.map((notice) => (
+                <GlassContainer key={notice.title} className="glass-container--medium">
+                  <div style={{justifyContent: 'space-between', width: '100%', display: 'flex'}}>
+                    <div>
+                      <h3>{notice.title}</h3>
+                      <p style={{margin: '0.25rem 0 0', fontSize: '0.9rem'}}>{notice.date}</p>
+                    </div>
+                    {notice.isNew && <span style={{fontWeight: 'bold'}}>NEW</span>}
+                  </div>
+                </GlassContainer>
+              ))}
+            </div>
+          )}
             </motion.div>
           )}
         </AnimatePresence>

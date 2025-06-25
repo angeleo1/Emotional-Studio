@@ -11,7 +11,7 @@ const GlassContainer: React.FC<GlassContainerProps> = ({ children, className = '
       <div className="glass-filter"></div>
       <div className="glass-overlay"></div>
       <div className="glass-specular"></div>
-      {children}
+      <div className="glass-content">{children}</div>
     </div>
   );
 };

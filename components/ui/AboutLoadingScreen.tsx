@@ -1,81 +1,42 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Spinner from '@/components/ui/Spinner';
 
 const AboutLoadingScreen = () => {
-  const text = "About Us";
-
-  const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-  };
-
-  const letterVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        ease: "easeOut",
-        duration: 0.5,
-      },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        delay: text.length * 0.08 + 0.5, // Start after text animation
-        duration: 0.8,
-        ease: 'easeOut'
-      }
-    }
-  }
-
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FF4D00]"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+    <div
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#111]"
     >
-      <motion.h1
-        className="text-white text-5xl md:text-7xl font-bold flex mb-8"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {text.split("").map((char, index) => (
-            <motion.span
-              key={index}
-              variants={letterVariants}
-            >
-              {char === " " ? "\u00A0" : char}
-            </motion.span>
-        ))}
-      </motion.h1>
-      <motion.div
-        className="relative w-64 h-80 md:w-80 md:h-96"
-        variants={imageVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      {/* 이미지 */}
+      <div className="relative w-64 h-80 md:w-80 md:h-96 mb-8">
         <Image
           src="/images/aboutus0.png"
           alt="Loading image for About Us page"
           fill
+          priority
+          loading="eager"
           style={{ objectFit: 'cover', filter: 'grayscale(1) brightness(100)' }}
-          className="rounded-lg"
+          className="rounded-lg aboutus-orange-overlay"
         />
-      </motion.div>
-    </motion.div>
+      </div>
+      {/* 메인 인트로와 동일한 스피너, 색상만 흰색 + drop-shadow */}
+      <Spinner size={64} color="#fff" className="aboutus-spinner-shadow" style={{ display: 'block' }} />
+      <style jsx>{`
+        .aboutus-spinner-shadow {
+          filter: drop-shadow(0 0 8px #000) drop-shadow(0 0 2px #000);
+        }
+        .aboutus-orange-overlay::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: rgba(255, 77, 0, 0.45);
+          mix-blend-mode: multiply;
+          border-radius: 0.5rem;
+          pointer-events: none;
+          z-index: 2;
+        }
+      `}</style>
+    </div>
   );
 };
 

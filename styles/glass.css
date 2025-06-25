@@ -7,13 +7,16 @@
   --lg-grey: #5b5b5b;
 }
 
+body, .glass-page-background {
+  background-color: #6B6B00 !important;
+}
+
 .glass-page-background {
   margin: 0;
   padding: 4rem;
   min-height: 100vh;
   display: flex;
   font-family: sans-serif;
-  background-color: #c4b79c;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -21,10 +24,14 @@
 
 .support-title-wrapper {
   position: absolute;
-  top: 8rem;
+  top: 6rem;
   left: 4rem;
   z-index: 10;
   transition: opacity 0.5s ease;
+}
+
+.support-title, .support-description, .glass-item, .player__legend, .player__legend__title, .player__legend__sub-title, .support-content-wrapper span, .support-content-wrapper h3, .support-content-wrapper p, .glass-item--active, .faq-tab-row .glass-container--rounded button, .faq-tab-row .glass-container--rounded span {
+  color: #fff !important;
 }
 
 .support-title {
@@ -32,7 +39,6 @@
   font-size: clamp(4rem, 10vw, 7rem);
   line-height: 1.1;
   font-weight: 700;
-  color: var(--lg-text);
   margin: 0;
 }
 
@@ -41,7 +47,6 @@
   font-style: italic;
   font-weight: 400;
   font-size: clamp(1.2rem, 2vw, 1.5rem);
-  color: var(--lg-text);
   margin-top: 1rem;
 }
 
@@ -59,7 +64,7 @@
 
 .layout-active .support-nav-wrapper {
   left: 4rem;
-  top: 25rem; /* Position under title */
+  top: 35rem; /* 더 아래로 내림 */
   transform: translate(0, -50%);
   align-items: flex-start;
 }
@@ -302,4 +307,59 @@
 }
 .support-content-wrapper svg {
   color: var(--lg-text) !important;
+}
+
+/* FAQ 탭 한 줄 정렬 */
+.faq-tab-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+}
+.faq-tab-row .glass-container--rounded {
+  min-width: 6rem;
+  padding: 0 0.5rem;
+  margin: 0;
+}
+.faq-tab-row .glass-item {
+  font-size: 1rem;
+  padding: 0.4rem 0;
+}
+
+.faq-tab-row .glass-container--rounded .glass-filter,
+.faq-tab-row .glass-container--rounded .glass-overlay,
+.faq-tab-row .glass-container--rounded .glass-specular {
+  display: none;
+}
+
+.support-content-wrapper p,
+.support-content-wrapper .glass-container p,
+.support-content-wrapper .glass-container div,
+.support-content-wrapper .glass-container span {
+  color: #fff !important;
+}
+
+.active-section-bg {
+  background: none !important;
+}
+
+.active-section-bg * {
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 2px #000, 0 1px 0 #000;
+}
+
+.global-support-bg {
+  background: url('/images/support1.png') center/cover no-repeat !important;
+}
+
+.faq-bg {
+  background: none !important;
+}
+.event-bg {
+  background: none !important;
+}
+.notice-bg {
+  background: none !important;
 } 

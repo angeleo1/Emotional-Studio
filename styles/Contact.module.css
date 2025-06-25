@@ -3,7 +3,7 @@
 .container {
   display: flex;
   min-height: 100vh;
-  background-color: #f0ebe5; /* Light beige background */
+  background: #C1A97F !important;
   color: #1a1a1a;
   font-family: 'Poppins', sans-serif;
   padding: 8rem 4rem 4rem; /* Add padding for navbar */
@@ -19,7 +19,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #1a1a1a; /* Charcoal background */
+  background-color: #111111; /* 인트로페이지 먹색 */
   z-index: 0;
   clip-path: url(#wavy-divider);
 }
@@ -85,8 +85,8 @@
   margin-top: 2rem;
   text-align: right;
   width: 100%;
-  padding-right: 0.5rem; /* Maintain base alignment */
-  transform: translateX(-12rem); /* Move 12rem to the left */
+  padding-right: 6rem; /* 우측으로 6rem 이동 */
+  transform: translateX(6rem); /* 우측으로 6rem 이동 */
 }
 
 .subtleText {
