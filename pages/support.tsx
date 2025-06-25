@@ -235,7 +235,7 @@ const Support: NextPage = () => {
         </svg>
       </Head>
       
-      <div className="support-title-wrapper">
+      <div className="support-title-wrapper" style={{ marginTop: '2rem' }}>
         <h1 className="support-title">Support</h1>
         <p className="support-description">
               Find answers to frequently asked questions about our services

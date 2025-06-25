@@ -144,6 +144,7 @@
   background-color: #111;
   color: #eee;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .bookingGrid {
@@ -232,8 +233,12 @@
   accent-color: #ff6100;
 }
 
+.checkboxControl input:checked + label {
+  color: #111;
+}
+
 .checkboxControl label {
-    font-size: 1rem;
+  color: #fff !important;
 }
 
 .marginTop {
@@ -394,4 +399,15 @@
   .formColumn {
     grid-column: 1 / -1;
   }
+}
+
+.checkedLabel {
+  color: #111 !important;
+}
+
+:global(select), :global(option) {
+  color: #111 !important;
+  background: #fff !important;
+  font-weight: normal !important;
+  font-family: Arial, sans-serif !important;
 } 

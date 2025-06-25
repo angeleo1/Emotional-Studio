@@ -34,7 +34,10 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
       >
         <div style={{ marginTop: '8rem' }}>
           {/* 1. emotional studios */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' }}
             style={{
               position: 'relative',
               fontSize: '7vw',
@@ -49,9 +52,12 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             }}
           >
             emotional studios
-          </div>
+          </motion.div>
           {/* 2. Our Elixirs, 화살표, Elevate/Every 묶음 */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.7, ease: 'easeOut' }}
             style={{
               marginLeft: '4vw',
               marginTop: '11rem',
@@ -76,9 +82,12 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             <span style={{ display: 'block', textAlign: 'left', marginLeft: 0, letterSpacing: '0.08em', marginTop: '0.5rem', marginBottom: '0.5rem' }}>Elevate Your Emotions, Frame Your Memories</span>
             <span style={{ display: 'block', textAlign: 'left', marginLeft: 0, color: '#aaa', fontSize: '1.2rem', fontWeight: 400, marginTop: '0.5rem', marginBottom: '0.5rem', letterSpacing: '0.08em' }}>Every Photo Tells a Story, Every Elixir Completes It</span>
             <span style={{ display: 'block', textAlign: 'left', marginLeft: 0, color: '#fff', opacity: 0.18, fontSize: '1.2rem', fontWeight: 400, letterSpacing: '0.08em', marginTop: '0.5rem', marginBottom: '0.5rem' }}>Emotional studio is what makes two elements a unified experience</span>
-          </div>
+          </motion.div>
           {/* Private Self-Studio in Melbourne 우측 하단 아이콘 왼쪽에 위치 */}
-          <span
+          <motion.span
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.2, duration: 0.7, ease: 'easeOut' }}
             style={{
               position: 'absolute',
               right: '7.5rem',
@@ -94,9 +103,12 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             }}
           >
             Private Self-Studio in Melbourne
-          </span>
+          </motion.span>
           {/* 상단 우측: since Oct.2025 */}
-          <span
+          <motion.span
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 1.5, duration: 0.7, ease: 'easeOut' }}
             style={{
               position: 'absolute',
               top: '4vh',
@@ -115,9 +127,12 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
           >
             <span style={{ color: '#fff', opacity: 1 }}>since Oct.2025</span>
             <span style={{ color: '#fff', opacity: 1, fontWeight: 700, fontSize: '1.08rem', letterSpacing: '0.01em' }}>The First Project of emotional</span>
-          </span>
+          </motion.span>
           {/* 중앙~하단 우측: 감각적 문구 */}
-          <span
+          <motion.span
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.8, duration: 0.7, ease: 'easeOut' }}
             style={{
               position: 'absolute',
               right: '5vw',
@@ -141,9 +156,12 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
               Feel the Vibe<br />
               <span style={{fontWeight: 700, fontSize: '1.2rem', color: '#FF6100', opacity: 1}}>e.st</span>
             </span>
-          </span>
+          </motion.span>
           {/* Discover Us 버튼은 항상 보이게, onClick만 유지 */}
-          <button
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 2.2, duration: 0.5, ease: 'backOut' }}
             style={{
               position: 'absolute',
               right: 'calc(2vw + 32rem)',
@@ -179,7 +197,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 <path d="M52 6L68 18L52 30" stroke="#FF6100" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </span>
-          </button>
+          </motion.button>
         </div>
       </motion.div>
     </AnimatePresence>

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import styles from '../styles/Contact.module.css';
 import { FaTiktok, FaYoutube, FaFacebookF, FaInstagram, FaArrowRight } from 'react-icons/fa';
 import WavyClipPath from '@/components/WavyClipPath';
+import { motion } from 'framer-motion';
 
 const Contact: NextPage = () => {
   return (
@@ -18,42 +19,85 @@ const Contact: NextPage = () => {
         <WavyClipPath clipId="wavy-divider" />
         <main className={styles.mainGrid}>
           <div className={styles.leftColumn}>
-            <h1 className={styles.title}>
-              <span>Every</span> Photo Tells <span>a</span> Story,
-              <br/>
+            <motion.h1
+              className={styles.title}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              style={{ marginBottom: 0 }}
+            >
+              <span>Every</span> Photo Tells <span>a</span> Story
+            </motion.h1>
+            <motion.h1
+              className={styles.title}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              style={{ marginTop: 0, fontWeight: 700 }}
+            >
               <span>Every</span> Elixir <span>Completes It</span>.
-            </h1>
-            <p className={styles.strapline}>Precious Moments in e.st</p>
-                    </div>
+            </motion.h1>
+            <motion.p
+              className={styles.strapline}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+            >
+              Precious Moments in e.st
+            </motion.p>
+          </div>
 
           <div className={styles.rightColumn}>
             <div className={styles.contactInfo}>
-              <a href="mailto:info@emotionalstudio.com" className={styles.contactEmail}>
+              <motion.a
+                href="mailto:info@emotionalstudio.com"
+                className={styles.contactEmail}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.0, duration: 0.6 }}
+              >
                 info@emotionalstudio.com
-              </a>
-                    </div>
+              </motion.a>
+            </div>
 
             <div className={styles.socialSection}>
-              <div className={styles.socialGrid}>
+              <motion.div
+                className={styles.socialGrid}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.3, duration: 0.6 }}
+              >
                 <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaTiktok />&nbsp;TikTok</a>
                 <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaFacebookF />&nbsp;Facebook</a>
                 <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaInstagram />&nbsp;Instagram</a>
                 <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaYoutube />&nbsp;YouTube</a>
-              </div>
-                  </div>
+              </motion.div>
+            </div>
 
             <div className={styles.newsletterSection}>
-              <h2 className={styles.newsletterTitle}>Collaboration Inquiry</h2>
-              <form className={styles.newsletterForm}>
+              <motion.h2
+                className={styles.newsletterTitle}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6, duration: 0.6 }}
+              >
+                Collaboration Inquiry
+              </motion.h2>
+              <motion.form
+                className={styles.newsletterForm}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.9, duration: 0.6 }}
+              >
                 <input type="email" placeholder="Your Email Address" className={styles.newsletterInput} />
                 <button type="submit" className={styles.submitButton}>
                   <FaArrowRight />
-                  </button>
-                </form>
+                </button>
+              </motion.form>
             </div>
           </div>
-      </main>
-    </div>
+        </main>
+      </div>
     </>
   );
 };

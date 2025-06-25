@@ -424,10 +424,11 @@ body {
   padding: 0;
   max-width: 100vw;
   overflow-x: hidden;
+  background: #222 !important;
 }
 
 ::selection {
-  background-color: rgba(44, 23, 17, 0.1);
+  background-color: #222 !important;
 }
 
 /* 스크롤바 스타일 */
@@ -436,7 +437,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #fff0c6;
+  background: #222 !important;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -1029,4 +1030,125 @@ body {
   to {
     background-position: 0% -1000%;
   }
+}
+
+/* 갤러리 배경 패턴 */
+.gallery-bg {
+  background: url("/images/gallery2.jpg") center center;
+  background-size: cover;
+  background-color: transparent !important;
+  animation: moveBackground 240s linear infinite;
+}
+
+@keyframes moveBackground {
+  from { background-position: 0% 0%; }
+  to { background-position: 0% -500%; }
+}
+
+/* Liquid Glass 스타일 */
+.liquidGlass-wrapper {
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  overflow: hidden;
+  color: black;
+  cursor: pointer;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.2), 0 0 20px rgba(0,0,0,0.1);
+  transition: all 0.4s cubic-bezier(0.175,0.885,0.32,2.2);
+}
+.liquidGlass-effect {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: transparent !important;
+  backdrop-filter: blur(20px) saturate(2.5);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  isolation: isolate;
+}
+.liquidGlass-tint {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.01);
+}
+.liquidGlass-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  box-shadow: 0 0 32px 8px rgba(255,255,255,0.02),
+    0 0 0 2px rgba(255,255,255,0.01),
+    inset 2px 2px 8px 0 rgba(255,255,255,0.04),
+    inset -2px -2px 8px 0 rgba(0,0,0,0.01);
+}
+.liquidGlass-text {
+  z-index: 3;
+  font-size: 1.25rem;
+  color: black;
+  display: flex;
+  gap: 2rem;
+}
+.menu, .menu > div {
+  padding: 0.4rem 1.2rem;
+  border-radius: 1.8rem;
+}
+.menu:hover {
+  padding: 0.6rem 1.4rem;
+  border-radius: 1.8rem;
+}
+.menu > div > button {
+  font-size: 1.1rem;
+  color: #222;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.8rem;
+  background: none;
+  border: none;
+  transition: all 0.1s ease-in;
+}
+.menu > div > button:hover {
+  background-color: rgba(255,255,255,0.5);
+  box-shadow: inset -2px -2px 2px rgba(0,0,0,0.1);
+  backdrop-filter: blur(2px);
+}
+/* SVG 필터 */
+.glass-svg-filter {
+  display: none;
+}
+
+/* 메뉴 리퀴드글라스 박스 완전 투명하게 */
+.liquidGlass-wrapper.menu {
+  position: relative !important;
+  display: flex !important;
+  font-weight: 600 !important;
+  color: #1a1a1a !important;
+  cursor: pointer !important;
+  background: transparent !important;
+  border-radius: 2rem !important;
+  border: 1px solid rgba(0,0,0,0.05) !important;
+  overflow: hidden !important;
+  box-shadow: 0 6px 6px rgba(0,0,0,0.1), 0 0 20px rgba(0,0,0,0.05) !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2) !important;
+}
+.liquidGlass-wrapper.menu::before,
+.liquidGlass-wrapper.menu::after {
+  display: none !important;
+}
+.liquidGlass-effect {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: transparent;
+  backdrop-filter: blur(18px) saturate(1.8);
+  filter: url(#glass-distortion);
+  overflow: hidden;
+  isolation: isolate;
+}
+.liquidGlass-tint,
+.liquidGlass-shine {
+  display: none !important;
+}
+/* SVG 필터(물결 왜곡) */
+.glass-svg-filter {
+  display: block;
 }

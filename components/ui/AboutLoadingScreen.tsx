@@ -1,22 +1,52 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Spinner from '@/components/ui/Spinner';
+import { useRef, useEffect, useState } from 'react';
 
-const AboutLoadingScreen = () => {
+interface AboutLoadingScreenProps {
+  onFinish: () => void;
+}
+
+const AboutLoadingScreen = ({ onFinish }: AboutLoadingScreenProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoHalf, setIsVideoHalf] = useState(false);
+  const [isFiveSec, setIsFiveSec] = useState(false);
+  const [finished, setFinished] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsFiveSec(true), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isVideoHalf && isFiveSec && !finished) {
+      setFinished(true);
+      onFinish();
+    }
+  }, [isVideoHalf, isFiveSec, finished, onFinish]);
+
+  const handleTimeUpdate = () => {
+    const video = videoRef.current;
+    if (video && video.duration && video.currentTime / video.duration >= 0.5) {
+      setIsVideoHalf(true);
+    }
+  };
+
   return (
     <div
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#111]"
     >
-      {/* 이미지 */}
-      <div className="relative w-64 h-80 md:w-80 md:h-96 mb-8">
-        <Image
-          src="/images/aboutus0.png"
-          alt="Loading image for About Us page"
-          fill
-          priority
-          loading="eager"
-          style={{ objectFit: 'cover', filter: 'grayscale(1) brightness(100)' }}
-          className="rounded-lg aboutus-orange-overlay"
+      {/* 비디오 */}
+      <div className="relative w-[480px] h-[320px] md:w-[640px] md:h-[400px] mb-8 rounded-lg overflow-hidden">
+        <video
+          ref={videoRef}
+          src="/videos/aboutvideo.mp4"
+          autoPlay
+          loop={false}
+          muted
+          playsInline
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          onTimeUpdate={handleTimeUpdate}
         />
       </div>
       {/* 메인 인트로와 동일한 스피너, 색상만 흰색 + drop-shadow */}

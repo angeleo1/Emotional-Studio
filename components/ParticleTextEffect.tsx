@@ -200,10 +200,38 @@ const postFragmentShader = `
   }
 `;
 
+// ParticleTextEffect, ParticleBackgroundEffect에서 공통 사용
+const createShader = (gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null => {
+  const shader = gl.createShader(type);
+  if (!shader) return null;
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
+  }
+  return shader;
+};
+
+const createProgram = (gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader): WebGLProgram | null => {
+  const program = gl.createProgram();
+  if (!program) return null;
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('Program linking error:', gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+    return null;
+  }
+  return program;
+};
+
 const ParticleTextEffect = ({ text = "Capture the moment", className }: ParticleTextEffectProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const webglCanvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0, isDown: false });
   const glRef = useRef<WebGLRenderingContext | null>(null);
@@ -228,34 +256,6 @@ const ParticleTextEffect = ({ text = "Capture the moment", className }: Particle
   useEffect(() => {
     setConfig((prev) => ({ ...prev, text }));
   }, [text]);
-
-  // --- AppleHelloEffect 내부 함수들 복사 시작 ---
-  const createShader = useCallback((gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null => {
-    const shader = gl.createShader(type);
-    if (!shader) return null;
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
-      gl.deleteShader(shader);
-      return null;
-    }
-    return shader;
-  }, []);
-
-  const createProgram = useCallback((gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader): WebGLProgram | null => {
-    const program = gl.createProgram();
-    if (!program) return null;
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error('Program linking error:', gl.getProgramInfoLog(program));
-      gl.deleteProgram(program);
-      return null;
-    }
-    return program;
-  }, []);
 
   const initWebGL = useCallback(() => {
     const canvas = webglCanvasRef.current;
@@ -317,12 +317,17 @@ const ParticleTextEffect = ({ text = "Capture the moment", className }: Particle
     particlesRef.current = [];
     const lines = (config.text || '').split('\n');
     const fontSize = Math.min(140, window.innerWidth / 7);
-    ctx.font = `bold ${fontSize}px 'Herr Von Muellerhoff', cursive`;
+    ctx.font = `bold ${fontSize}px 'Britney_Complete', cursive`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const totalHeight = fontSize * lines.length + (lines.length - 1) * fontSize * 0.3;
-    const startY = canvas.height / 2 - totalHeight / 2 + fontSize / 2;
-    lines.forEach((line, idx) => {
+    const startY = canvas.height / 2 - totalHeight / 2 + fontSize / 2 + 64;
+    // 마지막 줄이 'Please Bother Me :)'면 파티클에서 제외하고, 나머지만 파티클로 생성
+    const isLastLineText = lines[lines.length - 1]?.trim() === 'Please Bother Me :)';
+    const particleLines = isLastLineText ? lines.slice(0, -1) : lines;
+    particleLines.forEach((line, idx) => {
+      const thisFontSize = fontSize;
+      ctx.font = `bold ${thisFontSize}px 'Britney_Complete', cursive`;
       const textWidth = ctx.measureText(line).width;
       const startX = canvas.width / 2;
       const y = startY + idx * (fontSize * 1.3);
@@ -330,7 +335,7 @@ const ParticleTextEffect = ({ text = "Capture the moment", className }: Particle
       const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) return;
       tempCanvas.width = textWidth + 100;
-      tempCanvas.height = fontSize + 50;
+      tempCanvas.height = thisFontSize + 50;
       tempCtx.font = ctx.font;
       tempCtx.fillStyle = '#FFFFFF';
       tempCtx.textAlign = 'center';
@@ -584,8 +589,184 @@ const ParticleTextEffect = ({ text = "Capture the moment", className }: Particle
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
       />
+      {/* 좌측 하단 스크롤 유도 화살표 및 텍스트 */}
+      <div className="absolute left-6 bottom-[9.25rem] flex flex-col items-center z-20 select-none pointer-events-none">
+        {/* 아래쪽 화살표 (SVG) - 애니메이션 추가 */}
+        <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
+          <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+          <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        {/* 세로 Scroll 텍스트 */}
+        <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
+          Scroll
+        </span>
+        <style jsx>{`
+          @keyframes bounce-down {
+            0%, 100% { transform: translateY(0); }
+            20% { transform: translateY(8px); }
+            40% { transform: translateY(16px); }
+            60% { transform: translateY(8px); }
+            80% { transform: translateY(0); }
+          }
+          .animate-bounce-down {
+            animation: bounce-down 1.5s infinite;
+          }
+        `}</style>
+      </div>
     </div>
   );
 };
 
-export default ParticleTextEffect; 
+export default ParticleTextEffect;
+
+// 배경 WebGL 효과만 렌더하는 컴포넌트
+export const ParticleBackgroundEffect = ({ className }: { className?: string }) => {
+  const webglCanvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const glRef = useRef<WebGLRenderingContext | null>(null);
+  const programRef = useRef<WebGLProgram | null>(null);
+  const postProgramRef = useRef<WebGLProgram | null>(null);
+  const framebufferRef = useRef<WebGLFramebuffer | null>(null);
+  const textureRef = useRef<WebGLTexture | null>(null);
+  // WebGL 초기화 및 렌더 함수만 사용
+  const initWebGL = useCallback(() => {
+    const canvas = webglCanvasRef.current;
+    if (!canvas) return false;
+    const gl = canvas.getContext('webgl', { 
+      alpha: true, 
+      premultipliedAlpha: false,
+      antialias: true,
+      preserveDrawingBuffer: false
+    });
+    if (!gl) {
+      console.error('WebGL not supported');
+      return false;
+    }
+    glRef.current = gl;
+    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+    if (!vertexShader || !fragmentShader) return false;
+    const program = createProgram(gl, vertexShader, fragmentShader);
+    if (!program) return false;
+    programRef.current = program;
+    const postVertex = createShader(gl, gl.VERTEX_SHADER, postVertexShader);
+    const postFragment = createShader(gl, gl.FRAGMENT_SHADER, postFragmentShader);
+    if (!postVertex || !postFragment) return false;
+    const postProgram = createProgram(gl, postVertex, postFragment);
+    if (!postProgram) return false;
+    postProgramRef.current = postProgram;
+    const framebuffer = gl.createFramebuffer();
+    const texture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+    if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+      console.error('Framebuffer not complete');
+      return false;
+    }
+    framebufferRef.current = framebuffer;
+    textureRef.current = texture;
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    return true;
+  }, [createShader, createProgram]);
+
+  const renderWebGL = useCallback((currentTime: number) => {
+    const gl = glRef.current;
+    const program = programRef.current;
+    const postProgram = postProgramRef.current;
+    const canvas = webglCanvasRef.current;
+    if (!gl || !program || !postProgram || !canvas) return;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, framebufferRef.current);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0.094, 0.094, 0.106, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(program);
+    const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+    const mouseLocation = gl.getUniformLocation(program, 'u_mouse');
+    const timeLocation = gl.getUniformLocation(program, 'u_time');
+    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+    gl.uniform2f(mouseLocation, 0, 0);
+    gl.uniform1f(timeLocation, currentTime);
+    // 빈 파티클 배열로 아무것도 그리지 않음
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(postProgram);
+    const quadVertices = new Float32Array([
+      -1, -1,
+       1, -1,
+      -1,  1,
+       1,  1
+    ]);
+    const quadBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, quadVertices, gl.STATIC_DRAW);
+    const postPositionLocation = gl.getAttribLocation(postProgram, 'a_position');
+    gl.enableVertexAttribArray(postPositionLocation);
+    gl.vertexAttribPointer(postPositionLocation, 2, gl.FLOAT, false, 0, 0);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, textureRef.current);
+    const textureLocation = gl.getUniformLocation(postProgram, 'u_texture');
+    const texelSizeLocation = gl.getUniformLocation(postProgram, 'u_texelSize');
+    const postTimeLocation = gl.getUniformLocation(postProgram, 'u_time');
+    const postResolutionLocation = gl.getUniformLocation(postProgram, 'u_resolution');
+    gl.uniform1i(textureLocation, 0);
+    gl.uniform2f(texelSizeLocation, 1.0 / canvas.width, 1.0 / canvas.height);
+    gl.uniform1f(postTimeLocation, currentTime);
+    gl.uniform2f(postResolutionLocation, canvas.width, canvas.height);
+    gl.disable(gl.BLEND);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    gl.enable(gl.BLEND);
+    gl.deleteBuffer(quadBuffer);
+  }, []);
+
+  useEffect(() => {
+    if (initWebGL()) {
+      const handleResize = () => {
+        const canvas = webglCanvasRef.current;
+        if (!canvas) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const gl = glRef.current;
+        if (gl && textureRef.current) {
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.bindTexture(gl.TEXTURE_2D, textureRef.current);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        }
+      };
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, [initWebGL]);
+
+  useEffect(() => {
+    const animate = (currentTime: number) => {
+      renderWebGL(currentTime);
+      animationRef.current = requestAnimationFrame(animate);
+    };
+    animationRef.current = requestAnimationFrame(animate);
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [renderWebGL]);
+
+  return (
+    <canvas
+      ref={webglCanvasRef}
+      className={className ? `absolute inset-0 w-full h-full ${className}` : 'absolute inset-0 w-full h-full'}
+      style={{ zIndex: 0 }}
+    />
+  );
+}; 

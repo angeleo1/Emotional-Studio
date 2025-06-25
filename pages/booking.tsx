@@ -28,6 +28,20 @@ const Booking: NextPage = () => {
     message: ''
   });
 
+  useEffect(() => {
+    if (isBookingVisible) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isBookingVisible]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
@@ -129,8 +143,18 @@ const Booking: NextPage = () => {
                   animate="visible"
                 >
                   {textContent.map((line, lineIndex) => (
-                    <div key={lineIndex} style={{ overflow: 'hidden' }}>
-                      <motion.p variants={lineVariants}>
+                    <motion.div
+                      key={lineIndex}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: 0.3 + lineIndex * 0.25,
+                        duration: 0.7,
+                        ease: 'easeOut',
+                      }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <motion.p>
                         {Array.isArray(line.text) ? (
                           line.text.map((segment, segmentIndex) => (
                             <span key={segmentIndex} className={segment.isOrange ? styles.orangeText : ''}>
@@ -141,7 +165,7 @@ const Booking: NextPage = () => {
                           line.text
                         )}
                       </motion.p>
-                </div>
+                    </motion.div>
                   ))}
                 </motion.div>
                 <div className={styles.imageContainer}>
@@ -264,19 +288,19 @@ const Booking: NextPage = () => {
                         <div className={styles.checkboxControl}>
                           <input id="colorOption" name="colorOption" type="checkbox" checked={formData.colorOption} onChange={handleCheckboxChange} />
                           <label htmlFor="colorOption">Colour Option (+$10)</label>
-                          </div>
+                        </div>
                         <div className={styles.checkboxControl}>
                           <input id="a4print" name="a4print" type="checkbox" checked={formData.otherGoods.a4print} onChange={handleCheckboxChange} />
                           <label htmlFor="a4print">A4 Print ($10)</label>
-                          </div>
+                        </div>
                         <div className={styles.checkboxControl}>
                           <input id="a4frame" name="a4frame" type="checkbox" checked={formData.otherGoods.a4frame} onChange={handleCheckboxChange} />
                           <label htmlFor="a4frame">A4 Frame ($15)</label>
-                          </div>
+                        </div>
                         <div className={styles.checkboxControl}>
                           <input id="digital" name="digital" type="checkbox" checked={formData.otherGoods.digital} onChange={handleCheckboxChange} />
                           <label htmlFor="digital">Original Digital Film ($20)</label>
-                          </div>
+                        </div>
                         <div className={styles.checkboxControl}>
                           <input id="calendar" name="calendar" type="checkbox" checked={formData.otherGoods.calendar} onChange={handleCheckboxChange} />
                           <label htmlFor="calendar">Calendar ($45)</label>
