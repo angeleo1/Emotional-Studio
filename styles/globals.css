@@ -1152,3 +1152,10 @@ body {
 .glass-svg-filter {
   display: block;
 }
+
+select, option {
+  color: #111 !important;
+  background: #fff !important;
+  font-weight: normal !important;
+  font-family: Arial, sans-serif !important;
+}

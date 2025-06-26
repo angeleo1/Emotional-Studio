@@ -403,11 +403,4 @@
 
 .checkedLabel {
   color: #111 !important;
-}
-
-:global(select), :global(option) {
-  color: #111 !important;
-  background: #fff !important;
-  font-weight: normal !important;
-  font-family: Arial, sans-serif !important;
 } 
