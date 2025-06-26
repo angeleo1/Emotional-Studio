@@ -266,32 +266,24 @@ const Support: NextPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}
+              transition={{ duration: 0.2 }}
+              style={{width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem'}}
             >
           {activeMainTab === 'faq' && (
             <>
-              <GlassContainer className="glass-container--large" style={{ flexShrink: 0 }}>
-                <div className="faq-tab-row">
-                  {faqTabs.map((tab) => (
-                    <GlassContainer 
-                      key={tab.id}
-                      className="glass-container--rounded"
-                      onClick={() => setActiveFaqTab(tab.id)}
-                      style={{margin: '0.25rem'}}
-                    >
-                      <button
-                        className={`glass-item ${activeFaqTab === tab.id ? 'glass-item--active' : ''}`}
-                        style={{padding: 0}}
-                      >
-                        {tab.label}
-                      </button>
-                    </GlassContainer>
-                  ))}
-                </div>
-              </GlassContainer>
+              <div className="faq-tab-row">
+                {faqTabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    className={`faq-category-btn${activeFaqTab === tab.id ? ' active' : ''}`}
+                    onClick={() => setActiveFaqTab(tab.id)}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
 
-              <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {filteredFaqs.map((faq) => (
                   <GlassContainer key={faq.question} className="glass-container--medium">
                     <div style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '0.75rem 1.5rem', display: 'flex' }}>
@@ -339,7 +331,7 @@ const Support: NextPage = () => {
           )}
 
           {activeMainTab === 'notice' && (
-            <div style={{ width: '100%', maxWidth: '800px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {notices.map((notice) => (
                 <GlassContainer key={notice.title} className="glass-container--medium">
                   <div style={{justifyContent: 'space-between', width: '100%', display: 'flex'}}>

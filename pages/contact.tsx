@@ -50,13 +50,13 @@ const Contact: NextPage = () => {
           <div className={styles.rightColumn}>
             <div className={styles.contactInfo}>
               <motion.a
-                href="mailto:info@emotionalstudio.com"
+                href="mailto:info@emotionalstudios.com.au"
                 className={styles.contactEmail}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.6 }}
               >
-                info@emotionalstudio.com
+                info@emotionalstudios.com.au
               </motion.a>
             </div>
 
@@ -67,10 +67,10 @@ const Contact: NextPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.3, duration: 0.6 }}
               >
-                <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaTiktok />&nbsp;TikTok</a>
-                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaFacebookF />&nbsp;Facebook</a>
-                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaInstagram />&nbsp;Instagram</a>
-                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaYoutube />&nbsp;YouTube</a>
+                <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaTiktok className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
+                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaFacebookF className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
+                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaInstagram className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
+                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaYoutube className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
               </motion.div>
             </div>
 

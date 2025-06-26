@@ -36,17 +36,15 @@ const AboutLoadingScreen = ({ onFinish }: AboutLoadingScreenProps) => {
     <div
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#111]"
     >
-      {/* 비디오 */}
+      {/* 동영상 */}
       <div className="relative w-[480px] h-[320px] md:w-[640px] md:h-[400px] mb-8 rounded-lg overflow-hidden">
         <video
-          ref={videoRef}
           src="/videos/aboutvideo.mp4"
-          autoPlay
-          loop={false}
-          muted
+          preload="auto"
           playsInline
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          onTimeUpdate={handleTimeUpdate}
+          muted
+          autoPlay
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '0.5rem' }}
         />
       </div>
       {/* 메인 인트로와 동일한 스피너, 색상만 흰색 + drop-shadow */}

@@ -288,19 +288,19 @@ const Booking: NextPage = () => {
                         <div className={styles.checkboxControl}>
                           <input id="colorOption" name="colorOption" type="checkbox" checked={formData.colorOption} onChange={handleCheckboxChange} />
                           <label htmlFor="colorOption">Colour Option (+$10)</label>
-                        </div>
+                          </div>
                         <div className={styles.checkboxControl}>
                           <input id="a4print" name="a4print" type="checkbox" checked={formData.otherGoods.a4print} onChange={handleCheckboxChange} />
                           <label htmlFor="a4print">A4 Print ($10)</label>
-                        </div>
+                          </div>
                         <div className={styles.checkboxControl}>
                           <input id="a4frame" name="a4frame" type="checkbox" checked={formData.otherGoods.a4frame} onChange={handleCheckboxChange} />
                           <label htmlFor="a4frame">A4 Frame ($15)</label>
-                        </div>
+                          </div>
                         <div className={styles.checkboxControl}>
                           <input id="digital" name="digital" type="checkbox" checked={formData.otherGoods.digital} onChange={handleCheckboxChange} />
                           <label htmlFor="digital">Original Digital Film ($20)</label>
-                        </div>
+                          </div>
                         <div className={styles.checkboxControl}>
                           <input id="calendar" name="calendar" type="checkbox" checked={formData.otherGoods.calendar} onChange={handleCheckboxChange} />
                           <label htmlFor="calendar">Calendar ($45)</label>

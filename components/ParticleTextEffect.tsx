@@ -617,7 +617,7 @@ const ParticleTextEffect = ({ text = "Capture the moment", className }: Particle
   );
 };
 
-export default ParticleTextEffect;
+export default ParticleTextEffect; 
 
 // 배경 WebGL 효과만 렌더하는 컴포넌트
 export const ParticleBackgroundEffect = ({ className }: { className?: string }) => {

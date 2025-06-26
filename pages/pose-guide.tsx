@@ -104,17 +104,31 @@ function PoseGallerySection() {
       </div>
       {/* 확대 모달 */}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-50 flex items-center justify-center" onClose={() => setOpen(false)}>
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" />
-          <div className="relative bg-[#18181b] rounded-2xl shadow-2xl flex flex-col md:flex-row items-center max-w-3xl w-full mx-4 p-6 z-50 border border-[#ff6100]" style={{borderWidth: '2px'}}>
+        <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={() => setOpen(false)}>
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true" onClick={() => setOpen(false)} />
+          <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center max-w-3xl w-full mx-4 p-0 z-[9999]">
             {selected && (
-              <img src={selected} alt="확대 이미지" className="w-full md:w-80 h-96 object-cover rounded-lg mb-4 md:mb-0 md:mr-8" />
+              <img
+                src={selected}
+                alt="gallery modal"
+                style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: '1.5rem', boxShadow: '0 8px 32px #000a', zIndex: 11, position: 'relative' }}
+              />
             )}
-            <div className="flex-1 text-white text-lg font-semibold">
+            <div className="flex-1 text-lg font-semibold mt-6 mb-4 text-center"
+              style={{
+                maxWidth: '90vw',
+                color: '#ff6100',
+                border: '2px solid #ff6100',
+                borderRadius: '1.2rem',
+                padding: '1.2rem 2rem',
+                background: 'rgba(17,17,17,0.85)',
+                display: 'inline-block',
+                fontWeight: 700
+              }}
+            >
               {description[category]}
             </div>
-            <button onClick={() => setOpen(false)} className="absolute top-3 right-3 text-white text-2xl font-bold hover:text-[#ff6100]">×</button>
-          </div>
+          </Dialog.Panel>
         </Dialog>
       </Transition.Root>
     </section>

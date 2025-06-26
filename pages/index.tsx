@@ -147,7 +147,7 @@ const Home: NextPage = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.7, ease: 'easeInOut' }}
-            className="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-black"
+            className="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-[#111]"
           >
             <div
               style={{

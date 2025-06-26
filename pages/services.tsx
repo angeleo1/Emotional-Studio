@@ -239,7 +239,7 @@ export default function Services() {
   }, [currentPage]);
 
   return (
-    <div className="relative overflow-hidden h-screen bg-black">
+    <div className="relative overflow-hidden h-screen bg-[#111]">
       {(() => {
         const page = pages[currentPage - 1];
         return (
@@ -276,7 +276,7 @@ export default function Services() {
                     </div>
                   </div>
                   {/* Right: 텍스트 (검정 배경) */}
-                  <div className={`w-1/2 h-full flex flex-col items-center ${currentPage === 4 ? 'justify-start' : 'justify-center'} px-8 bg-black`}>
+                  <div className={`w-1/2 h-full flex flex-col items-center ${currentPage === 4 ? 'justify-start' : 'justify-center'} px-8`} style={{background:'#111'}}>
                     <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4">{page.title}</div>
                     <div className="border-b-2 border-white/30 w-full mx-auto" />
                     <div className={`pt-16 w-full max-w-xl mx-auto ${currentPage === 4 ? 'flex-grow flex flex-col' : ''}`}>{page.text}</div>
@@ -285,7 +285,7 @@ export default function Services() {
               ) : (
                 <>
                   {/* Left: 텍스트 (검정 배경) */}
-                  <div className="w-1/2 h-full flex flex-col items-center justify-center px-8 bg-black">
+                  <div className="w-1/2 h-full flex flex-col items-center justify-center px-8" style={{background:'#111'}}>
                     <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4">{page.title}</div>
                     <div className="border-b-2 border-white/30 w-full mx-auto" />
                     <div className="pt-16 w-full max-w-xl mx-auto">{page.text}</div>
@@ -371,7 +371,7 @@ export default function Services() {
                 )}
               </div>
               {/* 텍스트: 검정 배경 */}
-              <div className="flex flex-col items-center justify-center flex-1 px-4 pb-8 bg-black">
+              <div className="flex flex-col items-center justify-center flex-1 px-4 pb-8" style={{background:'#111'}}>
                 <h2 className="text-2xl font-bold uppercase mb-4 text-white text-center tracking-widest">{page.title}</h2>
                 <div className="w-full max-w-md mx-auto">{page.text}</div>
               </div>
