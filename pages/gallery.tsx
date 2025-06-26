@@ -14,9 +14,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ParallaxScrollSecond } from "@/components/ui/parallax-scroll";
 import GlassContainer from '@/components/ui/GlassContainer';
-import ParticleBackgroundEffect from '../components/ParticleBackgroundEffect';
 import { Dialog, Transition as DialogTransition } from "@headlessui/react";
 import { Fragment } from "react";
+import ParticleBackgroundEffect from "@/components/ParticleBackgroundEffect";
 
 interface GalleryImage {
   src: string;
@@ -161,8 +161,6 @@ function splitMasonryRepeat(images: GalleryImage[], colCount: number, minPerCol:
   return cols;
 }
 
-// 파도 애니메이션 배경 컴포넌트 제거
-
 export default function GalleryPage() {
   const [category, setCategory] = useState("All");
   const images = CATEGORY_MAP[category] || IMAGES_ALL;
@@ -182,15 +180,18 @@ export default function GalleryPage() {
   const handleImageClick = useCallback((src: string) => setModalImg(src), []);
 
   return (
-    <div className="relative w-full min-h-screen" style={{ background: '#111' }}>
-      <ParticleBackgroundEffect />
-      {/* 새 카테고리 메뉴 */}
-      <div className="flex justify-center items-center py-10" style={{ position: 'relative', overflow: 'hidden', background: 'none', zIndex: 1 }}>
-        {/* 메뉴 버튼 영역 */}
-        <div style={{ display: 'flex', gap: '1.2rem', position: 'relative', zIndex: 2 }}>
+    <div className="relative w-full min-h-screen overflow-hidden">
+      {/* 배경 파티클 효과 */}
+      <ParticleBackgroundEffect className="absolute inset-0 w-full h-full z-0" />
+      {/* 주요 컨텐츠를 z-10으로 감싸기 */}
+      <div className="relative z-10">
+        {/* 새 카테고리 메뉴 */}
+        <div className="flex justify-center items-center py-10" style={{ position: 'relative', overflow: 'hidden', zIndex: 1 }}>
+          {/* 메뉴 버튼 영역 */}
+          <div style={{ display: 'flex', gap: '1.2rem', position: 'relative', zIndex: 2 }}>
             {CATEGORY_LIST.map((cat) => (
-            <GlassContainer key={cat} className="glass-container--medium" style={{ padding: 0, minWidth: 'unset', width: 'auto' }}>
               <button
+                key={cat}
                 onClick={() => setCategory(cat)}
                 className={`glass-item${category === cat ? ' glass-item--active' : ''}`}
                 style={{
@@ -198,7 +199,7 @@ export default function GalleryPage() {
                   fontWeight: category === cat ? 700 : 400,
                   fontSize: '1.25rem',
                   background: 'none',
-                  border: 'none',
+                  border: category === cat ? '1.5px solid #ff6100' : '1px solid rgba(255,255,255,0.35)',
                   cursor: 'pointer',
                   outline: 'none',
                   transition: 'all 0.18s',
@@ -214,30 +215,88 @@ export default function GalleryPage() {
               >
                 {cat}
               </button>
-            </GlassContainer>
             ))}
+          </div>
         </div>
+        {/* Parallax 갤러리 */}
+        <div style={{ position: 'relative', zIndex: 1, minHeight: '60vh', width: '100%' }}>
+          <ParallaxScrollSecond images={images} onImageClick={handleImageClick} />
+        </div>
+        {/* 이미지 확대 모달 */}
+        <DialogTransition.Root show={!!modalImg} as={Fragment}>
+          <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={() => setModalImg(null)}>
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true" />
+            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center max-w-3xl w-full mx-4 p-0 z-[9999]">
+              {modalImg && (
+                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {/* Previous 화살표 */}
+                  <button
+                    onClick={() => {
+                      const idx = images.findIndex(img => img === modalImg);
+                      const prevIdx = (idx - 1 + images.length) % images.length;
+                      setModalImg(images[prevIdx]);
+                    }}
+                    aria-label="Previous"
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'rgba(30,30,30,0.5)',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: 48,
+                      height: 48,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 20,
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 8px #0006',
+                    }}
+                  >
+                    <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                  </button>
+                  <img
+                    src={modalImg}
+                    alt="gallery modal"
+                    style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: '1.5rem', boxShadow: '0 8px 32px #000a', zIndex: 11, position: 'relative' }}
+                  />
+                  {/* Next 화살표 */}
+                  <button
+                    onClick={() => {
+                      const idx = images.findIndex(img => img === modalImg);
+                      const nextIdx = (idx + 1) % images.length;
+                      setModalImg(images[nextIdx]);
+                    }}
+                    aria-label="Next"
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'rgba(30,30,30,0.5)',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: 48,
+                      height: 48,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      zIndex: 20,
+                      cursor: 'pointer',
+                      boxShadow: '0 2px 8px #0006',
+                    }}
+                  >
+                    <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
+                  </button>
+                </div>
+              )}
+              <button onClick={() => setModalImg(null)} className="absolute top-3 right-3 text-white text-3xl font-bold hover:text-[#ff6100] z-[10000]">×</button>
+            </Dialog.Panel>
+          </Dialog>
+        </DialogTransition.Root>
       </div>
-      {/* Parallax 갤러리 */}
-      <div style={{ position: 'relative', zIndex: 1 }}>
-      <ParallaxScrollSecond images={images} onImageClick={handleImageClick} />
-      </div>
-      {/* 이미지 확대 모달 */}
-      <DialogTransition.Root show={!!modalImg} as={Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={() => setModalImg(null)}>
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true" />
-          <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center max-w-3xl w-full mx-4 p-0 z-[9999]">
-      {modalImg && (
-          <img
-            src={modalImg}
-            alt="gallery modal"
-                style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: '1.5rem', boxShadow: '0 8px 32px #000a', zIndex: 11, position: 'relative' }}
-          />
-      )}
-            <button onClick={() => setModalImg(null)} className="absolute top-3 right-3 text-white text-3xl font-bold hover:text-[#ff6100] z-[10000]">×</button>
-          </Dialog.Panel>
-        </Dialog>
-      </DialogTransition.Root>
     </div>
   );
 }

@@ -1038,7 +1038,7 @@ body {
 .gallery-bg {
   background: url("/images/gallery2.jpg") center center;
   background-size: cover;
-  background-color: transparent !important;
+  background-color: transparent;
   animation: moveBackground 240s linear infinite;
 }
 
@@ -1160,4 +1160,8 @@ select, option {
   background: #fff !important;
   font-weight: normal !important;
   font-family: Arial, sans-serif !important;
+}
+
+.global-support-bg {
+  background: #666638 !important;
 }

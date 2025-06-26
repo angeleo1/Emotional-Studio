@@ -244,17 +244,13 @@ const Support: NextPage = () => {
 
       <div className="support-nav-wrapper">
         {mainTabs.map((tab) => (
-          <GlassContainer 
-            key={tab.id} 
-            className="glass-container--medium"
+          <button
+            key={tab.id}
+            className={`faq-category-btn${activeMainTab === tab.id ? ' active' : ''}`}
             onClick={() => handleMainTabClick(tab.id)}
           >
-            <button
-              className={`glass-item ${activeMainTab === tab.id ? 'glass-item--active' : ''}`}
-            >
-              {tab.label}
-            </button>
-          </GlassContainer>
+            {tab.label}
+          </button>
         ))}
       </div>
 
@@ -273,38 +269,35 @@ const Support: NextPage = () => {
             <>
               <div className="faq-tab-row">
                 {faqTabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    className={`faq-category-btn${activeFaqTab === tab.id ? ' active' : ''}`}
-                    onClick={() => setActiveFaqTab(tab.id)}
-                  >
-                    {tab.label}
-                  </button>
+                  <GlassContainer key={tab.id} className="glass-container--rounded" style={{ minWidth: '4.5rem', padding: '0 0.3rem', margin: '0 0.2rem' }}>
+                    <button
+                      className={`glass-item${activeFaqTab === tab.id ? ' glass-item--active' : ''}`}
+                      style={{ fontSize: '1rem', padding: '0.4rem 0', background: 'none', border: 'none', borderRadius: '2.2rem', color: '#fff', fontWeight: 600, fontFamily: 'Playfair Display, serif', cursor: 'pointer', outline: 'none', transition: 'all 0.18s' }}
+                      onClick={() => setActiveFaqTab(tab.id)}
+                    >
+                      {tab.label}
+                    </button>
+                  </GlassContainer>
                 ))}
               </div>
 
               <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {filteredFaqs.map((faq) => (
-                  <GlassContainer key={faq.question} className="glass-container--medium">
-                    <div style={{ flexDirection: 'column', alignItems: 'flex-start', width: '100%', padding: '0.75rem 1.5rem', display: 'flex' }}>
-                      <button onClick={() => handleQuestionClick(faq.question)} style={{ all: 'unset', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '0.5rem 0' }}>
-                        <span>{faq.question}</span>
-                        <FiChevronDown style={{ transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
-                      </button>
-                      <AnimatePresence>
-                        {openQuestion === faq.question && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            style={{ overflow: 'hidden', paddingTop: '0.5rem', width: '100%' }}
-                          >
-                            <p style={{margin: 0}}>{faq.answer}</p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </GlassContainer>
+                  <div key={faq.question} style={{ width: '100%' }}>
+                    <button
+                      className="faq-category-btn"
+                      style={{ textAlign: 'left', width: '100%', fontWeight: 700, fontSize: '1.15rem', padding: '1.5rem 2rem', borderRadius: '2rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                      onClick={() => handleQuestionClick(faq.question)}
+                    >
+                      <span style={{ color: '#fff' }}>{faq.question}</span>
+                      <FiChevronDown style={{ transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+                    </button>
+                    {openQuestion === faq.question && (
+                      <div style={{ padding: '1rem 2rem', color: '#fff', fontSize: '1rem', background: 'none' }}>
+                        {faq.answer}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </>
