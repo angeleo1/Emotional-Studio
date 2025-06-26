@@ -211,7 +211,7 @@ const IMAGES_3 = [
 
 export const DemoVariant1 = () => {
   return (
-    <div className="relative bg-white ">
+    <div className="relative w-full min-h-screen" style={{ background: '#111' }}>
       <ContainerStagger className="relative z-[9999] -mb-12 place-self-center px-6 pt-12 text-center">
         <ContainerAnimated>
           <h1 className="font-serif text-4xl font-extralight  md:text-5xl">

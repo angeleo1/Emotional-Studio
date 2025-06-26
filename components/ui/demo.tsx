@@ -43,7 +43,7 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
   };
 
   return (
-    <div className="h-screen relative flex items-center justify-center bg-black">
+    <div className="relative w-full min-h-screen" style={{ background: '#111' }}>
       {/* Layer 1: ChromeGrid (fades in later) */}
       <motion.div
         className="absolute inset-0 z-0"

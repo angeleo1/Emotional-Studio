@@ -168,7 +168,7 @@ const Booking: NextPage = () => {
                     </motion.div>
                   ))}
                 </motion.div>
-                <div className={styles.imageContainer}>
+                <div className={styles.imageContainer} style={{ background: '#111' }}>
                   <Image
                     src="/images/landing.png"
                     alt="Studio concept image"

@@ -196,7 +196,6 @@
 }
 
 .formControl input,
-.formControl select,
 .formControl textarea {
   background-color: transparent;
   border: none;
@@ -209,7 +208,6 @@
 }
 
 .formControl input:focus,
-.formControl select:focus,
 .formControl textarea:focus {
   outline: none;
   border-color: #ff6100;

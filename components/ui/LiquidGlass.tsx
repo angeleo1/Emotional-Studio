@@ -26,7 +26,7 @@ const GlassEffect: React.FC<GlassEffectProps> = ({
   target = "_blank",
 }) => {
   const glassStyle = {
-    boxShadow: "0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 6px 6px #111, 0 0 20px #111",
     transitionTimingFunction: "cubic-bezier(0.175, 0.885, 0.32, 2.2)",
     ...style,
   };

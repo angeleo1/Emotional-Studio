@@ -39,11 +39,15 @@ const AboutLoadingScreen = ({ onFinish }: AboutLoadingScreenProps) => {
       {/* 동영상 */}
       <div className="relative w-[480px] h-[320px] md:w-[640px] md:h-[400px] mb-8 rounded-lg overflow-hidden">
         <video
+          ref={videoRef}
           src="/videos/aboutvideo.mp4"
           preload="auto"
           playsInline
           muted
           autoPlay
+          controls
+          onTimeUpdate={handleTimeUpdate}
+          onError={() => alert('동영상 로드 실패! 파일 경로/커밋/배포 상태를 확인하세요.')}
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '0.5rem' }}
         />
       </div>

@@ -107,10 +107,12 @@
   html {
     @apply scroll-smooth bg-[#111];
     font-family: 'Cinzel Decorative', cursive;
+    background: #111 !important;
   }
   
   body {
     @apply bg-[#111] text-primary font-noto-sans;
+    background: #111 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     cursor: none;

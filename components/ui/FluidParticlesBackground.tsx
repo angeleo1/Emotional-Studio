@@ -107,7 +107,7 @@ const COLOR_SCHEME = {
     particle: {
       color: "rgba(255, 255, 255, 0.07)",
     },
-    background: "rgba(0, 0, 0, 0.12)",
+    background: "#111",
   },
 } as const;
 

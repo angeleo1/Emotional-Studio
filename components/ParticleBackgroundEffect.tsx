@@ -71,20 +71,22 @@ const ParticleBackgroundEffect: React.FC<{ className?: string }> = ({ className 
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        zIndex: 0,
-        pointerEvents: 'none',
-        opacity: 0.85,
-        transition: 'opacity 0.5s',
-      }}
-    />
+    <div className="absolute inset-0" style={{ background: '#111' }}>
+      <canvas
+        ref={canvasRef}
+        className={className}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.85,
+          transition: 'opacity 0.5s',
+        }}
+      />
+    </div>
   );
 };
 

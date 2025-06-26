@@ -361,7 +361,7 @@ const About: NextPage = () => {
       </motion.div>
 
       {/* 로딩 스크린은 항상 위에 고정 */}
-      {isLoading && <AboutLoadingScreen />}
+      {isLoading && <AboutLoadingScreen onFinish={() => setIsLoading(false)} />}
 
       <style jsx global>{`
         @keyframes slide {

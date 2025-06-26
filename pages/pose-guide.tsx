@@ -75,7 +75,7 @@ function PoseGallerySection() {
   return (
     <section
       className="w-full px-2 md:px-0 pt-12 pb-10 relative z-10 overflow-hidden"
-      style={{ background: 'linear-gradient(to bottom, #18181b 0%, #23234a 100%)' }}
+      style={{ background: '#111' }}
     >
       {/* WebGL 배경 효과 */}
       <ParticleBackgroundEffect />
@@ -144,7 +144,7 @@ const PoseGuide: NextPage = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   return (
-    <div className="relative min-h-screen bg-black flex flex-col">
+    <div className="w-full min-h-screen" style={{ background: '#111' }}>
       <Head>
         <title>e.st - Pose Guide</title>
         <meta name="description" content="Pose Guide for e.st photography" />

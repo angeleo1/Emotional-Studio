@@ -1,5 +1,5 @@
 :root {
-  --lg-bg-color: rgba(0, 0, 0, 0.05);
+  --lg-bg-color: #111 !important;
   --lg-highlight: rgba(0, 0, 0, 0.25);
   --lg-text: #1a1a1a;
   --lg-hover-glow: rgba(255, 255, 255, 0.4);
@@ -16,7 +16,7 @@ body {
 .event-bg,
 .notice-bg,
 .active-section-bg {
-  background-color: #666638 !important;
+  background-color: #111 !important;
   margin: 0;
   padding: 4rem;
   min-height: 100vh;

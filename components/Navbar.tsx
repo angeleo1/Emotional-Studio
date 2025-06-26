@@ -182,7 +182,7 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 z-[1000] bg-[#111]/80 backdrop-blur-md"
             variants={menuVariants}
             initial="closed"
             animate="open"

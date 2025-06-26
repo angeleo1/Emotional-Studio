@@ -182,7 +182,7 @@ export default function GalleryPage() {
   const handleImageClick = useCallback((src: string) => setModalImg(src), []);
 
   return (
-    <div className="min-h-screen w-full relative" style={{ background: 'linear-gradient(120deg, #0a0a0a 0%, #191919 20%, #232323 40%, #333 60%, #191919 80%, #000 100%)' }}>
+    <div className="relative w-full min-h-screen" style={{ background: '#111' }}>
       <ParticleBackgroundEffect />
       {/* 새 카테고리 메뉴 */}
       <div className="flex justify-center items-center py-10" style={{ position: 'relative', overflow: 'hidden', background: 'none', zIndex: 1 }}>
