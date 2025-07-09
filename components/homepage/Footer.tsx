@@ -26,6 +26,9 @@ const socialLinks = [
 export default function Footer() {
   return (
     <section className="relative py-8 sm:py-16 bg-[#191919]">
+      <div className="absolute inset-0 w-full h-full z-0 flex justify-center items-center pointer-events-none">
+        <div style={{background:'rgba(0,0,0,0.3)', borderRadius:'2rem', width:'90%', height:'100%', position:'absolute'}} />
+      </div>
       <div className="container mx-auto px-4 relative z-10">
         {/* Logo */}
         <div className="absolute -left-[200px] top-1/2 -translate-y-1/2 hidden lg:block">

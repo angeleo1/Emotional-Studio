@@ -236,7 +236,7 @@ const Support: NextPage = () => {
       </Head>
       
       <div className="support-title-wrapper" style={{ marginTop: '2rem' }}>
-        <h1 className="support-title">Support</h1>
+        <h1 className="support-title">Supp<span className={"orangeWord"}>o</span>rt</h1>
         <p className="support-description">
               Find answers to frequently asked questions about our services
             </p>
@@ -269,34 +269,25 @@ const Support: NextPage = () => {
             <>
               <div className="faq-tab-row">
                 {faqTabs.map((tab) => (
-                  <GlassContainer key={tab.id} className="glass-container--rounded" style={{ minWidth: '4.5rem', padding: '0 0.3rem', margin: '0 0.2rem' }}>
-                    <button
-                      className={`glass-item${activeFaqTab === tab.id ? ' glass-item--active' : ''}`}
-                      style={{ fontSize: '1rem', padding: '0.4rem 0', background: 'none', border: 'none', borderRadius: '2.2rem', color: '#fff', fontWeight: 600, fontFamily: 'Playfair Display, serif', cursor: 'pointer', outline: 'none', transition: 'all 0.18s' }}
-                      onClick={() => setActiveFaqTab(tab.id)}
-                    >
-                      {tab.label}
-                    </button>
-                  </GlassContainer>
+                  <button
+                    key={tab.id}
+                    className={`faq-category-btn${activeFaqTab === tab.id ? ' active' : ''}`}
+                    onClick={() => setActiveFaqTab(tab.id)}
+                  >
+                    {tab.label}
+                  </button>
                 ))}
               </div>
 
               <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {filteredFaqs.map((faq) => (
-                  <div key={faq.question} style={{ width: '100%' }}>
-                    <button
-                      className="faq-category-btn"
-                      style={{ textAlign: 'left', width: '100%', fontWeight: 700, fontSize: '1.15rem', padding: '1.5rem 2rem', borderRadius: '2rem', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                      onClick={() => handleQuestionClick(faq.question)}
-                    >
-                      <span style={{ color: '#fff' }}>{faq.question}</span>
-                      <FiChevronDown style={{ transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
-                    </button>
-                    {openQuestion === faq.question && (
-                      <div style={{ padding: '1rem 2rem', color: '#fff', fontSize: '1rem', background: 'none' }}>
-                        {faq.answer}
-                      </div>
-                    )}
+                {filteredFaqs.map((faq, idx) => (
+                  <div key={faq.question} style={{ width: '100%', borderBottom: '1px solid #333', marginBottom: '0.5rem' }}>
+                    <div style={{ textAlign: 'left', width: '100%', fontWeight: 700, fontSize: '1.15rem', padding: '1.5rem 2rem', borderRadius: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', color: '#fff' }}>
+                      <span>{faq.question}</span>
+                    </div>
+                    <div style={{ padding: '1rem 2rem', color: '#fff', fontSize: '1rem', background: 'none' }}>
+                      {faq.answer}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -304,21 +295,11 @@ const Support: NextPage = () => {
           )}
 
           {activeMainTab === 'event' && (
-            <div className="grid-for-glass">
+            <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {events.map((event) => (
-                <GlassContainer key={event.title} className="glass-container--large">
-                  <div className="glass-content glass-content--inline">
-                    <div className="player">
-                      <div className="player__thumb">
-                        <Image className="player__img" src={event.image} alt={event.title} width={80} height={80} />
-                        <div className="player__legend">
-                          <h3 className="player__legend__title">{event.title}</h3>
-                          {event.isNew && <span className="player__legend__sub-title">NEW</span>}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </GlassContainer>
+                <div key={event.title} style={{ color: '#fff', fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid #fff' }}>
+                  {event.title}
+                </div>
               ))}
             </div>
           )}
@@ -326,15 +307,10 @@ const Support: NextPage = () => {
           {activeMainTab === 'notice' && (
             <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {notices.map((notice) => (
-                <GlassContainer key={notice.title} className="glass-container--medium">
-                  <div style={{justifyContent: 'space-between', width: '100%', display: 'flex'}}>
-                    <div>
-                      <h3>{notice.title}</h3>
-                      <p style={{margin: '0.25rem 0 0', fontSize: '0.9rem'}}>{notice.date}</p>
-                    </div>
-                    {notice.isNew && <span style={{fontWeight: 'bold'}}>NEW</span>}
-                  </div>
-                </GlassContainer>
+                <div key={notice.title} style={{ color: '#fff', fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid #fff' }}>
+                  <div>{notice.title}</div>
+                  <div style={{fontSize: '0.9rem', color: '#ccc'}}>{notice.date}</div>
+                </div>
               ))}
             </div>
           )}

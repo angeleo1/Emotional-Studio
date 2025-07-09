@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface Point {
   x: number;
@@ -9,111 +9,189 @@ interface Point {
   originalX: number;
 }
 
-const WavyClipPath = ({ clipId }: { clipId: string }) => {
+interface WavyClipPathProps {
+  clipId: string;
+  showLine?: boolean;
+  lineClassName?: string;
+  lineStrokeWidth?: number;
+  lineStrokeColor?: string;
+  stiffness?: number;
+  damping?: number;
+  idleAmplitude?: number;
+  idleFrequency?: number;
+}
+
+const WavyClipPath = ({
+  clipId,
+  showLine = false,
+  lineClassName = '',
+  lineStrokeWidth = 2,
+  lineStrokeColor = '#fff',
+  stiffness = 0.025,
+  damping = 0.92,
+  idleAmplitude = 1.5,
+  idleFrequency = 0.005,
+}: WavyClipPathProps) => {
   const pathRef = useRef<SVGPathElement>(null);
+  const linePathRef = useRef<SVGPathElement>(null);
   const pointsRef = useRef<Point[]>([]);
   const mousePosRef = useRef({ x: 0, y: 0, moved: false });
 
-  const stiffness = 0.025;
-  const damping = 0.92;
-  const idleAmplitude = 1.5;
-  const idleFrequency = 0.005;
+  // 화면 크기 상태 관리
+  const [dimensions, setDimensions] = useState({ width: 0, height: 48 });
+
+  // 호버 상태 관리
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    let screenWidth = window.innerWidth;
-    let screenHeight = window.innerHeight;
-    let centerX = screenWidth / 2;
+    if (typeof window !== 'undefined') {
+      setDimensions({ width: window.innerWidth, height: 48 });
+    }
+    const handleResize = () => {
+      setDimensions({ width: window.innerWidth, height: 48 });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
+  // 마우스 인터랙션 웨이브 효과 (hover 시에만 동작)
+  useEffect(() => {
+    if (!isHovered) {
+      // 호버가 끝나면 선을 고정된 상태로 복구
+      if (pathRef.current) {
+        let pathData = `M 0,24 `;
+        let linePathData = `M 0,24 `;
+        const width = dimensions.width;
+        const numPoints = 50;
+        for (let i = 0; i <= numPoints; i++) {
+          const x = (i / numPoints) * width;
+          pathData += `L ${x},24 `;
+          linePathData += `L ${x},24 `;
+        }
+        pathRef.current.setAttribute('d', pathData);
+        if (linePathRef.current) {
+          linePathRef.current.setAttribute('d', linePathData);
+        }
+      }
+      return;
+    }
+    // 웨이브 포인트 초기화
+    const width = dimensions.width;
     const numPoints = 50;
     pointsRef.current = [];
     for (let i = 0; i <= numPoints; i++) {
       pointsRef.current.push({
-        x: centerX,
-        y: (i / numPoints) * screenHeight,
+        x: (i / numPoints) * width,
+        y: 24,
         vx: 0,
-        originalX: centerX,
+        originalX: (i / numPoints) * width,
       });
     }
-
+    let animationFrameId: number;
+    let time = 0;
     const handleMouseMove = (e: MouseEvent) => {
-      if (!mousePosRef.current.moved) {
-        mousePosRef.current.moved = true;
-      }
+      mousePosRef.current.moved = true;
       mousePosRef.current.x = e.clientX;
       mousePosRef.current.y = e.clientY;
     };
-
-    const handleResize = () => {
-      screenWidth = window.innerWidth;
-      screenHeight = window.innerHeight;
-      centerX = screenWidth / 2;
-      pointsRef.current.forEach((point, i) => {
-        point.originalX = centerX;
-        point.y = (i / numPoints) * screenHeight;
-      });
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('resize', handleResize);
-
-    let animationFrameId: number;
-    let time = 0;
-
     const animate = () => {
       if (!pathRef.current) return;
       time += idleFrequency;
-
-      let pathData = `M ${pointsRef.current[0].originalX},0 `;
-
-      pointsRef.current.forEach((point) => {
+      let pathData = `M 0,24 `;
+      let linePathData = `M 0,24 `;
+      pointsRef.current.forEach((point, i) => {
         const force = stiffness * (point.originalX - point.x);
         point.vx += force;
-
         if (mousePosRef.current.moved) {
-            const dy = mousePosRef.current.y - point.y;
-            const dx = mousePosRef.current.x - point.x;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 100) {
-            const forceFactor = (100 - dist) / 100;
-            const mouseForce = (mousePosRef.current.x - point.x) * forceFactor * 0.1;
+          // 가로선: y축 거리만 사용, x축 움직임이 힘으로 적용
+          const distY = Math.abs(mousePosRef.current.y - 24);
+          if (distY < 32) {
+            const forceFactor = (32 - distY) / 32;
+            const mouseForce = (mousePosRef.current.x - point.x) * forceFactor * 0.45;
             point.vx += mouseForce;
-            }
+          }
         }
-        
         point.vx *= damping;
         point.x += point.vx;
-        
-        // Add subtle idle oscillation
-        const idleOscillation = Math.sin(time + point.y / 100) * idleAmplitude;
-        const currentX = point.x + idleOscillation;
-        
-        pathData += `L ${currentX},${point.y} `;
+        // idle 웨이브(hover 중에도 subtle하게 움직임)
+        const idleOscillation = Math.sin(time * 2 + point.x / 100) * idleAmplitude;
+        const currentY = 24 + idleOscillation;
+        pathData += `L ${point.x},${currentY} `;
+        linePathData += `L ${point.x},${currentY} `;
       });
-
-      pathData += `L ${screenWidth},${screenHeight} L ${screenWidth},0 Z`;
       pathRef.current.setAttribute('d', pathData);
-
+      if (linePathRef.current) {
+        linePathRef.current.setAttribute('d', linePathData);
+      }
       animationFrameId = requestAnimationFrame(animate);
     };
-
     animate();
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isHovered, dimensions.width]);
+
+  // 고정된 웨이브 실선 path 계산 함수
+  function getStaticLinePath(width: number, numPoints = 50) {
+    let pathData = `M 0,24 `;
+    for (let i = 0; i <= numPoints; i++) {
+      const x = (i / numPoints) * width;
+      pathData += `L ${x},24 `;
+    }
+    return pathData;
+  }
 
   return (
-    <svg width="0" height="0" style={{ position: 'absolute' }}>
-      <defs>
-        <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
-          <path ref={pathRef} d="" />
-        </clipPath>
-      </defs>
-    </svg>
+    <>
+      {/* clipPath용 SVG (보이지 않음) */}
+      <svg width="0" height="0" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
+            <path ref={pathRef} d="" />
+          </clipPath>
+        </defs>
+      </svg>
+      {/* 중앙 웨이브 실선용 SVG */}
+      {showLine && typeof window !== 'undefined' && dimensions.width > 0 && dimensions.height > 0 && (
+        <div
+          style={{ width: dimensions.width, height: 48, position: 'absolute', top: 0, left: 0 }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <svg
+            width={dimensions.width}
+            height={48}
+            viewBox={`0 0 ${dimensions.width} 48`}
+            style={{
+              width: dimensions.width,
+              height: 48,
+              pointerEvents: 'none',
+              zIndex: 2,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+            }}
+          >
+            <path
+              ref={linePathRef}
+              d={''}
+              className={`wavy-divider-line${isHovered ? ' wavy-divider-line--hover' : ''} ${lineClassName}`}
+              strokeWidth={lineStrokeWidth}
+              fill="none"
+              style={{
+                pointerEvents: 'auto',
+                stroke: isHovered ? '#fff' : '#ff6100',
+                filter: 'none',
+                transition: 'stroke 0.3s',
+                cursor: 'pointer',
+              }}
+            />
+          </svg>
+        </div>
+      )}
+    </>
   );
 };
 

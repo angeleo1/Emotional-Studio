@@ -17,6 +17,7 @@ import GlassContainer from '@/components/ui/GlassContainer';
 import { Dialog, Transition as DialogTransition } from "@headlessui/react";
 import { Fragment } from "react";
 import ParticleBackgroundEffect from "@/components/ParticleBackgroundEffect";
+import WavyClipPath from '@/components/WavyClipPath';
 
 interface GalleryImage {
   src: string;
@@ -180,9 +181,7 @@ export default function GalleryPage() {
   const handleImageClick = useCallback((src: string) => setModalImg(src), []);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden">
-      {/* 배경 파티클 효과 */}
-      <ParticleBackgroundEffect className="absolute inset-0 w-full h-full z-0" />
+    <div className="relative w-full min-h-screen overflow-hidden" style={{ background: '#111' }}>
       {/* 주요 컨텐츠를 z-10으로 감싸기 */}
       <div className="relative z-10">
         {/* 새 카테고리 메뉴 */}
@@ -198,8 +197,8 @@ export default function GalleryPage() {
                   fontFamily: 'inherit',
                   fontWeight: category === cat ? 700 : 400,
                   fontSize: '1.25rem',
-                  background: 'none',
-                  border: category === cat ? '1.5px solid #ff6100' : '1px solid rgba(255,255,255,0.35)',
+                  background: '#111',
+                  border: '1px solid #222',
                   cursor: 'pointer',
                   outline: 'none',
                   transition: 'all 0.18s',
@@ -211,12 +210,25 @@ export default function GalleryPage() {
                   minWidth: 0,
                   boxSizing: 'border-box',
                   display: 'inline-block',
+                  boxShadow: 'none',
                 }}
               >
                 {cat}
               </button>
             ))}
           </div>
+        </div>
+        {/* 카테고리 메뉴 하단 웨이비 실선 구분선 */}
+        <div style={{ width: '100vw', height: 48, position: 'relative', margin: 0, padding: 0 }}>
+          <WavyClipPath
+            clipId="gallery-wavy-divider"
+            showLine={true}
+            lineStrokeWidth={2.5}
+            stiffness={0.045}
+            damping={0.89}
+            idleAmplitude={3.2}
+            idleFrequency={0.008}
+          />
         </div>
         {/* Parallax 갤러리 */}
         <div style={{ position: 'relative', zIndex: 1, minHeight: '60vh', width: '100%' }}>

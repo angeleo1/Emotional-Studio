@@ -4,7 +4,7 @@ import Image from 'next/image';
 const pages = [
   // 1. Provided as Standard
   {
-    images: ['/images/Service1.png'],
+    images: ['/images/dlsus.png'],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div>
@@ -239,7 +239,7 @@ export default function Services() {
   }, [currentPage]);
 
   return (
-    <div className="relative overflow-hidden h-screen bg-[#111]">
+    <div className="relative w-full min-h-screen overflow-hidden" style={{ background: '#111111' }}>
       {(() => {
         const page = pages[currentPage - 1];
         return (
@@ -250,14 +250,14 @@ export default function Services() {
               {/* Shooting Type(2), Special(4): 텍스트 왼쪽, 이미지 오른쪽 */}
               {([1, 3].includes(currentPage)) ? (
                 <>
-                  {/* Left: 이미지 (흰 배경) */}
-                  <div className="w-1/2 h-full flex items-center justify-center bg-white">
+                  {/* Left: 이미지 (먹색 배경) */}
+                  <div className="w-1/2 h-full flex items-center justify-center" style={{background:'#111111'}}>
                     <div className={`w-full px-8 flex flex-col gap-4 items-center justify-center`}>
                       {/* Provided: 세로로 더 크게 */}
                       {currentPage === 1 && (
                         <div className="relative w-full h-[90vh] max-w-4xl mx-auto flex items-center justify-center">
-                          <div className="relative w-full h-full max-w-none shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                          <div className="relative w-full h-full max-w-none flex items-center justify-center m-0 p-0">
+                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} />
                           </div>
                         </div>
                       )}
@@ -290,8 +290,8 @@ export default function Services() {
                     <div className="border-b-2 border-white/30 w-full mx-auto" />
                     <div className="pt-16 w-full max-w-xl mx-auto">{page.text}</div>
                   </div>
-                  {/* Right: 이미지 (흰 배경) */}
-                  <div className="w-1/2 h-full flex items-center justify-center bg-white">
+                  {/* Right: 이미지 (먹색 배경) */}
+                  <div className="w-1/2 h-full flex items-center justify-center" style={{background:'#111111'}}>
                     <div className={`w-full px-8 flex ${currentPage === 2 ? 'flex-row gap-10 items-center justify-center' : 'flex-col gap-4 items-center justify-center'}`}>
                       {/* Shooting Type: 가로로 2장, 큼직하게 예쁘게 */}
                       {currentPage === 2 && (
@@ -322,12 +322,12 @@ export default function Services() {
             {/* 모바일: 한 컬럼 */}
             <div className="md:hidden flex flex-col w-full h-full">
               {/* 이미지: 흰 배경 */}
-              <div className={`flex flex-col gap-4 w-full px-4 pt-8 items-center bg-white`}>
+              <div className={`flex flex-col gap-4 w-full px-4 pt-8 items-center`} style={{background:'#111111'}}>
                 {/* Provided: 세로로 크게 */}
                 {currentPage === 1 && (
                   <div className="relative w-full h-64 max-w-md mx-auto flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-none shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                      <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                    <div className="relative w-full h-full max-w-none flex items-center justify-center m-0 p-0">
+                      <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} />
                     </div>
                   </div>
                 )}

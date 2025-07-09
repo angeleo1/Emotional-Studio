@@ -16,6 +16,9 @@ const Contact: NextPage = () => {
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&family=Borel&display=swap" rel="stylesheet" />
         </Head>
       <div className={styles.container}>
+        <div style={{position:'absolute', top:0, left:0, width:'100vw', height:'100vh', pointerEvents:'none', zIndex:1}}>
+          <WavyClipPath clipId="wavy-divider" showLine={true} lineStrokeWidth={2.5} lineStrokeColor="#fff" />
+        </div>
         <WavyClipPath clipId="wavy-divider" />
         <main className={styles.mainGrid}>
           <div className={styles.leftColumn}>
@@ -26,7 +29,7 @@ const Contact: NextPage = () => {
               transition={{ delay: 0.1, duration: 0.6 }}
               style={{ marginBottom: 0 }}
             >
-              <span>Every</span> Photo Tells <span>a</span> Story
+              <span>Every</span> <span className={styles.orangeWord}>Photo</span> Tells <span>a</span> Story
             </motion.h1>
             <motion.h1
               className={styles.title}
@@ -35,7 +38,7 @@ const Contact: NextPage = () => {
               transition={{ delay: 0.4, duration: 0.6 }}
               style={{ marginTop: 0, fontWeight: 700 }}
             >
-              <span>Every</span> Elixir <span>Completes It</span>.
+              <span>Every</span> <span className={styles.orangeWord}>Elixir</span> <span>Completes It</span>.
             </motion.h1>
             <motion.p
               className={styles.strapline}
@@ -50,13 +53,13 @@ const Contact: NextPage = () => {
           <div className={styles.rightColumn}>
             <div className={styles.contactInfo}>
               <motion.a
-                href="mailto:info@emotionalstudios.com.au"
+                href="mailto:admin@emotionalstudios.com.au"
                 className={styles.contactEmail}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.6 }}
               >
-                info@emotionalstudios.com.au
+                admin@emotionalstudios.com.au
               </motion.a>
             </div>
 

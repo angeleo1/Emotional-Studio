@@ -17,7 +17,7 @@ const galleryImages = [
 
 export default function CollaborationGallery() {
   return (
-    <section className="relative overflow-hidden bg-[#111]">
+    <section className="relative overflow-hidden bg-[#ff6100]">
       <div className="relative z-10 w-full">
         <div className="overflow-hidden w-full h-12 sm:h-14 md:h-16 lg:h-20">
           <div className="flex items-center h-full whitespace-nowrap animate-slideRight">

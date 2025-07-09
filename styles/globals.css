@@ -1165,3 +1165,12 @@ select, option {
 .global-support-bg {
   background: #666638 !important;
 }
+
+.wavy-divider-line {
+  stroke: #fff;
+  transition: stroke 0.3s, filter 0.3s;
+}
+.wavy-divider-line--hover {
+  stroke: #ff6100;
+  filter: drop-shadow(0 0 8px #ff6100aa);
+}

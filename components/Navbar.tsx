@@ -100,7 +100,7 @@ export default function Navbar() {
           <span 
             className="glitch"
             data-text="e.st"
-            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '15.12rem', fontWeight: '500', padding: '0 4rem', transition: 'color 0.1s' }}
+            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '13.61rem', fontWeight: '500', padding: '0 4rem', transition: 'color 0.1s' }}
           >
             e.st
           </span>

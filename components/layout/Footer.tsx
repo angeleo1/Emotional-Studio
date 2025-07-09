@@ -5,8 +5,11 @@ export default function Footer() {
   const { t } = useTranslation('common');
 
   return (
-    <footer className="bg-primary text-secondary py-12">
-      <div className="container mx-auto px-4">
+    <footer className="bg-primary text-secondary py-12 relative">
+      <div className="absolute inset-0 w-full h-full z-0 flex justify-center items-center pointer-events-none">
+        <div style={{background:'rgba(0,0,0,0.3)', borderRadius:'2rem', width:'90%', height:'100%', position:'absolute'}} />
+      </div>
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-tan-kingred mb-4">Emotional Studio</h3>

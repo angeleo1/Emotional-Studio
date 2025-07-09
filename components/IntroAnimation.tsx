@@ -40,10 +40,10 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' }}
             style={{
               position: 'relative',
-              fontSize: '7vw',
-              fontWeight: 900,
+              fontSize: '4.9vw',
+              fontWeight: 450,
               color: '#FF6100',
-              fontFamily: 'murmure-main, sans-serif',
+              fontFamily: 'Melodrama-Regular',
               letterSpacing: '0.08em',
               lineHeight: 1,
               marginLeft: '4vw',
@@ -73,7 +73,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
               zIndex: 9000,
             }}
           >
-            <span style={{ fontWeight: 700, fontSize: '2.21rem', color: '#FF6100', letterSpacing: '0.13em', fontFamily: 'Gulax' }}>Our Elixirs</span>
+            <span style={{ fontWeight: 700, fontSize: '2.21rem', color: '#FF6100', letterSpacing: '0.13em' }}>Our Elixirs</span>
             <div style={{ display: 'flex', gap: '1.5rem', margin: '0.7rem 0' }}>
               <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>
               <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>

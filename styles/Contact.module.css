@@ -3,8 +3,8 @@
 .container {
   display: flex;
   min-height: 100vh;
-  background: #C1A97F !important;
-  color: #1a1a1a;
+  background: #111111 !important;
+  color: #fff;
   font-family: 'Poppins', sans-serif;
   padding: 8rem 4rem 4rem; /* Add padding for navbar */
   overflow: hidden;
@@ -49,13 +49,20 @@
   font-size: clamp(4rem, 10vw, 8rem);
   line-height: 1.1;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #fff;
   margin: 0;
 }
 
 .title span {
   font-style: italic;
   font-weight: 400; /* Italic text should not be bold */
+  color: #fff;
+}
+
+.orangeWord {
+  color: #ff6100 !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
 }
 
 .italic {
@@ -81,7 +88,7 @@
 .strapline {
   font-family: 'Borel', cursive;
   font-size: clamp(1.2rem, 2vw, 1.5rem);
-  color: #1a1a1a;
+  color: #fff;
   margin-top: 2rem;
   text-align: right;
   width: 100%;
@@ -114,7 +121,7 @@
 .rightColumn .socialLink,
 .rightColumn .newsletterInput,
 .rightColumn .submitButton {
-  color: #f0ebe5; /* Light color for all text on dark background */
+  color: #fff; /* Light color for all text on dark background */
 }
 
 .contactInfo, .socialSection, .newsletterSection {
