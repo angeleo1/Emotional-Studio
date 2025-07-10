@@ -658,15 +658,11 @@ nav {
 }
 .glitch::before {
   color: rgba(0, 255, 255, 0.8);
+  animation: glitch-final-1 0.4s infinite alternate;
 }
 .glitch::after {
   color: rgba(255, 0, 255, 0.8);
-}
-.glitch-wrapper:hover .glitch::before {
-  animation: glitch-final-1 0.4s 1 forwards;
-}
-.glitch-wrapper:hover .glitch::after {
-  animation: glitch-final-2 0.4s 1 forwards;
+  animation: glitch-final-2 0.4s infinite alternate;
 }
 
 /* --- Text Keyframes (used by all glitches now) --- */
@@ -1173,4 +1169,22 @@ select, option {
 .wavy-divider-line--hover {
   stroke: #ff6100;
   filter: drop-shadow(0 0 8px #ff6100aa);
+}
+
+.hologram-glitch {
+  background: linear-gradient(90deg, #00fff0, #ff00ea, #fff700, #00fff0 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: hologram-glitch-move 2.2s linear infinite;
+}
+@keyframes hologram-glitch-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
 }

@@ -164,130 +164,134 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             left: 'calc(2vw + 47rem)',
             top: 'calc(58vh + 3rem)',
             display: 'flex',
-            flexDirection: 'row',
-            gap: '1.2rem',
+            flexDirection: 'column', // 버튼+SNS 세로 배치
+            gap: '2.2rem',
             zIndex: 9000,
+            alignItems: 'center',
           }}>
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2.2, duration: 0.5, ease: 'backOut' }}
-              style={{
-                background: 'none',
-                border: '2px solid #FF6100',
-                color: '#FF6100',
-                borderRadius: '999px',
-                padding: '0.9em 1.7em',
-                fontWeight: 700,
-                fontSize: '1.35rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 0,
-                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
-                opacity: 1,
-                pointerEvents: 'auto',
-                width: 'fit-content',
-                minWidth: 0,
-                boxSizing: 'border-box',
-                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
-              }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
-              onClick={() => { router.push('/pose-guide'); }}
-            >
-              <span style={{ color: '#FF6100' }}>Pose Guide</span>
-            </motion.button>
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2.3, duration: 0.5, ease: 'backOut' }}
-              style={{
-                background: 'none',
-                border: '2px solid #FF6100',
-                color: '#FF6100',
-                borderRadius: '999px',
-                padding: '0.9em 1.7em',
-                fontWeight: 700,
-                fontSize: '1.35rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 0,
-                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
-                opacity: 1,
-                pointerEvents: 'auto',
-                width: 'fit-content',
-                minWidth: 0,
-                boxSizing: 'border-box',
-                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
-              }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
-              onClick={() => { router.push('/elixirs'); }}
-            >
-              <span style={{ color: '#FF6100' }}>Our Elixirs</span>
-            </motion.button>
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2.4, duration: 0.5, ease: 'backOut' }}
-              style={{
-                background: 'none',
-                border: '2px solid #FF6100',
-                color: '#FF6100',
-                borderRadius: '999px',
-                padding: '0.9em 1.7em',
-                fontWeight: 700,
-                fontSize: '1.35rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 0,
-                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
-                opacity: 1,
-                pointerEvents: 'auto',
-                width: 'fit-content',
-                minWidth: 0,
-                boxSizing: 'border-box',
-                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
-              }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
-              onClick={() => {}}
-            >
-              <span style={{ color: '#FF6100' }}>Collaboration</span>
-            </motion.button>
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2.5, duration: 0.5, ease: 'backOut' }}
-              style={{
-                background: 'none',
-                border: '2px solid #FF6100',
-                color: '#FF6100',
-                borderRadius: '999px',
-                padding: '0.9em 1.7em',
-                fontWeight: 700,
-                fontSize: '1.35rem',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 0,
-                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
-                opacity: 1,
-                pointerEvents: 'auto',
-                width: 'fit-content',
-                minWidth: 0,
-                boxSizing: 'border-box',
-                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
-              }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
-              onClick={() => {}}
-            >
-              <span style={{ color: '#FF6100' }}>emotional Moments</span>
-            </motion.button>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '1.2rem' }}>
+              <span className="glitch-button-wrapper">
+                <motion.button
+                  className="glitch-button"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2.2, duration: 0.5, ease: 'backOut' }}
+                  style={{
+                    background: 'none',
+                    border: '2px solid #fff',
+                    color: '#fff',
+                    borderRadius: '999px',
+                    padding: '0.9em 1.7em',
+                    fontWeight: 700,
+                    fontSize: '1.35rem',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0,
+                    transition: 'background 0.2s, color 0.2s',
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                    width: 'fit-content',
+                    minWidth: 0,
+                    boxSizing: 'border-box',
+                  }}
+                  onClick={() => { router.push('/pose-guide'); }}
+                >
+                  <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>Pose Guide</span>
+                </motion.button>
+              </span>
+              <span className="glitch-button-wrapper">
+                <motion.button
+                  className="glitch-button"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2.3, duration: 0.5, ease: 'backOut' }}
+                  style={{
+                    background: 'none',
+                    border: '2px solid #fff',
+                    color: '#fff',
+                    borderRadius: '999px',
+                    padding: '0.9em 1.7em',
+                    fontWeight: 700,
+                    fontSize: '1.35rem',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0,
+                    transition: 'background 0.2s, color 0.2s',
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                    width: 'fit-content',
+                    minWidth: 0,
+                    boxSizing: 'border-box',
+                  }}
+                  onClick={() => { router.push('/elixirs'); }}
+                >
+                  <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>Our Elixirs</span>
+                </motion.button>
+              </span>
+              <span className="glitch-button-wrapper">
+                <motion.button
+                  className="glitch-button"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2.4, duration: 0.5, ease: 'backOut' }}
+                  style={{
+                    background: 'none',
+                    border: '2px solid #fff',
+                    color: '#fff',
+                    borderRadius: '999px',
+                    padding: '0.9em 1.7em',
+                    fontWeight: 700,
+                    fontSize: '1.35rem',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0,
+                    transition: 'background 0.2s, color 0.2s',
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                    width: 'fit-content',
+                    minWidth: 0,
+                    boxSizing: 'border-box',
+                  }}
+                  onClick={() => { router.push('/collaboration'); }}
+                >
+                  <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>Collaboration</span>
+                </motion.button>
+              </span>
+              <span className="glitch-button-wrapper">
+                <motion.button
+                  className="glitch-button"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2.5, duration: 0.5, ease: 'backOut' }}
+                  style={{
+                    background: 'none',
+                    border: '2px solid #fff',
+                    color: '#fff',
+                    borderRadius: '999px',
+                    padding: '0.9em 1.7em',
+                    fontWeight: 700,
+                    fontSize: '1.35rem',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0,
+                    transition: 'background 0.2s, color 0.2s',
+                    opacity: 1,
+                    pointerEvents: 'auto',
+                    width: 'fit-content',
+                    minWidth: 0,
+                    boxSizing: 'border-box',
+                  }}
+                  onClick={() => {}}
+                >
+                  <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>emotional Moments</span>
+                </motion.button>
+              </span>
+            </div>
+            {/* SNS 아이콘 영역 완전 삭제 */}
           </div>
         </div>
       </motion.div>

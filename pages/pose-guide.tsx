@@ -1,57 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import ParticleTextEffect from "@/components/ParticleTextEffect";
-import { useState, useEffect } from "react";
-import { useMemo } from "react";
-import { ParticleBackgroundEffect } from "@/components/ParticleTextEffect";
-import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-
-const CUTE_SOLO = [
-  "화면 캡처 2025-06-25 213158.jpg",
-  "화면 캡처 2025-06-25 212839.jpg",
-  "화면 캡처 2025-06-25 212828.jpg",
-  "화면 캡처 2025-06-25 212731.jpg",
-  "화면 캡처 2025-06-25 212127.jpg",
-];
-const CUTE_FAMILY = [
-  "화면 캡처 2025-06-25 213349.jpg",
-  "화면 캡처 2025-06-25 213340.jpg",
-  "화면 캡처 2025-06-25 213325.jpg",
-  "화면 캡처 2025-06-25 212318.jpg",
-  "화면 캡처 2025-06-25 212304.jpg",
-];
-const LOVELY_COUPLE = [
-  "화면 캡처 2025-06-25 213131.jpg",
-  "화면 캡처 2025-06-25 212647.jpg",
-  "화면 캡처 2025-06-25 212513.jpg",
-  "화면 캡처 2025-06-25 212502.jpg",
-  "화면 캡처 2025-06-25 212432.jpg",
-  "화면 캡처 2025-06-25 212415.jpg",
-  "화면 캡처 2025-06-25 212220.jpg",
-  "화면 캡처 2025-06-25 212209.jpg",
-  "화면 캡처 2025-06-25 212145.jpg",
-  "화면 캡처 2025-06-25 212031.jpg",
-  "화면 캡처 2025-06-25 212018.jpg",
-  "화면 캡처 2025-06-25 211959.jpg",
-  "화면 캡처 2025-06-25 211950.jpg",
-  "화면 캡처 2025-06-25 211940.jpg",
-  "화면 캡처 2025-06-25 211930.jpg",
-  "화면 캡처 2025-06-25 211913.jpg",
-];
-const DYNAMIC_FUN = [
-  "화면 캡처 2025-06-25 213702.jpg",
-  "화면 캡처 2025-06-25 213623.jpg",
-  "화면 캡처 2025-06-25 213608.jpg",
-  "화면 캡처 2025-06-25 213528.jpg",
-  "화면 캡처 2025-06-25 213518.jpg",
-  "화면 캡처 2025-06-25 213507.jpg",
-  "화면 캡처 2025-06-25 213449.jpg",
-  "화면 캡처 2025-06-25 213309.jpg",
-  "화면 캡처 2025-06-25 213149.jpg",
-  "화면 캡처 2025-06-25 213118.jpg",
-  "화면 캡처 2025-06-25 213059.jpg",
-];
+import { useState, useEffect, useMemo, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 
 const GALLERY_IMAGES = {
   Cute: [
@@ -71,25 +21,21 @@ const GALLERY_IMAGES = {
 };
 
 function PoseGallerySection() {
-  const [category, setCategory] = useState<"Cute"|"Lovely"|"Dynamic"|"with Pet">("Cute");
+  const [category, setCategory] = useState<'Cute'|'Lovely'|'Dynamic'|'with Pet'>('Cute');
   const images = useMemo(() => GALLERY_IMAGES[category], [category]);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const description = {
-    Cute: "This pose creates a cute and natural vibe.",
-    Lovely: "This pose emphasizes a lovely and soft mood.",
-    Dynamic: "This pose gives an energetic and dynamic impression.",
-    'with Pet': "This pose captures special moments with your pet.",
+    Cute: 'This pose creates a cute and natural vibe.',
+    Lovely: 'This pose emphasizes a lovely and soft mood.',
+    Dynamic: 'This pose gives an energetic and dynamic impression.',
+    'with Pet': 'This pose captures special moments with your pet.',
   };
   return (
-    <section
-      className="w-full px-2 md:px-0 pt-12 pb-10 relative z-10 overflow-hidden"
-    >
+    <section className="w-full px-2 md:px-0 pt-12 pb-10 relative z-10 overflow-hidden">
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="flex justify-center gap-4 mb-8">
-          {[
-            "Cute", "Lovely", "Dynamic", "with Pet"
-          ].map((cat) => (
+          {['Cute', 'Lovely', 'Dynamic', 'with Pet'].map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat as any)}

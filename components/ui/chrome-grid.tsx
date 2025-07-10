@@ -271,7 +271,7 @@ interface ChromeGridProps {
   onReady?: () => void;
 }
 
-const TYPING_TEXT = 'emotional studios';
+const TYPING_TEXT = 'Our Collaboration';
 const TYPING_SPEED = 93;
 
 function TypingText() {
@@ -318,6 +318,7 @@ export function ChromeGrid({ onReady }: ChromeGridProps) {
           rotation: [-0.65, -0.2, -0.13],
           fov: 35 
         }}
+        // 3D 초기화가 끝나면 onReady 콜백을 호출함
         onCreated={() => {
           if (onReady) {
             requestAnimationFrame(() => {
