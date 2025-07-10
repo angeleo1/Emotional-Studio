@@ -84,10 +84,7 @@ function PoseGallerySection() {
   return (
     <section
       className="w-full px-2 md:px-0 pt-12 pb-10 relative z-10 overflow-hidden"
-      style={{ background: '#111' }}
     >
-      {/* WebGL 배경 효과 */}
-      <ParticleBackgroundEffect />
       <div className="max-w-5xl mx-auto relative z-10">
         <div className="flex justify-center gap-4 mb-8">
           {[
@@ -211,20 +208,11 @@ const PoseGuide: NextPage = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   return (
-    <div className="w-full min-h-screen" style={{ background: '#111' }}>
+    <div className="w-full min-h-screen">
       <Head>
         <title>e.st - Pose Guide</title>
         <meta name="description" content="Pose Guide for e.st photography" />
       </Head>
-      {/* 파티클 애니메이션 영역 - 모바일에서는 숨김 */}
-      {!isMobile && (
-        <div className="relative min-h-[400px] w-full" style={{height: 'auto'}}>
-          <ParticleTextEffect
-            text={"Capture the moment\nSip the Magic"}
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
-      )}
       {/* 반응형 사진 갤러리 영역 */}
       <PoseGallerySection />
     </div>

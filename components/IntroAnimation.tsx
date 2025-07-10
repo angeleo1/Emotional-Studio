@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/router';
 
 const INTRO_TEXT = 'emotional studios';
 const TYPING_SPEED = 93; // ms per character (1.5배 빠르게)
@@ -12,6 +13,7 @@ interface IntroAnimationProps {
 const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [typingDone, setTypingDone] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -60,7 +62,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             transition={{ delay: 0.7, duration: 0.7, ease: 'easeOut' }}
             style={{
               marginLeft: '4vw',
-              marginTop: '11rem',
+              marginTop: '16rem',
               display: 'flex',
               flexDirection: 'column',
               gap: '1.5rem',
@@ -73,7 +75,6 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
               zIndex: 9000,
             }}
           >
-            <span style={{ fontWeight: 700, fontSize: '2.21rem', color: '#FF6100', letterSpacing: '0.13em' }}>Our Elixirs</span>
             <div style={{ display: 'flex', gap: '1.5rem', margin: '0.7rem 0' }}>
               <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>
               <svg width="36" height="36" viewBox="0 0 36 36"><polygon points="8,6 28,18 8,30" fill="#FF6100" /></svg>
@@ -157,47 +158,137 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
               <span style={{fontWeight: 700, fontSize: '1.2rem', color: '#FF6100', opacity: 1}}>e.st</span>
             </span>
           </motion.span>
-          {/* Discover Us 버튼은 항상 보이게, onClick만 유지 */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 2.2, duration: 0.5, ease: 'backOut' }}
-            style={{
-              position: 'absolute',
-              right: 'calc(2vw + 32rem)',
-              top: 'calc(58vh + 3rem)',
-              background: 'none',
-              border: '2px solid #FF6100',
-              color: '#FF6100',
-              borderRadius: '999px',
-              padding: '1.1em 2.2em',
-              fontWeight: 700,
-              fontSize: '1.35rem',
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '1em',
-              transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
-              opacity: 1,
-              pointerEvents: 'auto',
-              width: 'fit-content',
-              minWidth: 0,
-              boxSizing: 'border-box',
-              zIndex: 9000,
-              boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
-            }}
-            onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
-            onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
-            onClick={onFinish}
-          >
-            <span style={{ color: '#FF6100' }}>Discover Us</span>
-            <span style={{ display: 'flex', alignItems: 'center' }}>
-              <svg width="90" height="36" viewBox="0 0 90 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 18H60" stroke="#FF6100" strokeWidth="4" strokeLinecap="round"/>
-                <path d="M52 6L68 18L52 30" stroke="#FF6100" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-          </motion.button>
+          {/* 버튼 영역: Pose Guide, Our Elixirs, Collaboration, emotional Moments */}
+          <div style={{
+            position: 'absolute',
+            left: 'calc(2vw + 47rem)',
+            top: 'calc(58vh + 3rem)',
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '1.2rem',
+            zIndex: 9000,
+          }}>
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2.2, duration: 0.5, ease: 'backOut' }}
+              style={{
+                background: 'none',
+                border: '2px solid #FF6100',
+                color: '#FF6100',
+                borderRadius: '999px',
+                padding: '0.9em 1.7em',
+                fontWeight: 700,
+                fontSize: '1.35rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0,
+                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
+                opacity: 1,
+                pointerEvents: 'auto',
+                width: 'fit-content',
+                minWidth: 0,
+                boxSizing: 'border-box',
+                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
+              }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
+              onClick={() => { router.push('/pose-guide'); }}
+            >
+              <span style={{ color: '#FF6100' }}>Pose Guide</span>
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2.3, duration: 0.5, ease: 'backOut' }}
+              style={{
+                background: 'none',
+                border: '2px solid #FF6100',
+                color: '#FF6100',
+                borderRadius: '999px',
+                padding: '0.9em 1.7em',
+                fontWeight: 700,
+                fontSize: '1.35rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0,
+                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
+                opacity: 1,
+                pointerEvents: 'auto',
+                width: 'fit-content',
+                minWidth: 0,
+                boxSizing: 'border-box',
+                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
+              }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
+              onClick={() => { router.push('/elixirs'); }}
+            >
+              <span style={{ color: '#FF6100' }}>Our Elixirs</span>
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2.4, duration: 0.5, ease: 'backOut' }}
+              style={{
+                background: 'none',
+                border: '2px solid #FF6100',
+                color: '#FF6100',
+                borderRadius: '999px',
+                padding: '0.9em 1.7em',
+                fontWeight: 700,
+                fontSize: '1.35rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0,
+                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
+                opacity: 1,
+                pointerEvents: 'auto',
+                width: 'fit-content',
+                minWidth: 0,
+                boxSizing: 'border-box',
+                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
+              }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
+              onClick={() => {}}
+            >
+              <span style={{ color: '#FF6100' }}>Collaboration</span>
+            </motion.button>
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 2.5, duration: 0.5, ease: 'backOut' }}
+              style={{
+                background: 'none',
+                border: '2px solid #FF6100',
+                color: '#FF6100',
+                borderRadius: '999px',
+                padding: '0.9em 1.7em',
+                fontWeight: 700,
+                fontSize: '1.35rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0,
+                transition: 'background 0.2s, color 0.2s, box-shadow 0.2s',
+                opacity: 1,
+                pointerEvents: 'auto',
+                width: 'fit-content',
+                minWidth: 0,
+                boxSizing: 'border-box',
+                boxShadow: '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006',
+              }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 32px 0 #FF6100cc, 0 2px 8px 0 #0008'}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = '0 4px 24px 0 #FF610088, 0 1.5px 6px 0 #0006'}
+              onClick={() => {}}
+            >
+              <span style={{ color: '#FF6100' }}>emotional Moments</span>
+            </motion.button>
+          </div>
         </div>
       </motion.div>
     </AnimatePresence>

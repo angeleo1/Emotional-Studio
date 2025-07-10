@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -27,13 +27,28 @@ export default function OurElixirs() {
     image: string;
   } | null>(null);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    };
+  }, []);
+
   const handleCocktailClick = (cocktail: typeof cocktails[0]) => {
     setSelectedCocktail(cocktail);
   };
 
   return (
     <>
-      <section className="w-full min-h-screen py-32 bg-[#111] flex flex-col items-center justify-center relative overflow-hidden px-0">
+      <section className="w-full min-h-screen py-0 bg-[#111] flex flex-col items-center justify-center relative overflow-hidden px-0"
+        style={{ overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}
+      >
         <div 
           className="absolute inset-0 z-0"
           style={{
@@ -43,17 +58,16 @@ export default function OurElixirs() {
             filter: 'drop-shadow(0 0 8px rgba(255, 77, 0, 0.6))'
           }}
         ></div>
-        <h2 className="text-6xl sm:text-8xl font-extrabold text-center mb-8 tracking-widest neon-title z-10 relative" style={{letterSpacing:'0.08em', color: '#FFE8D6', textShadow: '0 0 10px #FF4D00, 0 0 20px #FF4D00, 0 0 30px #FF4D00'}}>OUR ELIXIRS</h2>
-        <div className="w-full flex flex-col items-center justify-center space-y-0 select-none z-10 relative" style={{height:'calc(100vh - 120px)'}}>
+        <div className="w-full h-full flex flex-col items-center justify-center select-none z-10 relative" style={{gap: 0, height: '100vh'}}>
           {/* 1st cocktail */}
-          <div className="w-full overflow-hidden flex justify-start" style={{height:'24vw', minHeight:'180px', maxHeight:'340px', marginBottom:'-2vw'}}>
+          <div className="w-full flex-1 flex items-center justify-center overflow-hidden" style={{padding: 0, flex: '1 1 0%'}}>
             <div className="w-full animate-slideRight flex">
               {[...Array(2)].map((_,i)=>(
                 <span
                   key={i}
                   className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                   style={{
-                    fontSize: 'clamp(4rem, 18vw, 15rem)',
+                    fontSize: 'calc(100vh / 3.2)',
                     color: '#ff2222',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
@@ -66,14 +80,14 @@ export default function OurElixirs() {
             </div>
           </div>
           {/* 2nd cocktail */}
-          <div className="w-full overflow-hidden flex justify-end" style={{height:'24vw', minHeight:'180px', maxHeight:'340px', marginBottom:'-2vw'}}>
+          <div className="w-full flex-1 flex items-center justify-center overflow-hidden" style={{padding: 0, flex: '1 1 0%'}}>
             <div className="w-full animate-slideLeft flex">
               {[...Array(2)].map((_,i)=>(
                 <span
                   key={i}
                   className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                   style={{
-                    fontSize: 'clamp(4rem, 18vw, 15rem)',
+                    fontSize: 'calc(100vh / 3.2)',
                     color: '#ff00b8',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
@@ -86,14 +100,14 @@ export default function OurElixirs() {
             </div>
           </div>
           {/* 3rd cocktail */}
-          <div className="w-full overflow-hidden flex justify-start" style={{height:'24vw', minHeight:'180px', maxHeight:'340px'}}>
+          <div className="w-full flex-1 flex items-center justify-center overflow-hidden" style={{padding: 0, flex: '1 1 0%'}}>
             <div className="w-full animate-slideRight flex">
               {[...Array(2)].map((_,i)=>(
                 <span
                   key={i}
                   className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                   style={{
-                    fontSize: 'clamp(4rem, 18vw, 15rem)',
+                    fontSize: 'calc(100vh / 3.2)',
                     color: '#7cffb2',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
@@ -106,25 +120,6 @@ export default function OurElixirs() {
             </div>
           </div>
         </div>
-        <style jsx>{`
-          .neon-title {
-            color: #ff2222;
-          }
-          @keyframes slideRight {
-            0% { transform: translateX(-50%); }
-            100% { transform: translateX(0%); }
-          }
-          @keyframes slideLeft {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-          }
-          .animate-slideRight {
-            animation: slideRight 12s linear infinite;
-          }
-          .animate-slideLeft {
-            animation: slideLeft 12s linear infinite;
-          }
-        `}</style>
       </section>
 
       {/* Cocktail Description Modal */}

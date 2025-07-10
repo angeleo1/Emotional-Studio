@@ -109,9 +109,8 @@ export default function GalleryLanding() {
       {/* Squiggly line 애니메이션 캔버스 */}
       <canvas ref={canvasRef} className="gallery-landing-canvas" />
       {/* SVG 필터 기반 붓터치 효과 */}
-      <BrushStrokeWithSVGFilter />
       {/* 글리치 버튼 위치 이동: 상단 30rem, 좌측 15rem */}
-      <div className="glitch-button-wrapper" style={{ position: 'absolute', top: 'calc(50% - 1rem)', left: 'calc(50% - 21.8rem)', transform: 'translate(-50%, -50%)', zIndex: 20 }}>
+      <div className="glitch-button-wrapper" style={{ position: 'absolute', top: 'calc(50% - 1rem)', left: 'calc(50% - 11.8rem)', transform: 'translate(-50%, -50%)', zIndex: 20 }}>
         <button
           className="gallery-landing-btn contact-style-glitch-button"
           data-text="Enter Gallery"
@@ -122,13 +121,6 @@ export default function GalleryLanding() {
         </button>
       </div>
       {/* 우측 감성 타이포그래피 */}
-      <div className="gallery-landing-typo">
-        <span>
-          A place<br/>
-          where <span style={{color:'#FF6100'}}>emotions</span><br/>
-          <span style={{color:'#2a2a2a'}}>turn into<br/><span style={{color:'#bdbdbd'}}>memories</span></span>
-        </span>
-      </div>
       <style jsx>{`
         .gallery-landing-root {
           display: flex;
@@ -250,81 +242,5 @@ export default function GalleryLanding() {
         }
       `}</style>
     </div>
-  );
-}
-
-function BrushStrokeWithSVGFilter() {
-  return (
-    <svg
-      className="gallery-landing-brush"
-      width="420"
-      height="170"
-      viewBox="0 0 420 170"
-      style={{
-        position: 'absolute',
-        top: '50%',
-        left: '6rem',
-        transform: 'translateY(-50%) scale(1.28) rotate(-15deg)',
-        zIndex: 9,
-        pointerEvents: 'none',
-      }}
-    >
-      <defs>
-        <filter id="brushTexture1" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="turbulence" baseFrequency="0.07 0.15" numOctaves="2" seed="8" result="turb"/>
-          <feDisplacementMap in2="turb" in="SourceGraphic" scale="18" xChannelSelector="R" yChannelSelector="G"/>
-          <feGaussianBlur stdDeviation="1.7"/>
-        </filter>
-        <filter id="brushTexture2" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="turbulence" baseFrequency="0.11 0.19" numOctaves="2" seed="13" result="turb"/>
-          <feDisplacementMap in2="turb" in="SourceGraphic" scale="13" xChannelSelector="R" yChannelSelector="G"/>
-          <feGaussianBlur stdDeviation="2.2"/>
-        </filter>
-        <filter id="brushTexture3" x="-20%" y="-20%" width="140%" height="140%">
-          <feTurbulence type="turbulence" baseFrequency="0.06 0.11" numOctaves="2" seed="21" result="turb"/>
-          <feDisplacementMap in2="turb" in="SourceGraphic" scale="8" xChannelSelector="R" yChannelSelector="G"/>
-          <feGaussianBlur stdDeviation="3.2"/>
-        </filter>
-        <linearGradient id="brushGray" x1="0" y1="0" x2="420" y2="170" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#222"/>
-          <stop offset="60%" stopColor="#444"/>
-          <stop offset="100%" stopColor="#111"/>
-        </linearGradient>
-      </defs>
-      {/* 메인 유려한 붓터치 (한쪽 두껍고 끝 뾰족) */}
-      <path
-        d="M40,140 Q90,30 200,120 Q260,170 320,60 Q370,10 410,120 Q415,150 390,160 Q340,170 260,150 Q180,170 100,150 Q60,140 40,140 Z"
-        fill="url(#brushGray)"
-        opacity="0.92"
-        filter="url(#brushTexture1)"
-      />
-      {/* 아래쪽 진한 농담(먹 번짐) */}
-      <path
-        d="M80,160 Q160,140 260,160 Q340,170 390,140 Q410,130 415,150 Q400,165 340,165 Q260,170 180,160 Q120,165 80,160 Z"
-        fill="#181818"
-        opacity="0.48"
-        filter="url(#brushTexture2)"
-      />
-      {/* 위쪽 연한 번짐/결 */}
-      <path
-        d="M80,120 Q160,80 260,120 Q340,140 390,110 Q410,100 415,120 Q400,135 340,135 Q260,140 180,130 Q120,130 80,120 Z"
-        fill="#333"
-        opacity="0.28"
-        filter="url(#brushTexture3)"
-      />
-      {/* 붓의 결(중간 농도차) */}
-      <ellipse
-        cx="220" cy="120" rx="60" ry="18"
-        fill="#222"
-        opacity="0.18"
-        filter="url(#brushTexture3)"
-      />
-      <ellipse
-        cx="300" cy="110" rx="30" ry="8"
-        fill="#222"
-        opacity="0.13"
-        filter="url(#brushTexture2)"
-      />
-    </svg>
   );
 } 
