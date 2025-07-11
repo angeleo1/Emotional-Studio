@@ -68,7 +68,7 @@ body {
 }
 
 .layout-active .support-nav-wrapper {
-  left: 4rem;
+  left: 19rem;
   top: 35rem; /* 더 아래로 내림 */
   transform: translate(0, -50%);
   align-items: flex-start;
@@ -387,6 +387,61 @@ body {
   box-shadow: 0 4px 16px 0 rgba(0,0,0,0.13);
 }
 
+.support-nav-wrapper > .faq-category-btn,
+.support-nav-wrapper > .faq-category-btn.active {
+  font-size: 2.185rem !important;
+  width: 18rem !important;
+  padding: 1.288rem 0 !important;
+  border-radius: 6.44rem !important;
+  font-weight: 700;
+  white-space: nowrap;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.support-nav-wrapper > .faq-category-btn.active {
+  background: rgba(255, 97, 0, 0.18) !important;
+  color: #FF6100 !important;
+  border: 2px solid #FF6100 !important;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.faq-tab-row .faq-category-btn.active {
+  background: rgba(255, 97, 0, 0.18) !important;
+  color: #FF6100 !important;
+  border: 2px solid #FF6100 !important;
+  font-weight: 700;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
 .orangeWord {
   color: #ff6100 !important;
+} 
+
+.support-content-wrapper .event-list-item,
+.support-content-wrapper .notice-list-item,
+.support-content-wrapper > div > div[style*='border-bottom'] {
+  border-bottom: 1px solid #FF6100 !important;
+} 
+
+.support-list-item {
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #FF6100;
+} 
+
+.faq-orange {
+  color: #FF6100 !important;
+  font-weight: 900;
+  display: inline-block;
+} 
+
+.support-content-wrapper .faq-orange,
+.faq-tab-row .faq-orange {
+  color: #FF6100 !important;
+  font-weight: 900;
+  display: inline-block;
 } 

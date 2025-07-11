@@ -4,6 +4,7 @@ import styles from '../styles/Contact.module.css';
 import { FaTiktok, FaYoutube, FaFacebookF, FaInstagram, FaArrowRight } from 'react-icons/fa';
 import WavyClipPath from '@/components/WavyClipPath';
 import { motion } from 'framer-motion';
+import SmoothCurvedLine from '@/components/ui/SmoothCurvedLine';
 
 const Contact: NextPage = () => {
   return (
@@ -15,11 +16,9 @@ const Contact: NextPage = () => {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&family=Borel&display=swap" rel="stylesheet" />
         </Head>
+      <SmoothCurvedLine />
       <div className={styles.container}>
-        <div style={{position:'absolute', top:0, left:0, width:'100vw', height:'100vh', pointerEvents:'none', zIndex:1}}>
-          <WavyClipPath clipId="wavy-divider" showLine={true} lineStrokeWidth={2.5} lineStrokeColor="#fff" />
-        </div>
-        <WavyClipPath clipId="wavy-divider" />
+        {/* <CurvedColumns /> 삭제 */}
         <main className={styles.mainGrid}>
           <div className={styles.leftColumn}>
             <motion.h1

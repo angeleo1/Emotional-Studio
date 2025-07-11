@@ -56,25 +56,6 @@ const WavyClipPath = ({
 
   // 마우스 인터랙션 웨이브 효과 (hover 시에만 동작)
   useEffect(() => {
-    if (!isHovered) {
-      // 호버가 끝나면 선을 고정된 상태로 복구
-      if (pathRef.current) {
-        let pathData = `M 0,24 `;
-        let linePathData = `M 0,24 `;
-        const width = dimensions.width;
-        const numPoints = 50;
-        for (let i = 0; i <= numPoints; i++) {
-          const x = (i / numPoints) * width;
-          pathData += `L ${x},24 `;
-          linePathData += `L ${x},24 `;
-        }
-        pathRef.current.setAttribute('d', pathData);
-        if (linePathRef.current) {
-          linePathRef.current.setAttribute('d', linePathData);
-        }
-      }
-      return;
-    }
     // 웨이브 포인트 초기화
     const width = dimensions.width;
     const numPoints = 50;
@@ -103,7 +84,7 @@ const WavyClipPath = ({
       pointsRef.current.forEach((point, i) => {
         const force = stiffness * (point.originalX - point.x);
         point.vx += force;
-        if (mousePosRef.current.moved) {
+        if (isHovered && mousePosRef.current.moved) {
           // 가로선: y축 거리만 사용, x축 움직임이 힘으로 적용
           const distY = Math.abs(mousePosRef.current.y - 24);
           if (distY < 32) {

@@ -282,11 +282,12 @@ const Support: NextPage = () => {
               <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {filteredFaqs.map((faq, idx) => (
                   <div key={faq.question} style={{ width: '100%', borderBottom: '1px solid #333', marginBottom: '0.5rem' }}>
-                    <div style={{ textAlign: 'left', width: '100%', fontWeight: 700, fontSize: '1.15rem', padding: '1.5rem 2rem', borderRadius: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'none', color: '#fff' }}>
+                    <div style={{ textAlign: 'left', width: '100%', fontWeight: 700, fontSize: '1.15rem', padding: '1.5rem 2rem', borderRadius: '2rem', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', background: 'none', color: '#fff', gap: '0.8rem' }}>
+                      <span className="faq-orange" style={{ fontSize: '2em', marginRight: '1.2rem', marginLeft: '-1.2rem' }}>?</span>
                       <span>{faq.question}</span>
                     </div>
-                    <div style={{ padding: '1rem 2rem', color: '#fff', fontSize: '1rem', background: 'none' }}>
-                      {faq.answer}
+                    <div style={{ padding: '1rem 2rem', color: '#fff', fontSize: '1rem', background: 'none', display: 'flex', alignItems: 'flex-start', gap: '0.7rem' }}>
+                      <span>{faq.answer}</span>
                     </div>
                   </div>
                 ))}
@@ -297,7 +298,7 @@ const Support: NextPage = () => {
           {activeMainTab === 'event' && (
             <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {events.map((event) => (
-                <div key={event.title} style={{ color: '#fff', fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid #fff' }}>
+                <div key={event.title} className="support-list-item">
                   {event.title}
                 </div>
               ))}
@@ -307,7 +308,7 @@ const Support: NextPage = () => {
           {activeMainTab === 'notice' && (
             <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {notices.map((notice) => (
-                <div key={notice.title} style={{ color: '#fff', fontSize: '1.1rem', padding: '1rem 0', borderBottom: '1px solid #fff' }}>
+                <div key={notice.title} className="support-list-item">
                   <div>{notice.title}</div>
                   <div style={{fontSize: '0.9rem', color: '#ccc'}}>{notice.date}</div>
                 </div>

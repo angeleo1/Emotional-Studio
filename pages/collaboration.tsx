@@ -179,11 +179,35 @@ export default function CollaborationPage() {
         }}
       >
         {sections.map((section, idx) => (
-          <div key={section.title || section.type} style={{ margin: section.type === 'chrome' ? 0 : '3rem 0', padding: 0 }}>
+          <div key={section.title || section.type} style={{ margin: section.type === 'chrome' ? 0 : '3rem 0', padding: 0, position: 'relative' }}>
             {section.type === 'chrome' ? (
-              <div style={{ width: '100vw', height: '100vh', minHeight: '100vh', minWidth: '100vw', background: '#000', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, borderRadius: 0 }}>
-                <ChromeGrid onReady={() => setChromeGridReady(true)} />
-              </div>
+              <>
+                <div style={{ width: '100vw', height: '100vh', minHeight: '100vh', minWidth: '100vw', background: '#000', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, borderRadius: 0, position: 'relative' }}>
+                  <ChromeGrid onReady={() => setChromeGridReady(true)} />
+                  {/* 좌측 하단 스크롤(화살표+텍스트) UI - Our Collaboration 섹션에만 */}
+                  <div className="absolute left-6 bottom-[9.25rem] flex flex-col items-center z-20 select-none pointer-events-none">
+                    <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
+                      <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+                      <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
+                      Scroll
+                    </span>
+                    <style jsx>{`
+                      @keyframes bounce-down {
+                        0%, 100% { transform: translateY(0); }
+                        20% { transform: translateY(8px); }
+                        40% { transform: translateY(16px); }
+                        60% { transform: translateY(8px); }
+                        80% { transform: translateY(0); }
+                      }
+                      .animate-bounce-down {
+                        animation: bounce-down 1.5s infinite;
+                      }
+                    `}</style>
+                  </div>
+                </div>
+              </>
             ) : (
               <>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
