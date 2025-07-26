@@ -152,13 +152,59 @@ export default function AdminChat() {
     }
   }, [chatMessages]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (password === 'admin123') {
-      setIsAuthenticated(true);
-      setAdminStatus('connected');
+      try {
+        // 서버에 관리자 로그인 상태 알림
+        const response = await fetch('/api/pusher', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'admin-login'
+          }),
+        });
+
+        if (response.ok) {
+          setIsAuthenticated(true);
+          setAdminStatus('connected');
+        } else {
+          alert('Failed to update admin status');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to update admin status');
+      }
     } else {
       alert('Authentication failed. Please check your password.');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      // 서버에 관리자 로그아웃 상태 알림
+      const response = await fetch('/api/pusher', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'admin-logout'
+        }),
+      });
+
+      if (response.ok) {
+        setIsAuthenticated(false);
+        setAdminStatus('disconnected');
+        setPassword('');
+      } else {
+        alert('Failed to update admin status');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to update admin status');
     }
   };
 
@@ -246,6 +292,12 @@ export default function AdminChat() {
                 <div className="w-3 h-3 rounded-full bg-blue-400"></div>
                 <span className="text-blue-400 text-sm">Admin Online</span>
               </div>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl font-medium transition-colors"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </div>

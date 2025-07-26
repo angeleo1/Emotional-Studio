@@ -353,10 +353,15 @@ export default function ContactPopup({ isOpen, onClose }) {
                     <span className={isConnected ? 'text-green-400' : 'text-red-400'}>
                       {isConnected ? 'Connected' : 'Connecting...'}
                     </span>
-                    {adminConnected && (
+                    {adminConnected ? (
                       <>
                         <span className="text-gray-400">•</span>
                         <span className="text-green-400">Live agent available</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-gray-400">•</span>
+                        <span className="text-yellow-400">Bot assistant active</span>
                       </>
                     )}
                   </div>

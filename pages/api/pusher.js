@@ -1,5 +1,11 @@
 import Pusher from 'pusher';
 
+// 관리자 상태 추적 (실제 프로덕션에서는 Redis나 데이터베이스 사용 권장)
+let adminStatus = {
+  isOnline: false,
+  lastSeen: null
+};
+
 // Pusher 설정 (실제 키 사용)
 const pusher = new Pusher({
   appId: '2027943',
@@ -15,26 +21,53 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { message, sender, type, userName } = req.body;
+    const { message, sender, type, userName, action } = req.body;
 
-    if (!message || !sender) {
-      return res.status(400).json({ message: 'Message and sender are required' });
+    // 관리자 상태 업데이트
+    if (action === 'admin-login') {
+      adminStatus.isOnline = true;
+      adminStatus.lastSeen = new Date();
+      await pusher.trigger('emotional-studios-chat', 'admin-status', {
+        connected: true,
+        timestamp: new Date()
+      });
+      return res.status(200).json({ message: 'Admin logged in successfully' });
     }
 
-    const messageData = {
-      id: Date.now(),
-      sender,
-      message,
-      timestamp: new Date(),
-      userName: userName || 'Guest'
-    };
+    if (action === 'admin-logout') {
+      adminStatus.isOnline = false;
+      adminStatus.lastSeen = new Date();
+      await pusher.trigger('emotional-studios-chat', 'admin-status', {
+        connected: false,
+        timestamp: new Date()
+      });
+      return res.status(200).json({ message: 'Admin logged out successfully' });
+    }
 
-    // 채팅 메시지 전송
+    // 채팅 메시지 검증
+    if (type === 'chat' && (!message || !sender)) {
+      return res.status(400).json({ message: 'Message and sender are required for chat' });
+    }
+
+    // 이메일 메시지 검증
+    if (type === 'email' && (!req.body.name || !req.body.email || !req.body.message)) {
+      return res.status(400).json({ message: 'Name, email, and message are required for email submission' });
+    }
+
+    // 채팅 메시지 데이터 생성
     if (type === 'chat') {
+      const messageData = {
+        id: Date.now(),
+        sender,
+        message,
+        timestamp: new Date(),
+        userName: userName || 'Guest'
+      };
+
       await pusher.trigger('emotional-studios-chat', 'new-message', messageData);
       
-      // 관리자가 연결되어 있지 않으면 봇 응답
-      if (sender === 'user') {
+      // 관리자가 오프라인일 때만 봇 응답
+      if (sender === 'user' && !adminStatus.isOnline) {
         setTimeout(async () => {
           const botResponse = getBotResponse(message);
           const botMessage = {
@@ -50,6 +83,24 @@ export default async function handler(req, res) {
 
     // 이메일 메시지 처리
     if (type === 'email') {
+      // 환경 변수 확인
+      if (!process.env.RESEND_API_KEY) {
+        console.log('Resend API key not configured, simulating email send');
+        return res.status(200).json({ 
+          message: 'Email sent successfully (simulated)', 
+          note: 'Resend API key not configured'
+        });
+      }
+
+      // Resend 무료 계정 제한 확인
+      const adminEmail = 'angeleo9691@gmail.com'; // 항상 이 이메일로 전송
+      const userEmail = req.body.email.toLowerCase().trim();
+      
+      console.log('Email setup:', { adminEmail, userEmail });
+      
+      // 모든 이메일을 관리자에게 전송 (Resend 무료 계정 제한으로 인해 관리자 이메일로만 전송 가능)
+      console.log('Sending email to admin:', adminEmail);
+
       // 이메일 전송 로직 (기존 contact.js와 동일)
       const { Resend } = await import('resend');
       const resend = new Resend(process.env.RESEND_API_KEY);
@@ -57,15 +108,51 @@ export default async function handler(req, res) {
       try {
         const { data, error } = await resend.emails.send({
           from: 'onboarding@resend.dev',
-          to: [process.env.CONTACT_EMAIL || 'angeleo9691@gmail.com'],
+          to: [adminEmail], // 항상 관리자 이메일로 전송
           subject: 'New Contact Form Submission - Emotional Studios',
           html: `
-            <h2>New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${req.body.name || 'Not provided'}</p>
-            <p><strong>Email:</strong> ${req.body.email || 'Not provided'}</p>
-            <p><strong>Message:</strong> ${req.body.message}</p>
-            <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
-          `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #ff6100; border-bottom: 2px solid #ff6100; padding-bottom: 10px;">
+                New Contact Form Submission
+              </h2>
+              
+              <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="color: #333; margin-top: 0;">Contact Details</h3>
+                <p><strong>Name:</strong> ${req.body.name}</p>
+                <p><strong>Email:</strong> ${req.body.email}</p>
+                <p><strong>Message:</strong> ${req.body.message}</p>
+                <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+              </div>
+              
+              <div style="background: #fff; padding: 20px; border-left: 4px solid #ff6100; margin: 20px 0;">
+                <h3 style="color: #333; margin-top: 0;">Customer Message</h3>
+                <p style="line-height: 1.6; color: #555;">
+                  ${req.body.message}
+                </p>
+              </div>
+              
+              <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <p style="color: #666; font-size: 14px;">
+                  This message was sent from the Emotional Studios contact form.
+                </p>
+              </div>
+            </div>
+          `,
+          text: `
+New Contact Form Submission
+
+Contact Details:
+- Name: ${req.body.name}
+- Email: ${req.body.email}
+- Message: ${req.body.message}
+- Date: ${new Date().toLocaleString()}
+
+Customer Message:
+${req.body.message}
+
+---
+This message was sent from the Emotional Studios contact form.
+          `,
         });
 
         if (error) {
