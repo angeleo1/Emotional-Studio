@@ -13,6 +13,8 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Aladdin&family=Noto+Sans+TC:wght@400;500;700&family=Mrs+Sheppards&family=Inter:wght@400;500;600;700&family=DM+Serif+Text&family=Eagle+Lake&family=Herr+Von+Muellerhoff&family=Beau+Rivage&family=Mr+De+Haviland&display=swap"
           rel="stylesheet"
         />
+        {/* Pusher Beams SDK */}
+        <script src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
       </Head>
       <body>
         <Main />

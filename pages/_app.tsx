@@ -11,6 +11,7 @@ import ClientOnly from '@/components/ClientOnly'
 import CustomCursor from '@/components/CustomCursor'
 import ContactPopup from '@/components/ContactPopup'
 import Layout from '../components/layout/Layout'
+import PusherBeams from '@/components/PusherBeams'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ClientOnly>
           <CustomCursor />
           <Navbar />
+          <PusherBeams />
         </ClientOnly>
         <Layout>
           <Component {...pageProps} />

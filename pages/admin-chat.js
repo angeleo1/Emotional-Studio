@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { io } from 'socket.io-client'
+import Pusher from 'pusher-js'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function AdminChat() {
@@ -11,7 +11,8 @@ export default function AdminChat() {
   const [adminStatus, setAdminStatus] = useState('disconnected')
   const [notificationsEnabled, setNotificationsEnabled] = useState(false)
   const [notificationsActive, setNotificationsActive] = useState(false)
-  const socketRef = useRef(null)
+  const pusherRef = useRef(null)
+  const channelRef = useRef(null)
   const chatContainerRef = useRef(null)
 
   // 알림 권한 요청
@@ -43,10 +44,9 @@ export default function AdminChat() {
 
   // 소리 알림 재생 함수
   const playNotificationSound = () => {
-    // 커스텀 알림음 사용
     try {
       const audio = new Audio('/pop-sound-effect-197846.mp3');
-      audio.volume = 0.3; // 볼륨을 30%로 설정
+      audio.volume = 0.3;
       audio.play().catch(e => console.log('Audio play failed:', e));
     } catch (error) {
       console.log('Audio notification failed:', error);
@@ -65,194 +65,162 @@ export default function AdminChat() {
     }
   };
 
-  // Socket.IO 연결
+  // Pusher 연결
   useEffect(() => {
     // 기존 연결이 있으면 정리
-    if (socketRef.current) {
-      socketRef.current.disconnect();
-      socketRef.current = null;
+    if (pusherRef.current) {
+      pusherRef.current.disconnect();
+      pusherRef.current = null;
     }
 
-    fetch('/api/socketio')
-      .then(() => {
-        socketRef.current = io();
-        
-        socketRef.current.on('connect', () => {
-          console.log('Admin connected to Socket.IO');
-          setIsConnected(true);
-        });
+    // Pusher 클라이언트 초기화 (실제 키 사용)
+    pusherRef.current = new Pusher('d3e0b683cba4fc0f7708', {
+      cluster: 'ap1',
+      forceTLS: true
+    });
 
-        socketRef.current.on('admin-authenticated', () => {
-          setIsAuthenticated(true);
-          setAdminStatus('connected');
-        });
+    // 채널 구독
+    channelRef.current = pusherRef.current.subscribe('emotional-studios-chat');
 
-        socketRef.current.on('admin-auth-failed', () => {
-          alert('Authentication failed. Please check your password.');
-        });
+    // 연결 상태 확인
+    pusherRef.current.connection.bind('connected', () => {
+      console.log('Admin connected to Pusher');
+      setIsConnected(true);
+    });
 
-        socketRef.current.on('user-message', (messageData) => {
-          // timestamp를 Date 객체로 변환
-          const messageWithDate = {
-            ...messageData,
-            timestamp: new Date(messageData.timestamp)
-          };
-          
-          // 중복 메시지 방지
-          setChatMessages(prev => {
-            const isDuplicate = prev.some(msg => 
-              msg.id === messageWithDate.id || 
-              (msg.message === messageWithDate.message && 
-               msg.sender === messageWithDate.sender && 
-               Math.abs(new Date(msg.timestamp) - new Date(messageWithDate.timestamp)) < 1000)
-            );
-            
-            if (isDuplicate) {
-              console.log('Duplicate message detected, skipping:', messageWithDate);
-              return prev;
-            }
-            
-            return [...prev, messageWithDate];
-          });
-          
-          // 새 고객 메시지 알림
-          showNotification(
-            'New Customer Message', 
-            `${messageData.userName || 'Guest'}: ${messageData.message.substring(0, 50)}${messageData.message.length > 50 ? '...' : ''}`
-          );
-          playNotificationSound();
-        });
+    pusherRef.current.connection.bind('disconnected', () => {
+      console.log('Admin disconnected from Pusher');
+      setIsConnected(false);
+      setAdminStatus('disconnected');
+    });
 
-        socketRef.current.on('new-message', (messageData) => {
-          // timestamp를 Date 객체로 변환
-          const messageWithDate = {
-            ...messageData,
-            timestamp: new Date(messageData.timestamp)
-          };
-          
-          // 중복 메시지 방지
-          setChatMessages(prev => {
-            const isDuplicate = prev.some(msg => 
-              msg.id === messageWithDate.id || 
-              (msg.message === messageWithDate.message && 
-               msg.sender === messageWithDate.sender && 
-               Math.abs(new Date(msg.timestamp) - new Date(messageWithDate.timestamp)) < 1000)
-            );
-            
-            if (isDuplicate) {
-              console.log('Duplicate message detected, skipping:', messageWithDate);
-              return prev;
-            }
-            
-            return [...prev, messageWithDate];
-          });
-          
-          // 내가 보낸 메시지가 아닌 경우에만 알림
-          if (messageData.sender !== 'admin') {
-            showNotification(
-              'New Message', 
-              `${messageData.sender === 'user' ? (messageData.userName || 'Guest') : 'Bot'}: ${messageData.message.substring(0, 50)}${messageData.message.length > 50 ? '...' : ''}`
-            );
-            playNotificationSound();
-          }
-        });
+    // 새 메시지 수신
+    channelRef.current.bind('new-message', (messageData) => {
+      const messageWithDate = {
+        ...messageData,
+        timestamp: new Date(messageData.timestamp)
+      };
 
-        socketRef.current.on('disconnect', () => {
-          console.log('Admin disconnected from Socket.IO');
-          setIsConnected(false);
-          setAdminStatus('disconnected');
-        });
+      setChatMessages(prev => {
+        const isDuplicate = prev.some(msg =>
+          msg.id === messageWithDate.id ||
+          (msg.message === messageWithDate.message &&
+           msg.sender === messageWithDate.sender &&
+           Math.abs(new Date(msg.timestamp) - new Date(messageWithDate.timestamp)) < 1000)
+        );
 
-        return () => {
-          if (socketRef.current) {
-            socketRef.current.disconnect();
-            socketRef.current = null;
-          }
-        };
-      })
-      .catch(console.error);
+        if (isDuplicate) {
+          console.log('Duplicate message detected, skipping:', messageWithDate);
+          return prev;
+        }
+
+        return [...prev, messageWithDate];
+      });
+
+      // 내가 보낸 메시지가 아닌 경우에만 알림
+      if (messageData.sender !== 'admin') {
+        showNotification(
+          'New Message',
+          `${messageData.sender === 'user' ? (messageData.userName || 'Guest') : 'Bot'}: ${messageData.message.substring(0, 50)}${messageData.message.length > 50 ? '...' : ''}`
+        );
+        playNotificationSound();
+      }
+    });
+
+    return () => {
+      if (pusherRef.current) {
+        pusherRef.current.disconnect();
+        pusherRef.current = null;
+      }
+    };
   }, [notificationsEnabled]);
 
   // 컴포넌트 언마운트 시 연결 정리
   useEffect(() => {
     return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
-        socketRef.current = null;
+      if (pusherRef.current) {
+        pusherRef.current.disconnect();
+        pusherRef.current = null;
       }
     };
   }, []);
 
-  // 채팅 스크롤 자동 이동
+  // 채팅 자동 스크롤
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [chatMessages]);
 
-  const handleAuth = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    if (socketRef.current) {
-      socketRef.current.emit('admin-auth', { password });
+    if (password === 'admin123') {
+      setIsAuthenticated(true);
+      setAdminStatus('connected');
+    } else {
+      alert('Authentication failed. Please check your password.');
     }
   };
 
-  const handleSendMessage = () => {
-    if (!message.trim() || !isAuthenticated) return;
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!message.trim() || !isConnected) return;
 
-    if (socketRef.current) {
-      socketRef.current.emit('admin-message', { message: message.trim() });
-    }
-    setMessage('');
-  };
+    const adminMessage = {
+      message: message,
+      sender: 'admin',
+      type: 'chat',
+      adminName: 'Emotional Studios Support'
+    };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+    try {
+      const response = await fetch('/api/pusher', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminMessage),
+      });
+
+      if (response.ok) {
+        setMessage('');
+      } else {
+        alert('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Failed to send message');
     }
   };
 
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-8 shadow-2xl"
-        >
+        <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-8 shadow-2xl w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Admin Chat</h1>
-            <p className="text-gray-300">Enter password to access admin chat</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Admin Login</h1>
+            <p className="text-gray-300">Enter your password to access the admin panel</p>
           </div>
-          
-          <form onSubmit={handleAuth} className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-200 mb-3">
-                Password
-              </label>
+              <label className="block text-white text-sm font-medium mb-2">Password</label>
               <input
                 type="password"
-                id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-6 py-4 rounded-2xl bg-white/20 border border-white/30 focus:border-[#ff6100] focus:ring-2 focus:ring-[#ff6100]/20 transition-all duration-300 text-white placeholder-gray-300"
-                placeholder="Enter admin password"
+                className="w-full bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-orange-500 transition-colors"
+                placeholder="Enter password"
               />
             </div>
-            
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
-              disabled={!isConnected}
-              className="w-full px-8 py-4 bg-gradient-to-r from-[#ff6100] to-orange-500 text-white rounded-2xl font-medium hover:from-[#ff6100]/90 hover:to-orange-500/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-2xl font-medium transition-colors"
             >
-              {isConnected ? 'Login' : 'Connecting...'}
-            </motion.button>
+              Login
+            </button>
           </form>
-        </motion.div>
+        </div>
       </div>
     );
   }
@@ -264,27 +232,20 @@ export default function AdminChat() {
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 p-6 mb-6 shadow-2xl">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-white">Admin Chat Dashboard</h1>
-              <p className="text-gray-300 mt-1">Real-time customer support</p>
+              <h1 className="text-3xl font-bold text-white mb-2">Admin Chat Panel</h1>
+              <p className="text-gray-300">Manage customer conversations in real-time</p>
             </div>
             <div className="flex items-center space-x-4">
-              <div className={`px-4 py-2 rounded-full text-sm font-medium ${
-                adminStatus === 'connected' 
-                  ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
-                  : 'bg-red-500/20 text-red-300 border border-red-500/30'
-              }`}>
-                {adminStatus === 'connected' ? '🟢 Online' : '🔴 Offline'}
+              <div className="flex items-center space-x-2">
+                <div className={`w-3 h-3 rounded-full ${isConnected ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                <span className={isConnected ? 'text-green-400' : 'text-red-400'} text-sm>
+                  {isConnected ? 'Connected' : 'Disconnected'}
+                </span>
               </div>
-              <button
-                onClick={() => {
-                  setIsAuthenticated(false);
-                  setPassword('');
-                  setChatMessages([]);
-                }}
-                className="px-4 py-2 bg-red-500/20 text-red-300 rounded-full hover:bg-red-500/30 transition-all duration-300 border border-red-500/30"
-              >
-                Logout
-              </button>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+                <span className="text-blue-400 text-sm">Admin Online</span>
+              </div>
             </div>
           </div>
         </div>
@@ -295,8 +256,8 @@ export default function AdminChat() {
             <div>
               <h2 className="text-2xl font-bold text-white mb-2">Notifications</h2>
               <p className="text-gray-300">
-                {notificationsEnabled 
-                  ? 'Enable or disable notifications for new customer messages.' 
+                {notificationsEnabled
+                  ? 'Enable or disable notifications for new customer messages.'
                   : 'Enable notifications to get alerts for new customer messages.'
                 }
               </p>
@@ -310,20 +271,18 @@ export default function AdminChat() {
                   className="sr-only"
                   disabled={!notificationsEnabled}
                 />
-                <div className="relative">
-                  <div className={`block w-10 h-6 rounded-full transition-colors duration-300 ${
-                    notificationsActive 
-                      ? 'bg-green-500' 
-                      : notificationsEnabled 
-                        ? 'bg-gray-400' 
-                        : 'bg-gray-600'
-                  }`}></div>
-                  <div
-                    className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-md ${
-                      notificationsActive ? 'translate-x-4' : ''
-                    }`}
-                  ></div>
-                </div>
+                <div className={`block w-10 h-6 rounded-full transition-colors duration-300 ${
+                  notificationsActive
+                    ? 'bg-green-500'
+                    : notificationsEnabled
+                      ? 'bg-gray-400'
+                      : 'bg-gray-600'
+                }`}></div>
+                <div
+                  className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-md ${
+                    notificationsActive ? 'translate-x-4' : ''
+                  }`}
+                ></div>
                 <span className="ml-3 text-sm font-medium text-white">
                   {notificationsActive ? 'Enabled' : 'Disabled'}
                 </span>
@@ -334,77 +293,67 @@ export default function AdminChat() {
 
         {/* Chat Area */}
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl overflow-hidden">
-          <div 
+          {/* Chat Messages */}
+          <div
             ref={chatContainerRef}
-            className="h-96 overflow-y-auto p-6"
+            className="h-96 overflow-y-auto p-6 space-y-4"
           >
-            <div className="space-y-4">
-              {chatMessages.length === 0 ? (
-                <div className="text-center text-gray-400 py-8">
-                  <p>No messages yet. Waiting for customer inquiries...</p>
-                </div>
-              ) : (
-                chatMessages.map((msg) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`flex items-start space-x-3 ${msg.sender === 'admin' ? 'justify-end' : ''}`}
+            {chatMessages.length === 0 ? (
+              <div className="text-center text-gray-400 py-8">
+                <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <p className="text-lg">No messages yet</p>
+                <p className="text-sm">Customer messages will appear here</p>
+              </div>
+            ) : (
+              chatMessages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === 'admin' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-xs px-4 py-3 rounded-2xl ${
+                      msg.sender === 'admin'
+                        ? 'bg-blue-500 text-white'
+                        : msg.sender === 'user'
+                        ? 'bg-gray-600 text-white'
+                        : 'bg-orange-500 text-white'
+                    }`}
                   >
-                    {msg.sender === 'user' && (
-                      <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                        <span className="text-white font-bold">U</span>
-                      </div>
-                    )}
-                    <div className={`flex-1 rounded-2xl p-4 shadow-lg ${
-                      msg.sender === 'admin' 
-                        ? 'bg-gradient-to-r from-[#ff6100] to-orange-500 text-white' 
-                        : msg.sender === 'bot'
-                        ? 'bg-yellow-500/20 text-yellow-200 border border-yellow-500/30'
-                        : 'bg-white/20 text-white border border-white/20'
-                    }`}>
-                      <div className="flex items-center space-x-2 mb-1">
-                        <span className="text-xs font-medium opacity-70">
-                          {msg.sender === 'admin' ? 'You' : msg.sender === 'bot' ? 'Bot' : msg.userName || 'Guest'}
-                        </span>
-                        <span className="text-xs opacity-50">
-                          {msg.timestamp.toLocaleTimeString()}
-                        </span>
-                      </div>
-                      <p className="text-sm leading-relaxed">{msg.message}</p>
+                    <div className="text-xs opacity-75 mb-1">
+                      {msg.sender === 'admin' ? 'You' : 
+                       msg.sender === 'user' ? (msg.userName || 'Customer') : 'Bot'}
                     </div>
-                    {msg.sender === 'admin' && (
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#ff6100] to-orange-500 flex items-center justify-center flex-shrink-0">
-                        <span className="text-white font-bold">A</span>
-                      </div>
-                    )}
-                  </motion.div>
-                ))
-              )}
-            </div>
+                    <div className="text-sm">{msg.message}</div>
+                    <div className="text-xs opacity-75 mt-1">
+                      {msg.timestamp.toLocaleTimeString()}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           {/* Message Input */}
-          <div className="p-6 border-t border-white/20">
-            <div className="flex space-x-4">
+          <div className="p-6 border-t border-white/10">
+            <form onSubmit={handleSendMessage} className="flex space-x-4">
               <input
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your response..."
-                className="flex-1 px-6 py-4 rounded-2xl bg-white/20 border border-white/30 focus:border-[#ff6100] focus:ring-2 focus:ring-[#ff6100]/20 transition-all duration-300 text-white placeholder-gray-300"
+                placeholder={isConnected ? "Type your response..." : "Connecting..."}
+                disabled={!isConnected}
+                className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
               />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleSendMessage}
-                disabled={!message.trim()}
-                className="px-8 py-4 bg-gradient-to-r from-[#ff6100] to-orange-500 text-white rounded-2xl font-medium hover:from-[#ff6100]/90 hover:to-orange-500/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              <button
+                type="submit"
+                disabled={!message.trim() || !isConnected}
+                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-8 py-3 rounded-2xl font-medium transition-colors"
               >
                 Send
-              </motion.button>
-            </div>
+              </button>
+            </form>
           </div>
         </div>
       </div>
