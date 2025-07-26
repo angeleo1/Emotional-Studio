@@ -96,14 +96,40 @@ export default function Navbar() {
   return (
     <>
       <Link href="/" legacyBehavior>
-        <a className="glitch-wrapper" style={{ position: 'fixed', top: '-5rem', left: '4rem', zIndex: 1001, mixBlendMode: 'difference', color: '#ffffff', textDecoration: 'none' }}>
-          <span 
-            className="glitch"
-            data-text="e.st"
-            style={{ fontFamily: 'Herr Von Muellerhoff, cursive', fontSize: '13.61rem', fontWeight: '500', padding: '0 4rem', transition: 'color 0.1s' }}
-          >
-            e.st
-          </span>
+        <a className="glitch-wrapper" style={{ 
+          position: 'fixed', 
+          top: '2rem', 
+          left: '4rem', 
+          zIndex: 1001, 
+          mixBlendMode: 'difference', 
+          color: '#ffffff', 
+          textDecoration: 'none',
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.02)';
+          e.currentTarget.style.filter = 'drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 40px rgba(255, 0, 255, 0.4))';
+          e.currentTarget.style.mixBlendMode = 'screen';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.filter = 'none';
+          e.currentTarget.style.mixBlendMode = 'difference';
+        }}
+        >
+          <Image 
+            src="/images/reallogo.png"
+            alt="e.st logo"
+            width={180}
+            height={90}
+            style={{ 
+              objectFit: 'contain', 
+              display: 'block',
+              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+            priority
+          />
         </a>
       </Link>
 

@@ -71,8 +71,8 @@ const Contact: NextPage = () => {
               >
                 <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaTiktok className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
                 <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaFacebookF className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
-                <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaInstagram className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
-                <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaYoutube className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
+                <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaInstagram className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
+                <a href="https://www.youtube.com/channel/UCiD4_8JWUt24lkJwYMum8NA" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaYoutube className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
               </motion.div>
             </div>
 

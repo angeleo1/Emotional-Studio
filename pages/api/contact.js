@@ -1,48 +1,139 @@
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend';
+
+// 환경변수 디버깅
+console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
+console.log('CONTACT_EMAIL:', process.env.CONTACT_EMAIL);
+
+// 직접 API 키 설정 (테스트용)
+const apiKey = process.env.RESEND_API_KEY || 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
+const contactEmail = process.env.CONTACT_EMAIL || 'angeleo9691@gmail.com'; // 테스트용 이메일
+
+console.log('Using API Key:', apiKey);
+console.log('Using Contact Email:', contactEmail);
+
+const resend = new Resend(apiKey);
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
+    return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  const { name, email, message } = req.body
-
-  // 이메일 전송 설정
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  })
+  const { name, email, message, type } = req.body;
 
   try {
-    // 이메일 전송
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: process.env.CONTACT_EMAIL,
-      subject: `[시현하다] 새로운 문의: ${name}`,
-      text: `
-이름: ${name}
-이메일: ${email}
+    if (type === 'email') {
+      // 이메일 문의 처리
+      if (!name || !email || !message) {
+        return res.status(400).json({ message: 'Missing required fields' });
+      }
 
-메시지:
+      const emailData = await resend.emails.send({
+        from: 'Emotional Studios <onboarding@resend.dev>',
+        to: [contactEmail],
+        subject: `[Emotional Studios] New Contact Form Submission from ${name}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #ff6100; border-bottom: 2px solid #ff6100; padding-bottom: 10px;">
+              New Contact Form Submission
+            </h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #333; margin-top: 0;">Contact Information</h3>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #ff6100;">${email}</a></p>
+              <p><strong>Date:</strong> ${new Date().toLocaleString()}</p>
+            </div>
+            
+            <div style="background: #fff; padding: 20px; border-left: 4px solid #ff6100; margin: 20px 0;">
+              <h3 style="color: #333; margin-top: 0;">Message</h3>
+              <p style="line-height: 1.6; color: #555;">${message.replace(/\n/g, '<br>')}</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+              <p style="color: #666; font-size: 14px;">
+                This message was sent from the Emotional Studios contact form.
+              </p>
+            </div>
+          </div>
+        `,
+        text: `
+New Contact Form Submission
+
+Contact Information:
+- Name: ${name}
+- Email: ${email}
+- Date: ${new Date().toLocaleString()}
+
+Message:
 ${message}
-      `,
-      html: `
-<h2>새로운 문의가 도착했습니다</h2>
-<p><strong>이름:</strong> ${name}</p>
-<p><strong>이메일:</strong> ${email}</p>
-<p><strong>메시지:</strong></p>
-<p>${message.replace(/\n/g, '<br>')}</p>
-      `,
-    })
 
-    res.status(200).json({ message: '이메일이 성공적으로 전송되었습니다.' })
+---
+This message was sent from the Emotional Studios contact form.
+        `,
+      });
+
+      console.log('Email sent successfully:', emailData);
+      res.status(200).json({ message: 'Email sent successfully' });
+
+    } else if (type === 'chat') {
+      // 채팅 메시지 처리
+      if (!message) {
+        return res.status(400).json({ message: 'Message is required' });
+      }
+
+      // 채팅 메시지를 관리자에게 이메일로 전송
+      const chatEmailData = await resend.emails.send({
+        from: 'Emotional Studios <onboarding@resend.dev>',
+        to: [contactEmail],
+        subject: `[Emotional Studios] New Chat Message`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #ff6100; border-bottom: 2px solid #ff6100; padding-bottom: 10px;">
+              New Chat Message
+            </h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #333; margin-top: 0;">Chat Details</h3>
+              <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+              <p><strong>Source:</strong> Live Chat</p>
+            </div>
+            
+            <div style="background: #fff; padding: 20px; border-left: 4px solid #ff6100; margin: 20px 0;">
+              <h3 style="color: #333; margin-top: 0;">Message</h3>
+              <p style="line-height: 1.6; color: #555;">${message.replace(/\n/g, '<br>')}</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+              <p style="color: #666; font-size: 14px;">
+                This message was sent from the Emotional Studios live chat.
+              </p>
+            </div>
+          </div>
+        `,
+        text: `
+New Chat Message
+
+Chat Details:
+- Time: ${new Date().toLocaleString()}
+- Source: Live Chat
+
+Message:
+${message}
+
+---
+This message was sent from the Emotional Studios live chat.
+        `,
+      });
+
+      console.log('Chat notification sent successfully:', chatEmailData);
+      res.status(200).json({ message: 'Chat message processed successfully' });
+
+    } else {
+      return res.status(400).json({ message: 'Invalid type parameter' });
+    }
+
   } catch (error) {
-    console.error('이메일 전송 오류:', error)
-    res.status(500).json({ message: '이메일 전송 중 오류가 발생했습니다.' })
+    console.error('Error sending email:', error);
+    res.status(500).json({ message: 'Failed to send message' });
   }
 } 
