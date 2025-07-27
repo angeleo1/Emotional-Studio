@@ -3,13 +3,18 @@ export default function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
+  // 임시로 직접 API 키 설정 (테스트용)
+  const apiKey = process.env.RESEND_API_KEY || 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
+
   const debugInfo = {
     timestamp: new Date().toISOString(),
     resendApiKey: {
-      exists: !!process.env.RESEND_API_KEY,
-      length: process.env.RESEND_API_KEY?.length || 0,
-      firstChars: process.env.RESEND_API_KEY?.substring(0, 10) || 'N/A',
-      lastChars: process.env.RESEND_API_KEY?.substring(-10) || 'N/A'
+      exists: !!apiKey,
+      length: apiKey?.length || 0,
+      firstChars: apiKey?.substring(0, 10) || 'N/A',
+      lastChars: apiKey?.substring(-10) || 'N/A',
+      fromEnv: !!process.env.RESEND_API_KEY,
+      fromFallback: !process.env.RESEND_API_KEY && !!apiKey
     },
     environment: process.env.NODE_ENV,
     vercelUrl: process.env.VERCEL_URL,
