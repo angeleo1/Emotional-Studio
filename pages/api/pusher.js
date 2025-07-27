@@ -133,9 +133,9 @@ This message was sent from the Emotional Studios live chat.
         }
       }
       
-      // 관리자가 오프라인일 때만 봇 응답
+      // 관리자가 오프라인일 때만 봇 응답 (즉시 전송)
       if (sender === 'user' && !adminStatus.isOnline) {
-        setTimeout(async () => {
+        try {
           const botResponse = getBotResponse(message);
           const botMessage = {
             id: Date.now() + 1,
@@ -144,7 +144,10 @@ This message was sent from the Emotional Studios live chat.
             timestamp: new Date()
           };
           await pusher.trigger('emotional-studios-chat', 'new-message', botMessage);
-        }, 1000);
+          console.log('Bot response sent:', botResponse);
+        } catch (botError) {
+          console.error('Bot response error:', botError);
+        }
       }
     }
 
