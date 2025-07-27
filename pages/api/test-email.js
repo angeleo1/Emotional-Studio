@@ -6,11 +6,11 @@ export default async function handler(req, res) {
   }
 
   console.log('=== EMAIL TEST DEBUG ===');
-  console.log('RESEND_API_KEY exists:', !!process.env.Resend_API_KEY);
-  console.log('RESEND_API_KEY length:', process.env.Resend_API_KEY?.length);
-  console.log('RESEND_API_KEY first 10 chars:', process.env.Resend_API_KEY?.substring(0, 10));
+  console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+  console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length);
+  console.log('RESEND_API_KEY first 10 chars:', process.env.RESEND_API_KEY?.substring(0, 10));
 
-  if (!process.env.Resend_API_KEY) {
+  if (!process.env.RESEND_API_KEY) {
     return res.status(500).json({ 
       message: 'Resend API key not configured',
       error: 'RESEND_API_KEY environment variable is missing'
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const resend = new Resend(process.env.Resend_API_KEY);
+    const resend = new Resend(process.env.RESEND_API_KEY);
     
     console.log('Attempting to send test email...');
     
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
           <p>This is a test email to verify email functionality.</p>
           <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
           <p>If you receive this email, the email system is working correctly.</p>
-          <p><strong>API Key:</strong> ${process.env.Resend_API_KEY ? 'Configured' : 'Missing'}</p>
+          <p><strong>API Key:</strong> ${process.env.RESEND_API_KEY ? 'Configured' : 'Missing'}</p>
         </div>
       `,
       text: `
@@ -41,7 +41,7 @@ Test Email
 
 This is a test email to verify email functionality.
 Time: ${new Date().toLocaleString()}
-API Key: ${process.env.Resend_API_KEY ? 'Configured' : 'Missing'}
+API Key: ${process.env.RESEND_API_KEY ? 'Configured' : 'Missing'}
 
 If you receive this email, the email system is working correctly.
       `,

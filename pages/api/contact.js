@@ -1,11 +1,11 @@
 import { Resend } from 'resend';
 
 // 환경변수 디버깅
-console.log('RESEND_API_KEY:', process.env.Resend_API_KEY);
+console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
 console.log('CONTACT_EMAIL:', process.env.CONTACT_EMAIL);
 
 // 직접 API 키 설정 (테스트용)
-const apiKey = process.env.Resend_API_KEY || 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
+const apiKey = process.env.RESEND_API_KEY || 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
 const contactEmail = process.env.CONTACT_EMAIL || 'admin@emotionalstudios.com.au'; // 이메일 주소 변경
 
 console.log('Using API Key:', apiKey);

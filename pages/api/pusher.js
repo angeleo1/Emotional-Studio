@@ -69,11 +69,11 @@ export default async function handler(req, res) {
       // 사용자 메시지인 경우 관리자에게 이메일 알림 전송
       if (sender === 'user') {
         console.log('=== CHAT EMAIL NOTIFICATION DEBUG ===');
-        console.log('Resend_API_KEY exists:', !!process.env.Resend_API_KEY);
+        console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
         
         try {
           const { Resend } = await import('resend');
-          const resend = new Resend(process.env.Resend_API_KEY);
+          const resend = new Resend(process.env.RESEND_API_KEY);
           
           console.log('Attempting to send chat notification email...');
           const { data, error } = await resend.emails.send({
@@ -152,10 +152,10 @@ This message was sent from the Emotional Studios live chat.
     if (type === 'email') {
       // 환경 변수 확인
       console.log('=== EMAIL SENDING DEBUG ===');
-      console.log('Resend_API_KEY exists:', !!process.env.Resend_API_KEY);
-      console.log('Resend_API_KEY length:', process.env.Resend_API_KEY?.length);
+      console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+      console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length);
       
-      if (!process.env.Resend_API_KEY) {
+      if (!process.env.RESEND_API_KEY) {
         console.log('Resend API key not configured, simulating email send');
         return res.status(200).json({ 
           message: 'Email sent successfully (simulated)', 
@@ -175,7 +175,7 @@ This message was sent from the Emotional Studios live chat.
 
       // 이메일 전송 로직 (기존 contact.js와 동일)
       const { Resend } = await import('resend');
-      const resend = new Resend(process.env.Resend_API_KEY);
+      const resend = new Resend(process.env.RESEND_API_KEY);
 
       try {
         console.log('Attempting to send email...');
