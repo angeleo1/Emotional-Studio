@@ -188,6 +188,8 @@ export default function ContactPopup({ isOpen, onClose }) {
     e.preventDefault();
     
     try {
+      console.log('Submitting email form:', emailForm);
+      
       const response = await fetch('/api/pusher', {
         method: 'POST',
         headers: {
@@ -199,15 +201,21 @@ export default function ContactPopup({ isOpen, onClose }) {
         }),
       });
 
+      console.log('Response status:', response.status);
+      
       if (response.ok) {
+        const result = await response.json();
+        console.log('Email submission result:', result);
         alert('Message sent successfully!');
         setEmailForm({ name: '', email: '', message: '' });
       } else {
-        alert('Failed to send message');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Email submission failed:', errorData);
+        alert(`Failed to send message: ${errorData.message || 'Server error'}`);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to send message');
+      console.error('Email submission error:', error);
+      alert(`Failed to send message: ${error.message}`);
     }
   };
 
