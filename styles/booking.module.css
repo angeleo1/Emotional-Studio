@@ -1,5 +1,16 @@
 @import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
 @import url("https://fonts.cdnfonts.com/css/thegoodmonolith");
+@import url('https://fonts.cdnfonts.com/css/valcon');
+
+@font-face {
+  font-family: 'Valcon';
+  src: url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.woff2') format('woff2'),
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.woff') format('woff'),
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 .mainContainer {
     display: flex;
@@ -400,4 +411,52 @@
 
 .checkedLabel {
   color: #111 !important;
+} 
+
+/* 가격 표시 스타일 */
+.priceDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: none;
+  border: none;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  margin-left: 16rem;
+}
+
+.priceLabel {
+  font-family: 'Valcon', 'PP Neue Montreal', sans-serif;
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 700;
+  margin-right: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.priceAmount {
+  font-family: 'Valcon', 'PP Neue Montreal', sans-serif;
+  font-size: 2.2rem;
+  color: #FF6100;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+}
+
+/* 카드 요소 컨테이너 */
+.cardElementContainer {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 처리 중 상태 */
+.processing {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.processing:hover {
+  transform: none;
 } 

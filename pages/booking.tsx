@@ -6,10 +6,104 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+// Stripe 초기화
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+
+// 결제 폼 컴포넌트
+const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessing }: any) => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Stripe 결제 인텐트 생성
+      const response = await fetch('/api/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          shootingType: formData.shootingType,
+          colorOption: formData.colorOption,
+          otherGoods: formData.otherGoods,
+          formData: formData
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create payment intent');
+      }
+
+      const { clientSecret } = await response.json();
+
+      // 결제 확인
+      const { error } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement)!,
+        },
+      });
+
+      if (error) {
+        console.error('Payment error:', error);
+        onError(`Payment failed: ${error.message}`);
+      } else {
+        onSuccess();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      onError('Failed to process payment. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className={styles.cardElementContainer}>
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': {
+                  color: '#aab7c4',
+                },
+              },
+              invalid: {
+                color: '#9e2146',
+              },
+            },
+          }}
+        />
+      </div>
+      <button 
+        type="submit" 
+        className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
+        disabled={!stripe || isProcessing}
+      >
+        {isProcessing ? 'Processing Payment...' : 'Pay Now'}
+      </button>
+    </form>
+  );
+};
 
 const Booking: NextPage = () => {
   const bookingFormRef = useRef<HTMLDivElement>(null);
   const [isBookingVisible, setIsBookingVisible] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -42,9 +136,75 @@ const Booking: NextPage = () => {
     };
   }, [isBookingVisible]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const calculateTotalPrice = () => {
+    let basePrice = 0;
+    switch (formData.shootingType) {
+      case 'solo':
+        basePrice = 55;
+        break;
+      case 'couple':
+        basePrice = 98;
+        break;
+      case 'triple':
+        basePrice = 150;
+        break;
+      case 'more':
+        basePrice = 150;
+        break;
+      default:
+        basePrice = 0;
+    }
+
+    let additionalCost = 0;
+    if (formData.colorOption) additionalCost += 10;
+    if (formData.otherGoods.a4print) additionalCost += 10;
+    if (formData.otherGoods.a4frame) additionalCost += 15;
+    if (formData.otherGoods.digital) additionalCost += 20;
+    if (formData.otherGoods.calendar) additionalCost += 45;
+
+    return basePrice + additionalCost;
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    
+    if (!formData.shootingType) {
+      alert('Please select a shooting type.');
+      return;
+    }
+
+    // 필수 필드 검증
+    if (!formData.name || !formData.email || !formData.phone) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    setShowPayment(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    alert('Payment successful! Your booking has been confirmed. We will contact you soon.');
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      date: null,
+      time: '',
+      shootingType: '',
+      colorOption: false,
+      otherGoods: {
+        a4print: false,
+        a4frame: false,
+        digital: false,
+        calendar: false
+      },
+      message: ''
+    });
+    setShowPayment(false);
+  };
+
+  const handlePaymentError = (message: string) => {
+    alert(message);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -195,7 +355,7 @@ const Booking: NextPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.3 } }}
           >
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleFormSubmit}>
               <div className={styles.mainContainer}>
                 <section ref={bookingFormRef} className={styles.bookingSection}>
                   <div className={styles.bookingGrid}>
@@ -276,9 +436,29 @@ const Booking: NextPage = () => {
                         <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required />
                       </div>
                       <div className={styles.submitContainer}>
-                        <button type="submit" className={styles.submitButton}>
-                          Submit
-                        </button>
+                        <div className={styles.priceDisplay}>
+                          <span className={styles.priceLabel}>Total</span>
+                          <span className={styles.priceAmount}>${calculateTotalPrice()}</span>
+                        </div>
+                        {showPayment ? (
+                          <Elements stripe={stripePromise}>
+                            <PaymentForm
+                              formData={formData}
+                              onSuccess={handlePaymentSuccess}
+                              onError={handlePaymentError}
+                              isProcessing={isProcessing}
+                              setIsProcessing={setIsProcessing}
+                            />
+                          </Elements>
+                        ) : (
+                          <button 
+                            type="submit" 
+                            className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
+                            disabled={isProcessing}
+                          >
+                            {isProcessing ? 'Processing Payment...' : 'Proceed to Payment'}
+                          </button>
+                        )}
                       </div>
                     </div>
 

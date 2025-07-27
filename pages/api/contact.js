@@ -6,7 +6,7 @@ console.log('CONTACT_EMAIL:', process.env.CONTACT_EMAIL);
 
 // 직접 API 키 설정 (테스트용)
 const apiKey = process.env.RESEND_API_KEY || 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
-const contactEmail = process.env.CONTACT_EMAIL || 'angeleo9691@gmail.com'; // 테스트용 이메일
+const contactEmail = process.env.CONTACT_EMAIL || 'admin@emotionalstudios.com.au'; // 이메일 주소 변경
 
 console.log('Using API Key:', apiKey);
 console.log('Using Contact Email:', contactEmail);
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       }
 
       const emailData = await resend.emails.send({
-        from: 'Emotional Studios <onboarding@resend.dev>',
+        from: 'admin@emotionalstudios.com.au', // 발신자 이메일 변경
         to: [contactEmail],
         subject: `[Emotional Studios] New Contact Form Submission from ${name}`,
         html: `
@@ -83,7 +83,7 @@ This message was sent from the Emotional Studios contact form.
 
       // 채팅 메시지를 관리자에게 이메일로 전송
       const chatEmailData = await resend.emails.send({
-        from: 'Emotional Studios <onboarding@resend.dev>',
+        from: 'admin@emotionalstudios.com.au', // 발신자 이메일 변경
         to: [contactEmail],
         subject: `[Emotional Studios] New Chat Message`,
         html: `

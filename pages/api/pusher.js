@@ -66,6 +66,73 @@ export default async function handler(req, res) {
 
       await pusher.trigger('emotional-studios-chat', 'new-message', messageData);
       
+      // 사용자 메시지인 경우 관리자에게 이메일 알림 전송
+      if (sender === 'user') {
+        console.log('=== CHAT EMAIL NOTIFICATION DEBUG ===');
+        console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+        
+        try {
+          const { Resend } = await import('resend');
+          const resend = new Resend(process.env.RESEND_API_KEY);
+          
+          console.log('Attempting to send chat notification email...');
+          const { data, error } = await resend.emails.send({
+            from: 'onboarding@resend.dev', // 임시로 Resend 기본 발신자 사용
+            to: ['admin@emotionalstudios.com.au'],
+            subject: `[Emotional Studios] New Chat Message from ${userName || 'Guest'}`,
+            html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #ff6100; border-bottom: 2px solid #ff6100; padding-bottom: 10px;">
+                  New Chat Message
+                </h2>
+                
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                  <h3 style="color: #333; margin-top: 0;">Chat Details</h3>
+                  <p><strong>User:</strong> ${userName || 'Guest'}</p>
+                  <p><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+                  <p><strong>Source:</strong> Live Chat</p>
+                </div>
+                
+                <div style="background: #fff; padding: 20px; border-left: 4px solid #ff6100; margin: 20px 0;">
+                  <h3 style="color: #333; margin-top: 0;">Message</h3>
+                  <p style="line-height: 1.6; color: #555;">${message.replace(/\n/g, '<br>')}</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                  <p style="color: #666; font-size: 14px;">
+                    This message was sent from the Emotional Studios live chat.
+                  </p>
+                </div>
+              </div>
+            `,
+            text: `
+New Chat Message
+
+Chat Details:
+- User: ${userName || 'Guest'}
+- Time: ${new Date().toLocaleString()}
+- Source: Live Chat
+
+Message:
+${message}
+
+---
+This message was sent from the Emotional Studios live chat.
+            `,
+          });
+
+          console.log('Chat notification email response:', { data, error });
+
+          if (error) {
+            console.error('Chat notification email error details:', error);
+          } else {
+            console.log('Chat notification email sent successfully, data:', data);
+          }
+        } catch (emailError) {
+          console.error('Chat notification email error details:', emailError);
+        }
+      }
+      
       // 관리자가 오프라인일 때만 봇 응답
       if (sender === 'user' && !adminStatus.isOnline) {
         setTimeout(async () => {
@@ -84,6 +151,10 @@ export default async function handler(req, res) {
     // 이메일 메시지 처리
     if (type === 'email') {
       // 환경 변수 확인
+      console.log('=== EMAIL SENDING DEBUG ===');
+      console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+      console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length);
+      
       if (!process.env.RESEND_API_KEY) {
         console.log('Resend API key not configured, simulating email send');
         return res.status(200).json({ 
@@ -93,10 +164,11 @@ export default async function handler(req, res) {
       }
 
       // Resend 무료 계정 제한 확인
-      const adminEmail = 'angeleo9691@gmail.com'; // 항상 이 이메일로 전송
+      const adminEmail = 'admin@emotionalstudios.com.au'; // 이메일 주소 변경
       const userEmail = req.body.email.toLowerCase().trim();
       
       console.log('Email setup:', { adminEmail, userEmail });
+      console.log('Request body:', req.body);
       
       // 모든 이메일을 관리자에게 전송 (Resend 무료 계정 제한으로 인해 관리자 이메일로만 전송 가능)
       console.log('Sending email to admin:', adminEmail);
@@ -106,8 +178,9 @@ export default async function handler(req, res) {
       const resend = new Resend(process.env.RESEND_API_KEY);
 
       try {
+        console.log('Attempting to send email...');
         const { data, error } = await resend.emails.send({
-          from: 'onboarding@resend.dev',
+          from: 'onboarding@resend.dev', // 임시로 Resend 기본 발신자 사용
           to: [adminEmail], // 항상 관리자 이메일로 전송
           subject: 'New Contact Form Submission - Emotional Studios',
           html: `
@@ -155,15 +228,18 @@ This message was sent from the Emotional Studios contact form.
           `,
         });
 
+        console.log('Resend response:', { data, error });
+
         if (error) {
-          console.error('Resend error:', error);
-          return res.status(500).json({ message: 'Failed to send email' });
+          console.error('Resend error details:', error);
+          return res.status(500).json({ message: 'Failed to send email', error: error.message });
         }
 
+        console.log('Email sent successfully, data:', data);
         return res.status(200).json({ message: 'Email sent successfully', data });
       } catch (emailError) {
-        console.error('Email error:', emailError);
-        return res.status(500).json({ message: 'Failed to send email' });
+        console.error('Email error details:', emailError);
+        return res.status(500).json({ message: 'Failed to send email', error: emailError.message });
       }
     }
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -57,6 +57,138 @@ const navLinkVariants = {
       duration: 0.2
     }
   },
+};
+
+// 주황색 SquigglyLine 로고 컴포넌트 (어바웃어스 페이지와 동일)
+const SquigglyLogo = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // 어바웃어스 페이지와 동일한 방식으로 구현
+    const SIZE = 160; // 네비바에 적합한 크기
+    canvas.width = SIZE;
+    canvas.height = SIZE;
+    canvas.style.width = `${SIZE}px`;
+    canvas.style.height = `${SIZE}px`;
+
+    // 애니메이션 영역을 줄여서 잘림 방지
+    const PADDING = 20; // 경계에서 20px 여백
+    const ANIMATION_SIZE = SIZE - (PADDING * 2); // 실제 애니메이션 영역
+
+    class SquigglyLine {
+      points: { x: number; y: number; vx: number; vy: number; offset: number }[] = [];
+      numPoints = 12; // 8에서 12로 늘림
+      
+      constructor() {
+        this.initPoints();
+      }
+      
+      initPoints() {
+        this.points = [];
+        for (let i = 0; i < this.numPoints; i++) {
+          this.points.push({
+            x: PADDING + Math.random() * ANIMATION_SIZE, // 여백을 고려한 시작 위치
+            y: PADDING + Math.random() * ANIMATION_SIZE,
+            vx: (Math.random() - 0.5) * 2, // 속도를 줄임
+            vy: (Math.random() - 0.5) * 2,
+            offset: Math.random() * Math.PI * 2
+          });
+        }
+      }
+      
+      update() {
+        this.points.forEach((point) => {
+          point.x += point.vx + Math.sin(Date.now() * 0.003 + point.offset) * 2; // 움직임을 줄임
+          point.y += point.vy + Math.cos(Date.now() * 0.003 + point.offset) * 2;
+          
+          // 경계 처리 - 여백을 고려한 경계
+          if (point.x < PADDING) { point.x = PADDING; point.vx *= -1; }
+          else if (point.x > PADDING + ANIMATION_SIZE) { point.x = PADDING + ANIMATION_SIZE; point.vx *= -1; }
+          if (point.y < PADDING) { point.y = PADDING; point.vy *= -1; }
+          else if (point.y > PADDING + ANIMATION_SIZE) { point.y = PADDING + ANIMATION_SIZE; point.vy *= -1; }
+        });
+      }
+      
+      draw() {
+        if (!ctx) return;
+        ctx.beginPath();
+        ctx.strokeStyle = '#FF6100'; // 흰색에서 주황색으로 변경
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        if (this.points.length > 0) {
+          ctx.moveTo(this.points[0].x, this.points[0].y);
+          for (let i = 0; i < this.points.length - 1; i++) {
+            const xc = (this.points[i].x + this.points[i + 1].x) / 2 + (Math.random() - 0.5) * 10; // 곡선 정도를 줄임
+            const yc = (this.points[i].y + this.points[i + 1].y) / 2 + (Math.random() - 0.5) * 10;
+            ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
+          }
+        }
+        ctx.stroke();
+      }
+    }
+
+    const lines: SquigglyLine[] = [];
+    for (let i = 0; i < 4; i++) { // 3에서 4로 늘림
+      lines.push(new SquigglyLine());
+    }
+
+    const animate = () => {
+      if (!canvas || !ctx) return;
+      ctx.clearRect(0, 0, SIZE, SIZE);
+      
+      lines.forEach((line) => {
+        line.update();
+        line.draw();
+      });
+      
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div style={{ 
+      width: 160, 
+      height: 160, 
+      margin: '0 auto', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      position: 'relative', 
+      pointerEvents: 'none' 
+    }}>
+      <canvas 
+        ref={canvasRef} 
+        width={160} 
+        height={160} 
+        style={{ 
+          display: 'block', 
+          background: 'transparent', 
+          pointerEvents: 'none', 
+          width: 160, 
+          height: 160,
+          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          // mixBlendMode 제거
+        }} 
+      />
+    </div>
+  );
 };
 
 export default function Navbar() {
@@ -118,18 +250,7 @@ export default function Navbar() {
           e.currentTarget.style.mixBlendMode = 'difference';
         }}
         >
-          <Image 
-            src="/images/reallogo.png"
-            alt="e.st logo"
-            width={180}
-            height={90}
-            style={{ 
-              objectFit: 'contain', 
-              display: 'block',
-              transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
-            }}
-            priority
-          />
+          <SquigglyLogo />
         </a>
       </Link>
 
