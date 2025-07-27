@@ -5,8 +5,12 @@ import { FaTiktok, FaYoutube, FaFacebookF, FaInstagram, FaArrowRight } from 'rea
 import WavyClipPath from '@/components/WavyClipPath';
 import { motion } from 'framer-motion';
 import SmoothCurvedLine from '@/components/ui/SmoothCurvedLine';
+import ContactPopup from '@/components/ContactPopup';
+import { useState } from 'react';
 
 const Contact: NextPage = () => {
+  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
+
   return (
     <>
         <Head>
@@ -90,6 +94,10 @@ const Contact: NextPage = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.9, duration: 0.6 }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setIsContactPopupOpen(true);
+                }}
               >
                 <input type="email" placeholder="Your Email Address" className={styles.newsletterInput} />
                 <button type="submit" className={styles.submitButton}>
@@ -100,6 +108,12 @@ const Contact: NextPage = () => {
           </div>
         </main>
       </div>
+
+      {/* ContactPopup 컴포넌트 추가 */}
+      <ContactPopup 
+        isOpen={isContactPopupOpen} 
+        onClose={() => setIsContactPopupOpen(false)} 
+      />
     </>
   );
 };
