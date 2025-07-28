@@ -75,10 +75,14 @@ export default async function handler(req, res) {
           const { Resend } = await import('resend');
           const resend = new Resend(process.env.RESEND_API_KEY);
           
+          const adminEmail = process.env.CONTACT_EMAIL || 'admin@emotionalstudios.com.au';
+          
           console.log('Attempting to send chat notification email...');
+          console.log('Chat email setup:', { adminEmail, from: 'admin@emotionalstudios.com.au' });
+          
           const { data, error } = await resend.emails.send({
             from: 'onboarding@resend.dev', // 임시로 Resend 기본 발신자 사용
-            to: ['admin@emotionalstudios.com.au'],
+            to: [adminEmail], // 환경 변수 사용
             subject: `[Emotional Studios] New Chat Message from ${userName || 'Guest'}`,
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -167,13 +171,13 @@ This message was sent from the Emotional Studios live chat.
       }
 
       // Resend 무료 계정 제한 확인
-      const adminEmail = 'admin@emotionalstudios.com.au'; // 이메일 주소 변경
+      const adminEmail = process.env.CONTACT_EMAIL || 'admin@emotionalstudios.com.au';
       const userEmail = req.body.email.toLowerCase().trim();
       
       console.log('Email setup:', { adminEmail, userEmail });
       console.log('Request body:', req.body);
       
-      // 모든 이메일을 관리자에게 전송 (Resend 무료 계정 제한으로 인해 관리자 이메일로만 전송 가능)
+      // 모든 이메일을 본인에게 전송 (Resend 무료 계정 제한)
       console.log('Sending email to admin:', adminEmail);
 
       // 이메일 전송 로직 (기존 contact.js와 동일)
@@ -182,9 +186,16 @@ This message was sent from the Emotional Studios live chat.
 
       try {
         console.log('Attempting to send email...');
+        console.log('Email configuration:', {
+          from: 'admin@emotionalstudios.com.au',
+          to: adminEmail,
+          subject: 'New Contact Form Submission - Emotional Studios',
+          apiKeyLength: process.env.RESEND_API_KEY?.length
+        });
+        
         const { data, error } = await resend.emails.send({
           from: 'onboarding@resend.dev', // 임시로 Resend 기본 발신자 사용
-          to: [adminEmail], // 항상 관리자 이메일로 전송
+          to: [adminEmail], // Resend 무료 계정 제한으로 본인 이메일로 전송
           subject: 'New Contact Form Submission - Emotional Studios',
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

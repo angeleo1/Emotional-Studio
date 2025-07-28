@@ -231,7 +231,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   }}
                   onClick={() => { router.push('/pose-guide'); }}
                 >
-                  <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>Pose Guide</span>
+                  <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Pose Guide</span>
                 </motion.button>
               </span>
               <span className="glitch-button-wrapper">
@@ -261,7 +261,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   }}
                   onClick={() => { router.push('/elixirs'); }}
                 >
-                  <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>Our Elixirs</span>
+                  <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Our Elixirs</span>
                 </motion.button>
               </span>
               <span className="glitch-button-wrapper">
@@ -291,7 +291,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   }}
                   onClick={() => { router.push('/collaboration'); }}
                 >
-                  <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>Collaboration</span>
+                  <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Collaboration</span>
                 </motion.button>
               </span>
               <span className="glitch-button-wrapper">
@@ -321,7 +321,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   }}
                   onClick={() => { router.push('/gallery-landing'); }}
                 >
-                  <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block' }}>emotional Moments</span>
+                  <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Moments</span>
                 </motion.button>
               </span>
             </div>

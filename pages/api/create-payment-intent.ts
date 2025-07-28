@@ -1,10 +1,11 @@
 import Stripe from 'stripe';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2025-06-30.basil',
 });
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -39,10 +40,10 @@ export default async function handler(req, res) {
     // 추가 옵션 가격 계산
     let additionalCost = 0;
     if (colorOption) additionalCost += 1000; // $10.00
-    if (otherGoods.a4print) additionalCost += 1000; // $10.00
-    if (otherGoods.a4frame) additionalCost += 1500; // $15.00
-    if (otherGoods.digital) additionalCost += 2000; // $20.00
-    if (otherGoods.calendar) additionalCost += 4500; // $45.00
+    if (otherGoods?.a4print) additionalCost += 1000; // $10.00
+    if (otherGoods?.a4frame) additionalCost += 1500; // $15.00
+    if (otherGoods?.digital) additionalCost += 2000; // $20.00
+    if (otherGoods?.calendar) additionalCost += 4500; // $45.00
 
     const totalAmount = basePrice + additionalCost;
 
@@ -51,29 +52,29 @@ export default async function handler(req, res) {
       amount: totalAmount,
       currency: 'aud',
       metadata: {
-        customerName: formData.name,
-        customerEmail: formData.email,
-        customerPhone: formData.phone,
+        customerName: formData?.name || 'Unknown',
+        customerEmail: formData?.email || 'Unknown',
+        customerPhone: formData?.phone || 'Unknown',
         shootingType: shootingType,
-        date: formData.date ? formData.date.toLocaleDateString() : 'Not selected',
-        time: formData.time || 'Not selected',
+        date: formData?.date ? new Date(formData.date).toLocaleDateString() : 'Not selected',
+        time: formData?.time || 'Not selected',
         colorOption: colorOption ? 'Yes' : 'No',
-        a4print: otherGoods.a4print ? 'Yes' : 'No',
-        a4frame: otherGoods.a4frame ? 'Yes' : 'No',
-        digital: otherGoods.digital ? 'Yes' : 'No',
-        calendar: otherGoods.calendar ? 'Yes' : 'No',
-        message: formData.message || 'No additional information'
+        a4print: otherGoods?.a4print ? 'Yes' : 'No',
+        a4frame: otherGoods?.a4frame ? 'Yes' : 'No',
+        digital: otherGoods?.digital ? 'Yes' : 'No',
+        calendar: otherGoods?.calendar ? 'Yes' : 'No',
+        message: formData?.message || 'No additional information'
       },
       description: `Emotional Studios Booking - ${shootingType} session`,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       clientSecret: paymentIntent.client_secret,
       amount: totalAmount,
       currency: 'aud'
     });
   } catch (error) {
     console.error('Stripe error:', error);
-    res.status(500).json({ message: 'Failed to create payment intent' });
+    return res.status(500).json({ message: 'Failed to create payment intent' });
   }
 } 

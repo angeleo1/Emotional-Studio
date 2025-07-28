@@ -102,31 +102,31 @@ const pages = [
             </div>
             <span className="text-3xl font-bold text-right ml-4">$15</span>
           </div>
-          <p className="text-lg mt-1 mb-4">Elegant frames in various colors <span style={{marginLeft:'0.5em'}}><span style={{color:'#222', fontSize:'1.5em'}}>●</span> <span style={{color:'#f5e9d6', fontSize:'1.5em'}}>●</span> <span style={{color:'#ff9800', fontSize:'1.5em'}}>●</span> <span style={{color:'#b97a56', fontSize:'1.5em'}}>●</span></span></p>
+          <p className="text-lg mt-1 mb-4">Elegant frames to display your memories</p>
         </div>
         <div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-3xl font-bold mb-2">
               <span className="w-8 h-8 inline-block align-middle">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><path d="M6 17v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-2"/></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
               </span>
-              <span>Original Digital Film</span>
+              <span>Digital</span>
             </div>
             <span className="text-3xl font-bold text-right ml-4">$20</span>
           </div>
-          <p className="text-lg mt-1 mb-4">Full resolution digital copies</p>
+          <p className="text-lg mt-1 mb-4">High resolution digital files for sharing</p>
         </div>
         <div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-3xl font-bold mb-2">
               <span className="w-8 h-8 inline-block align-middle">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               </span>
               <span>Calendar</span>
             </div>
             <span className="text-3xl font-bold text-right ml-4">$45</span>
           </div>
-          <p className="text-lg mt-1 mb-4">Personalized photo calendar</p>
+          <p className="text-lg mt-1 mb-4">Custom calendar featuring your photos</p>
         </div>
       </div>
     ),
@@ -142,15 +142,17 @@ const pages = [
           <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>💗</span><span>Wedding Package</span></div>
           <p className="text-lg mt-1 mb-4">Celebrate Your Love Story with Our Bespoke Wedding Package</p>
         </div>
-        <div>
+        <div className="mt-16">
           <div className="flex items-center gap-3 text-3xl font-bold mb-2"><span style={{fontSize:'1.2em'}}>👥</span><span>Group Package</span></div>
           <p className="text-lg mt-1 mb-4">Making Memories Together: The Ultimate Package for Large Group Celebrations</p>
         </div>
-        <div className="mt-6">
-          <p className="text-lg font-semibold mt-1 mb-4">Contact us for more details about the packages</p>
-          </div>
         </div>
         <div className="flex-grow" />
+        <div className="text-center mb-6">
+          <p className="text-xl font-semibold" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k', color: '#fff' }}>
+            Contact us for more details about the packages
+          </p>
+        </div>
         <div className="flex justify-center items-center gap-8">
           {/* Instagram SVG */}
           <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="mx-2 svg-glitch-wrapper text-white w-12 h-12">
@@ -277,7 +279,7 @@ export default function Services() {
                   </div>
                   {/* Right: 텍스트 (검정 배경) */}
                   <div className={`w-1/2 h-full flex flex-col items-center ${currentPage === 4 ? 'justify-start' : 'justify-center'} px-8`} style={{background:'#111'}}>
-                    <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4">{page.title}</div>
+                    <div className="text-5xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>{page.title}</div>
                     <div className="border-b-2 border-white/30 w-full mx-auto" />
                     <div className={`pt-16 w-full max-w-xl mx-auto ${currentPage === 4 ? 'flex-grow flex flex-col' : ''}`}>{page.text}</div>
                   </div>
@@ -286,7 +288,7 @@ export default function Services() {
                 <>
                   {/* Left: 텍스트 (검정 배경) */}
                   <div className="w-1/2 h-full flex flex-col items-center justify-center px-8" style={{background:'#111'}}>
-                    <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4">{page.title}</div>
+                    <div className="text-5xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>{page.title}</div>
                     <div className="border-b-2 border-white/30 w-full mx-auto" />
                     <div className="pt-16 w-full max-w-xl mx-auto">{page.text}</div>
                   </div>
@@ -372,7 +374,7 @@ export default function Services() {
               </div>
               {/* 텍스트: 검정 배경 */}
               <div className="flex flex-col items-center justify-center flex-1 px-4 pb-8" style={{background:'#111'}}>
-                <h2 className="text-2xl font-bold uppercase mb-4 text-white text-center tracking-widest">{page.title}</h2>
+                <h2 className="text-5xl font-bold uppercase mb-4 text-white text-center tracking-widest" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>{page.title}</h2>
                 <div className="w-full max-w-md mx-auto">{page.text}</div>
               </div>
             </div>

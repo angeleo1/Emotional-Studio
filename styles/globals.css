@@ -104,22 +104,22 @@
 }
 
 @font-face {
-  font-family: 'CS Valcon Drawn';
+  font-family: 'CS-Valcon-Drawn-akhr7k';
   src: url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.woff2') format('woff2'),
        url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.woff') format('woff'),
-       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.otf') format('opentype'),
-       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.ttf') format('truetype');
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.ttf') format('truetype'),
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'CS Valcon Drawn';
+  font-family: 'CS-Valcon-Drawn-akhr7k';
   src: url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Italic.woff2') format('woff2'),
        url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Italic.woff') format('woff'),
-       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Italic.otf') format('opentype'),
-       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Italic.ttf') format('truetype');
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Italic.ttf') format('truetype'),
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Italic.otf') format('opentype');
   font-weight: normal;
   font-style: italic;
   font-display: swap;
@@ -458,6 +458,7 @@ body {
 /* 스크롤바 스타일 */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 0px; /* 수평 스크롤바 제거 */
 }
 
 ::-webkit-scrollbar-track {
@@ -465,12 +466,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2c1711;
+  background: #ff6100;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff6100;
+  background: #ff8533;
 }
 
 @layer utilities {
@@ -1014,13 +1015,10 @@ body {
     transform: translate(-50%, -50%);
     opacity: 0;
     transition: opacity 0.3s ease-out;
-    font-family: 'Herr Von Muellerhoff', cursive;
-    font-size: 84px;
-    font-weight: normal;
-    white-space: nowrap;
-    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     mix-blend-mode: normal;
-    line-height: 1;
 }
 
 .cursor.hover .cursor-outer {

@@ -115,9 +115,9 @@ export default function GalleryLanding() {
           className="gallery-landing-btn contact-style-glitch-button"
           data-text="Enter Gallery"
           onClick={handleEnter}
-          style={{ border: '2px solid #fff' }}
+          style={{ border: '2px solid #fff', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
         >
-          <span className="relative z-10 whitespace-nowrap">Enter Gallery</span>
+          <span className="relative z-10 whitespace-nowrap" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Enter Gallery</span>
         </button>
       </div>
       {/* 우측 감성 타이포그래피 */}

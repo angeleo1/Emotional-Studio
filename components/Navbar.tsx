@@ -373,6 +373,7 @@ export default function Navbar() {
                     <Link href={item.href} legacyBehavior>
                       <a
                         className="text-white text-5xl font-serif tracking-widest hover:text-orange-500 transition-colors duration-300"
+                        style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
                         onClick={() => setIsOpen(false)}
                       >
                         {item.name}

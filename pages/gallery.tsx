@@ -192,9 +192,8 @@ export default function GalleryPage() {
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`glass-item${category === cat ? ' glass-item--active' : ''}`}
                 style={{
-                  fontFamily: 'inherit',
+                  fontFamily: 'CS-Valcon-Drawn-akhr7k',
                   fontWeight: category === cat ? 700 : 400,
                   fontSize: '1.25rem',
                   background: '#111',
@@ -202,7 +201,7 @@ export default function GalleryPage() {
                   cursor: 'pointer',
                   outline: 'none',
                   transition: 'all 0.18s',
-                  color: '#fff',
+                  color: category === cat ? '#FF6100' : '#fff',
                   letterSpacing: '0.01em',
                   padding: '0.5rem 1.5rem',
                   borderRadius: '1.2rem',

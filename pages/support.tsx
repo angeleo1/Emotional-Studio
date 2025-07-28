@@ -236,8 +236,8 @@ const Support: NextPage = () => {
       </Head>
       
       <div className="support-title-wrapper" style={{ marginTop: '2rem' }}>
-        <h1 className="support-title">Supp<span className={"orangeWord"}>o</span>rt</h1>
-        <p className="support-description">
+        <h1 className="support-title" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Supp<span className={"orangeWord"}>o</span>rt</h1>
+        <p className="support-description" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
               Find answers to frequently asked questions about our services
             </p>
       </div>
@@ -248,6 +248,7 @@ const Support: NextPage = () => {
             key={tab.id}
             className={`faq-category-btn${activeMainTab === tab.id ? ' active' : ''}`}
             onClick={() => handleMainTabClick(tab.id)}
+            style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
           >
             {tab.label}
           </button>
@@ -273,6 +274,7 @@ const Support: NextPage = () => {
                     key={tab.id}
                     className={`faq-category-btn${activeFaqTab === tab.id ? ' active' : ''}`}
                     onClick={() => setActiveFaqTab(tab.id)}
+                    style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
                   >
                     {tab.label}
                   </button>

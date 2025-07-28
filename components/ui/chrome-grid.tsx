@@ -289,13 +289,19 @@ function TypingText() {
     <span
       style={{
         color: '#fff',
-        fontSize: '3.1rem',
-        fontFamily: "PP Neue Montreal, 'Cinzel Decorative', 'TheGoodMonolith', sans-serif",
+        fontSize: 'clamp(2.5rem, 6vw, 4rem)',
+        fontFamily: 'CS-Valcon-Drawn-akhr7k',
         letterSpacing: '1.05em',
         fontWeight: 700,
         textShadow: '0 2px 16px rgba(0,0,0,0.18)',
         userSelect: 'none',
         display: 'inline-block',
+        padding: '0 2rem',
+        textAlign: 'center',
+        width: '100%',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
       }}
     >
       {displayed}

@@ -1,0 +1,192 @@
+{
+  "bookings": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "phone": "0400000000",
+      "date": "2024-01-15",
+      "time": "14:00",
+      "shootingType": "solo",
+      "status": "confirmed",
+      "createdAt": "2024-01-10T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "phone": "0400000001",
+      "date": "2024-01-15",
+      "time": "16:00",
+      "shootingType": "couple",
+      "status": "confirmed",
+      "createdAt": "2024-01-10T11:00:00Z"
+    },
+    {
+      "id": "3",
+      "name": "Mike Johnson",
+      "email": "mike@example.com",
+      "phone": "0400000002",
+      "date": "2024-01-15",
+      "time": "18:30",
+      "shootingType": "triple",
+      "status": "confirmed",
+      "createdAt": "2024-01-10T12:00:00Z"
+    },
+    {
+      "id": "4",
+      "name": "Sarah Wilson",
+      "email": "sarah@example.com",
+      "phone": "0400000003",
+      "date": "2024-01-15",
+      "time": "20:00",
+      "shootingType": "solo",
+      "status": "confirmed",
+      "createdAt": "2024-01-10T13:00:00Z"
+    },
+    {
+      "id": "5",
+      "name": "David Brown",
+      "email": "david@example.com",
+      "phone": "0400000004",
+      "date": "2024-01-16",
+      "time": "13:30",
+      "shootingType": "couple",
+      "status": "confirmed",
+      "createdAt": "2024-01-10T14:00:00Z"
+    },
+    {
+      "id": "1753665863310",
+      "name": "Jin Young Park",
+      "email": "2003897w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-29",
+      "time": "18:30",
+      "shootingType": "solo",
+      "colorOption": true,
+      "otherGoods": {
+        "a4print": false,
+        "a4frame": false,
+        "digital": false,
+        "calendar": false
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T01:24:23.310Z"
+    },
+    {
+      "id": "1753665986564",
+      "name": "Jin Young Park",
+      "email": "2003897w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-28",
+      "time": "17:00",
+      "shootingType": "solo",
+      "colorOption": false,
+      "otherGoods": {
+        "a4print": true,
+        "a4frame": false,
+        "digital": false,
+        "calendar": false
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T01:26:26.564Z"
+    },
+    {
+      "id": "1753666079404",
+      "name": "Jin Young Park",
+      "email": "20038987w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-28",
+      "time": "18:00",
+      "shootingType": "couple",
+      "colorOption": false,
+      "otherGoods": {
+        "a4print": false,
+        "a4frame": false,
+        "digital": false,
+        "calendar": true
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T01:27:59.405Z"
+    },
+    {
+      "id": "1753671547797",
+      "name": "Jin Young Park",
+      "email": "20038987w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-30",
+      "time": "18:30",
+      "shootingType": "couple",
+      "colorOption": false,
+      "otherGoods": {
+        "a4print": false,
+        "a4frame": false,
+        "digital": false,
+        "calendar": false
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T02:59:07.797Z"
+    },
+    {
+      "id": "1753671706307",
+      "name": "Jin Young Park",
+      "email": "20038987w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-30",
+      "time": "18:00",
+      "shootingType": "couple",
+      "colorOption": false,
+      "otherGoods": {
+        "a4print": false,
+        "a4frame": false,
+        "digital": false,
+        "calendar": false
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T03:01:46.307Z"
+    },
+    {
+      "id": "1753671875775",
+      "name": "Jin Young Park",
+      "email": "20038987w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-30",
+      "time": "19:30",
+      "shootingType": "couple",
+      "colorOption": false,
+      "otherGoods": {
+        "a4print": false,
+        "a4frame": false,
+        "digital": false,
+        "calendar": false
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T03:04:35.775Z"
+    },
+    {
+      "id": "1753672396584",
+      "name": "Jin Young Park",
+      "email": "20038987w@gmail.com",
+      "phone": "0433904242",
+      "date": "2025-07-30",
+      "time": "20:00",
+      "shootingType": "couple",
+      "colorOption": false,
+      "otherGoods": {
+        "a4print": false,
+        "a4frame": false,
+        "digital": false,
+        "calendar": false
+      },
+      "message": "",
+      "status": "confirmed",
+      "createdAt": "2025-07-28T03:13:16.584Z"
+    }
+  ]
+}

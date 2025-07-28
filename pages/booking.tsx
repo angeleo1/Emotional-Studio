@@ -69,33 +69,35 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className={styles.cardElementContainer}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: '16px',
-                color: '#424770',
-                '::placeholder': {
-                  color: '#aab7c4',
+    <div className={styles.paymentForm}>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.cardElementContainer}>
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: '16px',
+                  color: '#424770',
+                  '::placeholder': {
+                    color: '#aab7c4',
+                  },
+                },
+                invalid: {
+                  color: '#9e2146',
                 },
               },
-              invalid: {
-                color: '#9e2146',
-              },
-            },
-          }}
-        />
-      </div>
-      <button 
-        type="submit" 
-        className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
-        disabled={!stripe || isProcessing}
-      >
-        {isProcessing ? 'Processing Payment...' : 'Pay Now'}
-      </button>
-    </form>
+            }}
+          />
+        </div>
+        <button 
+          type="submit" 
+          className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
+          disabled={!stripe || isProcessing}
+        >
+          {isProcessing ? 'Processing Payment...' : 'Pay Now'}
+        </button>
+      </form>
+    </div>
   );
 };
 
@@ -104,6 +106,9 @@ const Booking: NextPage = () => {
   const [isBookingVisible, setIsBookingVisible] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [isLoadingTimes, setIsLoadingTimes] = useState(false);
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -121,6 +126,48 @@ const Booking: NextPage = () => {
     },
     message: ''
   });
+
+  // 날짜가 변경될 때마다 사용 가능한 시간 확인
+  useEffect(() => {
+    if (formData.date) {
+      checkAvailability();
+    } else {
+      setAvailableTimes([]);
+      setBookedTimes([]);
+      setFormData(prev => ({ ...prev, time: '' }));
+    }
+  }, [formData.date]);
+
+  const checkAvailability = async () => {
+    if (!formData.date) return;
+
+    setIsLoadingTimes(true);
+    try {
+      const dateString = formData.date.toISOString().split('T')[0];
+      const response = await fetch(`/api/check-availability?date=${dateString}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setAvailableTimes(data.availableTimes);
+        setBookedTimes(data.bookedTimes);
+        
+        // 현재 선택된 시간이 사용 불가능하면 초기화
+        if (formData.time && !data.availableTimes.includes(formData.time)) {
+          setFormData(prev => ({ ...prev, time: '' }));
+        }
+      } else {
+        console.error('Failed to check availability');
+        setAvailableTimes([]);
+        setBookedTimes([]);
+      }
+    } catch (error) {
+      console.error('Error checking availability:', error);
+      setAvailableTimes([]);
+      setBookedTimes([]);
+    } finally {
+      setIsLoadingTimes(false);
+    }
+  };
 
   useEffect(() => {
     if (isBookingVisible) {
@@ -165,7 +212,7 @@ const Booking: NextPage = () => {
     return basePrice + additionalCost;
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.shootingType) {
@@ -179,7 +226,35 @@ const Booking: NextPage = () => {
       return;
     }
 
-    setShowPayment(true);
+    if (!formData.date || !formData.time) {
+      alert('Please select a date and time.');
+      return;
+    }
+
+    // 예약 저장
+    try {
+      const dateString = formData.date.toISOString().split('T')[0];
+      const response = await fetch('/api/save-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          date: dateString
+        }),
+      });
+
+      if (response.ok) {
+        setShowPayment(true);
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || 'Failed to save booking. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert('Failed to save booking. Please try again.');
+    }
   };
 
   const handlePaymentSuccess = () => {
@@ -201,6 +276,8 @@ const Booking: NextPage = () => {
       message: ''
     });
     setShowPayment(false);
+    setAvailableTimes([]);
+    setBookedTimes([]);
   };
 
   const handlePaymentError = (message: string) => {
@@ -234,9 +311,23 @@ const Booking: NextPage = () => {
     }
   };
 
-
   const handleEnterClick = () => {
     setIsBookingVisible(true);
+  };
+
+  const formatTime = (time: string) => {
+    const [hour, minute] = time.split(':');
+    const hourNum = parseInt(hour);
+    const ampm = hourNum >= 12 ? 'PM' : 'AM';
+    const displayHour = hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
+    return `${displayHour}:${minute} ${ampm}`;
+  };
+
+  const getAllTimes = () => {
+    return [
+      '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
+      '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
+    ];
   };
 
   const textContent = [
@@ -314,7 +405,7 @@ const Booking: NextPage = () => {
                       }}
                       style={{ overflow: 'hidden' }}
                     >
-                      <motion.p>
+                      <motion.p style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
                         {Array.isArray(line.text) ? (
                           line.text.map((segment, segmentIndex) => (
                             <span key={segmentIndex} className={segment.isOrange ? styles.orangeText : ''}>
@@ -337,7 +428,7 @@ const Booking: NextPage = () => {
                     className={styles.mainImage}
                     priority
                   />
-                  <button className={styles.clickButton} onClick={handleEnterClick}>
+                  <button className={styles.clickButton} onClick={handleEnterClick} style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
                     Click
                   </button>
                 </div>
@@ -359,7 +450,7 @@ const Booking: NextPage = () => {
               <div className={styles.mainContainer}>
                 <section ref={bookingFormRef} className={styles.bookingSection}>
                   <div className={styles.bookingGrid}>
-                    <h2 className={styles.bookingTitle}>
+                    <h2 className={styles.bookingTitle} style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
                       Book Your Sessio<span className={styles.skewedN}>n</span>
                     </h2>
                     
@@ -381,18 +472,34 @@ const Booking: NextPage = () => {
                 </div>
                        <div className={styles.formControl}>
                         <label htmlFor="time">Preferred Time</label>
-                        <select id="time" name="time" value={formData.time} onChange={handleChange} required>
-                          <option value="" disabled>Select...</option>
-                    <option value="12:30">12:30 PM</option>
-                    <option value="13:00">1:00 PM</option>
-                    <option value="14:00">2:00 PM</option>
-                    <option value="15:00">3:00 PM</option>
-                    <option value="16:00">4:00 PM</option>
-                    <option value="17:00">5:00 PM</option>
-                    <option value="18:00">6:00 PM</option>
-                    <option value="19:00">7:00 PM</option>
-                    <option value="20:00">8:00 PM</option>
-                  </select>
+                        <select 
+                          id="time" 
+                          name="time" 
+                          value={formData.time} 
+                          onChange={handleChange} 
+                          required
+                          disabled={isLoadingTimes}
+                        >
+                          <option value="" disabled>
+                            {isLoadingTimes ? 'Loading available times...' : 'Select a time...'}
+                          </option>
+                          {getAllTimes().map((time) => {
+                            const isBooked = bookedTimes.includes(time);
+                            return (
+                              <option 
+                                key={time} 
+                                value={time} 
+                                disabled={isBooked}
+                                style={{ 
+                                  color: isBooked ? '#999' : '#000',
+                                  backgroundColor: isBooked ? '#f5f5f5' : '#fff'
+                                }}
+                              >
+                                {formatTime(time)} {isBooked ? '(Booked)' : ''}
+                              </option>
+                            );
+                          })}
+                        </select>
                 </div>
                         <div className={styles.formControl}>
                           <div className={styles.snsContainer}>
@@ -456,7 +563,7 @@ const Booking: NextPage = () => {
                             className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
                             disabled={isProcessing}
                           >
-                            {isProcessing ? 'Processing Payment...' : 'Proceed to Payment'}
+                            {isProcessing ? 'Processing Payment...' : 'Confirm Booking'}
                           </button>
                         )}
                       </div>

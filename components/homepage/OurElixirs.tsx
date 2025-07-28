@@ -71,6 +71,7 @@ export default function OurElixirs() {
                     color: '#ff2222',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
+                    fontFamily: 'CS-Valcon-Drawn-akhr7k',
                   }}
                   onClick={()=>handleCocktailClick(cocktails[0])}
                 >
@@ -91,6 +92,7 @@ export default function OurElixirs() {
                     color: '#ff00b8',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
+                    fontFamily: 'CS-Valcon-Drawn-akhr7k',
                   }}
                   onClick={()=>handleCocktailClick(cocktails[1])}
                 >
@@ -111,6 +113,7 @@ export default function OurElixirs() {
                     color: '#7cffb2',
                     letterSpacing: '0.01em',
                     whiteSpace: 'nowrap',
+                    fontFamily: 'CS-Valcon-Drawn-akhr7k',
                   }}
                   onClick={()=>handleCocktailClick({...cocktails[2], name:'AURA RELIEF'})}
                 >
@@ -140,8 +143,17 @@ export default function OurElixirs() {
               />
             </div>
             <div className="p-8 flex-1 flex flex-col justify-center">
-              <h3 className="text-4xl font-bold text-white mb-4">{selectedCocktail.name}</h3>
-              <p className="text-white/80 text-lg leading-relaxed">{selectedCocktail.description}</p>
+              <h3 
+                className="text-4xl font-bold mb-4"
+                style={{
+                  fontFamily: 'CS-Valcon-Drawn-akhr7k',
+                  color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#ff2222' :
+                         selectedCocktail.name === 'ECSTASY GLOW' ? '#ff00b8' : '#7cffb2'
+                }}
+              >
+                {selectedCocktail.name}
+              </h3>
+              <p className="text-white text-lg leading-relaxed">{selectedCocktail.description}</p>
             </div>
             <button
               className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"

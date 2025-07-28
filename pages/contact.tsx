@@ -30,7 +30,7 @@ const Contact: NextPage = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              style={{ marginBottom: 0 }}
+              style={{ marginBottom: 0, fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
             >
               <span>Every</span> <span className={styles.orangeWord}>Photo</span> Tells <span>a</span> Story
             </motion.h1>
@@ -39,7 +39,7 @@ const Contact: NextPage = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              style={{ marginTop: 0, fontWeight: 700 }}
+              style={{ marginTop: 0, fontWeight: 700, fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
             >
               <span>Every</span> <span className={styles.orangeWord}>Elixir</span> <span>Completes It</span>.
             </motion.h1>
@@ -48,6 +48,7 @@ const Contact: NextPage = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.6 }}
+              style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
             >
               Precious Moments in e.st
             </motion.p>
@@ -61,6 +62,15 @@ const Contact: NextPage = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0, duration: 0.6 }}
+                style={{ 
+                  fontSize: '1.5rem', 
+                  fontWeight: '400', 
+                  lineHeight: '1.8',
+                  textAlign: 'center',
+                  letterSpacing: '0.5px',
+                  color: '#ffffff',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                }}
               >
                 admin@emotionalstudios.com.au
               </motion.a>
@@ -86,24 +96,36 @@ const Contact: NextPage = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.6, duration: 0.6 }}
+                style={{ 
+                  fontSize: '1.5rem', 
+                  fontWeight: '400', 
+                  lineHeight: '1.8',
+                  textAlign: 'center',
+                  letterSpacing: '0.5px',
+                  color: '#ffffff',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                }}
               >
-                Collaboration Inquiry
+                Store Address
               </motion.h2>
-              <motion.form
-                className={styles.newsletterForm}
+              <motion.div
+                className={styles.newsletterTitle}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.9, duration: 0.6 }}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setIsContactPopupOpen(true);
+                style={{ 
+                  fontSize: '1.5rem', 
+                  fontWeight: '400', 
+                  lineHeight: '1.8',
+                  marginTop: '1.5rem',
+                  textAlign: 'center',
+                  letterSpacing: '0.5px',
+                  color: '#ffffff',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
                 }}
               >
-                <input type="email" placeholder="Your Email Address" className={styles.newsletterInput} />
-                <button type="submit" className={styles.submitButton}>
-                  <FaArrowRight />
-                </button>
-              </motion.form>
+                2/566 Queensberry Street, West Melbourne, VIC 3051
+              </motion.div>
             </div>
           </div>
         </main>

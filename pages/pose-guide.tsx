@@ -39,8 +39,21 @@ function PoseGallerySection() {
             <button
               key={cat}
               onClick={() => setCategory(cat as any)}
-              className={`px-7 py-2.5 rounded-full font-bold text-lg transition-all duration-200 border-2 focus:outline-none focus:ring-2 focus:ring-white shadow-md ${category===cat ? 'bg-[#ff6100] text-white border-[#ff6100]' : 'bg-white/80 text-black border-white/50 hover:bg-[#ff6100] hover:text-white'}`}
-              style={{ minWidth: 130, fontSize: '1.15rem', letterSpacing: '0.03em' }}
+              style={{
+                minWidth: 130,
+                fontSize: '1.15rem',
+                letterSpacing: '0.03em',
+                padding: '0.625rem 1.75rem',
+                borderRadius: '9999px',
+                fontWeight: 'bold',
+                transition: 'all 0.2s',
+                background: 'transparent',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                color: category === cat ? '#FF6100' : '#fff',
+                cursor: 'pointer',
+                outline: 'none',
+                fontFamily: 'CS-Valcon-Drawn-akhr7k',
+              }}
             >
               {cat}
             </button>

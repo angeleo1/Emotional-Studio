@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev",
+    "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' RESEND_API_KEY=re_M9fAPd4P_HtfftQHJuc9A1ernnzvW93cM CONTACT_EMAIL=admin@emotionalstudios.com.au next dev",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true next build",
     "start": "next start",
     "lint": "next lint"
@@ -59,6 +59,7 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.175.0",
     "three-text-geometry": "^0.2.0",
+    "xlsx": "^0.18.5",
     "zustand": "^5.0.5"
   },
   "devDependencies": {

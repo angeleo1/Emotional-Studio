@@ -175,7 +175,7 @@ export default function About() {
                   <div className="about-text-col" style={{ flex: 1, textAlign: isReverse ? 'right' : 'left', minWidth: 0, position: 'relative', marginRight: isReverse ? 0 : '-5rem', marginLeft: isReverse ? '-5rem' : 0 }}>
                     <h2
                       style={{
-                        fontFamily: "'Playfair Display', serif",
+                        fontFamily: 'CS-Valcon-Drawn-akhr7k',
                         fontSize: 'clamp(4rem, 10vw, 8rem)',
                         lineHeight: 1.1,
                         fontWeight: 400,

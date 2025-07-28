@@ -4,8 +4,8 @@ import { Resend } from 'resend';
 console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY);
 console.log('CONTACT_EMAIL:', process.env.CONTACT_EMAIL);
 
-// 직접 API 키 설정 (테스트용)
-const apiKey = process.env.RESEND_API_KEY || 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
+// 환경변수에서만 API 키 로드
+const apiKey = process.env.RESEND_API_KEY;
 const contactEmail = process.env.CONTACT_EMAIL || 'admin@emotionalstudios.com.au'; // 이메일 주소 변경
 
 console.log('Using API Key:', apiKey);
