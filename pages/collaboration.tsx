@@ -326,7 +326,7 @@ export default function CollaborationPage() {
                 <>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <h2 style={{
-                      fontSize: isMobile ? 'clamp(0.7rem, 2vw, 1.2rem)' : 'clamp(3rem, 8vw, 6rem)',
+                      fontSize: isMobile ? 'clamp(1.2rem, 3.5vw, 2rem)' : 'clamp(3rem, 8vw, 6rem)',
                       fontWeight: 400,
                       marginBottom: isMobile ? '1.5rem' : '2.2rem',
                       textAlign: 'center',
@@ -343,7 +343,15 @@ export default function CollaborationPage() {
                       overflow: 'visible',
                       textOverflow: 'unset',
                       maxWidth: '100vw'
-                    }}>{section.title}</h2>
+                    }}>
+                      {section.title === 'Our Collaboration' && isMobile ? (
+                        <>
+                          Our<br />Collaboration
+                        </>
+                      ) : (
+                        section.title
+                      )}
+                    </h2>
                   </div>
                   <InfiniteSlider 
                     images={section.images || []} 

@@ -149,7 +149,7 @@ export default function GalleryLanding() {
       {/* 글리치 버튼 위치 이동: 모바일에서는 중앙 배치 */}
       <div className="glitch-button-wrapper" style={{ 
         position: 'absolute', 
-        top: isMobile ? 'calc(50% + 4rem)' : 'calc(50% - 1rem)', 
+        top: isMobile ? 'calc(50% + 6rem)' : 'calc(50% - 1rem)', 
         left: isMobile ? '50%' : 'calc(50% - 11.8rem)', 
         transform: isMobile ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)', 
         zIndex: 20 

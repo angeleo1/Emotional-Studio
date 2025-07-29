@@ -1,96 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export default function MobilePage() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  // 주황색 엉킨 실 애니메이션
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    function resizeCanvas() {
-      if (!canvas) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    class SquigglyLine {
-      points: { x: number; y: number; vx: number; vy: number; offset: number }[] = [];
-      numPoints = 6;
-      constructor() {
-        this.initPoints();
-      }
-      initPoints() {
-        if (!canvas) return;
-        for (let i = 0; i < this.numPoints; i++) {
-          this.points.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 1.5,
-            vy: (Math.random() - 0.5) * 1.5,
-            offset: Math.random() * Math.PI * 2
-          });
-        }
-      }
-      update() {
-        if (!canvas) return;
-        this.points.forEach((point) => {
-          point.x += point.vx + Math.sin(Date.now() * 0.001 + point.offset) * 1.5;
-          point.y += point.vy + Math.cos(Date.now() * 0.001 + point.offset) * 1.5;
-          if (point.x < 0) { point.x = 0; point.vx *= -1; }
-          else if (point.x > canvas.width) { point.x = canvas.width; point.vx *= -1; }
-          if (point.y < 0) { point.y = 0; point.vy *= -1; }
-          else if (point.y > canvas.height) { point.y = canvas.height; point.vy *= -1; }
-        });
-      }
-      draw() {
-        if (!canvas || !ctx) return;
-        ctx.beginPath();
-        ctx.strokeStyle = '#FF6100';
-        ctx.lineWidth = 1;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.moveTo(this.points[0].x, this.points[0].y);
-        for (let i = 0; i < this.points.length - 1; i++) {
-          const xc = (this.points[i].x + this.points[i + 1].x) / 2 + (Math.random() - 0.5) * 4;
-          const yc = (this.points[i].y + this.points[i + 1].y) / 2 + (Math.random() - 0.5) * 4;
-          ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
-        }
-        ctx.stroke();
-      }
-    }
-    const lines: SquigglyLine[] = [];
-    for (let i = 0; i < 2; i++) {
-      lines.push(new SquigglyLine());
-    }
-    let animationId: number;
-    function animate() {
-      if (!canvas || !ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      lines.forEach((line) => {
-        line.update();
-        line.draw();
-      });
-      animationId = requestAnimationFrame(animate);
-    }
-    animate();
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
 
   return (
     <>
@@ -104,12 +23,14 @@ export default function MobilePage() {
       <div className="min-h-screen bg-[#1a1a1a] text-white relative">
         {/* 헤더 */}
         <header className="p-6 flex justify-between items-center">
-          {/* 주황색 엉킨 실 애니메이션 로고 */}
-          <div className="relative w-5 h-5">
-            <canvas
-              ref={canvasRef}
-              className="absolute inset-0 w-full h-full"
-              style={{ zIndex: 1 }}
+          {/* finallogo.png 로고 */}
+          <div className="relative w-6 h-6">
+            <Image
+              src="/finallogo.png"
+              alt="Emotional Studios Logo"
+              fill
+              className="object-contain"
+              priority
             />
           </div>
           
