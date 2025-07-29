@@ -12,7 +12,6 @@ import CustomCursor from '@/components/CustomCursor'
 import ContactPopup from '@/components/ContactPopup'
 import Layout from '../components/layout/Layout'
 import PusherBeams from '@/components/PusherBeams'
-import { isMobileDevice } from '@/utils/deviceDetection'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -27,6 +26,25 @@ const playfairDisplay = Playfair_Display({
   variable: '--font-playfair',
 })
 
+// 모바일 감지 함수
+const isMobileDevice = () => {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  // 화면 크기 기반 감지
+  const isMobileBySize = window.innerWidth < 768;
+  
+  // User-Agent 기반 감지
+  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+  const isMobileByUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+  
+  // 터치 지원 여부 확인
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  return isMobileBySize || isMobileByUserAgent || isTouchDevice;
+};
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const [isContactOpen, setIsContactOpen] = useState(false)
@@ -40,7 +58,7 @@ export default function App({ Component, pageProps }: AppProps) {
         setIsMobile(isMobileDevice());
       } catch (error) {
         console.error('Mobile detection error:', error);
-        setIsMobile(true); // 에러 시 모바일로 가정
+        setIsMobile(true);
       }
     };
     

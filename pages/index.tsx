@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import IntroAnimation from '@/components/IntroAnimation';
-import { isMobileDevice } from '@/utils/deviceDetection';
 
 // 에러 바운더리 컴포넌트
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
@@ -41,30 +39,49 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
 }
 
 export default function Home() {
-  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
     
-    // 모바일 감지 시 리다이렉트
-    const checkMobile = () => {
+    // 즉시 모바일 체크 및 리다이렉트
+    const checkAndRedirect = () => {
       try {
-        if (isMobileDevice()) {
-          router.push('/mobile');
+        // 화면 크기로 먼저 체크
+        if (window.innerWidth < 768) {
+          window.location.href = '/mobile';
+          return;
         }
+        
+        // User-Agent 체크
+        const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+        const isMobileByUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+        
+        if (isMobileByUserAgent) {
+          window.location.href = '/mobile';
+          return;
+        }
+        
+        // 터치 지원 여부 체크
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (isTouchDevice) {
+          window.location.href = '/mobile';
+          return;
+        }
+        
       } catch (error) {
         console.error('Mobile detection error:', error);
         // 에러 시에도 모바일로 가정하고 리다이렉트
-        router.push('/mobile');
+        window.location.href = '/mobile';
       }
     };
     
     // 클라이언트 사이드에서만 실행
     if (typeof window !== 'undefined') {
-      checkMobile();
+      checkAndRedirect();
     }
-  }, [router]);
+  }, []);
 
   // 클라이언트 사이드가 아니거나 모바일인 경우 로딩 화면
   if (!isClient) {
