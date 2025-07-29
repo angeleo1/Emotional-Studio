@@ -100,6 +100,22 @@ module.exports = {
   					transform: 'translateX(-50%)'
   				}
   			},
+  			slideLeftFast: {
+  				'0%': {
+  					transform: 'translateX(0)'
+  				},
+  				'100%': {
+  					transform: 'translateX(-50%)'
+  				}
+  			},
+  			slideRightFast: {
+  				'0%': {
+  					transform: 'translateX(-50%)'
+  				},
+  				'100%': {
+  					transform: 'translateX(0)'
+  				}
+  			},
   			kenburns: {
   				'0%': {
   					transform: 'scale(1) translate(0, 0)'
@@ -185,6 +201,8 @@ module.exports = {
   		},
   		animation: {
   			slideLeft: 'slideLeft 30s linear infinite',
+  			slideLeftFast: 'slideLeftFast 15s linear infinite',
+  			slideRightFast: 'slideRightFast 15s linear infinite',
   			kenburns: 'kenburns 20s ease infinite',
   			'jello-diagonal-2': 'jello-diagonal-2 2s ease-in-out infinite',
   			'spin-slow': 'spin 20s linear infinite',
