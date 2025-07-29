@@ -10,6 +10,10 @@ export default function MobilePage() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const goBack = () => {
+    router.push('/');
+  };
+
   return (
     <>
       <Head>
@@ -22,6 +26,14 @@ export default function MobilePage() {
       <div className="min-h-screen bg-[#111] text-white relative">
         {/* 헤더 */}
         <header className="p-6 flex justify-between items-center">
+          {/* 돌아가는 로고 */}
+          <button
+            onClick={goBack}
+            className="text-2xl font-bold text-white hover:text-[#FF6100] transition-colors"
+          >
+            ←
+          </button>
+          
           <h1 
             className="text-3xl font-medium"
             style={{
@@ -103,6 +115,16 @@ export default function MobilePage() {
                 className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
               >
                 Contact
+              </button>
+              
+              <button
+                onClick={() => {
+                  router.push('/support');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
+              >
+                Support
               </button>
             </div>
           </div>

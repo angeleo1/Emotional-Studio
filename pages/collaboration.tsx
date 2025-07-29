@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { Dialog, Transition } from '@headlessui/react';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const ChromeGrid = dynamic(() => import('@/components/ui/chrome-grid').then(mod => mod.ChromeGrid), { ssr: false });
 
@@ -107,15 +107,16 @@ function preloadImages(imageUrls: string[]): Promise<void> {
   ).then(() => {});
 }
 
-function InfiniteSlider({ images, speed = 30, reverse = false, onImageClick }: { 
+function InfiniteSlider({ images, speed = 30, reverse = false, onImageClick, isMobile }: { 
   images: string[]; 
   speed?: number; 
   reverse?: boolean;
   onImageClick?: (image: string) => void;
+  isMobile?: boolean;
 }) {
   const repeatedImages = [...images, ...images, ...images];
   return (
-    <div style={{ overflow: 'hidden', width: '100%', background: '#181818', padding: '1.5rem 0' }}>
+    <div style={{ overflow: 'hidden', width: '100%', background: '#181818', padding: isMobile ? '1rem 0' : '1.5rem 0' }}>
       <div
         style={{
           display: 'flex',
@@ -129,11 +130,11 @@ function InfiniteSlider({ images, speed = 30, reverse = false, onImageClick }: {
             src={img}
             alt="slide-img"
             style={{
-              width: 320,
-              height: 200,
+              width: isMobile ? 200 : 320,
+              height: isMobile ? 125 : 200,
               objectFit: 'cover',
-              borderRadius: 20,
-              marginRight: 24,
+              borderRadius: isMobile ? 12 : 20,
+              marginRight: isMobile ? 16 : 24,
               boxShadow: '0 4px 20px #0008',
               cursor: 'pointer',
               transition: 'transform 0.2s ease-in-out',
@@ -171,15 +172,26 @@ export default function CollaborationPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentSection, setCurrentSection] = useState<any>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     const allImages = sections.flatMap(s => s.images || []);
     let isMounted = true;
     preloadImages(allImages).then(() => {
       if (isMounted) setImagesReady(true);
     });
     const timer = setTimeout(() => setMinDelayDone(true), 700); // 최소 0.7초 스피너 보장
-    return () => { isMounted = false; clearTimeout(timer); };
+    
+    return () => { 
+      isMounted = false; 
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   useEffect(() => {
@@ -210,6 +222,10 @@ export default function CollaborationPage() {
     setSelectedImage(currentSection.images[nextIndex]);
   };
 
+  const goBack = () => {
+    router.push('/mobile');
+  };
+
   return (
     <>
       {showSpinner && <OrangeAppleSpinner fadeOut={!showSpinner} />}
@@ -220,12 +236,36 @@ export default function CollaborationPage() {
           transition: 'opacity 350ms cubic-bezier(.4,0,.2,1)',
         }}
       >
+        {/* 모바일 헤더 */}
+        {isMobile && (
+          <header className="p-4 flex justify-between items-center border-b border-white/10">
+            <button
+              onClick={goBack}
+              className="text-2xl font-bold text-white hover:text-[#FF6100] transition-colors"
+            >
+              ←
+            </button>
+            
+            <h1 
+              className="text-2xl font-medium"
+              style={{
+                fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
+                letterSpacing: '0.08em',
+              }}
+            >
+              Collaboration
+            </h1>
+            
+            <div className="w-8"></div> {/* 균형을 위한 빈 공간 */}
+          </header>
+        )}
+
         {sections.map((section, idx) => (
           <div key={section.title || section.type}>
             {/* 섹션 간 구분선 - 첫 번째 섹션(chrome) 이후부터 */}
             {idx > 0 && (
               <div style={{
-                height: '60px',
+                height: isMobile ? '40px' : '60px',
                 background: '#0a0a0a',
                 width: '100%',
                 margin: '0',
@@ -234,45 +274,61 @@ export default function CollaborationPage() {
             )}
             
             <div style={{ 
-              margin: section.type === 'chrome' ? 0 : '3rem 0', 
-              padding: section.type === 'chrome' ? 0 : '4rem 0',
+              margin: section.type === 'chrome' ? 0 : isMobile ? '2rem 0' : '3rem 0', 
+              padding: section.type === 'chrome' ? 0 : isMobile ? '2rem 0' : '4rem 0',
               position: 'relative'
             }}>
               {section.type === 'chrome' ? (
                 <>
-                  <div style={{ width: '100vw', height: '100vh', minHeight: '100vh', minWidth: '100vw', background: '#000', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 0, padding: 0, borderRadius: 0, position: 'relative' }}>
+                  <div style={{ 
+                    width: '100vw', 
+                    height: isMobile ? 'calc(100vh - 80px)' : '100vh', 
+                    minHeight: isMobile ? 'calc(100vh - 80px)' : '100vh', 
+                    minWidth: '100vw', 
+                    background: '#000', 
+                    overflow: 'hidden', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    margin: 0, 
+                    padding: 0, 
+                    borderRadius: 0, 
+                    position: 'relative' 
+                  }}>
                     <ChromeGrid onReady={() => setChromeGridReady(true)} />
                     {/* 좌측 하단 스크롤(화살표+텍스트) UI - Our Collaboration 섹션에만 */}
-                    <div className="absolute left-6 bottom-[9.25rem] flex flex-col items-center z-20 select-none pointer-events-none">
-                      <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
-                        <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-                        <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
-                        Scroll
-                      </span>
-                      <style jsx>{`
-                        @keyframes bounce-down {
-                          0%, 100% { transform: translateY(0); }
-                          20% { transform: translateY(8px); }
-                          40% { transform: translateY(16px); }
-                          60% { transform: translateY(8px); }
-                          80% { transform: translateY(0); }
-                        }
-                        .animate-bounce-down {
-                          animation: bounce-down 1.5s infinite;
-                        }
-                      `}</style>
-                    </div>
+                    {!isMobile && (
+                      <div className="absolute left-6 bottom-[9.25rem] flex flex-col items-center z-20 select-none pointer-events-none">
+                        <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
+                          <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+                          <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
+                          Scroll
+                        </span>
+                        <style jsx>{`
+                          @keyframes bounce-down {
+                            0%, 100% { transform: translateY(0); }
+                            20% { transform: translateY(8px); }
+                            40% { transform: translateY(16px); }
+                            60% { transform: translateY(8px); }
+                            80% { transform: translateY(0); }
+                          }
+                          .animate-bounce-down {
+                            animation: bounce-down 1.5s infinite;
+                          }
+                        `}</style>
+                      </div>
+                    )}
                   </div>
                 </>
               ) : (
                 <>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <h2 style={{
-                      fontSize: 'clamp(3rem, 8vw, 6rem)',
+                      fontSize: isMobile ? 'clamp(2rem, 6vw, 3rem)' : 'clamp(3rem, 8vw, 6rem)',
                       fontWeight: 400,
-                      marginBottom: '2.2rem',
+                      marginBottom: isMobile ? '1.5rem' : '2.2rem',
                       textAlign: 'center',
                       letterSpacing: '0.18em',
                       color: '#ffffff',
@@ -281,7 +337,7 @@ export default function CollaborationPage() {
                       textShadow: '0 1px 12px #ff610055, 0 0.75px 3px #0003',
                       lineHeight: 1.1,
                       display: 'block',
-                      padding: '0 2rem',
+                      padding: isMobile ? '0 1rem' : '0 2rem',
                       wordBreak: 'keep-all',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
@@ -294,6 +350,7 @@ export default function CollaborationPage() {
                     speed={28 + idx * 6} 
                     reverse={idx === 2} 
                     onImageClick={handleImageClick}
+                    isMobile={isMobile}
                   />
                 </>
               )}
@@ -304,76 +361,67 @@ export default function CollaborationPage() {
         {/* 모달 */}
         <Transition.Root show={modalOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={() => setModalOpen(false)}>
-            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" aria-hidden="true" onClick={() => setModalOpen(false)} />
-            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center max-w-3xl w-full mx-4 p-0 z-[9999]">
+            <div className="fixed inset-0 bg-black/90 backdrop-blur-sm" aria-hidden="true" onClick={() => setModalOpen(false)} />
+            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]">
               {selectedImage && currentSection && (
-                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="relative w-full h-full flex items-center justify-center">
                   {/* Previous 화살표 */}
                   <button
-                    onClick={handlePrevious}
-                    aria-label="Previous"
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'rgba(30,30,30,0.5)',
-                      border: 'none',
-                      borderRadius: '50%',
-                      width: 48,
-                      height: 48,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      zIndex: 20,
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 8px #0006',
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevious();
                     }}
+                    aria-label="Previous"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer shadow-lg"
                   >
-                    <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
                   </button>
+
                   <img
                     src={selectedImage}
                     alt="collaboration modal"
-                    style={{ maxHeight: '90vh', maxWidth: '90vw', borderRadius: '1.5rem', boxShadow: '0 8px 32px #000a', zIndex: 11, position: 'relative' }}
+                    className="max-h-[80vh] max-w-[90vw] rounded-lg shadow-2xl z-11 relative object-contain"
                   />
+
                   {/* Next 화살표 */}
                   <button
-                    onClick={handleNext}
-                    aria-label="Next"
-                    style={{
-                      position: 'absolute',
-                      right: 0,
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      background: 'rgba(30,30,30,0.5)',
-                      border: 'none',
-                      borderRadius: '50%',
-                      width: 48,
-                      height: 48,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      zIndex: 20,
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 8px #0006',
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNext();
                     }}
+                    aria-label="Next"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer shadow-lg"
                   >
-                    <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
+                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 6 15 12 9 18" />
+                    </svg>
+                  </button>
+
+                  {/* 닫기 버튼 */}
+                  <button
+                    onClick={() => setModalOpen(false)}
+                    className="absolute top-4 right-4 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer"
+                  >
+                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                   </button>
                 </div>
               )}
+              
               {currentSection && (
-                <div className="flex-1 text-lg font-semibold mt-6 mb-4 text-center"
+                <div 
+                  className="text-center mt-4 px-4 py-3 rounded-lg border-2"
                   style={{
                     maxWidth: '90vw',
                     color: '#ff6100',
                     border: '2px solid #ff6100',
-                    borderRadius: '1.2rem',
-                    padding: '1.2rem 2rem',
-                    background: 'rgba(17,17,17,0.85)',
-                    display: 'inline-block',
-                    fontWeight: 700
+                    background: 'rgba(17,17,17,0.9)',
+                    fontWeight: 700,
+                    fontSize: isMobile ? '0.9rem' : '1rem'
                   }}
                 >
                   {currentSection.description}
