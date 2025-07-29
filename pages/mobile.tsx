@@ -17,7 +17,7 @@ export default function MobilePage() {
           <h1 
             className="text-3xl font-medium text-center"
             style={{
-              fontFamily: 'CS Valcon Drawn',
+              fontFamily: 'CS-Valcon-Drawn-akhr7k',
               letterSpacing: '0.08em',
             }}
           >
@@ -56,28 +56,70 @@ export default function MobilePage() {
             >
               emotional Moments
             </button>
+
+            {/* 추가 메뉴 버튼들 */}
+            <button
+              onClick={() => router.push('/about')}
+              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
+            >
+              About Us
+            </button>
+
+            <button
+              onClick={() => router.push('/services')}
+              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
+            >
+              Services
+            </button>
+
+            <button
+              onClick={() => router.push('/booking')}
+              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
+            >
+              Booking
+            </button>
+
+            <button
+              onClick={() => router.push('/contact')}
+              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
+            >
+              Contact
+            </button>
+
+            <button
+              onClick={() => router.push('/support')}
+              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
+            >
+              Support
+            </button>
           </div>
         </main>
 
         {/* 푸터 */}
         <footer className="p-6 text-center text-sm opacity-60">
           <p>Private Self-Studio in Melbourne</p>
-          <div className="flex justify-center space-x-4 mt-4">
+          <div className="flex justify-center space-x-6 mt-4">
             <a
-              href="https://www.instagram.com/emotionalstudios.au"
+              href="https://www.instagram.com/emotional_studios/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-[#FF6100] transition-colors"
+              className="text-white hover:text-[#FF6100] transition-colors text-2xl"
             >
-              📸 Instagram
+              📸
             </a>
             <a
-              href="https://www.tiktok.com/@emotionalstudios.au"
+              href="#"
+              className="text-white hover:text-[#FF6100] transition-colors text-2xl"
+            >
+              📘
+            </a>
+            <a
+              href="https://www.youtube.com/@emotional_studios"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-[#FF6100] transition-colors"
+              className="text-white hover:text-[#FF6100] transition-colors text-2xl"
             >
-              🎵 TikTok
+              📺
             </a>
           </div>
         </footer>
