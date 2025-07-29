@@ -326,7 +326,7 @@ export default function CollaborationPage() {
                 <>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <h2 style={{
-                      fontSize: isMobile ? 'clamp(1.2rem, 3.5vw, 2rem)' : 'clamp(3rem, 8vw, 6rem)',
+                      fontSize: isMobile ? (section.title === 'Our Collaboration' ? 'clamp(0.8rem, 2.5vw, 1.5rem)' : 'clamp(1.5rem, 4vw, 2.5rem)') : 'clamp(3rem, 8vw, 6rem)',
                       fontWeight: 400,
                       marginBottom: isMobile ? '1.5rem' : '2.2rem',
                       textAlign: 'center',

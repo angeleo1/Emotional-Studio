@@ -97,7 +97,7 @@ export default function OurElixirs() {
           
           <div className="w-full h-full flex flex-col items-center justify-center select-none z-10 relative" style={{gap: 0, height: 'calc(100vh - 80px)'}}>
             {/* 1st cocktail */}
-            <div className="w-full flex items-center justify-center overflow-hidden" style={{padding: 0, height: 'calc((100vh - 80px) / 3)'}}>
+            <div className="w-full flex items-center justify-center overflow-hidden" style={{padding: 0, height: 'calc((100vh - 80px) / 3)', marginBottom: isMobile ? 'calc((100vh - 80px) / 24)' : '0'}}>
               <div className={`w-full flex ${isMobile ? 'animate-slideRightFaster' : 'animate-slideRight'}`}>
                 {[...Array(isMobile ? 1 : 2)].map((_,i)=>(
                   <span
@@ -119,7 +119,7 @@ export default function OurElixirs() {
             </div>
             
             {/* 2nd cocktail */}
-            <div className="w-full flex items-center justify-center overflow-hidden" style={{padding: 0, height: 'calc((100vh - 80px) / 3)'}}>
+            <div className="w-full flex items-center justify-center overflow-hidden" style={{padding: 0, height: 'calc((100vh - 80px) / 3)', marginBottom: isMobile ? 'calc((100vh - 80px) / 24)' : '0'}}>
               <div className={`w-full flex ${isMobile ? 'animate-slideLeftFaster' : 'animate-slideLeft'}`}>
                 {[...Array(isMobile ? 1 : 2)].map((_,i)=>(
                   <span

@@ -24,9 +24,9 @@ export default function MobilePage() {
         {/* 헤더 */}
         <header className="p-6 flex justify-between items-center">
           {/* finallogo.png 로고 */}
-          <div className="relative w-6 h-6">
+          <div className="relative w-12 h-12">
             <Image
-              src="/finallogo.png"
+              src="/images/finallogo.png"
               alt="Emotional Studios Logo"
               fill
               className="object-contain"
