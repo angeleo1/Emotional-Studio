@@ -14,9 +14,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [typingDone, setTypingDone] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    setIsClient(true);
     // 모바일 감지
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -53,16 +55,30 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
     transition: { delay: 0.2, duration: 0.7, ease: 'easeOut' }
   };
 
+  // 모바일에서는 일반 div 사용, 데스크탑에서는 motion.div 사용
+  const MotionWrapper = isMobile ? 'div' : motion.div;
+  const MotionSpan = isMobile ? 'span' : motion.span;
+  const MotionButton = isMobile ? 'button' : motion.button;
+
+  if (!isClient) {
+    return null; // SSR 중에는 아무것도 렌더링하지 않음
+  }
+
   return (
     <AnimatePresence>
-      <motion.div
+      <MotionWrapper
         key="intro"
         className="relative w-full bg-[#111] overflow-hidden min-h-screen flex flex-col"
         style={{ zIndex: 0 }}
+        {...(isMobile ? {} : {
+          initial: { opacity: 0 },
+          animate: { opacity: 1 },
+          exit: { opacity: 0 }
+        })}
       >
         {/* 메인 타이틀 */}
-        <motion.div
-          {...(isMobile ? mobileAnimation : desktopAnimation)}
+        <MotionWrapper
+          {...(isMobile ? {} : (isMobile ? mobileAnimation : desktopAnimation))}
           className="flex-1 flex items-center justify-center px-4 pt-16 pb-8"
         >
           <h1
@@ -74,30 +90,30 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
           >
             emotional studios
           </h1>
-        </motion.div>
+        </MotionWrapper>
 
         {/* 상단 우측: since Oct.2025 */}
-        <motion.span
-          {...(isMobile ? mobileAnimation : {
+        <MotionSpan
+          {...(isMobile ? {} : (isMobile ? mobileAnimation : {
             initial: { opacity: 0, x: 40 },
             animate: { opacity: 1, x: 0 },
             transition: { delay: 1.5, duration: 0.7, ease: 'easeOut' }
-          })}
+          }))}
           className="absolute top-4 right-4 md:top-8 md:right-8 text-sm md:text-base font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1"
         >
           <span className="text-white opacity-100">since Oct.2025</span>
           <span className="text-white opacity-100 font-bold text-base md:text-lg tracking-tight">
             The First Project of emotional
           </span>
-        </motion.span>
+        </MotionSpan>
 
         {/* 중앙~하단 우측: 감각적 문구 */}
-        <motion.span
-          {...(isMobile ? mobileAnimation : {
+        <MotionSpan
+          {...(isMobile ? {} : (isMobile ? mobileAnimation : {
             initial: { opacity: 0, y: 40 },
             animate: { opacity: 1, y: 0 },
             transition: { delay: 1.8, duration: 0.7, ease: 'easeOut' }
-          })}
+          }))}
           className={`absolute right-4 md:right-8 text-white text-lg md:text-xl lg:text-2xl font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-32 md:max-w-48 lg:max-w-64 ${
             isMobile ? 'top-1/2 transform -translate-y-1/2' : 'top-1/3 md:top-1/2 transform -translate-y-1/2'
           }`}
@@ -108,27 +124,27 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             Feel the Vibe<br />
             <span className="font-bold text-lg md:text-xl text-[#FF6100] opacity-100">e.st</span>
           </span>
-        </motion.span>
+        </MotionSpan>
 
         {/* 하단 우측: Private Self-Studio in Melbourne */}
-        <motion.span
-          {...(isMobile ? mobileAnimation : {
+        <MotionSpan
+          {...(isMobile ? {} : (isMobile ? mobileAnimation : {
             initial: { opacity: 0, x: 40 },
             animate: { opacity: 1, x: 0 },
             transition: { delay: 1.2, duration: 0.7, ease: 'easeOut' }
-          })}
+          }))}
           className="absolute bottom-4 right-24 md:bottom-8 md:right-32 text-white text-xs md:text-sm font-normal tracking-wider z-10 select-none pointer-events-none"
         >
           Private Self-Studio in Melbourne
-        </motion.span>
+        </MotionSpan>
 
         {/* SNS 아이콘 */}
-        <motion.div
-          {...(isMobile ? mobileAnimation : {
+        <MotionWrapper
+          {...(isMobile ? {} : (isMobile ? mobileAnimation : {
             initial: { opacity: 0, y: 40 },
             animate: { opacity: 1, y: 0 },
             transition: { delay: 0.7, duration: 0.7, ease: 'easeOut' }
-          })}
+          }))}
           className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex gap-3 md:gap-4 z-10"
         >
           <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="svg-glitch-wrapper w-8 h-8 md:w-12 md:h-12" style={{ color: '#FF6100' }}>
@@ -164,20 +180,20 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
               <svg viewBox="0 0 256 180" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><rect width="256" height="180" rx="36" fill="currentColor"/><path fill="black" d="m102.421 128.06 66.328-38.418-66.328-38.418z"/></svg>
             </div>
           </a>
-        </motion.div>
+        </MotionWrapper>
 
         {/* 버튼 영역 */}
         <div className="flex flex-col items-center justify-center px-4 pb-8 md:pb-12 gap-4 md:gap-6">
           {/* 모바일에서는 세로 배치, 데스크탑에서는 가로 배치 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full max-w-4xl">
             <span className="glitch-button-wrapper">
-              <motion.button
+              <MotionButton
                 className="glitch-button w-full"
-                {...(isMobile ? mobileAnimation : {
+                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
                   initial: { opacity: 0, scale: 0.8 },
                   animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.2, duration: 0.5, ease: 'backOut' }
-                })}
+                }))}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -198,16 +214,16 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 onClick={() => { router.push('/pose-guide'); }}
               >
                 <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Pose Guide</span>
-              </motion.button>
+              </MotionButton>
             </span>
             <span className="glitch-button-wrapper">
-              <motion.button
+              <MotionButton
                 className="glitch-button w-full"
-                {...(isMobile ? mobileAnimation : {
+                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
                   initial: { opacity: 0, scale: 0.8 },
                   animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.3, duration: 0.5, ease: 'backOut' }
-                })}
+                }))}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -228,16 +244,16 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 onClick={() => { router.push('/elixirs'); }}
               >
                 <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Our Elixirs</span>
-              </motion.button>
+              </MotionButton>
             </span>
             <span className="glitch-button-wrapper">
-              <motion.button
+              <MotionButton
                 className="glitch-button w-full"
-                {...(isMobile ? mobileAnimation : {
+                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
                   initial: { opacity: 0, scale: 0.8 },
                   animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.4, duration: 0.5, ease: 'backOut' }
-                })}
+                }))}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -258,16 +274,16 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 onClick={() => { router.push('/collaboration'); }}
               >
                 <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Collaboration</span>
-              </motion.button>
+              </MotionButton>
             </span>
             <span className="glitch-button-wrapper">
-              <motion.button
+              <MotionButton
                 className="glitch-button w-full"
-                {...(isMobile ? mobileAnimation : {
+                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
                   initial: { opacity: 0, scale: 0.8 },
                   animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.5, duration: 0.5, ease: 'backOut' }
-                })}
+                }))}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -288,11 +304,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 onClick={() => { router.push('/gallery-landing'); }}
               >
                 <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Moments</span>
-              </motion.button>
+              </MotionButton>
             </span>
           </div>
         </div>
-      </motion.div>
+      </MotionWrapper>
     </AnimatePresence>
   );
 };
