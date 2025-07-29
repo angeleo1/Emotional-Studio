@@ -149,10 +149,10 @@ export default function GalleryLanding() {
       {/* 글리치 버튼 위치 이동: 모바일에서는 중앙 배치 */}
       <div className="glitch-button-wrapper" style={{ 
         position: 'absolute', 
-        top: isMobile ? 'calc(50% + 8rem)' : 'calc(50% - 1rem)', 
+        top: isMobile ? '75%' : 'calc(50% - 1rem)', 
         left: isMobile ? '50%' : 'calc(50% - 11.8rem)', 
         transform: isMobile ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)', 
-        zIndex: 20 
+        zIndex: 50 
       }}>
         <button
           className="gallery-landing-btn contact-style-glitch-button"
@@ -163,11 +163,12 @@ export default function GalleryLanding() {
             fontFamily: 'CS-Valcon-Drawn-akhr7k',
             fontSize: isMobile ? '1.5rem' : '2.25rem',
             padding: isMobile ? '0.75rem 2rem' : '1rem 3rem',
-            background: isMobile ? 'rgba(0,0,0,0.9)' : 'transparent',
+            background: isMobile ? 'rgba(0,0,0,0.95)' : 'transparent',
             borderRadius: '2rem',
             color: '#fff',
             cursor: 'pointer',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            boxShadow: isMobile ? '0 4px 20px rgba(0,0,0,0.8)' : 'none'
           }}
         >
           <span className="relative z-10 whitespace-nowrap" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Enter Gallery</span>
@@ -200,15 +201,15 @@ export default function GalleryLanding() {
           z-index: 2;
           position: relative;
           left: ${isMobile ? '0' : '20rem'};
-          transform: ${isMobile ? 'scale(0.8)' : 'none'};
+          transform: ${isMobile ? 'scale(1.2)' : 'none'};
         }
         .gallery-landing-canvas {
           position: absolute;
           top: ${isMobile ? '33%' : '5%'};
           left: 50%;
           transform: translateX(calc(-50% + ${isMobile ? '0' : '6rem + 20rem'}));
-          width: ${isMobile ? '25vmin' : '40vmin'};
-          height: ${isMobile ? '25vmin' : '40vmin'};
+          width: ${isMobile ? '35vmin' : '40vmin'};
+          height: ${isMobile ? '35vmin' : '40vmin'};
           overflow: visible;
           z-index: 3;
           pointer-events: none;
