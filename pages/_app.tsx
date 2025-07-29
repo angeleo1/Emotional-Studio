@@ -36,7 +36,12 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     setIsClient(true);
     const checkMobile = () => {
-      setIsMobile(isMobileDevice());
+      try {
+        setIsMobile(isMobileDevice());
+      } catch (error) {
+        console.error('Mobile detection error:', error);
+        setIsMobile(true); // 에러 시 모바일로 가정
+      }
     };
     
     checkMobile();
@@ -45,6 +50,26 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // 모바일에서는 최소한의 컴포넌트만 렌더링
+  if (isClient && isMobile) {
+    return (
+      <>
+        <Head>
+          <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+          <meta httpEquiv="Pragma" content="no-cache" />
+          <meta httpEquiv="Expires" content="0" />
+        </Head>
+        <div className={`${rockSalt.variable} ${playfairDisplay.variable}`}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+        </div>
+      </>
+    );
+  }
+
+  // 데스크탑용 전체 기능
   return (
     <>
       <Head>
@@ -53,49 +78,43 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta httpEquiv="Expires" content="0" />
       </Head>
       <div className={`${rockSalt.variable} ${playfairDisplay.variable}`}>
-        {isClient && !isMobile && (
-          <ClientOnly>
-            <CustomCursor />
-            <Navbar />
-            <PusherBeams />
-          </ClientOnly>
-        )}
-        {isClient && isMobile && (
+        {isClient && (
           <>
-            <Navbar />
-            <PusherBeams />
+            <ClientOnly>
+              <CustomCursor />
+              <Navbar />
+              <PusherBeams />
+            </ClientOnly>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+            <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
+              <button
+                className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
+                onClick={() => setIsContactOpen(true)}
+              >
+                <div className="base-icon">
+                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                  </svg>
+                </div>
+                <div className="glitch-layer one">
+                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                  </svg>
+                </div>
+                <div className="glitch-layer two">
+                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                  </svg>
+                </div>
+              </button>
+            </div>
           </>
-        )}
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-        {!isMobile && (
-          <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
-            <button
-              className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
-              onClick={() => setIsContactOpen(true)}
-            >
-              <div className="base-icon">
-                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                  <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                </svg>
-              </div>
-              <div className="glitch-layer one">
-                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                  <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                </svg>
-              </div>
-              <div className="glitch-layer two">
-                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                  <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                </svg>
-              </div>
-            </button>
-          </div>
         )}
       </div>
     </>
