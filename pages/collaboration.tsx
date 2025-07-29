@@ -326,7 +326,7 @@ export default function CollaborationPage() {
                 <>
                   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                     <h2 style={{
-                      fontSize: isMobile ? 'clamp(1.5rem, 4vw, 2.5rem)' : 'clamp(3rem, 8vw, 6rem)',
+                      fontSize: isMobile ? 'clamp(1.2rem, 3.5vw, 2rem)' : 'clamp(3rem, 8vw, 6rem)',
                       fontWeight: 400,
                       marginBottom: isMobile ? '1.5rem' : '2.2rem',
                       textAlign: 'center',
@@ -335,7 +335,7 @@ export default function CollaborationPage() {
                       opacity: 0.92,
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
                       textShadow: '0 1px 12px #ff610055, 0 0.75px 3px #0003',
-                      lineHeight: 1.2,
+                      lineHeight: 1.1,
                       display: 'block',
                       padding: isMobile ? '0 1rem' : '0 2rem',
                       wordBreak: 'break-word',

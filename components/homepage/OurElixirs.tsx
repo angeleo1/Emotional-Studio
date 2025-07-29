@@ -98,7 +98,7 @@ export default function OurElixirs() {
           <div className="w-full h-full flex flex-col items-center justify-center select-none z-10 relative" style={{gap: 0, height: 'calc(100vh - 80px)'}}>
             {/* 1st cocktail */}
             <div className="w-full flex-1 flex items-center justify-center overflow-hidden" style={{padding: 0, flex: '1 1 0%'}}>
-              <div className={`w-full flex ${isMobile ? 'animate-slideRightFast' : 'animate-slideRight'}`}>
+              <div className={`w-full flex ${isMobile ? 'animate-slideRightFaster' : 'animate-slideRight'}`}>
                 {[...Array(isMobile ? 1 : 2)].map((_,i)=>(
                   <span
                     key={i}
@@ -109,7 +109,7 @@ export default function OurElixirs() {
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                      marginBottom: isMobile ? 'calc(100vh / 12)' : '0',
+                      marginBottom: isMobile ? 'calc(100vh / 24)' : '0',
                     }}
                     onClick={()=>handleCocktailClick(cocktails[0])}
                   >
@@ -121,7 +121,7 @@ export default function OurElixirs() {
             
             {/* 2nd cocktail */}
             <div className="w-full flex-1 flex items-center justify-center overflow-hidden" style={{padding: 0, flex: '1 1 0%'}}>
-              <div className={`w-full flex ${isMobile ? 'animate-slideLeftFast' : 'animate-slideLeft'}`}>
+              <div className={`w-full flex ${isMobile ? 'animate-slideLeftFaster' : 'animate-slideLeft'}`}>
                 {[...Array(isMobile ? 1 : 2)].map((_,i)=>(
                   <span
                     key={i}
@@ -132,7 +132,7 @@ export default function OurElixirs() {
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                      marginBottom: isMobile ? 'calc(100vh / 12)' : '0',
+                      marginBottom: isMobile ? 'calc(100vh / 24)' : '0',
                     }}
                     onClick={()=>handleCocktailClick(cocktails[1])}
                   >
@@ -144,7 +144,7 @@ export default function OurElixirs() {
             
             {/* 3rd cocktail */}
             <div className="w-full flex-1 flex items-center justify-center overflow-hidden" style={{padding: 0, flex: '1 1 0%'}}>
-              <div className={`w-full flex ${isMobile ? 'animate-slideRightFast' : 'animate-slideRight'}`}>
+              <div className={`w-full flex ${isMobile ? 'animate-slideRightFaster' : 'animate-slideRight'}`}>
                 {[...Array(isMobile ? 1 : 2)].map((_,i)=>(
                   <span
                     key={i}
@@ -155,7 +155,7 @@ export default function OurElixirs() {
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                      marginBottom: isMobile ? 'calc(100vh / 12)' : '0',
+                      marginBottom: isMobile ? 'calc(100vh / 24)' : '0',
                     }}
                     onClick={()=>handleCocktailClick({...cocktails[2], name:'AURA RELIEF'})}
                   >

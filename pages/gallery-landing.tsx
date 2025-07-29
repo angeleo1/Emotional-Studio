@@ -163,7 +163,7 @@ export default function GalleryLanding() {
             fontFamily: 'CS-Valcon-Drawn-akhr7k',
             fontSize: isMobile ? '1.5rem' : '2.25rem',
             padding: isMobile ? '0.75rem 2rem' : '1rem 3rem',
-            background: isMobile ? 'rgba(0,0,0,0.8)' : 'transparent',
+            background: isMobile ? 'rgba(0,0,0,0.9)' : 'transparent',
             borderRadius: '2rem',
             color: '#fff',
             cursor: 'pointer',
@@ -204,11 +204,11 @@ export default function GalleryLanding() {
         }
         .gallery-landing-canvas {
           position: absolute;
-          top: ${isMobile ? '15%' : '5%'};
+          top: ${isMobile ? '25%' : '5%'};
           left: 50%;
           transform: translateX(calc(-50% + ${isMobile ? '0' : '6rem + 20rem'}));
-          width: ${isMobile ? '40vmin' : '40vmin'};
-          height: ${isMobile ? '40vmin' : '40vmin'};
+          width: ${isMobile ? '25vmin' : '40vmin'};
+          height: ${isMobile ? '25vmin' : '40vmin'};
           overflow: visible;
           z-index: 3;
           pointer-events: none;

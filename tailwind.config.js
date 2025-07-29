@@ -200,18 +200,20 @@ module.exports = {
   			}
   		},
   		animation: {
-  			slideLeft: 'slideLeft 30s linear infinite',
-  			slideLeftFast: 'slideLeftFast 15s linear infinite',
-  			slideRightFast: 'slideRightFast 15s linear infinite',
-  			kenburns: 'kenburns 20s ease infinite',
-  			'jello-diagonal-2': 'jello-diagonal-2 2s ease-in-out infinite',
-  			'spin-slow': 'spin 20s linear infinite',
-  			'slow-zoom': 'slow-zoom 15s ease-out forwards',
-  			'slide-left': 'slide-left 2.5s linear infinite',
-  			'slide-right': 'slide-right 2.5s linear infinite',
-  			'focus-in-expand': 'focus-in-expand 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
-  			'tracking-in': 'tracking-in 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both'
-  		},
+			slideLeft: 'slideLeft 30s linear infinite',
+			slideLeftFast: 'slideLeftFast 15s linear infinite',
+			slideRightFast: 'slideRightFast 15s linear infinite',
+			slideLeftFaster: 'slideLeftFast 7.5s linear infinite',
+			slideRightFaster: 'slideRightFast 7.5s linear infinite',
+			kenburns: 'kenburns 20s ease infinite',
+			'jello-diagonal-2': 'jello-diagonal-2 2s ease-in-out infinite',
+			'spin-slow': 'spin 20s linear infinite',
+			'slow-zoom': 'slow-zoom 15s ease-out forwards',
+			'slide-left': 'slide-left 2.5s linear infinite',
+			'slide-right': 'slide-right 2.5s linear infinite',
+			'focus-in-expand': 'focus-in-expand 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+			'tracking-in': 'tracking-in 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both'
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
