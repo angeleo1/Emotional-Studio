@@ -204,7 +204,7 @@ export default function GalleryLanding() {
         }
         .gallery-landing-canvas {
           position: absolute;
-          top: ${isMobile ? '25%' : '5%'};
+          top: ${isMobile ? '40%' : '5%'};
           left: 50%;
           transform: translateX(calc(-50% + ${isMobile ? '0' : '6rem + 20rem'}));
           width: ${isMobile ? '25vmin' : '40vmin'};

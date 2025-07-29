@@ -101,11 +101,11 @@ export default function MobilePage() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&family=Borel&display=swap" rel="stylesheet" />
       </Head>
-      <div className="min-h-screen bg-[#111] text-white relative">
+      <div className="min-h-screen bg-[#1a1a1a] text-white relative">
         {/* 헤더 */}
         <header className="p-6 flex justify-between items-center">
           {/* 주황색 엉킨 실 애니메이션 로고 */}
-          <div className="relative w-8 h-8">
+          <div className="relative w-6 h-6">
             <canvas
               ref={canvasRef}
               className="absolute inset-0 w-full h-full"
@@ -247,6 +247,13 @@ export default function MobilePage() {
               className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
             >
               Collaboration
+            </button>
+            
+            <button
+              onClick={() => router.push('/booking')}
+              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
+            >
+              Booking
             </button>
           </div>
         </main>
