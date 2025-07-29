@@ -13,7 +13,20 @@ interface IntroAnimationProps {
 const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [typingDone, setTypingDone] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    // 모바일 감지
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -27,6 +40,19 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
     return () => clearTimeout(timeout);
   }, [displayedText]);
 
+  // 모바일용 단순화된 애니메이션 설정
+  const mobileAnimation = {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    transition: { duration: 0.5 }
+  };
+
+  const desktopAnimation = {
+    initial: { opacity: 0, y: 40 },
+    animate: { opacity: 1, y: 0 },
+    transition: { delay: 0.2, duration: 0.7, ease: 'easeOut' }
+  };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -36,9 +62,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
       >
         {/* 메인 타이틀 */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.7, ease: 'easeOut' }}
+          {...(isMobile ? mobileAnimation : desktopAnimation)}
           className="flex-1 flex items-center justify-center px-4 pt-16 pb-8"
         >
           <h1
@@ -54,9 +78,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
 
         {/* 상단 우측: since Oct.2025 */}
         <motion.span
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.5, duration: 0.7, ease: 'easeOut' }}
+          {...(isMobile ? mobileAnimation : {
+            initial: { opacity: 0, x: 40 },
+            animate: { opacity: 1, x: 0 },
+            transition: { delay: 1.5, duration: 0.7, ease: 'easeOut' }
+          })}
           className="absolute top-4 right-4 md:top-8 md:right-8 text-sm md:text-base font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1"
         >
           <span className="text-white opacity-100">since Oct.2025</span>
@@ -67,10 +93,14 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
 
         {/* 중앙~하단 우측: 감각적 문구 */}
         <motion.span
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 0.7, ease: 'easeOut' }}
-          className="absolute right-4 md:right-8 top-1/3 md:top-1/2 transform -translate-y-1/2 text-white text-lg md:text-xl lg:text-2xl font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-32 md:max-w-48 lg:max-w-64"
+          {...(isMobile ? mobileAnimation : {
+            initial: { opacity: 0, y: 40 },
+            animate: { opacity: 1, y: 0 },
+            transition: { delay: 1.8, duration: 0.7, ease: 'easeOut' }
+          })}
+          className={`absolute right-4 md:right-8 text-white text-lg md:text-xl lg:text-2xl font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-32 md:max-w-48 lg:max-w-64 ${
+            isMobile ? 'top-1/2 transform -translate-y-1/2' : 'top-1/3 md:top-1/2 transform -translate-y-1/2'
+          }`}
         >
           Branded UI<br />
           Experiment<br />
@@ -82,9 +112,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
 
         {/* 하단 우측: Private Self-Studio in Melbourne */}
         <motion.span
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1.2, duration: 0.7, ease: 'easeOut' }}
+          {...(isMobile ? mobileAnimation : {
+            initial: { opacity: 0, x: 40 },
+            animate: { opacity: 1, x: 0 },
+            transition: { delay: 1.2, duration: 0.7, ease: 'easeOut' }
+          })}
           className="absolute bottom-4 right-24 md:bottom-8 md:right-32 text-white text-xs md:text-sm font-normal tracking-wider z-10 select-none pointer-events-none"
         >
           Private Self-Studio in Melbourne
@@ -92,9 +124,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
 
         {/* SNS 아이콘 */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.7, ease: 'easeOut' }}
+          {...(isMobile ? mobileAnimation : {
+            initial: { opacity: 0, y: 40 },
+            animate: { opacity: 1, y: 0 },
+            transition: { delay: 0.7, duration: 0.7, ease: 'easeOut' }
+          })}
           className="absolute bottom-4 left-4 md:bottom-8 md:left-8 flex gap-3 md:gap-4 z-10"
         >
           <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="svg-glitch-wrapper w-8 h-8 md:w-12 md:h-12" style={{ color: '#FF6100' }}>
@@ -139,9 +173,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             <span className="glitch-button-wrapper">
               <motion.button
                 className="glitch-button w-full"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.2, duration: 0.5, ease: 'backOut' }}
+                {...(isMobile ? mobileAnimation : {
+                  initial: { opacity: 0, scale: 0.8 },
+                  animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 2.2, duration: 0.5, ease: 'backOut' }
+                })}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -167,9 +203,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             <span className="glitch-button-wrapper">
               <motion.button
                 className="glitch-button w-full"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.3, duration: 0.5, ease: 'backOut' }}
+                {...(isMobile ? mobileAnimation : {
+                  initial: { opacity: 0, scale: 0.8 },
+                  animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 2.3, duration: 0.5, ease: 'backOut' }
+                })}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -195,9 +233,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             <span className="glitch-button-wrapper">
               <motion.button
                 className="glitch-button w-full"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.4, duration: 0.5, ease: 'backOut' }}
+                {...(isMobile ? mobileAnimation : {
+                  initial: { opacity: 0, scale: 0.8 },
+                  animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 2.4, duration: 0.5, ease: 'backOut' }
+                })}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
@@ -223,9 +263,11 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             <span className="glitch-button-wrapper">
               <motion.button
                 className="glitch-button w-full"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 2.5, duration: 0.5, ease: 'backOut' }}
+                {...(isMobile ? mobileAnimation : {
+                  initial: { opacity: 0, scale: 0.8 },
+                  animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 2.5, duration: 0.5, ease: 'backOut' }
+                })}
                 style={{
                   background: 'none',
                   border: '2px solid #fff',
