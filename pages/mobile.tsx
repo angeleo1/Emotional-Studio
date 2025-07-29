@@ -28,7 +28,7 @@ export default function MobilePage() {
 
     class SquigglyLine {
       points: { x: number; y: number; vx: number; vy: number; offset: number }[] = [];
-      numPoints = 8;
+      numPoints = 6;
       constructor() {
         this.initPoints();
       }
@@ -38,8 +38,8 @@ export default function MobilePage() {
           this.points.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 2,
-            vy: (Math.random() - 0.5) * 2,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: (Math.random() - 0.5) * 1.5,
             offset: Math.random() * Math.PI * 2
           });
         }
@@ -47,8 +47,8 @@ export default function MobilePage() {
       update() {
         if (!canvas) return;
         this.points.forEach((point) => {
-          point.x += point.vx + Math.sin(Date.now() * 0.002 + point.offset) * 2;
-          point.y += point.vy + Math.cos(Date.now() * 0.002 + point.offset) * 2;
+          point.x += point.vx + Math.sin(Date.now() * 0.001 + point.offset) * 1.5;
+          point.y += point.vy + Math.cos(Date.now() * 0.001 + point.offset) * 1.5;
           if (point.x < 0) { point.x = 0; point.vx *= -1; }
           else if (point.x > canvas.width) { point.x = canvas.width; point.vx *= -1; }
           if (point.y < 0) { point.y = 0; point.vy *= -1; }
@@ -59,20 +59,20 @@ export default function MobilePage() {
         if (!canvas || !ctx) return;
         ctx.beginPath();
         ctx.strokeStyle = '#FF6100';
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 1;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         ctx.moveTo(this.points[0].x, this.points[0].y);
         for (let i = 0; i < this.points.length - 1; i++) {
-          const xc = (this.points[i].x + this.points[i + 1].x) / 2 + (Math.random() - 0.5) * 8;
-          const yc = (this.points[i].y + this.points[i + 1].y) / 2 + (Math.random() - 0.5) * 8;
+          const xc = (this.points[i].x + this.points[i + 1].x) / 2 + (Math.random() - 0.5) * 4;
+          const yc = (this.points[i].y + this.points[i + 1].y) / 2 + (Math.random() - 0.5) * 4;
           ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
         }
         ctx.stroke();
       }
     }
     const lines: SquigglyLine[] = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       lines.push(new SquigglyLine());
     }
     let animationId: number;
@@ -105,7 +105,7 @@ export default function MobilePage() {
         {/* 헤더 */}
         <header className="p-6 flex justify-between items-center">
           {/* 주황색 엉킨 실 애니메이션 로고 */}
-          <div className="relative w-6 h-6">
+          <div className="relative w-5 h-5">
             <canvas
               ref={canvasRef}
               className="absolute inset-0 w-full h-full"

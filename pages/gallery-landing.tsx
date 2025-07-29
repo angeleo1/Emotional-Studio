@@ -149,7 +149,7 @@ export default function GalleryLanding() {
       {/* 글리치 버튼 위치 이동: 모바일에서는 중앙 배치 */}
       <div className="glitch-button-wrapper" style={{ 
         position: 'absolute', 
-        top: isMobile ? 'calc(50% + 2rem)' : 'calc(50% - 1rem)', 
+        top: isMobile ? 'calc(50% + 4rem)' : 'calc(50% - 1rem)', 
         left: isMobile ? '50%' : 'calc(50% - 11.8rem)', 
         transform: isMobile ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)', 
         zIndex: 20 
@@ -204,7 +204,7 @@ export default function GalleryLanding() {
         }
         .gallery-landing-canvas {
           position: absolute;
-          top: ${isMobile ? '40%' : '5%'};
+          top: ${isMobile ? '33%' : '5%'};
           left: 50%;
           transform: translateX(calc(-50% + ${isMobile ? '0' : '6rem + 20rem'}));
           width: ${isMobile ? '25vmin' : '40vmin'};

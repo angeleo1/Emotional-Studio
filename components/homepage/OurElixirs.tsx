@@ -109,7 +109,7 @@ export default function OurElixirs() {
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                      marginBottom: isMobile ? 'calc(100vh / 48)' : '0',
+                      marginBottom: isMobile ? 'calc(100vh / 72)' : '0',
                     }}
                     onClick={()=>handleCocktailClick(cocktails[0])}
                   >
@@ -132,7 +132,7 @@ export default function OurElixirs() {
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                      marginBottom: isMobile ? 'calc(100vh / 48)' : '0',
+                      marginBottom: isMobile ? 'calc(100vh / 72)' : '0',
                     }}
                     onClick={()=>handleCocktailClick(cocktails[1])}
                   >
@@ -155,7 +155,7 @@ export default function OurElixirs() {
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                      marginBottom: isMobile ? 'calc(100vh / 48)' : '0',
+                      marginBottom: isMobile ? 'calc(100vh / 72)' : '0',
                     }}
                     onClick={()=>handleCocktailClick({...cocktails[2], name:'AURA RELIEF'})}
                   >
