@@ -9,7 +9,7 @@ import {
   motion,
   useScroll,
   useTransform,
-} from "motion/react"
+} from "framer-motion"
 import Image from 'next/image';
 import Link from 'next/link';
 import { ParallaxScrollSecond } from "@/components/ui/parallax-scroll";

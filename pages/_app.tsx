@@ -5,13 +5,14 @@ import { Rock_Salt, Playfair_Display } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router' 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ClientOnly from '@/components/ClientOnly'
 import CustomCursor from '@/components/CustomCursor'
 import ContactPopup from '@/components/ContactPopup'
 import Layout from '../components/layout/Layout'
 import PusherBeams from '@/components/PusherBeams'
+import { isMobileDevice } from '@/utils/deviceDetection'
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -29,6 +30,20 @@ const playfairDisplay = Playfair_Display({
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const [isContactOpen, setIsContactOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true);
+    const checkMobile = () => {
+      setIsMobile(isMobileDevice());
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <>
@@ -38,40 +53,50 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta httpEquiv="Expires" content="0" />
       </Head>
       <div className={`${rockSalt.variable} ${playfairDisplay.variable}`}>
-        <ClientOnly>
-          <CustomCursor />
-          <Navbar />
-          <PusherBeams />
-        </ClientOnly>
+        {isClient && !isMobile && (
+          <ClientOnly>
+            <CustomCursor />
+            <Navbar />
+            <PusherBeams />
+          </ClientOnly>
+        )}
+        {isClient && isMobile && (
+          <>
+            <Navbar />
+            <PusherBeams />
+          </>
+        )}
         <Layout>
           <Component {...pageProps} />
         </Layout>
         <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-        <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
-          <button
-            className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
-            onClick={() => setIsContactOpen(true)}
-          >
-            <div className="base-icon">
-              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-              </svg>
-            </div>
-            <div className="glitch-layer one">
-              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-              </svg>
-            </div>
-            <div className="glitch-layer two">
-              <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-              </svg>
-            </div>
-          </button>
-        </div>
+        {!isMobile && (
+          <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
+            <button
+              className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
+              onClick={() => setIsContactOpen(true)}
+            >
+              <div className="base-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                  <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                </svg>
+              </div>
+              <div className="glitch-layer one">
+                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                  <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                </svg>
+              </div>
+              <div className="glitch-layer two">
+                <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                  <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                </svg>
+              </div>
+            </button>
+          </div>
+        )}
       </div>
     </>
   )

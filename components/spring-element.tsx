@@ -2,13 +2,13 @@
  
 import * as React from 'react';
 import {
-  type HTMLMotionProps,
   motion,
   useMotionValue,
   useSpring,
 } from 'framer-motion';
 import { cn } from '@/lib/utils';
- 
+import { isMobileDevice } from '@/utils/deviceDetection';
+
 const generateSpringPath = (
   x1: number,
   y1: number,
@@ -54,28 +54,23 @@ const generateSpringPath = (
     perpY = ux;
  
   let path = [];
-  for (let i = 0; i < coilCount; i++) {
-    const sx = x1 + ux * (i * d);
-    const sy = y1 + uy * (i * d);
-    const ex = x1 + ux * ((i + 1) * d);
-    const ey = y1 + uy * ((i + 1) * d);
- 
-    const mx = x1 + ux * ((i + 0.5) * d) + perpX * amplitude;
-    const my = y1 + uy * ((i + 0.5) * d) + perpY * amplitude;
- 
-    const c1x = sx + d * curveRatio * ux;
-    const c1y = sy + d * curveRatio * uy;
-    const c2x = mx + ux * bezierOffset;
-    const c2y = my + uy * bezierOffset;
-    const c3x = mx - ux * bezierOffset;
-    const c3y = my - uy * bezierOffset;
-    const c4x = ex - d * curveRatio * ux;
-    const c4y = ey - d * curveRatio * uy;
- 
-    if (i === 0) path.push(`M${sx},${sy}`);
-    else path.push(`L${sx},${sy}`);
-    path.push(`C${c1x},${c1y} ${c2x},${c2y} ${mx},${my}`);
-    path.push(`C${c3x},${c3y} ${c4x},${c4y} ${ex},${ey}`);
+  for (let i = 0; i <= coilCount; i++) {
+    const t = i / coilCount;
+    const currentX = x1 + dx * t;
+    const currentY = y1 + dy * t;
+    const waveOffset =
+      Math.sin(t * Math.PI * 2) * amplitude * curveRatio;
+    const perpOffsetX = perpX * waveOffset;
+    const perpOffsetY = perpY * waveOffset;
+    const bezierOffsetX = Math.sin(t * Math.PI * 4) * bezierOffset;
+    const bezierOffsetY = Math.cos(t * Math.PI * 4) * bezierOffset;
+    const finalX = currentX + perpOffsetX + bezierOffsetX;
+    const finalY = currentY + perpOffsetY + bezierOffsetY;
+    if (i === 0) {
+      path.push(`M${finalX},${finalY}`);
+    } else {
+      path.push(`L${finalX},${finalY}`);
+    }
   }
   return path.join(' ');
 };
@@ -91,7 +86,7 @@ function useMotionValueValue(mv: any) {
   );
 }
  
-type SpringAvatarProps = {
+interface SpringAvatarProps {
   children: React.ReactElement;
   className?: string;
   springClassName?: string;
@@ -105,10 +100,10 @@ type SpringAvatarProps = {
     curveRatioMax?: number;
     bezierOffset?: number;
   };
-} & HTMLMotionProps<'div'>;
+  [key: string]: any;
+}
  
-function SpringElement({
-  ref,
+const SpringElement = React.forwardRef<HTMLDivElement, SpringAvatarProps>(({
   children,
   className,
   springClassName,
@@ -116,7 +111,35 @@ function SpringElement({
   springConfig = { stiffness: 200, damping: 16 },
   springPathConfig = {},
   ...props
-}: SpringAvatarProps) {
+}, ref) => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isClient, setIsClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+    const checkMobile = () => {
+      setIsMobile(isMobileDevice());
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // 모바일에서는 단순한 div로 렌더링
+  if (!isClient || isMobile) {
+    return (
+      <div
+        ref={ref}
+        className={cn('z-50', className)}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
  
@@ -221,6 +244,8 @@ function SpringElement({
       </motion.div>
     </>
   );
-}
- 
+});
+
+SpringElement.displayName = 'SpringElement';
+
 export { SpringElement };
