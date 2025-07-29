@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 export default function MobilePage() {
   const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <>
@@ -14,11 +19,11 @@ export default function MobilePage() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&family=Borel&display=swap" rel="stylesheet" />
       </Head>
-      <div className="min-h-screen bg-[#111] text-white">
+      <div className="min-h-screen bg-[#111] text-white relative">
         {/* 헤더 */}
-        <header className="p-6">
+        <header className="p-6 flex justify-between items-center">
           <h1 
-            className="text-3xl font-medium text-center"
+            className="text-3xl font-medium"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
@@ -26,8 +31,76 @@ export default function MobilePage() {
           >
             emotional studios
           </h1>
-          <p className="text-center text-sm mt-2 opacity-80">since Oct.2025</p>
+          
+          {/* 햄버거 메뉴 버튼 */}
+          <button
+            onClick={toggleMenu}
+            className="flex flex-col justify-center items-center w-8 h-8 space-y-1"
+          >
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+          </button>
         </header>
+
+        {/* 햄버거 메뉴 오버레이 */}
+        {isMenuOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center">
+            <div className="text-center space-y-6">
+              <button
+                onClick={() => {
+                  router.push('/about');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
+              >
+                About Us
+              </button>
+              
+              <button
+                onClick={() => {
+                  router.push('/services');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
+              >
+                Services
+              </button>
+              
+              <button
+                onClick={() => {
+                  router.push('/gallery');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
+              >
+                Gallery
+              </button>
+              
+              <button
+                onClick={() => {
+                  router.push('/booking');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
+              >
+                Booking
+              </button>
+              
+              <button
+                onClick={() => {
+                  router.push('/contact');
+                  setIsMenuOpen(false);
+                }}
+                className="block w-full py-4 text-xl font-bold text-white hover:text-[#FF6100] transition-colors"
+              >
+                Contact
+              </button>
+            </div>
+          </div>
+        )}
+
+        <p className="text-center text-sm opacity-80 px-6">since Oct.2025</p>
 
         {/* 메인 컨텐츠 */}
         <main className="px-6 py-8">
@@ -40,38 +113,24 @@ export default function MobilePage() {
           {/* 네비게이션 버튼들 */}
           <div className="space-y-4">
             <button
-              onClick={() => router.push('/about')}
+              onClick={() => router.push('/pose-guide')}
               className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
             >
-              About Us
+              Pose Guide
             </button>
             
             <button
-              onClick={() => router.push('/services')}
+              onClick={() => router.push('/elixirs')}
               className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
             >
-              Services
+              Our Elixirs
             </button>
             
             <button
-              onClick={() => router.push('/gallery')}
+              onClick={() => router.push('/gallery-landing')}
               className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
             >
-              Gallery
-            </button>
-            
-            <button
-              onClick={() => router.push('/booking')}
-              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
-            >
-              Booking
-            </button>
-            
-            <button
-              onClick={() => router.push('/contact')}
-              className="w-full py-4 border-2 border-white text-white rounded-full font-bold transition-colors hover:bg-white hover:text-black"
-            >
-              Contact
+              emotional Moments
             </button>
           </div>
         </main>
