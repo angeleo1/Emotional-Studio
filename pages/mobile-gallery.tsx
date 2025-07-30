@@ -131,30 +131,27 @@ const MobileGallery: NextPage = () => {
         {/* 카테고리 필터 */}
         <div className="px-4 py-6">
           <div className="flex flex-col gap-3">
-            {/* 첫 번째 줄: All, Black & White, Color */}
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 justify-center">
-              {CATEGORY_LIST.slice(0, 3).map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`flex-shrink-0 px-4 py-2 rounded-full font-bold transition-all duration-200 border-2 whitespace-nowrap ${
-                    selectedCategory === category
-                      ? 'border-[#FF6100] text-[#FF6100]'
-                      : 'border-white/20 text-white hover:border-white/40'
-                  }`}
-                  style={{
-                    fontSize: '0.8rem',
-                    fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
+            {/* 첫 번째 줄: All만 중앙에 */}
+            <div className="flex justify-center">
+              <button
+                onClick={() => setSelectedCategory('All')}
+                className={`px-4 py-2 rounded-full font-bold transition-all duration-200 border-2 whitespace-nowrap ${
+                  selectedCategory === 'All'
+                    ? 'border-[#FF6100] text-[#FF6100]'
+                    : 'border-white/20 text-white hover:border-white/40'
+                }`}
+                style={{
+                  fontSize: '0.8rem',
+                  fontFamily: 'CS-Valcon-Drawn-akhr7k',
+                }}
+              >
+                All
+              </button>
             </div>
             
-            {/* 두 번째 줄: Collaboration, Studio */}
+            {/* 두 번째 줄: 나머지 4개 버튼 */}
             <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 justify-center">
-              {CATEGORY_LIST.slice(3).map((category) => (
+              {CATEGORY_LIST.slice(1).map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
@@ -180,12 +177,17 @@ const MobileGallery: NextPage = () => {
           <div className="grid grid-cols-2 gap-3">
             {currentImages.map((imageSrc, index) => (
               <motion.div
-                key={imageSrc}
+                key={`${imageSrc}-${index}`}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
-                className="aspect-square rounded-lg overflow-hidden cursor-pointer"
-                onClick={() => openModal(imageSrc)}
+                className="aspect-square rounded-lg overflow-hidden cursor-pointer relative"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  openModal(imageSrc);
+                }}
+                style={{ pointerEvents: 'auto' }}
               >
                 <Image
                   src={imageSrc}
@@ -193,6 +195,7 @@ const MobileGallery: NextPage = () => {
                   width={300}
                   height={300}
                   className="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
+                  priority={index < 4}
                 />
               </motion.div>
             ))}
