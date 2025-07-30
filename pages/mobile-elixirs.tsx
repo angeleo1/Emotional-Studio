@@ -30,20 +30,6 @@ const MobileElixirs: NextPage = () => {
     image: string;
   } | null>(null);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    }
-    
-    return () => {
-      if (typeof window !== 'undefined') {
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-      }
-    };
-  }, []);
-
   const handleCocktailClick = (cocktail: typeof cocktails[0]) => {
     setSelectedCocktail(cocktail);
   };

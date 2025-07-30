@@ -151,43 +151,11 @@ function MobilePoseGallerySection() {
             >
               {selected && (
                 <div className="relative w-full h-full flex items-center justify-center">
-                  {/* Previous 화살표 */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const idx = images.findIndex(img => img === selected);
-                      const prevIdx = (idx - 1 + images.length) % images.length;
-                      setSelected(images[prevIdx]);
-                    }}
-                    aria-label="Previous"
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer shadow-lg"
-                  >
-                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="15 18 9 12 15 6" />
-                    </svg>
-                  </button>
-
                   <img
                     src={selected}
                     alt="gallery modal"
                     className="max-h-[80vh] max-w-[90vw] rounded-lg shadow-2xl z-11 relative object-contain"
                   />
-
-                  {/* Next 화살표 */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const idx = images.findIndex(img => img === selected);
-                      const nextIdx = (idx + 1) % images.length;
-                      setSelected(images[nextIdx]);
-                    }}
-                    aria-label="Next"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer shadow-lg"
-                  >
-                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="9 6 15 12 9 18" />
-                    </svg>
-                  </button>
                 </div>
               )}
               
