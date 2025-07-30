@@ -197,8 +197,8 @@ export default function MobileNavbar() {
   const [message, setMessage] = useState('');
   const { isDesktopNavbarActive } = useNavbarContext();
 
-  // 데스크탑용 네비바가 활성화되어 있으면 렌더링하지 않음
-  if (isDesktopNavbarActive) {
+  // 데스크탑용 네비바가 활성화되어 있으면 렌더링하지 않음 (하지만 모바일에서는 항상 렌더링)
+  if (isDesktopNavbarActive && typeof window !== 'undefined' && window.innerWidth > 768) {
     return null;
   }
 

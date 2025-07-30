@@ -27,6 +27,8 @@ function MobilePoseGallerySection() {
   const images = useMemo(() => GALLERY_IMAGES[category], [category]);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const router = useRouter();
   
   const description = {
@@ -34,6 +36,44 @@ function MobilePoseGallerySection() {
     Lovely: 'This pose emphasizes a lovely and soft mood.',
     Dynamic: 'This pose gives an energetic and dynamic impression.',
     'with Pet': 'This pose captures special moments with your pet.',
+  };
+
+  // 터치 이벤트 핸들러
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      // 왼쪽으로 스와이프 - 다음 이미지
+      const idx = images.findIndex(img => img === selected);
+      const nextIdx = (idx + 1) % images.length;
+      setSelected(images[nextIdx]);
+    } else if (isRightSwipe) {
+      // 오른쪽으로 스와이프 - 이전 이미지
+      const idx = images.findIndex(img => img === selected);
+      const prevIdx = (idx - 1 + images.length) % images.length;
+      setSelected(images[prevIdx]);
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // 모달 클릭 핸들러
+  const handleModalClick = () => {
+    setOpen(false);
   };
 
   return (
@@ -101,7 +141,14 @@ function MobilePoseGallerySection() {
         <Transition.Root show={open} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={() => setOpen(false)}>
             <div className="fixed inset-0 bg-black/90 backdrop-blur-sm" aria-hidden="true" onClick={() => setOpen(false)} />
-            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]">
+            <Dialog.Panel 
+              as="div" 
+              className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]"
+              onClick={handleModalClick}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               {selected && (
                 <div className="relative w-full h-full flex items-center justify-center">
                   {/* Previous 화살표 */}
@@ -139,17 +186,6 @@ function MobilePoseGallerySection() {
                   >
                     <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="9 6 15 12 9 18" />
-                    </svg>
-                  </button>
-
-                  {/* 닫기 버튼 */}
-                  <button
-                    onClick={() => setOpen(false)}
-                    className="absolute top-4 right-4 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer"
-                  >
-                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                   </button>
                 </div>
