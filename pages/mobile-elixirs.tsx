@@ -197,14 +197,6 @@ const MobileElixirs: NextPage = () => {
                 </h3>
                 <p className="text-white text-base leading-relaxed">{selectedCocktail.description}</p>
               </div>
-              <button
-                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                onClick={() => setSelectedCocktail(null)}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
             </div>
           </div>
         )}

@@ -582,7 +582,7 @@ export default function MobilePage() {
           <h1
             className="text-5xl sm:text-7xl font-medium text-white text-center leading-none tracking-wider select-none mb-8 whitespace-nowrap"
             style={{
-              fontFamily: 'CS Valcon Drawn',
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
             }}
           >
