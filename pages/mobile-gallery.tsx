@@ -53,6 +53,8 @@ const MobileGallery: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   const currentImages = CATEGORY_MAP[selectedCategory] || [];
 
@@ -64,6 +66,44 @@ const MobileGallery: NextPage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+  };
+
+  // 터치 이벤트 핸들러
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      // 왼쪽으로 스와이프 - 다음 이미지
+      const currentIndex = currentImages.indexOf(selectedImage!);
+      const nextIndex = (currentIndex + 1) % currentImages.length;
+      setSelectedImage(currentImages[nextIndex]);
+    } else if (isRightSwipe) {
+      // 오른쪽으로 스와이프 - 이전 이미지
+      const currentIndex = currentImages.indexOf(selectedImage!);
+      const prevIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+      setSelectedImage(currentImages[prevIndex]);
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // 모달 클릭 핸들러
+  const handleModalClick = () => {
+    closeModal();
   };
 
   return (
@@ -163,7 +203,14 @@ const MobileGallery: NextPage = () => {
         <Transition.Root show={isModalOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={closeModal}>
             <div className="fixed inset-0 bg-black/90 backdrop-blur-sm" aria-hidden="true" onClick={closeModal} />
-            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]" onClick={closeModal}>
+            <Dialog.Panel 
+              as="div" 
+              className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]" 
+              onClick={handleModalClick}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               {selectedImage && (
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Image

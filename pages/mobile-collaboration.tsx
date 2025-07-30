@@ -53,6 +53,8 @@ const MobileCollaboration: NextPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [currentSection, setCurrentSection] = useState<any>(null);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -93,6 +95,40 @@ const MobileCollaboration: NextPage = () => {
     const currentIndex = currentSection.images.indexOf(selectedImage);
     const nextIndex = (currentIndex + 1) % currentSection.images.length;
     setSelectedImage(currentSection.images[nextIndex]);
+  };
+
+  // 터치 이벤트 핸들러
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd || !currentSection?.images) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      // 왼쪽으로 스와이프 - 다음 이미지
+      handleNext();
+    } else if (isRightSwipe) {
+      // 오른쪽으로 스와이프 - 이전 이미지
+      handlePrevious();
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // 모달 클릭 핸들러
+  const handleModalClick = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -177,9 +213,12 @@ const MobileCollaboration: NextPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setModalOpen(false)}
+              onClick={handleModalClick}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
             >
-              <div className="relative w-full h-full flex items-center justify-center p-4" onClick={() => setModalOpen(false)}>
+              <div className="relative w-full h-full flex items-center justify-center p-4" onClick={handleModalClick}>
                 {/* 이미지 */}
                 <motion.div
                   className="relative w-full h-full max-w-4xl max-h-[80vh]"
