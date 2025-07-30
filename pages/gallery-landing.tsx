@@ -2,7 +2,6 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import rough from 'roughjs/bundled/rough.esm.js';
 import { motion } from 'framer-motion';
-import MobileNavbar from '../components/MobileNavbar';
 
 export default function GalleryLanding() {
   const router = useRouter();
@@ -115,7 +114,6 @@ export default function GalleryLanding() {
 
   return (
     <div className="gallery-landing-root">
-      <MobileNavbar />
       {/* 모바일 헤더 */}
       {isMobile && (
         <header className="p-4 flex justify-center items-center border-b border-white/10 absolute top-0 left-0 right-0 z-50">

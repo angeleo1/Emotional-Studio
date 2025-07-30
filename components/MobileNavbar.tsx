@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useNavbarContext } from '../pages/_app';
 
 // 데스크탑과 동일한 SquigglyLogo 컴포넌트 (크기만 조정)
 const MobileSquigglyLogo = () => {
@@ -27,7 +28,7 @@ const MobileSquigglyLogo = () => {
 
     class SquigglyLine {
       points: { x: number; y: number; vx: number; vy: number; offset: number }[] = [];
-      numPoints = 10; // 포인트 수도 줄임
+      numPoints = 12; // 데스크탑과 동일
       
       constructor() {
         this.initPoints();
@@ -51,6 +52,7 @@ const MobileSquigglyLogo = () => {
           point.x += point.vx + Math.sin(Date.now() * 0.003 + point.offset) * 2;
           point.y += point.vy + Math.cos(Date.now() * 0.003 + point.offset) * 2;
           
+          // 경계 처리 - 데스크탑과 동일
           if (point.x < PADDING) { point.x = PADDING; point.vx *= -1; }
           else if (point.x > PADDING + ANIMATION_SIZE) { point.x = PADDING + ANIMATION_SIZE; point.vx *= -1; }
           if (point.y < PADDING) { point.y = PADDING; point.vy *= -1; }
@@ -62,15 +64,15 @@ const MobileSquigglyLogo = () => {
         if (!ctx) return;
         ctx.beginPath();
         ctx.strokeStyle = '#FF6100';
-        ctx.lineWidth = 1.2; // 선 두께도 줄임
+        ctx.lineWidth = 1.2;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         
         if (this.points.length > 0) {
           ctx.moveTo(this.points[0].x, this.points[0].y);
           for (let i = 0; i < this.points.length - 1; i++) {
-            const xc = (this.points[i].x + this.points[i + 1].x) / 2 + (Math.random() - 0.5) * 4;
-            const yc = (this.points[i].y + this.points[i + 1].y) / 2 + (Math.random() - 0.5) * 4;
+            const xc = (this.points[i].x + this.points[i + 1].x) / 2 + (Math.random() - 0.5) * 6;
+            const yc = (this.points[i].y + this.points[i + 1].y) / 2 + (Math.random() - 0.5) * 6;
             ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
           }
         }
@@ -79,7 +81,7 @@ const MobileSquigglyLogo = () => {
     }
 
     const lines: SquigglyLine[] = [];
-    for (let i = 0; i < 3; i++) { // 라인 수도 줄임
+    for (let i = 0; i < 4; i++) { // 데스크탑과 동일
       lines.push(new SquigglyLine());
     }
 
@@ -132,12 +134,12 @@ const MobileSquigglyLogo = () => {
 };
 
 const navItems = [
-  { name: 'ABOUT US', href: '/about' },
-  { name: 'SERVICES', href: '/services' },
-  { name: 'BOOKING', href: '/booking' },
-  { name: 'GALLERY', href: '/gallery-landing' },
-  { name: 'CONTACT', href: '/contact' },
-  { name: 'SUPPORT', href: '/support' },
+  { name: 'ABOUT US', href: '/mobile-about' },
+  { name: 'SERVICES', href: '/mobile-services' },
+  { name: 'BOOKING', href: '/mobile-booking' },
+  { name: 'GALLERY', href: '/mobile-gallery-landing' },
+  { name: 'CONTACT', href: '/mobile-contact' },
+  { name: 'SUPPORT', href: '/mobile-support' },
 ];
 
 const menuImages = [
@@ -193,6 +195,12 @@ export default function MobileNavbar() {
   const [contactMode, setContactMode] = useState<'chat' | 'email'>('chat');
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [message, setMessage] = useState('');
+  const { isDesktopNavbarActive } = useNavbarContext();
+
+  // 데스크탑용 네비바가 활성화되어 있으면 렌더링하지 않음
+  if (isDesktopNavbarActive) {
+    return null;
+  }
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -228,7 +236,7 @@ export default function MobileNavbar() {
       <Link href="/" legacyBehavior>
         <a className="glitch-wrapper" style={{ 
           position: 'fixed', 
-          top: '0.5rem', 
+          top: '0.3rem', 
           left: '0.5rem', 
           zIndex: 1001, 
           mixBlendMode: 'difference', 
@@ -285,8 +293,10 @@ export default function MobileNavbar() {
               }}
             />
             <motion.button
+              data-menu-button
+              data-menu-open={isOpen}
               onClick={() => setIsOpen(!isOpen)}
-              className="relative w-8 h-8 flex items-center justify-center bg-transparent focus:outline-none rounded-full"
+              className="relative w-10 h-10 flex items-center justify-center bg-transparent focus:outline-none rounded-full"
               whileHover={{ 
                 scale: 1.1
               }}

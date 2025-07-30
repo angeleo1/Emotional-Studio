@@ -178,7 +178,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             </div>
             <div className="glitch-layer two" style={{ color: '#ff00ff' }}>
               <svg viewBox="0 0 256 180" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><rect width="256" height="180" rx="36" fill="currentColor"/><path fill="black" d="m102.421 128.06 66.328-38.418-66.328-38.418z"/></svg>
-            </div>
+          </div>
           </a>
         </MotionWrapper>
 
@@ -254,7 +254,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.4, duration: 0.5, ease: 'backOut' }
                 }))}
-                style={{
+              style={{ 
                   background: 'none',
                   border: '2px solid #fff',
                   color: '#fff',
@@ -284,7 +284,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.5, duration: 0.5, ease: 'backOut' }
                 }))}
-                style={{
+              style={{ 
                   background: 'none',
                   border: '2px solid #fff',
                   color: '#fff',

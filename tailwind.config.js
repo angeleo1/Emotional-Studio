@@ -116,6 +116,38 @@ module.exports = {
   					transform: 'translateX(0)'
   				}
   			},
+  			slideUp: {
+  				'0%': {
+  					transform: 'translateY(0)'
+  				},
+  				'100%': {
+  					transform: 'translateY(-50%)'
+  				}
+  			},
+  			slideDown: {
+  				'0%': {
+  					transform: 'translateY(-50%)'
+  				},
+  				'100%': {
+  					transform: 'translateY(0)'
+  				}
+  			},
+  			slideUpFast: {
+  				'0%': {
+  					transform: 'translateY(0)'
+  				},
+  				'100%': {
+  					transform: 'translateY(-50%)'
+  				}
+  			},
+  			slideDownFast: {
+  				'0%': {
+  					transform: 'translateY(-50%)'
+  				},
+  				'100%': {
+  					transform: 'translateY(0)'
+  				}
+  			},
   			kenburns: {
   				'0%': {
   					transform: 'scale(1) translate(0, 0)'
@@ -205,6 +237,12 @@ module.exports = {
 			slideRightFast: 'slideRightFast 15s linear infinite',
 			slideLeftFaster: 'slideLeftFast 7.5s linear infinite',
 			slideRightFaster: 'slideRightFast 7.5s linear infinite',
+			slideUp: 'slideUp 30s linear infinite',
+			slideDown: 'slideDown 30s linear infinite',
+			slideUpFast: 'slideUpFast 15s linear infinite',
+			slideDownFast: 'slideDownFast 15s linear infinite',
+			slideUpFaster: 'slideUpFast 7.5s linear infinite',
+			slideDownFaster: 'slideDownFast 7.5s linear infinite',
 			kenburns: 'kenburns 20s ease infinite',
 			'jello-diagonal-2': 'jello-diagonal-2 2s ease-in-out infinite',
 			'spin-slow': 'spin 20s linear infinite',

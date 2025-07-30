@@ -53,36 +53,10 @@ export default function OurElixirs() {
     setSelectedCocktail(cocktail);
   };
 
-  const goBack = () => {
-    router.push('/mobile');
-  };
-
   return (
     <>
       <div className="min-h-screen bg-[#111] text-white">
-        {/* 헤더 */}
-        <header className="p-4 flex justify-between items-center border-b border-white/10">
-          <button
-            onClick={goBack}
-            className="text-2xl font-bold text-white hover:text-[#FF6100] transition-colors"
-          >
-            ←
-          </button>
-          
-          <h1 
-            className="text-2xl font-medium"
-            style={{
-              fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
-              letterSpacing: '0.08em',
-            }}
-          >
-            Our Elixirs
-          </h1>
-          
-          <div className="w-8"></div> {/* 균형을 위한 빈 공간 */}
-        </header>
-
-        <section className="w-full min-h-[calc(100vh-80px)] py-0 bg-[#111] flex flex-col items-center justify-center relative overflow-hidden px-0"
+        <section className="w-full min-h-screen py-0 bg-[#111] flex flex-col items-center justify-center relative overflow-hidden px-0"
           style={{ overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}
         >
           <div 

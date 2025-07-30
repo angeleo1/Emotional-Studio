@@ -5,13 +5,18 @@ import { Rock_Salt, Playfair_Display } from 'next/font/google'
 import Head from 'next/head'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/router' 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext, useContext } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ClientOnly from '@/components/ClientOnly'
 import CustomCursor from '@/components/CustomCursor'
 import ContactPopup from '@/components/ContactPopup'
 import Layout from '../components/layout/Layout'
 import PusherBeams from '@/components/PusherBeams'
+
+// 전역 상태 컨텍스트 생성
+const NavbarContext = createContext<{ isDesktopNavbarActive: boolean }>({ isDesktopNavbarActive: false });
+
+export const useNavbarContext = () => useContext(NavbarContext);
 
 const rockSalt = Rock_Salt({
   weight: '400',
@@ -32,20 +37,8 @@ const isMobileDevice = () => {
     return false;
   }
 
-  // 화면 크기 기반 감지 (더 엄격하게)
-  const isMobileBySize = window.innerWidth <= 768;
-  
-  // User-Agent 기반 감지
-  const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-  const isMobileByUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-  
-  // 터치 지원 여부 확인
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
-  // 모바일 페이지인지 확인
-  const isMobilePage = window.location.pathname === '/mobile';
-  
-  return isMobileBySize || isMobileByUserAgent || isTouchDevice || isMobilePage;
+  // 화면 크기만으로 판단 (단순하게)
+  return window.innerWidth <= 768;
 };
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -53,15 +46,19 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isContactOpen, setIsContactOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isClient, setIsClient] = useState(false)
+  const [isDesktopNavbarActive, setIsDesktopNavbarActive] = useState(false)
 
   useEffect(() => {
     setIsClient(true);
     const checkMobile = () => {
       try {
-        setIsMobile(isMobileDevice());
+        const mobile = isMobileDevice();
+        setIsMobile(mobile);
+        setIsDesktopNavbarActive(!mobile); // 데스크탑일 때만 true
       } catch (error) {
         console.error('Mobile detection error:', error);
         setIsMobile(true);
+        setIsDesktopNavbarActive(false);
       }
     };
     
@@ -74,7 +71,7 @@ export default function App({ Component, pageProps }: AppProps) {
   // 모바일에서는 최소한의 컴포넌트만 렌더링
   if (isClient && isMobile) {
     return (
-      <>
+      <NavbarContext.Provider value={{ isDesktopNavbarActive: false }}>
         <Head>
           <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
           <meta httpEquiv="Pragma" content="no-cache" />
@@ -85,13 +82,13 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </Layout>
         </div>
-      </>
+      </NavbarContext.Provider>
     );
   }
 
   // 데스크탑용 전체 기능
   return (
-    <>
+    <NavbarContext.Provider value={{ isDesktopNavbarActive: true }}>
       <Head>
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta httpEquiv="Pragma" content="no-cache" />
@@ -111,35 +108,21 @@ export default function App({ Component, pageProps }: AppProps) {
             <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
             {/* 모바일 페이지가 아닐 때만 문의하기 버튼 렌더링 */}
             {router.pathname !== '/mobile' && (
-              <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
+              <div className="fixed bottom-8 right-8 z-50">
                 <button
-                  className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
+                  className="w-16 h-16 rounded-full text-white"
                   onClick={() => setIsContactOpen(true)}
                 >
-                  <div className="base-icon">
-                    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                    </svg>
-                  </div>
-                  <div className="glitch-layer one">
-                    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                    </svg>
-                  </div>
-                  <div className="glitch-layer two">
-                    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                    </svg>
-                  </div>
+                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="30" fill="none" stroke="white" strokeWidth="2"/>
+                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="white">?</text>
+                  </svg>
                 </button>
               </div>
             )}
           </>
         )}
       </div>
-    </>
+    </NavbarContext.Provider>
   )
 } 

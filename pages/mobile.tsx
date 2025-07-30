@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import MobileNavbar from '../components/MobileNavbar';
+import MobileContactButton from '../components/MobileContactButton';
 
 // 데스크탑과 동일한 SquigglyLogo 컴포넌트 (크기만 조정)
 const MobileSquigglyLogo = () => {
@@ -133,12 +135,12 @@ const MobileSquigglyLogo = () => {
 };
 
 const navItems = [
-  { name: 'ABOUT US', href: '/about' },
-  { name: 'SERVICES', href: '/services' },
-  { name: 'BOOKING', href: '/booking' },
-  { name: 'GALLERY', href: '/gallery-landing' },
-  { name: 'CONTACT', href: '/contact' },
-  { name: 'SUPPORT', href: '/support' },
+  { name: 'ABOUT US', href: '/mobile-about' },
+  { name: 'SERVICES', href: '/mobile-services' },
+  { name: 'BOOKING', href: '/mobile-booking' },
+  { name: 'GALLERY', href: '/mobile-gallery-landing' },
+  { name: 'CONTACT', href: '/mobile-contact' },
+  { name: 'SUPPORT', href: '/mobile-support' },
 ];
 
 const menuImages = [
@@ -194,6 +196,16 @@ export default function MobilePage() {
   const [contactMode, setContactMode] = useState<'chat' | 'email'>('chat');
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 페이지 로딩 완료 후 로딩 상태 해제
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -222,6 +234,26 @@ export default function MobilePage() {
       document.body.style.overflow = 'auto';
     }
   }, [isOpen, router.events]);
+
+  // 로딩 중일 때 로딩 화면 표시
+  if (isLoading) {
+    return (
+      <>
+        <Head>
+          <title>Emotional Studios - Mobile</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </Head>
+        <div className="min-h-screen bg-[#111] text-white flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-2xl font-bold mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
+              emotional studios
+            </div>
+            <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -395,27 +427,27 @@ export default function MobilePage() {
         </AnimatePresence>
 
         {/* 우하단 문의하기 아이콘 - 데스크탑과 동일 */}
-        <div className="fixed bottom-4 right-4 z-50" style={{ mixBlendMode: 'difference' }}>
+        <div className="fixed bottom-4 right-4 z-50">
           <button
             className="w-10 h-10 rounded-full svg-glitch-wrapper text-white"
             onClick={() => setIsContactOpen(true)}
           >
             <div className="base-icon">
               <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="20" y="26" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                <circle cx="20" cy="20" r="18" fill="none" stroke="white" strokeWidth="2"/>
+                <text x="20" y="26" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="bold" textAnchor="middle" fill="white">?</text>
               </svg>
             </div>
             <div className="glitch-layer one">
               <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="20" y="26" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                <circle cx="20" cy="20" r="18" fill="none" stroke="white" strokeWidth="2"/>
+                <text x="20" y="26" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="bold" textAnchor="middle" fill="white">?</text>
               </svg>
             </div>
             <div className="glitch-layer two">
               <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <text x="20" y="26" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                <circle cx="20" cy="20" r="18" fill="none" stroke="white" strokeWidth="2"/>
+                <text x="20" y="26" fontFamily="Arial, sans-serif" fontSize="16" fontWeight="bold" textAnchor="middle" fill="white">?</text>
               </svg>
             </div>
           </button>
@@ -574,7 +606,7 @@ export default function MobilePage() {
             {/* 첫 번째 줄: Pose Guide, Our Elixirs - 작은 크기 */}
             <div className="flex gap-4">
               <span className="glitch-button-wrapper flex-1">
-                <button
+              <button
                   className="glitch-button w-full"
                   style={{
                     background: 'none',
@@ -595,13 +627,13 @@ export default function MobilePage() {
                     whiteSpace: 'nowrap',
                     height: '3rem',
                   }}
-                  onClick={() => { router.push('/pose-guide'); }}
+                  onClick={() => { router.push('/mobile-pose-guide'); }}
                 >
                   <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Pose Guide</span>
-                </button>
+              </button>
               </span>
               <span className="glitch-button-wrapper flex-1">
-                <button
+              <button
                   className="glitch-button w-full"
                   style={{
                     background: 'none',
@@ -622,17 +654,17 @@ export default function MobilePage() {
                     whiteSpace: 'nowrap',
                     height: '3rem',
                   }}
-                  onClick={() => { router.push('/elixirs'); }}
+                  onClick={() => { router.push('/mobile-elixirs'); }}
                 >
                   <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Our Elixirs</span>
-                </button>
+              </button>
               </span>
             </div>
               
             {/* 두 번째 줄: Collaboration, Booking - 중간 크기 */}
             <div className="flex gap-4">
               <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.5rem)' }}>
-                <button
+              <button
                   className="glitch-button w-full"
                   style={{
                     background: 'none',
@@ -654,13 +686,13 @@ export default function MobilePage() {
                     height: '3rem',
                     minWidth: '140px',
                   }}
-                  onClick={() => { router.push('/collaboration'); }}
+                  onClick={() => { router.push('/mobile-collaboration'); }}
                 >
                   <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Collaboration</span>
-                </button>
+              </button>
               </span>
               <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.5rem)' }}>
-                <button
+              <button
                   className="glitch-button w-full"
                   style={{
                     background: 'none',
@@ -682,10 +714,10 @@ export default function MobilePage() {
                     height: '3rem',
                     minWidth: '140px',
                   }}
-                  onClick={() => { router.push('/booking'); }}
+                  onClick={() => { router.push('/mobile-booking'); }}
                 >
                   <span className="glitch" data-text="Booking" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Booking</span>
-                </button>
+              </button>
               </span>
             </div>
               
@@ -713,7 +745,7 @@ export default function MobilePage() {
                     whiteSpace: 'nowrap',
                     height: '3rem',
                   }}
-                  onClick={() => { router.push('/gallery-landing'); }}
+                  onClick={() => { router.push('/mobile-gallery-landing'); }}
                 >
                   <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Moments</span>
               </button>
@@ -772,6 +804,8 @@ export default function MobilePage() {
           </a>
         </div>
       </div>
+
+      <MobileContactButton />
     </>
   );
 } 

@@ -7,7 +7,6 @@ import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import MobileNavbar from '../components/MobileNavbar';
 
 const ChromeGrid = dynamic(() => import('@/components/ui/chrome-grid').then(mod => mod.ChromeGrid), { ssr: false });
 
@@ -235,7 +234,6 @@ export default function CollaborationPage() {
   return (
     <>
       {showSpinner && <OrangeAppleSpinner fadeOut={!showSpinner} />}
-      <MobileNavbar />
       <div
         style={{
           minHeight: 0, background: 'linear-gradient(135deg, #111 0%, #1a1a1a 50%, #111 100%)', color: '#fff', padding: 0, margin: 0,

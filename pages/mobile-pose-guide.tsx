@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect, useMemo, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import MobileNavbar from '../components/MobileNavbar';
 
 const GALLERY_IMAGES = {
   Cute: [
@@ -21,12 +22,11 @@ const GALLERY_IMAGES = {
   ],
 };
 
-function PoseGallerySection() {
+function MobilePoseGallerySection() {
   const [category, setCategory] = useState<'Cute'|'Lovely'|'Dynamic'|'with Pet'>('Cute');
   const images = useMemo(() => GALLERY_IMAGES[category], [category]);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   
   const description = {
@@ -36,22 +36,24 @@ function PoseGallerySection() {
     'with Pet': 'This pose captures special moments with your pet.',
   };
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const goBack = () => {
-    router.push('/mobile');
-  };
-
   return (
     <div className="min-h-screen bg-[#111] text-white">
+      {/* 헤더 - 제목만 중앙에 */}
+      <header className="p-4 flex justify-center items-center border-b border-white/10">
+        <h1 
+          className="text-2xl font-medium"
+          style={{
+            fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
+            letterSpacing: '0.08em',
+          }}
+        >
+          Pose Guide
+        </h1>
+      </header>
+
       <section className="w-full px-4 pt-6 pb-10 relative z-10 overflow-hidden">
         <div className="max-w-5xl mx-auto relative z-10">
-          {/* 카테고리 버튼들 - 모바일에서 세로 스크롤, 중앙정렬 */}
+          {/* 카테고리 버튼들 - 모바일에서 가로 스크롤, 중앙정렬 */}
           <div className="flex gap-2 mb-6 overflow-x-auto pb-2 scrollbar-hide justify-center">
             {['Cute', 'Lovely', 'Dynamic', 'with Pet'].map((cat) => (
               <button
@@ -59,7 +61,7 @@ function PoseGallerySection() {
                 onClick={() => setCategory(cat as any)}
                 className="flex-shrink-0 px-4 py-2 rounded-full font-bold transition-all duration-200 border-2"
                 style={{
-                  fontSize: isMobile ? '0.9rem' : '1.15rem',
+                  fontSize: '0.9rem',
                   letterSpacing: '0.03em',
                   fontWeight: 'bold',
                   background: 'transparent',
@@ -68,7 +70,7 @@ function PoseGallerySection() {
                   cursor: 'pointer',
                   outline: 'none',
                   fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                  minWidth: isMobile ? 'auto' : 130,
+                  minWidth: 'auto',
                 }}
               >
                 {cat}
@@ -76,8 +78,8 @@ function PoseGallerySection() {
             ))}
           </div>
 
-          {/* 이미지 그리드 - 모바일에서 2열, 데스크탑에서 3열 */}
-          <div className={`grid gap-3 ${isMobile ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-3'}`}>
+          {/* 이미지 그리드 - 모바일에서 2열 */}
+          <div className="grid gap-3 grid-cols-2">
             {images.map((src, idx) => (
               <div 
                 key={src} 
@@ -161,7 +163,7 @@ function PoseGallerySection() {
                   border: '2px solid #ff6100',
                   background: 'rgba(17,17,17,0.9)',
                   fontWeight: 700,
-                  fontSize: isMobile ? '0.9rem' : '1rem'
+                  fontSize: '0.9rem'
                 }}
               >
                 {description[category]}
@@ -174,7 +176,7 @@ function PoseGallerySection() {
   );
 }
 
-const PoseGuide: NextPage = () => {
+const MobilePoseGuide: NextPage = () => {
   return (
     <div className="w-full min-h-screen">
       <Head>
@@ -182,9 +184,10 @@ const PoseGuide: NextPage = () => {
         <meta name="description" content="Pose Guide for e.st photography" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <PoseGallerySection />
+      <MobileNavbar />
+      <MobilePoseGallerySection />
     </div>
   );
 };
 
-export default PoseGuide; 
+export default MobilePoseGuide; 

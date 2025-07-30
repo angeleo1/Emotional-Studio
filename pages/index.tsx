@@ -47,25 +47,8 @@ export default function Home() {
     // 즉시 모바일 체크 및 리다이렉트
     const checkAndRedirect = () => {
       try {
-        // 화면 크기로 먼저 체크
-        if (window.innerWidth < 768) {
-          window.location.href = '/mobile';
-          return;
-        }
-        
-        // User-Agent 체크
-        const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-        const isMobileByUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
-        
-        if (isMobileByUserAgent) {
-          window.location.href = '/mobile';
-          return;
-        }
-        
-        // 터치 지원 여부 체크
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-        
-        if (isTouchDevice) {
+        // 화면 크기만으로 판단 (단순하게)
+        if (window.innerWidth <= 768) {
           window.location.href = '/mobile';
           return;
         }

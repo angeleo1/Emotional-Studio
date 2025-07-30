@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import React, { useRef, useEffect, useState } from 'react'
 import { NextPage } from 'next';
 import Link from 'next/link';
-import MobileNavbar from '../components/MobileNavbar';
 
 const sections = [
   {
@@ -125,7 +124,6 @@ export default function About() {
         <title>About Us | Emotional Studio</title>
         <meta name="description" content="Learn about Emotional Studio - a unique self photo studio experience." />
       </Head>
-      <MobileNavbar />
       {/* 좌측 하단 스크롤(화살표+텍스트) UI */}
       <div className="fixed left-6 bottom-[9.25rem] flex flex-col items-center z-20 select-none pointer-events-none">
         <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
