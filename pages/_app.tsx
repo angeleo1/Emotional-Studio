@@ -32,8 +32,8 @@ const isMobileDevice = () => {
     return false;
   }
 
-  // 화면 크기 기반 감지
-  const isMobileBySize = window.innerWidth < 768;
+  // 화면 크기 기반 감지 (더 엄격하게)
+  const isMobileBySize = window.innerWidth <= 768;
   
   // User-Agent 기반 감지
   const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
@@ -42,7 +42,10 @@ const isMobileDevice = () => {
   // 터치 지원 여부 확인
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   
-  return isMobileBySize || isMobileByUserAgent || isTouchDevice;
+  // 모바일 페이지인지 확인
+  const isMobilePage = window.location.pathname === '/mobile';
+  
+  return isMobileBySize || isMobileByUserAgent || isTouchDevice || isMobilePage;
 };
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -81,7 +84,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Layout>
             <Component {...pageProps} />
           </Layout>
-          <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
         </div>
       </>
     );
@@ -107,31 +109,34 @@ export default function App({ Component, pageProps }: AppProps) {
               <Component {...pageProps} />
             </Layout>
             <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-            <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
-              <button
-                className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
-                onClick={() => setIsContactOpen(true)}
-              >
-                <div className="base-icon">
-                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                  </svg>
-                </div>
-                <div className="glitch-layer one">
-                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                  </svg>
-                </div>
-                <div className="glitch-layer two">
-                  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
-                    <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
-                  </svg>
-                </div>
-              </button>
-            </div>
+            {/* 모바일 페이지가 아닐 때만 문의하기 버튼 렌더링 */}
+            {router.pathname !== '/mobile' && (
+              <div className="fixed bottom-8 right-8 z-50" style={{ mixBlendMode: 'difference' }}>
+                <button
+                  className="w-16 h-16 rounded-full svg-glitch-wrapper text-white"
+                  onClick={() => setIsContactOpen(true)}
+                >
+                  <div className="base-icon">
+                    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                    </svg>
+                  </div>
+                  <div className="glitch-layer one">
+                    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                    </svg>
+                  </div>
+                  <div className="glitch-layer two">
+                    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeWidth="2"/>
+                      <text x="32" y="42" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" textAnchor="middle" fill="currentColor">?</text>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

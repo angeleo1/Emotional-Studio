@@ -1,7 +1,13 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import { NextPage } from 'next';
+import Head from 'next/head';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import MobileNavbar from '../components/MobileNavbar';
 
 const ChromeGrid = dynamic(() => import('@/components/ui/chrome-grid').then(mod => mod.ChromeGrid), { ssr: false });
 
@@ -229,6 +235,7 @@ export default function CollaborationPage() {
   return (
     <>
       {showSpinner && <OrangeAppleSpinner fadeOut={!showSpinner} />}
+      <MobileNavbar />
       <div
         style={{
           minHeight: 0, background: 'linear-gradient(135deg, #111 0%, #1a1a1a 50%, #111 100%)', color: '#fff', padding: 0, margin: 0,
@@ -238,14 +245,7 @@ export default function CollaborationPage() {
       >
         {/* 모바일 헤더 */}
         {isMobile && (
-          <header className="p-4 flex justify-between items-center border-b border-white/10">
-            <button
-              onClick={goBack}
-              className="text-2xl font-bold text-white hover:text-[#FF6100] transition-colors"
-            >
-              ←
-            </button>
-            
+          <header className="p-4 flex justify-center items-center border-b border-white/10">
             <h1 
               className="text-2xl font-medium"
               style={{
@@ -255,8 +255,6 @@ export default function CollaborationPage() {
             >
               Collaboration
             </h1>
-            
-            <div className="w-8"></div> {/* 균형을 위한 빈 공간 */}
           </header>
         )}
 

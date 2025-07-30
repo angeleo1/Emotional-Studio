@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect, useMemo, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import MobileNavbar from '../components/MobileNavbar';
 
 const GALLERY_IMAGES = {
   Cute: [
@@ -49,15 +50,8 @@ function PoseGallerySection() {
 
   return (
     <div className="min-h-screen bg-[#111] text-white">
-      {/* 헤더 */}
-      <header className="p-4 flex justify-between items-center border-b border-white/10">
-        <button
-          onClick={goBack}
-          className="text-2xl font-bold text-white hover:text-[#FF6100] transition-colors"
-        >
-          ←
-        </button>
-        
+      {/* 헤더 - 뒤로가기 화살표 제거하고 제목만 중앙에 */}
+      <header className="p-4 flex justify-center items-center border-b border-white/10">
         <h1 
           className="text-2xl font-medium"
           style={{
@@ -67,8 +61,6 @@ function PoseGallerySection() {
         >
           Pose Guide
         </h1>
-        
-        <div className="w-8"></div> {/* 균형을 위한 빈 공간 */}
       </header>
 
       <section className="w-full px-4 pt-6 pb-10 relative z-10 overflow-hidden">
@@ -204,6 +196,7 @@ const PoseGuide: NextPage = () => {
         <meta name="description" content="Pose Guide for e.st photography" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+      <MobileNavbar />
       <PoseGallerySection />
     </div>
   );

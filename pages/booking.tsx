@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import MobileNavbar from '../components/MobileNavbar';
 
 // Stripe 초기화
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -377,6 +378,7 @@ const Booking: NextPage = () => {
         <title>Booking | Emotional Studio</title>
         <meta name="description" content="Book a session with Emotional Studio for a unique photographic experience." />
       </Head>
+      <MobileNavbar />
       <AnimatePresence mode="wait">
         {!isBookingVisible ? (
           <motion.div
