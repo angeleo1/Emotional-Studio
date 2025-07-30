@@ -163,7 +163,7 @@ const MobileGallery: NextPage = () => {
         <Transition.Root show={isModalOpen} as={Fragment}>
           <Dialog as="div" className="fixed inset-0 z-[9999] flex items-center justify-center" onClose={closeModal}>
             <div className="fixed inset-0 bg-black/90 backdrop-blur-sm" aria-hidden="true" onClick={closeModal} />
-            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]">
+            <Dialog.Panel as="div" className="relative flex flex-col items-center justify-center w-full h-full mx-4 p-4 z-[9999]" onClick={closeModal}>
               {selectedImage && (
                 <div className="relative w-full h-full flex items-center justify-center">
                   <Image
@@ -173,17 +173,6 @@ const MobileGallery: NextPage = () => {
                     height={800}
                     className="max-h-[80vh] max-w-[90vw] rounded-lg shadow-2xl object-contain"
                   />
-                  
-                  {/* 닫기 버튼 */}
-                  <button
-                    onClick={closeModal}
-                    className="absolute top-4 right-4 bg-black/50 border-none rounded-full w-10 h-10 flex items-center justify-center z-20 cursor-pointer"
-                  >
-                    <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
                 </div>
               )}
             </Dialog.Panel>

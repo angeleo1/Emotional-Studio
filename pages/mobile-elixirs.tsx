@@ -174,7 +174,10 @@ const MobileElixirs: NextPage = () => {
               className="absolute inset-0 bg-black/90 backdrop-blur-sm"
               onClick={() => setSelectedCocktail(null)}
             />
-            <div className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+            <div 
+              className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
+              onClick={() => setSelectedCocktail(null)}
+            >
               <div className="relative w-full h-[320px] flex items-center justify-center bg-black">
                 <Image
                   src={selectedCocktail.image}
