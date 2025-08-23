@@ -245,7 +245,7 @@ export default function MobilePage() {
         </Head>
         <div className="min-h-screen bg-[#111] text-white flex items-center justify-center">
           <div className="text-center">
-            <div className="text-2xl font-bold mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
+            <div className="text-2xl font-bold mb-4 font-fallback" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", sans-serif' }}>
               emotional studios
             </div>
             <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
@@ -259,10 +259,32 @@ export default function MobilePage() {
     <>
       <Head>
         <title>Emotional Studios - Mobile</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="no" />
+        <meta name="apple-mobile-web-app-capable" content="no" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        
+        {/* 폰트 최적화 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400&family=Borel&display=swap" rel="stylesheet" />
+        
+        {/* CS-Valcon-Drawn 폰트 preload */}
+        <link 
+          rel="preload" 
+          href="/fonts/CS-Valcon-Drawn-akhr7k/CS%20Valcon%20Drawn/CSValconDrawn-Regular.woff2" 
+          as="font" 
+          type="font/woff2" 
+          crossOrigin="anonymous" 
+        />
+        <link 
+          rel="preload" 
+          href="/fonts/CS-Valcon-Drawn-akhr7k/CS%20Valcon%20Drawn/CSValconDrawn-Regular.woff" 
+          as="font" 
+          type="font/woff" 
+          crossOrigin="anonymous" 
+        />
       </Head>
       <div className="min-h-screen bg-[#111] text-white relative overflow-hidden">
         {/* 좌상단 SquigglyLogo - 데스크탑과 동일 */}
@@ -411,8 +433,8 @@ export default function MobilePage() {
                     >
                       <Link href={item.href} legacyBehavior>
                         <a
-                          className="text-white text-2xl font-serif tracking-widest hover:text-orange-500 transition-colors duration-300"
-                          style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
+                          className="text-white text-2xl font-serif tracking-widest hover:text-orange-500 transition-colors duration-300 font-fallback"
+                          style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif' }}
                           onClick={() => setIsOpen(false)}
                         >
                           {item.name}
@@ -580,10 +602,13 @@ export default function MobilePage() {
         {/* 메인 컨텐츠 */}
         <div className="flex flex-col items-center justify-center min-h-screen px-4">
           <h1
-            className="text-5xl sm:text-7xl font-medium text-white text-center leading-none tracking-wider select-none mb-8 whitespace-nowrap"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white text-center leading-none tracking-wider select-none mb-8 px-4 font-fallback"
             style={{
-              fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
               letterSpacing: '0.08em',
+              wordBreak: 'break-word',
+              hyphens: 'auto',
+              textRendering: 'optimizeLegibility'
             }}
           >
             emotional studios
@@ -591,20 +616,20 @@ export default function MobilePage() {
         </div>
 
         {/* 중앙~하단 우측: 감각적 문구 - emotional studios 위로 이동 */}
-        <div className="absolute right-4 text-white text-lg font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-32 top-1/3 transform -translate-y-1/2">
+        <div className="absolute right-2 sm:right-4 text-white text-sm sm:text-lg font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-24 sm:max-w-32 top-1/3 transform -translate-y-1/2 px-2">
           Branded UI<br />
           Experiment<br />
-          <span className="font-normal text-base opacity-100">
+          <span className="font-normal text-sm sm:text-base opacity-100">
             Feel the Vibe<br />
-            <span className="font-bold text-lg text-[#FF6100] opacity-100">e.st</span>
+            <span className="font-bold text-base sm:text-lg text-[#FF6100] opacity-100">e.st</span>
           </span>
         </div>
 
         {/* 버튼 영역 - 하단으로 이동, 겹침 완전 해결 */}
-        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 px-4">
-          <div className="flex flex-col gap-4 w-full max-w-md">
+        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 px-4 w-full max-w-sm sm:max-w-md">
+          <div className="flex flex-col gap-3 sm:gap-4 w-full">
             {/* 첫 번째 줄: Pose Guide, Our Elixirs - 작은 크기 */}
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               <span className="glitch-button-wrapper flex-1">
               <button
                   className="glitch-button w-full"
@@ -613,9 +638,9 @@ export default function MobilePage() {
                     border: '1px solid #fff',
                     color: '#fff',
                     borderRadius: '999px',
-                    padding: '1em 1.5em',
+                    padding: '0.75em 1em',
                     fontWeight: 700,
-                    fontSize: '1rem',
+                    fontSize: '0.875rem',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -625,11 +650,13 @@ export default function MobilePage() {
                     pointerEvents: 'auto',
                     boxSizing: 'border-box',
                     whiteSpace: 'nowrap',
-                    height: '3rem',
+                    height: '2.5rem',
+                    minHeight: '2.5rem',
+                    maxHeight: '2.5rem',
                   }}
                   onClick={() => { router.push('/mobile-pose-guide'); }}
                 >
-                  <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Pose Guide</span>
+                  <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Pose Guide</span>
               </button>
               </span>
               <span className="glitch-button-wrapper flex-1">
@@ -640,9 +667,9 @@ export default function MobilePage() {
                     border: '1px solid #fff',
                     color: '#fff',
                     borderRadius: '999px',
-                    padding: '1em 1.5em',
+                    padding: '0.75em 1em',
                     fontWeight: 700,
-                    fontSize: '1rem',
+                    fontSize: '0.875rem',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -652,18 +679,20 @@ export default function MobilePage() {
                     pointerEvents: 'auto',
                     boxSizing: 'border-box',
                     whiteSpace: 'nowrap',
-                    height: '3rem',
+                    height: '2.5rem',
+                    minHeight: '2.5rem',
+                    maxHeight: '2.5rem',
                   }}
                   onClick={() => { router.push('/mobile-elixirs'); }}
                 >
-                  <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Our Elixirs</span>
+                  <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Our Elixirs</span>
               </button>
               </span>
             </div>
               
             {/* 두 번째 줄: Collaboration, Booking - 중간 크기 */}
-            <div className="flex gap-4">
-              <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.5rem)' }}>
+            <div className="flex gap-3 sm:gap-4">
+              <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.375rem)' }}>
               <button
                   className="glitch-button w-full"
                   style={{
@@ -671,9 +700,9 @@ export default function MobilePage() {
                     border: '1px solid #fff',
                     color: '#fff',
                     borderRadius: '999px',
-                    padding: '1em 1em',
+                    padding: '0.75em 0.75em',
                     fontWeight: 700,
-                    fontSize: '1rem',
+                    fontSize: '0.875rem',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -683,15 +712,17 @@ export default function MobilePage() {
                     pointerEvents: 'auto',
                     boxSizing: 'border-box',
                     whiteSpace: 'nowrap',
-                    height: '3rem',
-                    minWidth: '140px',
+                    height: '2.5rem',
+                    minHeight: '2.5rem',
+                    maxHeight: '2.5rem',
+                    minWidth: '120px',
                   }}
                   onClick={() => { router.push('/mobile-collaboration'); }}
                 >
-                  <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Collaboration</span>
+                  <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Collaboration</span>
               </button>
               </span>
-              <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.5rem)' }}>
+              <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.375rem)' }}>
               <button
                   className="glitch-button w-full"
                   style={{
@@ -699,9 +730,9 @@ export default function MobilePage() {
                     border: '1px solid #fff',
                     color: '#fff',
                     borderRadius: '999px',
-                    padding: '1em 1em',
+                    padding: '0.75em 0.75em',
                     fontWeight: 700,
-                    fontSize: '1rem',
+                    fontSize: '0.875rem',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -711,12 +742,14 @@ export default function MobilePage() {
                     pointerEvents: 'auto',
                     boxSizing: 'border-box',
                     whiteSpace: 'nowrap',
-                    height: '3rem',
-                    minWidth: '140px',
+                    height: '2.5rem',
+                    minHeight: '2.5rem',
+                    maxHeight: '2.5rem',
+                    minWidth: '120px',
                   }}
                   onClick={() => { router.push('/mobile-booking'); }}
                 >
-                  <span className="glitch" data-text="Booking" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Booking</span>
+                  <span className="glitch" data-text="Booking" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Booking</span>
               </button>
               </span>
             </div>
@@ -731,9 +764,9 @@ export default function MobilePage() {
                     border: '1px solid #fff',
                     color: '#fff',
                     borderRadius: '999px',
-                    padding: '1em 3em',
+                    padding: '0.75em 2em',
                     fontWeight: 700,
-                    fontSize: '1rem',
+                    fontSize: '0.875rem',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -743,11 +776,13 @@ export default function MobilePage() {
                     pointerEvents: 'auto',
                     boxSizing: 'border-box',
                     whiteSpace: 'nowrap',
-                    height: '3rem',
+                    height: '2.5rem',
+                    minHeight: '2.5rem',
+                    maxHeight: '2.5rem',
                   }}
                   onClick={() => { router.push('/mobile-gallery-landing'); }}
                 >
-                  <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Moments</span>
+                  <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>emotional Moments</span>
               </button>
               </span>
             </div>
@@ -755,15 +790,15 @@ export default function MobilePage() {
           </div>
 
         {/* 상단 우측: since Oct.2025 - 햄버거 메뉴 밑으로 이동 */}
-        <div className="absolute top-20 right-4 text-sm font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1">
+        <div className="absolute top-20 right-2 sm:right-4 text-xs sm:text-sm font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1 px-2">
           <span className="text-white opacity-100">since Oct.2025</span>
-          <span className="text-white opacity-100 font-bold text-base tracking-tight">
+          <span className="text-white opacity-100 font-bold text-sm sm:text-base tracking-tight">
             The First Project of emotional
           </span>
         </div>
 
         {/* 하단 중앙: Private Self-Studio in Melbourne - 살짝 위로 이동 */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 -translate-x-16 text-white text-xs font-normal tracking-wider z-10 select-none pointer-events-none">
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white text-xs font-normal tracking-wider z-10 select-none pointer-events-none px-4 text-center">
           Private Self-Studio in Melbourne
           </div>
 

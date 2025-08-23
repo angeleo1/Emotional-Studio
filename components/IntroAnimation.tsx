@@ -84,7 +84,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
           <h1
             className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-medium text-white text-center leading-none tracking-wider select-none"
             style={{
-              fontFamily: 'CS Valcon Drawn',
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", sans-serif',
               letterSpacing: '0.08em',
             }}
           >

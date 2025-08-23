@@ -19,15 +19,9 @@ export default function ContactPopup({ isOpen, onClose }) {
   // 알림 권한 요청
   useEffect(() => {
     if ('Notification' in window) {
-      if (Notification.permission === 'default') {
-        Notification.requestPermission().then(permission => {
-          setNotificationsEnabled(permission === 'granted');
-          setNotificationsActive(permission === 'granted');
-        });
-      } else {
-        setNotificationsEnabled(Notification.permission === 'granted');
-        setNotificationsActive(Notification.permission === 'granted');
-      }
+      // 자동으로 권한을 요청하지 않고, 현재 상태만 확인
+      setNotificationsEnabled(Notification.permission === 'granted');
+      setNotificationsActive(Notification.permission === 'granted');
     }
   }, []);
 
@@ -59,10 +53,16 @@ export default function ContactPopup({ isOpen, onClose }) {
     if (notificationsEnabled) {
       setNotificationsActive(!notificationsActive);
     } else {
-      Notification.requestPermission().then(permission => {
-        setNotificationsEnabled(permission === 'granted');
-        setNotificationsActive(permission === 'granted');
-      });
+      // 사용자가 명시적으로 클릭했을 때만 권한 요청
+      if (Notification.permission === 'default') {
+        Notification.requestPermission().then(permission => {
+          setNotificationsEnabled(permission === 'granted');
+          setNotificationsActive(permission === 'granted');
+        });
+      } else {
+        setNotificationsEnabled(Notification.permission === 'granted');
+        setNotificationsActive(Notification.permission === 'granted');
+      }
     }
   };
 
