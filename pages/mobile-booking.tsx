@@ -177,17 +177,20 @@ const MobileBooking: NextPage = () => {
   const calculateTotalPrice = () => {
     let basePrice = 0;
     switch (formData.shootingType) {
-      case 'solo':
-        basePrice = 55;
+      case '1person':
+        basePrice = 65;
         break;
-      case 'couple':
-        basePrice = 98;
+      case '2people':
+        basePrice = 130;
         break;
-      case 'triple':
-        basePrice = 150;
+      case '3people':
+        basePrice = 195;
+        break;
+      case '4people':
+        basePrice = 260;
         break;
       case 'more':
-        basePrice = 150;
+        basePrice = 0;
         break;
       default:
         basePrice = 0;
@@ -207,7 +210,7 @@ const MobileBooking: NextPage = () => {
     e.preventDefault();
     
     if (!formData.shootingType) {
-      setErrorMessage('Please select a shooting type.');
+      setErrorMessage('Please select number of people.');
       return;
     }
 
@@ -485,15 +488,16 @@ const MobileBooking: NextPage = () => {
                 {/* 촬영 타입 */}
                 <div className="space-y-4">
                   <h2 className="text-xl font-bold mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-                    Session Type
+                    NUMBER OF PEOPLE
                   </h2>
                   
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { value: 'solo', label: 'Solo', price: '$55' },
-                      { value: 'couple', label: 'Couple', price: '$98' },
-                      { value: 'triple', label: 'Triple', price: '$150' },
-                      { value: 'more', label: 'More', price: '$150' }
+                      { value: '1person', label: '1', price: '$65' },
+                      { value: '2people', label: '2', price: '$130' },
+                      { value: '3people', label: '3', price: '$195' },
+                      { value: '4people', label: '4', price: '$260' },
+                      { value: 'more', label: 'or More (Contact)', price: '' }
                     ].map(option => (
                       <label key={option.value} className="relative">
                         <input

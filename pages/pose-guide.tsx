@@ -5,20 +5,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 
 const GALLERY_IMAGES = {
-  Cute: [
-    ...Array.from({ length: 15 }, (_, i) => `/images/friend${i + 1}.jpg`),
-  ],
-  Lovely: [
-    ...Array.from({ length: 16 }, (_, i) => `/images/Couple${i + 1}.jpg`),
-  ],
-  Dynamic: [
-    ...Array.from({ length: 11 }, (_, i) => `/images/Fun1 (${i + 1}).jpg`),
-  ],
-  'with Pet': [
-    '/images/Pet (1).jpg',
-    '/images/Pet (2).jpg',
-    '/images/Pet (3).jpg',
-  ],
+  Cute: [],
+  Lovely: [],
+  Dynamic: [],
+  'with Pet': [],
 };
 
 function PoseGallerySection() {

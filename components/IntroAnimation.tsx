@@ -92,37 +92,22 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
           </h1>
         </MotionWrapper>
 
-        {/* 상단 우측: since Oct.2025 */}
-        <MotionSpan
-          {...(isMobile ? {} : (isMobile ? mobileAnimation : {
-            initial: { opacity: 0, x: 40 },
-            animate: { opacity: 1, x: 0 },
-            transition: { delay: 1.5, duration: 0.7, ease: 'easeOut' }
-          }))}
-          className="absolute top-4 right-4 md:top-8 md:right-8 text-sm md:text-base font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1"
-        >
-          <span className="text-white opacity-100">since Oct.2025</span>
-          <span className="text-white opacity-100 font-bold text-base md:text-lg tracking-tight">
-            The First Project of emotional
-          </span>
-        </MotionSpan>
 
-        {/* 중앙~하단 우측: 감각적 문구 */}
+
+        {/* 중앙~하단 우측: since Oct.2025와 The First 문장 */}
         <MotionSpan
           {...(isMobile ? {} : (isMobile ? mobileAnimation : {
             initial: { opacity: 0, y: 40 },
             animate: { opacity: 1, y: 0 },
             transition: { delay: 1.8, duration: 0.7, ease: 'easeOut' }
           }))}
-          className={`absolute right-4 md:right-8 text-white text-lg md:text-xl lg:text-2xl font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-32 md:max-w-48 lg:max-w-64 ${
-            isMobile ? 'top-1/2 transform -translate-y-1/2' : 'top-1/3 md:top-1/2 transform -translate-y-1/2'
-          }`}
+          className={`absolute right-4 md:right-8 bottom-48 md:bottom-48 text-white text-sm md:text-base font-normal tracking-wider select-none pointer-events-none z-10 text-right leading-relaxed max-w-32 md:max-w-48 lg:max-w-64`}
         >
-          Branded UI<br />
-          Experiment<br />
-          <span className="font-normal text-base md:text-lg opacity-100">
-            Feel the Vibe<br />
-            <span className="font-bold text-lg md:text-xl text-[#FF6100] opacity-100">e.st</span>
+          <span className="text-[#FF6100] opacity-100">since </span>
+          <span className="text-gray-400 opacity-100">Oct.2025</span>
+          <br />
+          <span className="text-white opacity-100 font-bold text-base md:text-lg tracking-tight">
+            The First Project of emotional
           </span>
         </MotionSpan>
 

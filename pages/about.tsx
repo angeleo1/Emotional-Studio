@@ -15,7 +15,7 @@ const sections = [
   {
     title: 'Why emotional?',
     image: '/images/aboutus2.png',
-    desc: `At Emotional Studio, we believe that photography is more than just taking pictures—it's about capturing the essence of your emotions. Our team is dedicated to making you feel at ease, encouraging genuine smiles and authentic moments. We strive to create an atmosphere where every shot tells a heartfelt story.`
+    desc: `At emotional studios, we believe that photography is more than just taking pictures—it's about capturing the essence of your emotions. Our team is dedicated to making you feel at ease, encouraging genuine smiles and authentic moments. We strive to create an atmosphere where every shot tells a heartfelt story.`
   },
   {
     title: 'The Records',
@@ -25,7 +25,9 @@ const sections = [
   {
     title: 'Our Projects',
     image: '/images/aboutus4.png',
-    desc: `We are constantly exploring new creative projects and collaborations, from themed photo events to artistic exhibitions. Our studio is a hub for innovation, where ideas come to life and boundaries are pushed. Join us as we continue to expand the possibilities of visual storytelling.`
+    desc: `Welcome to emotional studios, where we believe in capturing the most authentic and personal moments of your life in Melbourne. Our first project, emotional studios, was designed to be a private and free-spirited space where you can document your most cherished memories. We invite you to explore your emotions and create lasting, happy memories with us.
+
+As part of our mission to 'Make Melbourne a fun place', we're already hard at work on our second project. Stay tuned—it's coming soon, and we can't wait to share it with you.`
   },
   {
     title: 'Connect with Us',
@@ -186,7 +188,7 @@ export default function About() {
                         margin: 0,
                         padding: 0,
                         position: 'absolute',
-                        top: '-13rem',
+                        top: section.title === 'Our Projects' ? '-8rem' : (section.title === 'Connect with Us' ? '-10rem' : '-13rem'),
                         left: 0,
                         width: '100%',
                         zIndex: 2,
@@ -201,7 +203,18 @@ export default function About() {
                         return word;
                       })}
                     </h2>
-                    <div style={{ fontSize: '1.7rem', fontWeight: 400, letterSpacing: '0.01em', lineHeight: 1.8, color: '#eee', maxWidth: 700, marginTop: '5rem', position: 'relative', top: '5rem' }}>{section.desc}</div>
+                    <div style={{ 
+                      fontSize: '1.7rem', 
+                      fontWeight: 400, 
+                      letterSpacing: '0.01em', 
+                      lineHeight: 1.8, 
+                      color: '#eee', 
+                      maxWidth: 700, 
+                      marginTop: section.title === 'Our Projects' ? '2rem' : (section.title === 'Connect with Us' ? '5rem' : '5rem'), 
+                      position: 'relative', 
+                      top: section.title === 'Our Projects' ? '2rem' : (section.title === 'Connect with Us' ? '5rem' : '5rem'),
+                      whiteSpace: section.title === 'Our Projects' ? 'pre-wrap' : 'normal'
+                    }}>{section.desc}</div>
                     {i === sections.length-1 && (
                       <div style={{ display: 'flex', gap: '2.5rem', marginTop: '9.5rem' }}>
                         <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="mx-2 svg-glitch-wrapper text-white w-12 h-12">

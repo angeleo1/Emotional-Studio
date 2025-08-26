@@ -13,23 +13,23 @@ const services = [
     items: [
       {
         icon: '🍸',
-        name: 'Welcome Drink',
-        description: 'Choose according to your feelings. A sweet break for those tired of everyday life, spend a special time with Emotion Elixirs'
+        name: 'Elevate your emotions',
+        description: 'Relax and immerse yourself in the atmosphere, with our curated elixirs setting the tone for a unique photography experience.'
       },
       {
         icon: '📸',
-        name: 'Photo Shoot',
-        description: 'Create your own photo story in 20 minutes! Make special memories with a variety of props'
+        name: 'The Photo Session',
+        description: 'Enjoy your 20-minute private session, solo or with loved ones, in a space designed for stunning, professional-quality photos.'
       },
       {
         icon: '🖼️',
-        name: 'Select Photos',
-        description: 'Select 2 Photos for 20mins. More than just photos. We add value with professional retouching and printing'
+        name: 'Selection',
+        description: 'Choose two favourite shots in our private selection zone. Our team will refine them with meticulous retouching and premium printing, turning your images into visual memories.'
       },
       {
         icon: '🎬',
-        name: 'Time-lapse Video',
-        description: 'Unforgettable behind-the-scenes cuts from the set, take them home as precious souvenirs'
+        name: 'Timelapse Video',
+        description: 'Receive a highlight timelapse that beautifully captures the energy and moments of your session.'
       }
     ]
   },
@@ -52,16 +52,12 @@ const services = [
         name: '3-4 People',
         price: '$150'
       },
-      {
-        icon: '◑',
-        name: 'Black & White',
-        price: 'Standard'
-      },
-      {
-        icon: '🎨',
-        name: 'Colour',
-        price: '+$10'
-      }
+                                                       {
+          icon: '🖼️',
+          name: 'Warm | Cool | B/W',
+          price: '',
+          description: 'Choose your preferred style: Warm tones, Cool tones, or Black & White'
+        }
     ]
   },
   {
@@ -84,7 +80,7 @@ const services = [
         icon: '📱',
         name: 'Original Digital Films',
         price: '$20',
-        description: 'High resolution digital copies'
+        description: 'High resolution digital files for uploading SNS or download'
       }
     ]
   },

@@ -186,17 +186,20 @@ const Booking: NextPage = () => {
   const calculateTotalPrice = () => {
     let basePrice = 0;
     switch (formData.shootingType) {
-      case 'solo':
-        basePrice = 55;
+      case '1person':
+        basePrice = 65;
         break;
-      case 'couple':
-        basePrice = 98;
+      case '2people':
+        basePrice = 130;
         break;
-      case 'triple':
-        basePrice = 150;
+      case '3people':
+        basePrice = 195;
+        break;
+      case '4people':
+        basePrice = 260;
         break;
       case 'more':
-        basePrice = 150;
+        basePrice = 0;
         break;
       default:
         basePrice = 0;
@@ -216,7 +219,7 @@ const Booking: NextPage = () => {
     e.preventDefault();
     
     if (!formData.shootingType) {
-      alert('Please select a shooting type.');
+      alert('Please select number of people.');
       return;
     }
 
@@ -457,12 +460,13 @@ const Booking: NextPage = () => {
                     <div className={styles.formColumn}>
                       <h3 className={styles.formSectionTitle}>I. Session Details</h3>
                       <div className={styles.formControl}>
-                        <label htmlFor="shootingType">Shooting Type</label>
+                        <label htmlFor="shootingType">NUMBER OF PEOPLE</label>
                         <select id="shootingType" name="shootingType" value={formData.shootingType} onChange={handleChange} required>
                           <option value="" disabled>Select...</option>
-                            <option value="solo">Solo : $55</option>
-                            <option value="couple">Couple : $98</option>
-                            <option value="triple">Triple : $150</option>
+                            <option value="1person">1 : $65</option>
+                            <option value="2people">2 : $130</option>
+                            <option value="3people">3 : $195</option>
+                            <option value="4people">4 : $260</option>
                           <option value="more">or More (Contact)</option>
                           </select>
                 </div>

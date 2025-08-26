@@ -26,7 +26,9 @@ const sections = [
   {
     title: 'Our Projects',
     image: '/images/aboutus4.png',
-    desc: `We are constantly exploring new creative projects and collaborations, from themed photo events to artistic exhibitions. Our studio is a hub for innovation, where ideas come to life and boundaries are pushed. Join us as we continue to expand the possibilities of visual storytelling.`
+    desc: `Welcome to emotional studios, where we believe in capturing the most authentic and personal moments of your life in Melbourne. Our first project, emotional studios, was designed to be a private and free-spirited space where you can document your most cherished memories. We invite you to explore your emotions and create lasting, happy memories with us.
+
+As part of our mission to 'Make Melbourne a fun place', we're already hard at work on our second project. Stay tuned—it's coming soon, and we can't wait to share it with you.`
   },
 ]
 
@@ -207,7 +209,7 @@ const MobileAbout: NextPage = () => {
                 </h2>
                 
                   {/* 설명 텍스트 */}
-                  <p className="text-white/70 leading-relaxed text-sm text-center font-light">
+                  <p className="text-white/70 leading-relaxed text-sm text-center font-light" style={{ whiteSpace: 'pre-wrap' }}>
                   {section.desc}
                 </p>
                 </div>
