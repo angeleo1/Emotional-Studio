@@ -5,6 +5,7 @@ import { NextPage } from 'next';
 import MobileNavbar from '../components/MobileNavbar';
 import Image from 'next/image';
 import MobileContactButton from '../components/MobileContactButton';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const services = [
   {
@@ -64,37 +65,37 @@ const services = [
       <div className="space-y-10 text-white pt-8">
         <div>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <div className="flex items-center gap-3 text-xl font-bold mb-2">
               <span className="w-8 h-8 inline-block align-middle">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M6 7V3h12v4"/><path d="M6 17h12v4H6z"/></svg>
               </span>
               <span>Extra 4x6'' Print</span>
             </div>
-            <span className="text-3xl font-bold text-right ml-4">$10</span>
+            <span className="text-base font-bold text-right ml-2">$10</span>
           </div>
           <p className="text-lg mt-1 mb-4">High quality prints on premium paper</p>
         </div>
         <div>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <div className="flex items-center gap-3 text-xl font-bold mb-2">
               <span className="w-8 h-8 inline-block align-middle">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
               </span>
               <span>Frame</span>
             </div>
-            <span className="text-3xl font-bold text-right ml-4">$15</span>
+            <span className="text-base font-bold text-right ml-2">$15</span>
           </div>
           <p className="text-lg mt-1 mb-4">Elegant frames to display your memories</p>
         </div>
         <div>
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <div className="flex items-center gap-3 text-xl font-bold mb-2">
               <span className="w-8 h-8 inline-block align-middle">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
               </span>
               <span>Digital original film</span>
             </div>
-            <span className="text-3xl font-bold text-right ml-4">$20</span>
+            <span className="text-base font-bold text-right ml-2">$20</span>
           </div>
           <p className="text-lg mt-1 mb-4">High resolution digital files for uploading SNS or download</p>
         </div>
@@ -182,7 +183,7 @@ const MobileServices: NextPage = () => {
                   
                   {/* 제목 */}
                   <h2 
-                    className="text-xl font-bold mb-6 text-center"
+                    className="text-3xl font-bold mb-6 text-center"
                     style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
                   >
                     {service.title}
@@ -231,6 +232,10 @@ const MobileServices: NextPage = () => {
       </div>
 
       <MobileContactButton />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

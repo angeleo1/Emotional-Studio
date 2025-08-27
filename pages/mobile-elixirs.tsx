@@ -4,21 +4,22 @@ import Image from 'next/image';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import MobileNavbar from '../components/MobileNavbar';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const cocktails = [
   {
-    name: "PASSIONATE ORANGE",
-    description: "A vibrant blend of fresh orange juice, passion fruit, and premium vodka, topped with a hint of mint. This refreshing cocktail captures the essence of summer in every sip.",
+    name: "PASSION RED",
+    description: "A vibrant elixir of hibiscus, rose, and ginger, with bittersweet vanilla and clarified grapefruit. Bold, warming, and enticing—crafted to awaken desire, ignite the senses, and stir a lingering sense of passion.",
     image: "/images/elixir4.jpeg"
   },
   {
     name: "ECSTASY GLOW",
-    description: "An enchanting mix of blue curacao, pineapple juice, and coconut rum, creating a mesmerizing purple hue. Served with a sugar rim and a slice of lime for the perfect balance of sweet and tangy.",
+    description: "A curated blend of clarified banana and golden honey, naturally packed with mood-lifting compounds to uplift spirits and ease stress. Bright citrus and a whisper of lemon oil complete this smooth, radiant elixir—crafted to leave you glowing from within.",
     image: "/images/elixir2.png"
   },
   {
     name: "RELIEF AURA",
-    description: "A soothing combination of cucumber, mint, and gin, with a splash of elderflower liqueur. This refreshing cocktail is perfect for unwinding after a long day.",
+    description: "A soothing mix of blueberries, lavender, and butterfly pea tea, with a touch of pink Himalayan salt and agave. Balanced and restorative—crafted to calm the senses, refresh the spirit, and bring a comforting sense of relief.",
     image: "/images/elixir3.png"
   }
 ];
@@ -70,12 +71,12 @@ const MobileElixirs: NextPage = () => {
           ></div>
           
           <div className="w-full h-full flex items-center justify-center select-none z-10 relative" style={{height: 'calc(100vh - 80px)'}}>
-            {/* 왼쪽 줄 - PASSIONATE ORANGE */}
+            {/* 왼쪽 줄 - PASSION RED */}
             <div className="w-1/3 h-full flex items-center justify-center overflow-hidden">
               <div className="w-full h-full flex flex-col animate-slideDownFaster">
                 {[...Array(5)].map((_, repeatIndex) => (
                   <div key={repeatIndex} className="flex flex-col items-center" style={{marginBottom: '3rem'}}>
-                    {'Passionate Orange'.split('').map((letter, index) => (
+                    {'Passion Red'.split('').map((letter, index) => (
                       <span
                         key={`${repeatIndex}-${index}`}
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
@@ -178,7 +179,7 @@ const MobileElixirs: NextPage = () => {
                   className="text-2xl font-bold mb-4"
                   style={{
                     fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#C2185B' :
+                    color: selectedCocktail.name === 'PASSION RED' ? '#C2185B' :
                            selectedCocktail.name === 'ECSTASY GLOW' ? '#FFE135' : '#8A2BE2'
                   }}
                 >
@@ -190,6 +191,10 @@ const MobileElixirs: NextPage = () => {
           </div>
         )}
       </div>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

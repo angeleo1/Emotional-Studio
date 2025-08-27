@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect, useMemo, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const GALLERY_IMAGES = {
   Cute: [],
@@ -173,6 +174,10 @@ const PoseGuide: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <PoseGallerySection />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </div>
   );
 };

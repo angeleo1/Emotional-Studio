@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const INTRO_TEXT = 'emotional studios';
 const TYPING_SPEED = 93; // ms per character (1.5배 빠르게)
@@ -293,6 +294,10 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
             </span>
           </div>
         </div>
+        
+        {/* Floating Book Button */}
+        <FloatingBookButton />
+        
       </MotionWrapper>
     </AnimatePresence>
   );

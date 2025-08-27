@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import GlassContainer from '@/components/ui/GlassContainer';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const Support: NextPage = () => {
   const router = useRouter();
@@ -32,52 +33,40 @@ const Support: NextPage = () => {
     {
       category: 'system',
       question: 'How can I make a reservation for a photo session? What is the process?',
-      answer: 'You can make a reservation through our website booking system or by contacting us directly. The process includes selecting your preferred date and time, choosing a photo package, and making a deposit payment.'
+      answer: 'You can make a reservation by visiting our booking page. The detailed process and service information are available on our services page for your reference.\n\nIf you have any questions, feel free to DM us! We will reply as soon as possible.'
     },
-    {
-      category: 'editing',
-      question: 'What is the photo editing process like?',
-      answer: 'Our editing process includes color correction, skin retouching, and overall enhancement while maintaining a natural look. We carefully edit each selected photo to ensure the best quality.'
-    },
+
     {
       category: 'photo',
       question: 'Can I request specific editing styles?',
-      answer: 'Yes, you can discuss your preferred editing style during the consultation. We offer various styles from natural to artistic edits.'
+      answer: 'Yes, you can discuss your preferred editing style during the consultation. We offer various styles from natural to artistic edits. You can also select additional retouch options during booking or purchase them when you visit our studio!'
     },
     {
       category: 'editing',
       question: 'How long does it take to receive the edited photos?',
-      answer: 'Typically, it takes 1-2 weeks to receive your edited photos. For rush orders, please contact us to discuss options.'
+      answer: 'If you want to receive your photos on the same day, you can pick them up after waiting about 30 minutes after the shoot. However, if you have additional retouch or print services, it may take up to 1 day depending on the quantity.'
     },
-    {
-      category: 'editing',
-      question: 'If I want to make changes to the edited photos, what is the process?',
-      answer: 'We offer one round of revision for free. Additional revision requests may incur extra charges. Please specify your desired changes clearly.'
-    },
+
     {
       category: 'photo',
       question: 'Do you provide both color and black & white versions of the photos?',
-      answer: 'Yes, we can provide both color and black & white versions upon request. Please let us know your preference during the consultation.'
+      answer: 'Find your perfect tone! Choose one concept from Warm tone, Cool tone, or Black & White at no extra cost! (One concept per session only) Check out our services page to see the mood of each tone!'
     },
     {
       category: 'editing',
       question: 'Can I get the original unedited photos?',
-      answer: `Original unedited photos are available for an additional fee. Please discuss this option with us before your session.`
+      answer: 'You can add original digital film as an additional purchase to receive all your shots with basic retouching!'
     },
     {
       category: 'reservation',
       question: 'What payment methods do you accept?',
-      answer: 'We accept credit cards, bank transfers, and mobile payments. A deposit is required to secure your booking.'
+      answer: 'We accept credit cards only for all services. For additional goods and services, you can purchase them on-site with credit cards as well. Please note that we operate on a booking-only basis to ensure the best experience for everyone.'
     },
-    {
-      category: 'reservation',
-      question: 'What is your cancellation policy?',
-      answer: 'Cancellations made 48 hours before the scheduled session will receive a full refund. Later cancellations may be subject to a cancellation fee.'
-    },
+
     {
       category: 'shooting',
       question: 'What should I prepare before visiting your studio?',
-      answer: `We recommend bringing multiple outfits, accessories, and any props you'd like to include. Please arrive 10 minutes early for preparation.`
+      answer: `Prepare the tone of the photos you want to take, your most beautiful outfit, and an excited feeling. Since we're booking only and the shooting time is only 20 minutes, being late may result in reduced shooting time.`
     }
   ];
 
@@ -281,15 +270,73 @@ const Support: NextPage = () => {
                 ))}
               </div>
 
-              <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div 
+                className="faq-scroll-container"
+                style={{ 
+                  width: '100%', 
+                  maxWidth: '100%', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  gap: '1rem',
+                  maxHeight: '60vh',
+                  overflowY: 'auto',
+                  paddingRight: '1rem'
+                }}
+              >
                 {filteredFaqs.map((faq, idx) => (
-                  <div key={faq.question} style={{ width: '100%', borderBottom: '1px solid #FF6100', marginBottom: '0.5rem' }}>
-                    <div style={{ textAlign: 'left', width: '100%', fontWeight: 700, fontSize: '1.15rem', padding: '1.5rem 2rem', borderRadius: '2rem', display: 'flex', justifyContent: 'flex-start', alignItems: 'center', background: 'none', color: '#fff', gap: '0.8rem' }}>
+                  <div key={faq.question} style={{ width: '100%', marginBottom: '0.5rem' }}>
+                    <button
+                      onClick={() => handleQuestionClick(faq.question)}
+                      className={`faq-category-btn faq-question-btn${openQuestion === faq.question ? ' active' : ''}`}
+                      style={{ 
+                        textAlign: 'left', 
+                        width: '100%', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'center'
+                      }}
+                    >
                       <span>{faq.question}</span>
-                    </div>
-                    <div style={{ padding: '1rem 2rem', color: '#fff', fontSize: '1rem', background: 'none', display: 'flex', alignItems: 'flex-start', gap: '0.7rem' }}>
-                      <span>{faq.answer}</span>
-                    </div>
+                      <FiChevronDown 
+                        style={{
+                          transform: openQuestion === faq.question ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.3s ease'
+                        }}
+                      />
+                    </button>
+                    <AnimatePresence>
+                      {openQuestion === faq.question && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ 
+                            height: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] },
+                            opacity: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }
+                          }}
+                          style={{ 
+                            padding: '1rem 2rem', 
+                            color: '#fff', 
+                            fontSize: '1rem', 
+                            background: 'none', 
+                            overflow: 'hidden'
+                          }}
+                        >
+                          <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ 
+                              delay: 0.2, 
+                              duration: 0.4, 
+                              ease: [0.4, 0.0, 0.2, 1] 
+                            }}
+                          >
+                            <p style={{ margin: 0, lineHeight: '1.6', whiteSpace: 'pre-line' }}>
+                              {faq.answer}
+                            </p>
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 ))}
               </div>
@@ -320,6 +367,10 @@ const Support: NextPage = () => {
           )}
         </AnimatePresence>
         </div>
+        
+        {/* Floating Book Button */}
+        <FloatingBookButton />
+        
     </div>
   );
 };

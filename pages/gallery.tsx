@@ -18,6 +18,7 @@ import { Dialog, Transition as DialogTransition } from "@headlessui/react";
 import { Fragment } from "react";
 import ParticleBackgroundEffect from "@/components/ParticleBackgroundEffect";
 import WavyClipPath from '@/components/WavyClipPath';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 interface GalleryImage {
   src: string;
@@ -307,6 +308,10 @@ export default function GalleryPage() {
           </Dialog>
         </DialogTransition.Root>
       </div>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </div>
   );
 }

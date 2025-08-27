@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const pages = [
   // 1. Provided as Standard
@@ -548,7 +549,11 @@ export default function Services() {
         .animate-bounce-up {
           animation: bounce-up 1.5s infinite;
         }
-      `}</style>
+      `}      </style>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </div>
   );
 } 

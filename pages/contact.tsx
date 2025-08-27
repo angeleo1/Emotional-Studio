@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import SmoothCurvedLine from '@/components/ui/SmoothCurvedLine';
 import ContactPopup from '@/components/ContactPopup';
 import { useState } from 'react';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const Contact: NextPage = () => {
   const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
@@ -43,15 +44,7 @@ const Contact: NextPage = () => {
             >
               <span>Every</span> <span className={styles.orangeWord}>Elixir</span> <span>Completes It</span>.
             </motion.h1>
-            <motion.p
-              className={styles.strapline}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
-            >
-              Precious Moments in e.st
-            </motion.p>
+
           </div>
 
           <div className={styles.rightColumn}>
@@ -136,6 +129,10 @@ const Contact: NextPage = () => {
         isOpen={isContactPopupOpen} 
         onClose={() => setIsContactPopupOpen(false)} 
       />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

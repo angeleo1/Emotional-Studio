@@ -114,7 +114,8 @@ const MobileBooking: NextPage = () => {
       a4print: false,
       a4frame: false,
       digital: false,
-      calendar: false
+      calendar: false,
+      additionalRetouch: 0
     },
     message: ''
   });
@@ -202,6 +203,7 @@ const MobileBooking: NextPage = () => {
     if (formData.otherGoods.a4frame) additionalCost += 30;
     if (formData.otherGoods.digital) additionalCost += 25;
     if (formData.otherGoods.calendar) additionalCost += 35;
+    if (formData.otherGoods.additionalRetouch) additionalCost += (formData.otherGoods.additionalRetouch * 15);
 
     return basePrice + additionalCost;
   };
@@ -527,17 +529,6 @@ const MobileBooking: NextPage = () => {
                     Additional Options
                   </h2>
                   
-                  <label className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      name="colorOption"
-                      checked={formData.colorOption}
-                      onChange={handleChange}
-                      className="w-4 h-4 text-[#FF6100] bg-white/10 border-white/20 rounded focus:ring-[#FF6100]"
-                    />
-                    <span>Color Option (+$15)</span>
-                  </label>
-
                   <div className="space-y-3">
                     <label className="flex items-center space-x-3">
                       <input
@@ -547,7 +538,7 @@ const MobileBooking: NextPage = () => {
                         onChange={handleCheckboxChange}
                         className="w-4 h-4 text-[#FF6100] bg-white/10 border-white/20 rounded focus:ring-[#FF6100]"
                       />
-                      <span>A4 Print (+$20)</span>
+                      <span>4x6" Print (+$20)</span>
                     </label>
 
                     <label className="flex items-center space-x-3">
@@ -558,7 +549,7 @@ const MobileBooking: NextPage = () => {
                         onChange={handleCheckboxChange}
                         className="w-4 h-4 text-[#FF6100] bg-white/10 border-white/20 rounded focus:ring-[#FF6100]"
                       />
-                      <span>A4 Frame (+$30)</span>
+                      <span>4x6" Frame (+$30)</span>
                     </label>
 
                     <label className="flex items-center space-x-3">
@@ -571,16 +562,24 @@ const MobileBooking: NextPage = () => {
                       />
                       <span>Digital Files (+$25)</span>
                     </label>
-
-                    <label className="flex items-center space-x-3">
-                      <input
-                        type="checkbox"
-                        name="calendar"
-                        checked={formData.otherGoods.calendar}
-                        onChange={handleCheckboxChange}
-                        className="w-4 h-4 text-[#FF6100] bg-white/10 border-white/20 rounded focus:ring-[#FF6100]"
-                      />
-                      <span>Calendar (+$35)</span>
+                    <label className="flex items-center justify-between">
+                      <span>Additional Retouch ($15 each)</span>
+                      <select 
+                        name="additionalRetouch" 
+                                                    value={formData.otherGoods.additionalRetouch || 0} 
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          setFormData(prev => ({
+                            ...prev,
+                            otherGoods: { ...prev.otherGoods, additionalRetouch: value }
+                          }));
+                        }}
+                        className="w-20 px-2 py-1 bg-white/10 border border-white/20 rounded text-white text-center"
+                      >
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                          <option key={num} value={num} className="bg-[#111] text-white">{num}</option>
+                        ))}
+                      </select>
                     </label>
                   </div>
                 </div>

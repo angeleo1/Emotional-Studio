@@ -6,6 +6,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const sections = [
   {
@@ -298,6 +299,10 @@ const MobileAbout: NextPage = () => {
       </div>
 
       <MobileContactButton />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

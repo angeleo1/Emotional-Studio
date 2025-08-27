@@ -122,7 +122,8 @@ const Booking: NextPage = () => {
       a4print: false,
       a4frame: false,
       digital: false,
-      calendar: false
+      calendar: false,
+      additionalRetouch: 0
     },
     message: ''
   });
@@ -211,6 +212,7 @@ const Booking: NextPage = () => {
     if (formData.otherGoods.a4frame) additionalCost += 15;
     if (formData.otherGoods.digital) additionalCost += 20;
     if (formData.otherGoods.calendar) additionalCost += 45;
+    if (formData.otherGoods.additionalRetouch) additionalCost += (formData.otherGoods.additionalRetouch * 15);
 
     return basePrice + additionalCost;
   };
@@ -577,24 +579,44 @@ const Booking: NextPage = () => {
                       <h3 className={styles.formSectionTitle}>III. Options & Goods</h3>
                       <div className={styles.formCheckboxGroup}>
                         <div className={styles.checkboxControl}>
-                          <input id="colorOption" name="colorOption" type="checkbox" checked={formData.colorOption} onChange={handleCheckboxChange} />
-                          <label htmlFor="colorOption">Colour Option (+$10)</label>
-                          </div>
-                        <div className={styles.checkboxControl}>
                           <input id="a4print" name="a4print" type="checkbox" checked={formData.otherGoods.a4print} onChange={handleCheckboxChange} />
-                          <label htmlFor="a4print">A4 Print ($10)</label>
+                          <label htmlFor="a4print">4x6" Print ($10)</label>
                           </div>
                         <div className={styles.checkboxControl}>
                           <input id="a4frame" name="a4frame" type="checkbox" checked={formData.otherGoods.a4frame} onChange={handleCheckboxChange} />
-                          <label htmlFor="a4frame">A4 Frame ($15)</label>
+                          <label htmlFor="a4frame">4x6" Frame ($15)</label>
                           </div>
                         <div className={styles.checkboxControl}>
                           <input id="digital" name="digital" type="checkbox" checked={formData.otherGoods.digital} onChange={handleCheckboxChange} />
                           <label htmlFor="digital">Original Digital Film ($20)</label>
                           </div>
                         <div className={styles.checkboxControl}>
-                          <input id="calendar" name="calendar" type="checkbox" checked={formData.otherGoods.calendar} onChange={handleCheckboxChange} />
-                          <label htmlFor="calendar">Calendar ($45)</label>
+                          <label htmlFor="additionalRetouch">Additional Retouch ($15 each)</label>
+                          <select 
+                            id="additionalRetouch" 
+                            name="additionalRetouch" 
+                            value={formData.otherGoods.additionalRetouch || 0} 
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value);
+                              setFormData(prev => ({
+                                ...prev,
+                                otherGoods: { ...prev.otherGoods, additionalRetouch: value }
+                              }));
+                            }}
+                            style={{ 
+                              width: '80px', 
+                              marginLeft: '10px',
+                              padding: '5px',
+                              borderRadius: '4px',
+                              border: '1px solid #ccc',
+                              backgroundColor: '#fff',
+                              color: '#000'
+                            }}
+                          >
+                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
+                              <option key={num} value={num}>{num}</option>
+                            ))}
+                          </select>
                         </div>
                       </div>
                        <h3 className={`${styles.formSectionTitle} ${styles.marginTop}`}>IV. Additional Information</h3>

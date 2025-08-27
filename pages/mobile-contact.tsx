@@ -4,6 +4,7 @@ import { FaTiktok, FaYoutube, FaFacebookF, FaInstagram, FaArrowRight } from 'rea
 import { motion } from 'framer-motion';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const MobileContact: NextPage = () => {
   return (
@@ -65,12 +66,7 @@ const MobileContact: NextPage = () => {
               >
                 <span>Completes It</span>.
               </h1>
-              <p 
-                className="text-2xl text-gray-300"
-                style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
-              >
-                Precious Moments in e.st
-              </p>
+
               
               {/* 가로 선 추가 */}
               <div className="w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-8"></div>
@@ -163,6 +159,10 @@ const MobileContact: NextPage = () => {
 
         <MobileContactButton />
       </div>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

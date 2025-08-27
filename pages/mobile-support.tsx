@@ -7,6 +7,7 @@ import { FiChevronDown } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const MobileSupport: NextPage = () => {
   const router = useRouter();
@@ -33,52 +34,40 @@ const MobileSupport: NextPage = () => {
     {
       category: 'system',
       question: 'How can I make a reservation for a photo session? What is the process?',
-      answer: 'You can make a reservation through our website booking system or by contacting us directly. The process includes selecting your preferred date and time, choosing a photo package, and making a deposit payment.'
+      answer: 'You can make a reservation by visiting our booking page. The detailed process and service information are available on our services page for your reference.\n\nIf you have any questions, feel free to DM us! We will reply as soon as possible.'
     },
-    {
-      category: 'editing',
-      question: 'What is the photo editing process like?',
-      answer: 'Our editing process includes color correction, skin retouching, and overall enhancement while maintaining a natural look. We carefully edit each selected photo to ensure the best quality.'
-    },
+
     {
       category: 'photo',
       question: 'Can I request specific editing styles?',
-      answer: 'Yes, you can discuss your preferred editing style during the consultation. We offer various styles from natural to artistic edits.'
+      answer: 'Yes, you can discuss your preferred editing style during the consultation. We offer various styles from natural to artistic edits. You can also select additional retouch options during booking or purchase them when you visit our studio!'
     },
     {
       category: 'editing',
       question: 'How long does it take to receive the edited photos?',
-      answer: 'Typically, it takes 1-2 weeks to receive your edited photos. For rush orders, please contact us to discuss options.'
+      answer: 'If you want to receive your photos on the same day, you can pick them up after waiting about 30 minutes after the shoot. However, if you have additional retouch or print services, it may take up to 1 day depending on the quantity.'
     },
-    {
-      category: 'editing',
-      question: 'If I want to make changes to the edited photos, what is the process?',
-      answer: 'We offer one round of revision for free. Additional revision requests may incur extra charges. Please specify your desired changes clearly.'
-    },
+
     {
       category: 'photo',
       question: 'Do you provide both color and black & white versions of the photos?',
-      answer: 'Yes, we can provide both color and black & white versions upon request. Please let us know your preference during the consultation.'
+      answer: 'Find your perfect tone! Choose one concept from Warm tone, Cool tone, or Black & White at no extra cost! (One concept per session only) Check out our services page to see the mood of each tone!'
     },
     {
       category: 'editing',
       question: 'Can I get the original unedited photos?',
-      answer: `Original unedited photos are available for an additional fee. Please discuss this option with us before your session.`
+      answer: 'You can add original digital film as an additional purchase to receive all your shots with basic retouching!'
     },
     {
       category: 'reservation',
       question: 'What payment methods do you accept?',
-      answer: 'We accept credit cards, bank transfers, and mobile payments. A deposit is required to secure your booking.'
+      answer: 'We accept credit cards only for all services. For additional goods and services, you can purchase them on-site with credit cards as well. Please note that we operate on a booking-only basis to ensure the best experience for everyone.'
     },
-    {
-      category: 'reservation',
-      question: 'What is your cancellation policy?',
-      answer: 'Cancellations made 48 hours before the scheduled session will receive a full refund. Later cancellations may be subject to a cancellation fee.'
-    },
+
     {
       category: 'shooting',
       question: 'What should I prepare before visiting your studio?',
-      answer: `We recommend bringing multiple outfits, accessories, and any props you'd like to include. Please arrive 10 minutes early for preparation.`
+      answer: `Prepare the tone of the photos you want to take, your most beautiful outfit, and an excited feeling. Since we're booking only and the shooting time is only 20 minutes, being late may result in reduced shooting time.`
     }
   ];
 
@@ -202,7 +191,14 @@ const MobileSupport: NextPage = () => {
               </div>
 
               {/* FAQ 리스트 */}
-              <div className="space-y-4">
+              <div 
+                className="faq-scroll-container space-y-4" 
+                style={{
+                  maxHeight: '60vh',
+                  overflowY: 'auto',
+                  paddingRight: '0.5rem'
+                }}
+              >
                 {filteredFaqs.map((faq, index) => (
                   <motion.div
                     key={index}
@@ -228,12 +224,25 @@ const MobileSupport: NextPage = () => {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="px-4 pb-4"
+                          transition={{ 
+                            height: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] },
+                            opacity: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }
+                          }}
+                          className="px-4 pb-4 overflow-hidden"
                         >
-                          <p className="text-gray-300 text-sm leading-relaxed">
-                            {faq.answer}
-                          </p>
+                          <motion.div
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ 
+                              delay: 0.2, 
+                              duration: 0.4, 
+                              ease: [0.4, 0.0, 0.2, 1] 
+                            }}
+                          >
+                            <p className="text-gray-300 text-sm leading-relaxed">
+                              {faq.answer}
+                            </p>
+                          </motion.div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -301,6 +310,10 @@ const MobileSupport: NextPage = () => {
       </div>
 
       <MobileContactButton />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

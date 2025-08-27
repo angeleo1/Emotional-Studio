@@ -7,6 +7,7 @@ import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const ChromeGrid = dynamic(() => import('@/components/ui/chrome-grid').then(mod => mod.ChromeGrid), { ssr: false });
 
@@ -413,6 +414,10 @@ export default function CollaborationPage() {
           </Dialog>
         </Transition.Root>
       </div>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 } 

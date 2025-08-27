@@ -6,6 +6,7 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const MobileGalleryLanding: NextPage = () => {
   const router = useRouter();
@@ -208,6 +209,10 @@ const MobileGalleryLanding: NextPage = () => {
       </div>
 
       <MobileContactButton />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

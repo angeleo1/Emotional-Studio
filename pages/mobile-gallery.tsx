@@ -7,6 +7,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 interface GalleryImage {
   src: string;
@@ -228,6 +229,10 @@ const MobileGallery: NextPage = () => {
         </Transition.Root>
       </div>
       <MobileContactButton />
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 };

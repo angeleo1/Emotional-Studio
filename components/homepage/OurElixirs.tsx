@@ -2,24 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
-const cocktails = [
-  {
-    name: "PASSIONATE ORANGE",
-    description: "A vibrant blend of fresh orange juice, passion fruit, and premium vodka, topped with a hint of mint. This refreshing cocktail captures the essence of summer in every sip.",
-    image: "/images/elixir4.jpeg"
-  },
-  {
-    name: "ECSTASY GLOW",
-    description: "An enchanting mix of blue curacao, pineapple juice, and coconut rum, creating a mesmerizing purple hue. Served with a sugar rim and a slice of lime for the perfect balance of sweet and tangy.",
-    image: "/images/elixir2.png"
-  },
-  {
-    name: "RELIEF AURA",
-    description: "A soothing combination of cucumber, mint, and gin, with a splash of elderflower liqueur. This refreshing cocktail is perfect for unwinding after a long day.",
-    image: "/images/elixir3.png"
-  }
-];
+  const cocktails = [
+    {
+      name: "PASSION RED",
+      description: "A vibrant elixir of hibiscus, rose, and ginger, with bittersweet vanilla and clarified grapefruit. Bold, warming, and enticing—crafted to awaken desire, ignite the senses, and stir a lingering sense of passion.",
+      image: "/images/elixir4.jpeg"
+    },
+    {
+      name: "ECSTASY GLOW",
+      description: "A curated blend of clarified banana and golden honey, naturally packed with mood-lifting compounds to uplift spirits and ease stress. Bright citrus and a whisper of lemon oil complete this smooth, radiant elixir—crafted to leave you glowing from within.",
+      image: "/images/elixir2.png"
+    },
+    {
+      name: "RELIEF AURA",
+      description: "A soothing mix of blueberries, lavender, and butterfly pea tea, with a touch of pink Himalayan salt and agave. Balanced and restorative—crafted to calm the senses, refresh the spirit, and bring a comforting sense of relief.",
+      image: "/images/elixir3.png"
+    }
+  ];
 
 export default function OurElixirs() {
   const [selectedCocktail, setSelectedCocktail] = useState<{
@@ -160,7 +161,7 @@ export default function OurElixirs() {
                   className="text-2xl md:text-4xl font-bold mb-4"
                   style={{
                     fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#C2185B' :
+                    color: selectedCocktail.name === 'PASSION RED' ? '#C2185B' :
                            selectedCocktail.name === 'ECSTASY GLOW' ? '#FFE135' : '#8A2BE2'
                   }}
                 >
@@ -180,6 +181,10 @@ export default function OurElixirs() {
           </div>
         )}
       </div>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   );
 } 

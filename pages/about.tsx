@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import React, { useRef, useEffect, useState } from 'react'
 import { NextPage } from 'next';
 import Link from 'next/link';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const sections = [
   {
@@ -260,6 +261,10 @@ export default function About() {
           })}
         </div>
       </div>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </>
   )
 }

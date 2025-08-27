@@ -2,6 +2,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import rough from 'roughjs/bundled/rough.esm.js';
 import { motion } from 'framer-motion';
+import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 export default function GalleryLanding() {
   const router = useRouter();
@@ -288,6 +289,10 @@ export default function GalleryLanding() {
           transition: all 0.22s cubic-bezier(.4,1.2,.6,1.0);
         }
       `}</style>
+      
+      {/* Floating Book Button */}
+      <FloatingBookButton />
+      
     </div>
   );
 } 
