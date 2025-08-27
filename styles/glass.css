@@ -74,6 +74,30 @@ body {
   align-items: flex-start;
 }
 
+/* FAQ 탭 활성화 시 위치 */
+.faq-bg .support-nav-wrapper {
+  left: 19rem;
+  top: 35rem;
+  transform: translate(0, -50%);
+  align-items: flex-start;
+}
+
+/* Events 탭 활성화 시 위치 */
+.event-bg .support-nav-wrapper {
+  left: 19rem;
+  top: 35rem;
+  transform: translate(0, -50%);
+  align-items: flex-start;
+}
+
+/* Notice 탭 활성화 시 위치 */
+.notice-bg .support-nav-wrapper {
+  left: 19rem;
+  top: 35rem;
+  transform: translate(0, -50%);
+  align-items: flex-start;
+}
+
 .support-content-wrapper {
   position: absolute;
   top: 8rem;

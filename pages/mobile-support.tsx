@@ -14,6 +14,8 @@ const MobileSupport: NextPage = () => {
   const [activeMainTab, setActiveMainTab] = useState<string | null>('faq');
   const [activeFaqTab, setActiveFaqTab] = useState('all');
   const [openQuestion, setOpenQuestion] = useState<string | null>(null);
+  const [openEvent, setOpenEvent] = useState<string | null>(null);
+  const [openNotice, setOpenNotice] = useState<string | null>(null);
 
   const mainTabs = [
     { id: 'faq', label: 'FAQ' },
@@ -73,48 +75,44 @@ const MobileSupport: NextPage = () => {
 
   const events = [
     {
-      status: 'ongoing',
-      type: 'notice',
-      title: "SIHYUNHADA 2025 Birthday Event",
-      isNew: true,
-      image: "/images/gallery-studio-1.jpg"
+      title: "Sample1",
+      content: "Sample content for event 1"
     },
     {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Pet Day Special Art Poster Event",
-      isNew: true,
-      image: "/images/gallery-studio-2.jpg"
+      title: "Sample2",
+      content: "Sample content for event 2"
     },
     {
-      status: 'ongoing',
-      type: 'event',
-      title: "Summer Collection Photo Session",
-      isNew: false,
-      image: "/images/gallery-studio-3.jpg"
+      title: "Sample3",
+      content: "Sample content for event 3"
     }
   ];
 
   const notices = [
     {
-      date: '2025-01-15',
-      title: 'Studio Maintenance Notice',
-      content: 'Our studio will be closed for maintenance on January 20th, 2025.'
+      title: "Sample1",
+      content: "Sample content for notice 1"
     },
     {
-      date: '2025-01-10',
-      title: 'New Equipment Installation',
-      content: 'We have upgraded our lighting equipment for better photo quality.'
+      title: "Sample2",
+      content: "Sample content for notice 2"
     },
     {
-      date: '2025-01-05',
-      title: 'Holiday Schedule Update',
-      content: 'Please check our updated holiday schedule for the new year.'
+      title: "Sample3",
+      content: "Sample content for notice 3"
     }
   ];
 
   const handleQuestionClick = (question: string) => {
     setOpenQuestion(openQuestion === question ? null : question);
+  };
+
+  const handleEventClick = (eventTitle: string) => {
+    setOpenEvent(openEvent === eventTitle ? null : eventTitle);
+  };
+
+  const handleNoticeClick = (noticeTitle: string) => {
+    setOpenNotice(openNotice === noticeTitle ? null : noticeTitle);
   };
 
   const handleMainTabClick = (tabId: string) => {
@@ -263,24 +261,49 @@ const MobileSupport: NextPage = () => {
                   transition={{ delay: index * 0.1 }}
                   className="bg-white/5 rounded-lg overflow-hidden"
                 >
-                  <div className="relative">
-                    <Image
-                      src={event.image}
-                      alt={event.title}
-                      width={400}
-                      height={200}
-                      className="w-full h-32 object-cover"
-                    />
-                    {event.isNew && (
-                      <span className="absolute top-2 right-2 bg-[#FF6100] text-white text-xs px-2 py-1 rounded">
-                        NEW
-                      </span>
+                  <button
+                    onClick={() => handleEventClick(event.title)}
+                    className={`w-full text-left p-4 transition-all duration-200 ${
+                      openEvent === event.title ? 'bg-white/10' : 'bg-white/5'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-medium">{event.title}</h3>
+                      <FiChevronDown 
+                        className={`transition-transform duration-300 ${
+                          openEvent === event.title ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
+                  </button>
+                  <AnimatePresence>
+                    {openEvent === event.title && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ 
+                          height: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] },
+                          opacity: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }
+                        }}
+                        className="px-4 pb-4 overflow-hidden"
+                      >
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ 
+                            delay: 0.2, 
+                            duration: 0.4, 
+                            ease: [0.4, 0.0, 0.2, 1] 
+                          }}
+                        >
+                          <p className="text-gray-300 text-sm leading-relaxed">
+                            {event.content}
+                          </p>
+                        </motion.div>
+                      </motion.div>
                     )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-medium mb-2">{event.title}</h3>
-                    <span className="text-[#FF6100] text-sm">{event.status}</span>
-                  </div>
+                  </AnimatePresence>
                 </motion.div>
               ))}
             </div>
@@ -295,13 +318,51 @@ const MobileSupport: NextPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white/5 rounded-lg p-4"
+                  className="bg-white/5 rounded-lg overflow-hidden"
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-medium">{notice.title}</h3>
-                    <span className="text-gray-400 text-sm">{notice.date}</span>
-                  </div>
-                  <p className="text-gray-300 text-sm">{notice.content}</p>
+                  <button
+                    onClick={() => handleNoticeClick(notice.title)}
+                    className={`w-full text-left p-4 transition-all duration-200 ${
+                      openNotice === notice.title ? 'bg-white/10' : 'bg-white/5'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-medium">{notice.title}</h3>
+                      <FiChevronDown 
+                        className={`transition-transform duration-300 ${
+                          openNotice === notice.title ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </div>
+                  </button>
+                  <AnimatePresence>
+                    {openNotice === notice.title && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ 
+                          height: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] },
+                          opacity: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }
+                        }}
+                        className="px-4 pb-4 overflow-hidden"
+                      >
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ 
+                            delay: 0.2, 
+                            duration: 0.4, 
+                            ease: [0.4, 0.0, 0.2, 1] 
+                          }}
+                        >
+                          <p className="text-gray-300 text-sm leading-relaxed">
+                            {notice.content}
+                          </p>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               ))}
             </div>

@@ -13,6 +13,8 @@ const Support: NextPage = () => {
   const [activeMainTab, setActiveMainTab] = useState<string | null>(null);
   const [activeFaqTab, setActiveFaqTab] = useState('all');
   const [openQuestion, setOpenQuestion] = useState<string | null>(null);
+  const [openEvent, setOpenEvent] = useState<string | null>(null);
+  const [openNotice, setOpenNotice] = useState<string | null>(null);
 
   const mainTabs = [
     { id: 'faq', label: 'FAQ' },
@@ -72,119 +74,31 @@ const Support: NextPage = () => {
 
   const events = [
     {
-      status: 'ongoing',
-      type: 'notice',
-      title: "SIHYUNHADA 2025 Birthday Event",
-      isNew: true,
-      image: "/images/gallery-studio-1.jpg"
+      title: "Sample1",
+      content: "Sample content for event 1"
     },
     {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Pet Day Special Art Poster Event",
-      isNew: true,
-      image: "/images/gallery-studio-2.jpg"
+      title: "Sample2", 
+      content: "Sample content for event 2"
     },
     {
-      status: 'ongoing',
-      type: 'notice',
-      title: "2025 SIHYUNHADA Regular Event Guide",
-      isNew: false,
-      image: "/images/gallery-studio-3.jpg"
-    },
-    {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Bukchon House 1st Anniversary Event",
-      isNew: false,
-      image: "/images/gallery-event-1.jpg"
-    },
-    {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Hongdae Space 1st Anniversary Event",
-      isNew: false,
-      image: "/images/gallery-event-2.jpg"
-    },
-    {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Student ID Photo Event",
-      isNew: false,
-      image: "/images/gallery-event-3.jpg"
-    },
-    {
-      status: 'ongoing',
-      type: 'notice',
-      title: "SIHYUNHADA LA Final Thank You Sale",
-      isNew: false,
-      image: "/images/gallery-studio-5.jpg"
-    },
-    {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Premium Package Upgrade Event",
-      isNew: false,
-      image: "/images/gallery-studio-6.jpg"
-    },
-    {
-      status: 'ongoing',
-      type: 'notice',
-      title: "Beauty Palace Hair & Makeup Shop Partnership",
-      isNew: false,
-      image: "/images/gallery-studio-7.jpg"
+      title: "Sample3",
+      content: "Sample content for event 3"
     }
   ];
 
   const notices = [
     {
-      status: 'new',
-      type: 'notice',
-      title: "Studio Operating Hours Update",
-      date: "2024.03.01",
-      isNew: true,
+      title: "Sample1",
+      content: "Sample content for notice 1"
     },
     {
-      status: 'notice',
-      type: 'notice',
-      title: "New Photography Equipment Introduction",
-      date: "2024.02.25",
-      isNew: true,
+      title: "Sample2",
+      content: "Sample content for notice 2"
     },
     {
-      status: 'notice',
-      type: 'notice',
-      title: "March Holiday Schedule Announcement",
-      date: "2024.02.20",
-      isNew: false,
-    },
-    {
-      status: 'notice',
-      type: 'notice',
-      title: "Studio Renovation Notice",
-      date: "2024.02.15",
-      isNew: false,
-    },
-    {
-      status: 'notice',
-      type: 'notice',
-      title: "Photography Workshop Registration Open",
-      date: "2024.02.10",
-      isNew: false,
-    },
-    {
-      status: 'notice',
-      type: 'notice',
-      title: "Updated Booking System Guide",
-      date: "2024.02.05",
-      isNew: false,
-    },
-    {
-      status: 'notice',
-      type: 'notice',
-      title: "New Photo Package Options Available",
-      date: "2024.02.01",
-      isNew: false,
+      title: "Sample3",
+      content: "Sample content for notice 3"
     }
   ];
 
@@ -194,6 +108,14 @@ const Support: NextPage = () => {
 
   const handleQuestionClick = (question: string) => {
     setOpenQuestion(openQuestion === question ? null : question);
+  };
+
+  const handleEventClick = (eventTitle: string) => {
+    setOpenEvent(openEvent === eventTitle ? null : eventTitle);
+  };
+
+  const handleNoticeClick = (noticeTitle: string) => {
+    setOpenNotice(openNotice === noticeTitle ? null : noticeTitle);
   };
 
   useEffect(() => {
@@ -346,8 +268,59 @@ const Support: NextPage = () => {
           {activeMainTab === 'event' && (
             <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {events.map((event) => (
-                <div key={event.title} className="support-list-item">
-                  {event.title}
+                <div key={event.title} style={{ width: '100%', marginBottom: '0.5rem' }}>
+                  <button
+                    onClick={() => handleEventClick(event.title)}
+                    className={`faq-category-btn faq-question-btn${openEvent === event.title ? ' active' : ''}`}
+                    style={{ 
+                      textAlign: 'left', 
+                      width: '100%', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center'
+                    }}
+                  >
+                    <span>{event.title}</span>
+                    <FiChevronDown 
+                      style={{
+                        transform: openEvent === event.title ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.3s ease'
+                      }}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {openEvent === event.title && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ 
+                          height: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] },
+                          opacity: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }
+                        }}
+                        style={{ 
+                          padding: '1rem 2rem', 
+                          color: '#fff', 
+                          fontSize: '1rem', 
+                          background: 'none', 
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ 
+                            delay: 0.2, 
+                            duration: 0.4, 
+                            ease: [0.4, 0.0, 0.2, 1] 
+                          }}
+                        >
+                          <p style={{ margin: 0, lineHeight: '1.6', whiteSpace: 'pre-line' }}>
+                            {event.content}
+                          </p>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
@@ -356,9 +329,59 @@ const Support: NextPage = () => {
           {activeMainTab === 'notice' && (
             <div style={{ width: '100%', maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {notices.map((notice) => (
-                <div key={notice.title} className="support-list-item">
-                  <div>{notice.title}</div>
-                  <div style={{fontSize: '0.9rem', color: '#ccc'}}>{notice.date}</div>
+                <div key={notice.title} style={{ width: '100%', marginBottom: '0.5rem' }}>
+                  <button
+                    onClick={() => handleNoticeClick(notice.title)}
+                    className={`faq-category-btn faq-question-btn${openNotice === notice.title ? ' active' : ''}`}
+                    style={{ 
+                      textAlign: 'left', 
+                      width: '100%', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'center'
+                    }}
+                  >
+                    <span>{notice.title}</span>
+                    <FiChevronDown 
+                      style={{
+                        transform: openNotice === notice.title ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.3s ease'
+                      }}
+                    />
+                  </button>
+                  <AnimatePresence>
+                    {openNotice === notice.title && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ 
+                          height: { duration: 0.5, ease: [0.4, 0.0, 0.2, 1] },
+                          opacity: { duration: 0.4, ease: [0.4, 0.0, 0.2, 1] }
+                        }}
+                        style={{ 
+                          padding: '1rem 2rem', 
+                          color: '#fff', 
+                          fontSize: '1rem', 
+                          background: 'none', 
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ 
+                            delay: 0.2, 
+                            duration: 0.4, 
+                            ease: [0.4, 0.0, 0.2, 1] 
+                          }}
+                        >
+                          <p style={{ margin: 0, lineHeight: '1.6', whiteSpace: 'pre-line' }}>
+                            {notice.content}
+                          </p>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
