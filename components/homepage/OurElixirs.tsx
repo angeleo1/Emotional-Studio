@@ -79,7 +79,7 @@ export default function OurElixirs() {
                     className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
                       fontSize: isMobile ? 'calc(100vh / 6)' : 'calc(100vh / 3.2)',
-                      color: '#ff2222',
+                      color: '#C2185B',
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
@@ -101,7 +101,7 @@ export default function OurElixirs() {
                     className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
                       fontSize: isMobile ? 'calc(100vh / 6)' : 'calc(100vh / 3.2)',
-                      color: '#ff00b8',
+                      color: '#FFE135',
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
@@ -123,7 +123,7 @@ export default function OurElixirs() {
                     className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
                       fontSize: isMobile ? 'calc(100vh / 6)' : 'calc(100vh / 3.2)',
-                      color: '#7cffb2',
+                      color: '#8A2BE2',
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
@@ -160,8 +160,8 @@ export default function OurElixirs() {
                   className="text-2xl md:text-4xl font-bold mb-4"
                   style={{
                     fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#ff2222' :
-                           selectedCocktail.name === 'ECSTASY GLOW' ? '#ff00b8' : '#7cffb2'
+                    color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#C2185B' :
+                           selectedCocktail.name === 'ECSTASY GLOW' ? '#FFE135' : '#8A2BE2'
                   }}
                 >
                   {selectedCocktail.name}

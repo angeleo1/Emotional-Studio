@@ -81,7 +81,7 @@ const MobileElixirs: NextPage = () => {
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
                         style={{
                           fontSize: 'calc(100vh / 15)',
-                          color: '#ff2222',
+                          color: '#C2185B',
                           letterSpacing: '0.01em',
                           fontFamily: 'CS-Valcon-Drawn-akhr7k',
                           writingMode: 'vertical-rl',
@@ -108,7 +108,7 @@ const MobileElixirs: NextPage = () => {
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
                         style={{
                           fontSize: 'calc(100vh / 15)',
-                          color: '#ff00b8',
+                          color: '#FFE135',
                           letterSpacing: '0.01em',
                           fontFamily: 'CS-Valcon-Drawn-akhr7k',
                           writingMode: 'vertical-rl',
@@ -135,7 +135,7 @@ const MobileElixirs: NextPage = () => {
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
                         style={{
                           fontSize: 'calc(100vh / 15)',
-                          color: '#7cffb2',
+                          color: '#8A2BE2',
                           letterSpacing: '0.01em',
                           fontFamily: 'CS-Valcon-Drawn-akhr7k',
                           writingMode: 'vertical-rl',
@@ -178,8 +178,8 @@ const MobileElixirs: NextPage = () => {
                   className="text-2xl font-bold mb-4"
                   style={{
                     fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#ff2222' :
-                           selectedCocktail.name === 'ECSTASY GLOW' ? '#ff00b8' : '#7cffb2'
+                    color: selectedCocktail.name === 'PASSIONATE ORANGE' ? '#C2185B' :
+                           selectedCocktail.name === 'ECSTASY GLOW' ? '#FFE135' : '#8A2BE2'
                   }}
                 >
                   {selectedCocktail.name}

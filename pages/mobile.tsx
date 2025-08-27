@@ -615,15 +615,7 @@ export default function MobilePage() {
           </h1>
         </div>
 
-        {/* 중앙~하단 우측: 감각적 문구 - emotional studios 위로 이동 */}
-        <div className="absolute right-2 sm:right-4 text-white text-sm sm:text-lg font-semibold tracking-wide select-none pointer-events-none z-10 text-right leading-relaxed max-w-24 sm:max-w-32 top-1/3 transform -translate-y-1/2 px-2">
-          Branded UI<br />
-          Experiment<br />
-          <span className="font-normal text-sm sm:text-base opacity-100">
-            Feel the Vibe<br />
-            <span className="font-bold text-base sm:text-lg text-[#FF6100] opacity-100">e.st</span>
-          </span>
-        </div>
+
 
         {/* 버튼 영역 - 하단으로 이동, 겹침 완전 해결 */}
         <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 px-4 w-full max-w-sm sm:max-w-md">
@@ -791,7 +783,8 @@ export default function MobilePage() {
 
         {/* 상단 우측: since Oct.2025 - 햄버거 메뉴 밑으로 이동 */}
         <div className="absolute top-20 right-2 sm:right-4 text-xs sm:text-sm font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1 px-2">
-          <span className="text-white opacity-100">since Oct.2025</span>
+          <span className="text-[#FF6100] opacity-100">since </span>
+          <span className="text-gray-400 opacity-100">Oct.2025</span>
           <span className="text-white opacity-100 font-bold text-sm sm:text-base tracking-tight">
             The First Project of emotional
           </span>
