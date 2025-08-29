@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { FaTiktok, FaYoutube, FaFacebookF, FaInstagram, FaArrowRight } from 'react-icons/fa';
+import { FaInstagram, FaArrowRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
@@ -140,17 +140,8 @@ const MobileContact: NextPage = () => {
                 Follow Us
               </h2>
               <div className="flex justify-center gap-6">
-                <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" className="group">
-                  <FaTiktok className="w-8 h-8 text-white group-hover:text-[#FF6100] transition-colors duration-300" />
-                </a>
-                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className="group">
-                  <FaFacebookF className="w-8 h-8 text-white group-hover:text-[#FF6100] transition-colors duration-300" />
-                </a>
                 <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="group">
                   <FaInstagram className="w-8 h-8 text-white group-hover:text-[#FF6100] transition-colors duration-300" />
-                </a>
-                <a href="https://www.youtube.com/channel/UCiD4_8JWUt24lkJwYMum8NA" target="_blank" rel="noopener noreferrer" className="group">
-                  <FaYoutube className="w-8 h-8 text-white group-hover:text-[#FF6100] transition-colors duration-300" />
                 </a>
               </div>
             </motion.div>

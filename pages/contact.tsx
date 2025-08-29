@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Contact.module.css';
-import { FaTiktok, FaYoutube, FaFacebookF, FaInstagram, FaArrowRight } from 'react-icons/fa';
+import { FaInstagram, FaArrowRight } from 'react-icons/fa';
 import WavyClipPath from '@/components/WavyClipPath';
 import { motion } from 'framer-motion';
 import SmoothCurvedLine from '@/components/ui/SmoothCurvedLine';
@@ -76,10 +76,7 @@ const Contact: NextPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.3, duration: 0.6 }}
               >
-                <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaTiktok className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
-                <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaFacebookF className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
                 <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaInstagram className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
-                <a href="https://www.youtube.com/channel/UCiD4_8JWUt24lkJwYMum8NA" target="_blank" rel="noopener noreferrer" className={styles.socialLink + ' group'}><FaYoutube className="w-7 h-7 text-white group-hover:text-[#ff6100] transition-colors duration-300" /></a>
               </motion.div>
             </div>
 

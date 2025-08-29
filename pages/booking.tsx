@@ -1,19 +1,40 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useRef, useState } from 'react';
-import styles from '../styles/booking.module.css';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 // Stripe 초기화
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
 
-// 결제 폼 컴포넌트
-const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessing }: any) => {
+// Zod 스키마 정의
+const bookingSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email'),
+  phone: z.string().min(10, 'Please enter a valid phone number'),
+  date: z.date().min(new Date(), 'Please select a future date'),
+  time: z.string().min(1, 'Please select a time'),
+  shootingType: z.string().min(1, 'Please select number of people'),
+  colorOption: z.boolean(),
+  a4print: z.boolean(),
+  a4frame: z.boolean(),
+  digital: z.boolean(),
+  additionalRetouch: z.number().min(0).max(5),
+  message: z.string().optional(),
+});
+
+type BookingFormData = z.infer<typeof bookingSchema>;
+
+// PaymentForm 컴포넌트
+const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessing, calculateTotalPrice }: any) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -21,34 +42,37 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
     e.preventDefault();
     
     if (!stripe || !elements) {
+      console.log('Stripe or elements not available');
       return;
     }
 
     setIsProcessing(true);
+    console.log('Starting payment process...');
 
     try {
-      // Stripe 결제 인텐트 생성
+      const totalAmount = calculateTotalPrice();
+      console.log('Total amount:', totalAmount);
+
       const response = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          shootingType: formData.shootingType,
-          colorOption: formData.colorOption,
-          otherGoods: formData.otherGoods,
-          formData: formData
+          amount: totalAmount,
+          currency: 'aud'
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create payment intent');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create payment intent');
       }
 
       const { clientSecret } = await response.json();
+      console.log('Payment intent created, client secret received');
 
-      // 결제 확인
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement)!,
         },
@@ -56,581 +80,668 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
 
       if (error) {
         console.error('Payment error:', error);
-        onError(`Payment failed: ${error.message}`);
+         // Stripe 에러 메시지를 사용자 친화적으로 변환
+         let userMessage = 'Payment failed. Please try again.';
+         if (error.code === 'card_declined') {
+           userMessage = 'Card was declined. Please try a different card.';
+         } else if (error.code === 'expired_card') {
+           userMessage = 'Card has expired. Please use a different card.';
+         } else if (error.code === 'incorrect_cvc') {
+           userMessage = 'Incorrect CVC. Please check and try again.';
+         } else if (error.code === 'processing_error') {
+           userMessage = 'Payment processing error. Please try again.';
+         }
+         onError(userMessage);
       } else {
+         console.log('Payment successful:', paymentIntent);
         onSuccess();
       }
     } catch (error) {
       console.error('Error:', error);
-      onError('Failed to process payment. Please try again.');
+       onError('Payment processing failed. Please try again.');
     } finally {
       setIsProcessing(false);
     }
   };
 
   return (
-    <div className={styles.paymentForm}>
-      <form onSubmit={handleSubmit}>
-        <div className={styles.cardElementContainer}>
+     <motion.div
+       initial={{ opacity: 0, y: 20 }}
+       animate={{ opacity: 1, y: 0 }}
+       className="mb-8"
+     >
+       <div className="p-8">
+        <h3 className="text-3xl font-bold text-white mb-8 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+          Payment Information
+        </h3>
+        
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div>
+            <label className="block text-lg font-medium text-white mb-4">
+              Card Details
+            </label>
+                         <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
           <CardElement
             options={{
               style: {
                 base: {
-                  fontSize: '16px',
-                  color: '#424770',
+                         fontSize: '18px',
+                         color: '#ffffff',
                   '::placeholder': {
-                    color: '#aab7c4',
+                           color: 'rgba(255, 255, 255, 0.6)',
                   },
                 },
                 invalid: {
-                  color: '#9e2146',
-                },
-              },
+                         color: '#ff6b6b',
+                       },
+                     },
+                     hidePostalCode: true,
+                     disabled: false,
+                     classes: {
+                       base: 'StripeElement',
+                       complete: 'StripeElement--complete',
+                       empty: 'StripeElement--empty',
+                       focus: 'StripeElement--focus',
+                       invalid: 'StripeElement--invalid',
+                       webkitAutofill: 'StripeElement--webkit-autofill',
+                     },
             }}
           />
         </div>
+          </div>
+
         <button 
           type="submit" 
-          className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
+            className={`w-full py-5 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${
+              isProcessing
+                ? 'bg-gray-500 cursor-not-allowed'
+                : 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl'
+            } text-white`}
           disabled={!stripe || isProcessing}
         >
-          {isProcessing ? 'Processing Payment...' : 'Pay Now'}
+            {isProcessing ? (
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Processing Payment...</span>
+              </div>
+            ) : (
+              'Pay Now'
+            )}
         </button>
       </form>
     </div>
+    </motion.div>
   );
 };
 
 const Booking: NextPage = () => {
-  const bookingFormRef = useRef<HTMLDivElement>(null);
   const [isBookingVisible, setIsBookingVisible] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showPayment, setShowPayment] = useState(false);
-  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-  const [isLoadingTimes, setIsLoadingTimes] = useState(false);
-  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    date: null as Date | null,
-    time: '',
-    shootingType: '',
+
+  // React Hook Form 설정
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<BookingFormData>({
+    resolver: zodResolver(bookingSchema),
+    mode: 'onChange',
+    defaultValues: {
     colorOption: false,
-    otherGoods: {
       a4print: false,
       a4frame: false,
       digital: false,
-      calendar: false,
-      additionalRetouch: 0
+      additionalRetouch: 0,
     },
-    message: ''
   });
 
-  // 날짜가 변경될 때마다 사용 가능한 시간 확인
-  useEffect(() => {
-    if (formData.date) {
-      checkAvailability();
-    } else {
-      setAvailableTimes([]);
-      setBookedTimes([]);
-      setFormData(prev => ({ ...prev, time: '' }));
-    }
-  }, [formData.date]);
+  const watchedValues = watch();
 
-  const checkAvailability = async () => {
-    if (!formData.date) return;
+  // 사용 가능한 시간
+  const [availableTimes] = useState([
+    '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
+    '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
+  ]);
 
-    setIsLoadingTimes(true);
-    try {
-      const dateString = formData.date.toISOString().split('T')[0];
-      const response = await fetch(`/api/check-availability?date=${dateString}`);
-      
-      if (response.ok) {
-        const data = await response.json();
-        setAvailableTimes(data.availableTimes);
-        setBookedTimes(data.bookedTimes);
-        
-        // 현재 선택된 시간이 사용 불가능하면 초기화
-        if (formData.time && !data.availableTimes.includes(formData.time)) {
-          setFormData(prev => ({ ...prev, time: '' }));
-        }
-      } else {
-        console.error('Failed to check availability');
-        setAvailableTimes([]);
-        setBookedTimes([]);
-      }
-    } catch (error) {
-      console.error('Error checking availability:', error);
-      setAvailableTimes([]);
-      setBookedTimes([]);
-    } finally {
-      setIsLoadingTimes(false);
-    }
-  };
-
-  useEffect(() => {
-    if (isBookingVisible) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    };
-  }, [isBookingVisible]);
-
+     // 총 가격 계산 함수
   const calculateTotalPrice = () => {
     let basePrice = 0;
-    switch (formData.shootingType) {
-      case '1person':
-        basePrice = 65;
-        break;
-      case '2people':
-        basePrice = 130;
-        break;
-      case '3people':
-        basePrice = 195;
-        break;
-      case '4people':
-        basePrice = 260;
-        break;
-      case 'more':
-        basePrice = 0;
-        break;
-      default:
-        basePrice = 0;
+     switch (watchedValues.shootingType) {
+       case 'test': basePrice = 1; break;
+       case '1person': basePrice = 65; break;
+       case '2people': basePrice = 130; break;
+       case '3people': basePrice = 195; break;
+       case '4people': basePrice = 260; break;
+       default: basePrice = 0;
     }
 
     let additionalCost = 0;
-    if (formData.colorOption) additionalCost += 10;
-    if (formData.otherGoods.a4print) additionalCost += 10;
-    if (formData.otherGoods.a4frame) additionalCost += 15;
-    if (formData.otherGoods.digital) additionalCost += 20;
-    if (formData.otherGoods.calendar) additionalCost += 45;
-    if (formData.otherGoods.additionalRetouch) additionalCost += (formData.otherGoods.additionalRetouch * 15);
+    if (watchedValues.colorOption) additionalCost += 10;
+    if (watchedValues.a4print) additionalCost += 10;
+    if (watchedValues.a4frame) additionalCost += 15;
+    if (watchedValues.digital) additionalCost += 20;
+    if (watchedValues.additionalRetouch) {
+      additionalCost += (watchedValues.additionalRetouch * 15);
+    }
 
     return basePrice + additionalCost;
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.shootingType) {
-      alert('Please select number of people.');
-      return;
-    }
-
-    // 필수 필드 검증
-    if (!formData.name || !formData.email || !formData.phone) {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
-    if (!formData.date || !formData.time) {
-      alert('Please select a date and time.');
-      return;
-    }
-
-    // 예약 저장
-    try {
-      const dateString = formData.date.toISOString().split('T')[0];
-      const response = await fetch('/api/save-booking', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          date: dateString
-        }),
-      });
-
-      if (response.ok) {
-        setShowPayment(true);
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || 'Failed to save booking. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error saving booking:', error);
-      alert('Failed to save booking. Please try again.');
-    }
+  // 폼 제출 핸들러
+  const onSubmit = (data: BookingFormData) => {
+    console.log('Form data:', data);
+    setCurrentStep(2);
   };
 
+  // 결제 성공 핸들러
   const handlePaymentSuccess = () => {
-    alert('Payment successful! Your booking has been confirmed. We will contact you soon.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      date: null,
-      time: '',
-      shootingType: '',
-      colorOption: false,
-      otherGoods: {
-        a4print: false,
-        a4frame: false,
-        digital: false,
-        calendar: false
-      },
-      message: ''
-    });
-    setShowPayment(false);
-    setAvailableTimes([]);
-    setBookedTimes([]);
+    setIsProcessing(false);
+    setCurrentStep(3);
+    
+    // 3초 후 모달 닫기
+    setTimeout(() => {
+      setIsBookingVisible(false);
+      setCurrentStep(1);
+    }, 3000);
   };
 
+     // 결제 실패 핸들러
   const handlePaymentError = (message: string) => {
-    alert(message);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleDateChange = (date: Date | null) => {
-    setFormData(prev => ({
-      ...prev,
-      date: date
-    }));
-  };
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    if (name === 'colorOption') {
-      setFormData(prev => ({ ...prev, [name]: checked }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        otherGoods: { ...prev.otherGoods, [name]: checked }
-      }));
-    }
+     setIsProcessing(false);
+     // 한글 에러 메시지를 영어로 변환
+     let englishMessage = message;
+     if (message.includes('보안 연결')) {
+       englishMessage = 'Payment processing error. Please try again.';
+     } else if (message.includes('자동 결제')) {
+       englishMessage = 'Payment method error. Please check your card details.';
+     }
+     alert(`Payment failed: ${englishMessage}`);
   };
 
   const handleEnterClick = () => {
     setIsBookingVisible(true);
   };
 
-  const formatTime = (time: string) => {
-    const [hour, minute] = time.split(':');
-    const hourNum = parseInt(hour);
-    const ampm = hourNum >= 12 ? 'PM' : 'AM';
-    const displayHour = hourNum > 12 ? hourNum - 12 : hourNum === 0 ? 12 : hourNum;
-    return `${displayHour}:${minute} ${ampm}`;
-  };
-
-  const getAllTimes = () => {
-    return [
-      '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
-      '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
-    ];
-  };
-
-  const textContent = [
-    { type: 'line', text: "This is more than just a studio;" },
-    { type: 'line', text: [
-      { text: "it's a sanctuary where " },
-      { text: "artistry", isOrange: true },
-      { text: " meets " },
-      { text: "comfort", isOrange: true },
-      { text: "." }
-    ]},
-    { type: 'line', text: "Every corner is designed to inspire your creativity" },
-    { type: 'line', text: [
-      { text: "and capture your most " },
-      { text: "authentic moments", isOrange: true },
-      { text: "." }
-    ]},
-    { type: 'line', text: "Begin your own story here." }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const lineVariants = {
-    hidden: { y: "100%", opacity: 0 },
-    visible: {
-      y: "0%",
-      opacity: 1,
-      transition: {
-        duration: 0.7,
-        ease: "easeOut",
-      },
-    },
+  const closeBooking = () => {
+    setIsBookingVisible(false);
+    setCurrentStep(1);
   };
 
   return (
     <>
       <Head>
         <title>Booking | Emotional Studio</title>
-        <meta name="description" content="Book a session with Emotional Studio for a unique photographic experience." />
+        <meta name="description" content="Book your session at Emotional Studio" />
       </Head>
-      <AnimatePresence mode="wait">
-        {!isBookingVisible ? (
-          <motion.div
-            key="intro"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.5 } }}
-          >
-            <div className={`${styles.mainContainer} ${styles.noScroll}`}>
-              <div className={styles.gridContainer}>
-                <motion.div 
-                  className={styles.mainTitle} 
-                  id="creativity-text"
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {textContent.map((line, lineIndex) => (
-                    <motion.div
-                      key={lineIndex}
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        delay: 0.3 + lineIndex * 0.25,
-                        duration: 0.7,
-                        ease: 'easeOut',
-                      }}
-                      style={{ overflow: 'hidden' }}
-                    >
-                      <motion.p style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-                        {Array.isArray(line.text) ? (
-                          line.text.map((segment, segmentIndex) => (
-                            <span key={segmentIndex} className={segment.isOrange ? styles.orangeText : ''}>
-                              {segment.text}
-                            </span>
-                          ))
-                        ) : (
-                          line.text
-                        )}
-                      </motion.p>
-                    </motion.div>
-                  ))}
-                </motion.div>
-                <div className={styles.imageContainer} style={{ background: '#111' }}>
-                  <Image
-                    src="/images/landing.png"
-                    alt="Studio concept image"
-                    width={800}
-                    height={800}
-                    className={styles.mainImage}
-                    priority
-                  />
-                  <button className={styles.clickButton} onClick={handleEnterClick} style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-                    Click
-                  </button>
-                </div>
-              </div>
 
-              <footer className={styles.footer}>
-                <div className={styles.coordinates}>Emotional Studio</div>
-                <div className={styles.mysteriousMessage}>Capture Your True Essence</div>
-              </footer>
-              </div>
-          </motion.div>
-        ) : (
+      <AnimatePresence>
+        {isBookingVisible && (
           <motion.div
-            key="booking"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.5, delay: 0.3 } }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            onClick={closeBooking}
           >
-            <form onSubmit={handleFormSubmit}>
-              <div className={styles.mainContainer}>
-                <section ref={bookingFormRef} className={styles.bookingSection}>
-                  <div className={styles.bookingGrid}>
-                    <h2 className={styles.bookingTitle} style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-                      Book Your Sessio<span className={styles.skewedN}>n</span>
+                <motion.div 
+              initial={{ y: 50, opacity: 0, scale: 0.9 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 50, opacity: 0, scale: 0.9 }}
+              className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto custom-scrollbar"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* 메인 컨테이너 */}
+              <div className="relative">
+                {/* 그라데이션 배경 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#111] via-[#111] to-[#111] rounded-3xl"></div>
+                
+                {/* 글래스모피즘 오버레이 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl border border-white/20"></div>
+                
+                {/* 컨텐츠 */}
+                <div className="relative p-8">
+                  {/* 헤더 */}
+                  <div className="text-center mb-12">
+                    <h2 className="text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
+                      Book Your Session
                     </h2>
-                    
-                    <div className={styles.formColumn}>
-                      <h3 className={styles.formSectionTitle}>I. Session Details</h3>
-                      <div className={styles.formControl}>
-                        <label htmlFor="shootingType">NUMBER OF PEOPLE</label>
-                        <select id="shootingType" name="shootingType" value={formData.shootingType} onChange={handleChange} required>
-                          <option value="" disabled>Select...</option>
-                            <option value="1person">1 : $65</option>
-                            <option value="2people">2 : $130</option>
-                            <option value="3people">3 : $195</option>
-                            <option value="4people">4 : $260</option>
-                          <option value="more">or More (Contact)</option>
-                          </select>
+                    <p className="text-xl text-gray-300">Create unforgettable memories with us</p>
+                  </div>
+
+                  {/* 진행 단계 표시 */}
+                  <div className="flex items-center justify-center space-x-8 mb-12">
+                    {[1, 2, 3].map((step) => (
+                      <div key={step} className="flex items-center">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                          currentStep === step 
+                            ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] text-white shadow-lg scale-110' 
+                            : 'bg-gray-700/50 text-gray-400 border border-gray-600'
+                        }`}>
+                          {step}
+                        </div>
+                        {step < 3 && (
+                          <div className={`w-20 h-1 mx-4 transition-all duration-300 ${
+                            currentStep > step ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00]' : 'bg-gray-600'
+                          }`}></div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* 단계별 컨텐츠 */}
+                  {currentStep === 1 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="max-w-4xl mx-auto"
+                    >
+                      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                                                 {/* 기본 정보 */}
+                         <div className="mb-8">
+                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Basic Information</h3>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                             <div>
+                               <label className="block text-lg font-medium text-white mb-3">Name *</label>
+                               <Controller
+                                 name="name"
+                                 control={control}
+                                 render={({ field }) => (
+                                   <input
+                                     {...field}
+                                     type="text"
+                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-300"
+                                     placeholder="Enter your name"
+                                   />
+                                 )}
+                               />
+                               {errors.name && (
+                                 <p className="text-red-400 text-sm mt-2">{errors.name.message}</p>
+                               )}
+                             </div>
+                             
+                             <div>
+                               <label className="block text-lg font-medium text-white mb-3">Email *</label>
+                               <Controller
+                                 name="email"
+                                 control={control}
+                                 render={({ field }) => (
+                                   <input
+                                     {...field}
+                                     type="email"
+                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-300"
+                                     placeholder="Enter your email"
+                                   />
+                                 )}
+                               />
+                               {errors.email && (
+                                 <p className="text-red-400 text-sm mt-2">{errors.email.message}</p>
+                               )}
+                             </div>
+                             
+                             <div>
+                               <label className="block text-lg font-medium text-white mb-3">Phone *</label>
+                               <Controller
+                                 name="phone"
+                                 control={control}
+                                 render={({ field }) => (
+                                   <input
+                                     {...field}
+                                     type="tel"
+                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-300"
+                                     placeholder="Enter your phone number"
+                                   />
+                                 )}
+                               />
+                               {errors.phone && (
+                                 <p className="text-red-400 text-sm mt-2">{errors.phone.message}</p>
+                               )}
+                             </div>
                 </div>
-                      <div className={styles.formControl}>
-                        <label htmlFor="date">Preferred Date</label>
-                        <DatePicker selected={formData.date} onChange={handleDateChange} dateFormat="MMMM d, yyyy" minDate={new Date()} placeholderText="Select a date" required />
-                </div>
-                       <div className={styles.formControl}>
-                        <label htmlFor="time">Preferred Time</label>
-                        <select 
-                          id="time" 
-                          name="time" 
-                          value={formData.time} 
-                          onChange={handleChange} 
-                          required
-                          disabled={isLoadingTimes}
-                        >
-                          <option value="" disabled>
-                            {isLoadingTimes ? 'Loading available times...' : 'Select a time...'}
-                          </option>
-                          {getAllTimes().map((time) => {
-                            const isBooked = bookedTimes.includes(time);
-                            return (
-                              <option 
-                                key={time} 
-                                value={time} 
-                                disabled={isBooked}
-                                style={{ 
-                                  color: isBooked ? '#999' : '#000',
-                                  backgroundColor: isBooked ? '#f5f5f5' : '#fff'
-                                }}
-                              >
-                                {formatTime(time)} {isBooked ? '(Booked)' : ''}
-                              </option>
-                            );
-                          })}
-                        </select>
-                </div>
-                        <div className={styles.formControl}>
-                          <div className={styles.snsContainer}>
-                            <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className={styles.snsIconWrapper}>
-                              <div className={styles.baseIcon}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 256 256"><path fill="currentColor" d="M128 23.064c34.177 0 38.225.13 51.722.745 12.48.57 19.258 2.655 23.769 4.408 5.974 2.322 10.238 5.096 14.717 9.575 4.48 4.479 7.253 8.743 9.575 14.717 1.753 4.511 3.838 11.289 4.408 23.768.615 13.498.745 17.546.745 51.723 0 34.178-.13 38.226-.745 51.723-.57 12.48-2.655 19.257-4.408 23.768-2.322 5.974-5.096 10.239-9.575 14.718-4.479 4.479-8.743 7.253-14.717 9.574-4.511 1.753-11.289 3.839-23.769 4.408-13.495.616-17.543.746-51.722.746-34.18 0-38.228-.13-51.723-.746-12.48-.57-19.257-2.655-23.768-4.408-5.974-2.321-10.239-5.095-14.718-9.574-4.479-4.48-7.253-8.744-9.574-14.718-1.753-4.51-3.839-11.288-4.408-23.768-.616-13.497-.746-17.545-.746-51.723 0-34.177.13-38.225.746-51.722.57-12.48 2.655-19.258 4.408-23.769 2.321-5.974 5.095-10.238 9.574-14.717 4.48-4.48 8.744-7.253 14.718-9.575 4.51-1.753 11.288-3.838 23.768-4.408 13.497-.615 17.545-.745 51.723-.745M128 0C93.237 0 88.878.147 75.226.77c-13.625.622-22.93 2.786-31.071 5.95-8.418 3.271-15.556 7.648-22.672 14.764C14.367 28.6 9.991 35.738 6.72 44.155 3.555 52.297 1.392 61.602.77 75.226.147 88.878 0 93.237 0 128c0 34.763.147 39.122.77 52.774.622 13.625 2.785 22.93 5.95 31.071 3.27 8.417 7.647 15.556 14.763 22.672 7.116 7.116 14.254 11.492 22.672 14.763 8.142 3.165 17.446 5.328 31.07 5.95 13.653.623 18.012.77 52.775.77s39.122-.147 52.774-.77c13.624-.622 22.929-2.785 31.07-5.95 8.418-3.27 15.556-7.647 22.672-14.763 7.116-7.116 11.493-14.254 14.764-22.672 3.164-8.142 5.328-17.446 5.95-31.07.623-13.653.77-18.012.77-52.775s-.147-39.122-.77-52.774c-.622-13.624-2.786-22.929-5.95-31.07-3.271-8.418-7.648-15.556-14.764-22.672C227.4 14.368 220.262 9.99 211.845 6.72c-8.142-3.164-17.447-5.328-31.071-5.95C167.122.147 162.763 0 128 0Zm0 62.27C91.698 62.27 62.27 91.7 62.27 128c0 36.302 29.428 65.73 65.73 65.73 36.301 0 65.73-29.428 65.73-65.73 0-36.301-29.429-65.73-65.73-65.73Zm0 108.397c-23.564 0-42.667-19.103-42.667-42.667S104.436 85.333 128 85.333s42.667 19.103 42.667 42.667-19.103 42.667-42.667 42.667Zm83.686-110.994c0 8.484-6.876 15.36-15.36 15.36-8.483 0-15.36-6.876-15.36-15.36 0-8.483 6.877-15.36 15.36-15.36 8.484 0 15.36 6.877 15.36 15.36Z"/></svg>
               </div>
-                              <div className={`${styles.glitchLayer} ${styles.glitchLayer1}`}><svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 256 256"><path fill="currentColor" d="M128 23.064c34.177 0 38.225.13 51.722.745 12.48.57 19.258 2.655 23.769 4.408 5.974 2.322 10.238 5.096 14.717 9.575 4.48 4.479 7.253 8.743 9.575 14.717 1.753 4.511 3.838 11.289 4.408 23.768.615 13.498.745 17.546.745 51.723 0 34.178-.13 38.226-.745 51.723-.57 12.48-2.655 19.257-4.408 23.768-2.322 5.974-5.096 10.239-9.575 14.718-4.479 4.479-8.743 7.253-14.717 9.574-4.511 1.753-11.289 3.839-23.769 4.408-13.495.616-17.543.746-51.722.746-34.18 0-38.228-.13-51.723-.746-12.48-.57-19.257-2.655-23.768-4.408-5.974-2.321-10.239-5.095-14.718-9.574-4.479-4.48-7.253-8.744-9.574-14.718-1.753-4.51-3.839-11.288-4.408-23.768-.616-13.497-.746-17.545-.746-51.723 0-34.177.13-38.225.746-51.722.57-12.48 2.655-19.258 4.408-23.769 2.321-5.974 5.095-10.238 9.574-14.717 4.48-4.48 8.744-7.253 14.718-9.575 4.51-1.753 11.288-3.838 23.768-4.408 13.497-.615 17.545-.745 51.723-.745M128 0C93.237 0 88.878.147 75.226.77c-13.625.622-22.93 2.786-31.071 5.95-8.418 3.271-15.556 7.648-22.672 14.764C14.367 28.6 9.991 35.738 6.72 44.155 3.555 52.297 1.392 61.602.77 75.226.147 88.878 0 93.237 0 128c0 34.763.147 39.122.77 52.774.622 13.625 2.785 22.93 5.95 31.071 3.27 8.417 7.647 15.556 14.763 22.672 7.116 7.116 14.254 11.492 22.672 14.763 8.142 3.165 17.446 5.328 31.07 5.95 13.653.623 18.012.77 52.775.77s39.122-.147 52.774-.77c13.624-.622 22.929-2.785 31.07-5.95 8.418-3.27 15.556-7.647 22.672-14.763 7.116-7.116 11.493-14.254 14.764-22.672 3.164-8.142 5.328-17.446 5.95-31.07.623-13.653.77-18.012.77-52.775s-.147-39.122-.77-52.774c-.622-13.624-2.786-22.929-5.95-31.07-3.271-8.418-7.648-15.556-14.764-22.672C227.4 14.368 220.262 9.99 211.845 6.72c-8.142-3.164-17.447-5.328-31.071-5.95C167.122.147 162.763 0 128 0Zm0 62.27C91.698 62.27 62.27 91.7 62.27 128c0 36.302 29.428 65.73 65.73 65.73 36.301 0 65.73-29.428 65.73-65.73 0-36.301-29.429-65.73-65.73-65.73Zm0 108.397c-23.564 0-42.667-19.103-42.667-42.667S104.436 85.333 128 85.333s42.667 19.103 42.667 42.667-19.103 42.667-42.667 42.667Zm83.686-110.994c0 8.484-6.876 15.36-15.36 15.36-8.483 0-15.36-6.876-15.36-15.36 0-8.483 6.877-15.36 15.36-15.36 8.484 0 15.36 6.877 15.36 15.36Z"/></svg></div>
-                              <div className={`${styles.glitchLayer} ${styles.glitchLayer2}`}><svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 256 256"><path fill="currentColor" d="M128 23.064c34.177 0 38.225.13 51.722.745 12.48.57 19.258 2.655 23.769 4.408 5.974 2.322 10.238 5.096 14.717 9.575 4.48 4.479 7.253 8.743 9.575 14.717 1.753 4.511 3.838 11.289 4.408 23.768.615 13.498.745 17.546.745 51.723 0 34.178-.13 38.226-.745 51.723-.57 12.48-2.655 19.257-4.408 23.768-2.322 5.974-5.096 10.239-9.575 14.718-4.479 4.479-8.743 7.253-14.717 9.574-4.511 1.753-11.289 3.839-23.769 4.408-13.495.616-17.543.746-51.722.746-34.18 0-38.228-.13-51.723-.746-12.48-.57-19.257-2.655-23.768-4.408-5.974-2.321-10.239-5.095-14.718-9.574-4.479-4.48-7.253-8.744-9.574-14.718-1.753-4.51-3.839-11.288-4.408-23.768-.616-13.497-.746-17.545-.746-51.723 0-34.177.13-38.225.746-51.722.57-12.48 2.655-19.258 4.408-23.769 2.321-5.974 5.095-10.238 9.574-14.717 4.48-4.48 8.744-7.253 14.718-9.575 4.51-1.753 11.288-3.838 23.768-4.408 13.497-.615 17.545-.745 51.723-.745M128 0C93.237 0 88.878.147 75.226.77c-13.625.622-22.93 2.786-31.071 5.95-8.418 3.271-15.556 7.648-22.672 14.764C14.367 28.6 9.991 35.738 6.72 44.155 3.555 52.297 1.392 61.602.77 75.226.147 88.878 0 93.237 0 128c0 34.763.147 39.122.77 52.774.622 13.625 2.785 22.93 5.95 31.071 3.27 8.417 7.647 15.556 14.763 22.672 7.116 7.116 14.254 11.492 22.672 14.763 8.142 3.165 17.446 5.328 31.07 5.95 13.653.623 18.012.77 52.775.77s39.122-.147 52.774-.77c13.624-.622 22.929-2.785 31.07-5.95 8.418-3.27 15.556-7.647 22.672-14.763 7.116-7.116 11.493-14.254 14.764-22.672 3.164-8.142 5.328-17.446 5.95-31.07.623-13.653.77-18.012.77-52.775s-.147-39.122-.77-52.774c-.622-13.624-2.786-22.929-5.95-31.07-3.271-8.418-7.648-15.556-14.764-22.672C227.4 14.368 220.262 9.99 211.845 6.72c-8.142-3.164-17.447-5.328-31.071-5.95C167.122.147 162.763 0 128 0Zm0 62.27C91.698 62.27 62.27 91.7 62.27 128c0 36.302 29.428 65.73 65.73 65.73 36.301 0 65.73-29.428 65.73-65.73 0-36.301-29.429-65.73-65.73-65.73Zm0 108.397c-23.564 0-42.667-19.103-42.667-42.667S104.436 85.333 128 85.333s42.667 19.103 42.667 42.667-19.103 42.667-42.667 42.667Zm83.686-110.994c0 8.484-6.876 15.36-15.36 15.36-8.483 0-15.36-6.876-15.36-15.36 0-8.483 6.877-15.36 15.36-15.36 8.484 0 15.36 6.877 15.36 15.36Z"/></svg></div>
-                            </a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className={styles.snsIconWrapper}>
-                              <div className={styles.baseIcon}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" height="54" width="54"><circle cx="18" cy="18" r="18" fill="currentColor"/><path fill="black" d="m25 23 .8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"/></svg>
+
+                                                 {/* 세션 정보 */}
+                         <div className="mb-8">
+                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Session Information</h3>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                             <div>
+                               <label className="block text-lg font-medium text-white mb-3">Number of People *</label>
+                               <Controller
+                                 name="shootingType"
+                                 control={control}
+                                 render={({ field }) => (
+                                                                        <select
+                                       {...field}
+                                       className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
+                                     >
+                                       <option value="">Please select</option>
+                                       <option value="test">Test ($1)</option>
+                                       <option value="1person">1 Person ($65)</option>
+                                       <option value="2people">2 People ($130)</option>
+                                       <option value="3people">3 People ($195)</option>
+                                       <option value="4people">4 People ($260)</option>
+                          </select>
+                                 )}
+                               />
+                               {errors.shootingType && (
+                                 <p className="text-red-400 text-sm mt-2">{errors.shootingType.message}</p>
+                               )}
+                </div>
+                             
+                             <div>
+                               <label className="block text-lg font-medium text-white mb-3">Date *</label>
+                               <Controller
+                                 name="date"
+                                 control={control}
+                                 render={({ field }) => (
+                                   <DatePicker
+                                     selected={field.value}
+                                     onChange={(date) => field.onChange(date)}
+                                     minDate={new Date()}
+                                     dateFormat="yyyy-MM-dd"
+                                     placeholderText="Select date"
+                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
+                                   />
+                                 )}
+                               />
+                               {errors.date && (
+                                 <p className="text-red-400 text-sm mt-2">{errors.date.message}</p>
+                               )}
+                </div>
+                             
+                             <div>
+                               <label className="block text-lg font-medium text-white mb-3">Time *</label>
+                               <Controller
+                                 name="time"
+                                 control={control}
+                                 render={({ field }) => (
+                        <select 
+                                     {...field}
+                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
+                                   >
+                                     <option value="">Select time</option>
+                                     {availableTimes.map((time) => (
+                                       <option key={time} value={time}>{time}</option>
+                                     ))}
+                        </select>
+                                 )}
+                               />
+                               {errors.time && (
+                                 <p className="text-red-400 text-sm mt-2">{errors.time.message}</p>
+                               )}
+                             </div>
+                           </div>
+                         </div>
+
+                                                 {/* 추가 옵션 */}
+                         <div className="mb-8">
+                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Additional Options</h3>
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                             <div className="space-y-4">
+                               <div className="flex items-center">
+                                 <Controller
+                                   name="colorOption"
+                                   control={control}
+                                   render={({ field }) => (
+                                     <input
+                                       type="checkbox"
+                                       checked={field.value}
+                                       onChange={(e) => field.onChange(e.target.checked)}
+                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                                     />
+                                   )}
+                                 />
+                                 <label className="ml-4 text-white text-lg">Color Option (+$10)</label>
+                               </div>
+                               
+                               <div className="flex items-center">
+                                 <Controller
+                                   name="a4print"
+                                   control={control}
+                                   render={({ field }) => (
+                                     <input
+                                       type="checkbox"
+                                       checked={field.value}
+                                       onChange={(e) => field.onChange(e.target.checked)}
+                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                                     />
+                                   )}
+                                 />
+                                 <label className="ml-4 text-white text-lg">4x6" Print (+$10)</label>
+                               </div>
+                               
+                               <div className="flex items-center">
+                                 <Controller
+                                   name="a4frame"
+                                   control={control}
+                                   render={({ field }) => (
+                                     <input
+                                       type="checkbox"
+                                       checked={field.value}
+                                       onChange={(e) => field.onChange(e.target.checked)}
+                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                                     />
+                                   )}
+                                 />
+                                 <label className="ml-4 text-white text-lg">4x6" Frame (+$15)</label>
+                </div>
+                               
+                               <div className="flex items-center">
+                                 <Controller
+                                   name="digital"
+                                   control={control}
+                                   render={({ field }) => (
+                                     <input
+                                       type="checkbox"
+                                       checked={field.value}
+                                       onChange={(e) => field.onChange(e.target.checked)}
+                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                                     />
+                                   )}
+                                 />
+                                 <label className="ml-4 text-white text-lg">Original Digital Film (+$20)</label>
+              </div>
                   </div>
-                              <div className={`${styles.glitchLayer} ${styles.glitchLayer1}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" height="54" width="54"><circle cx="18" cy="18" r="18" fill="currentColor"/><path fill="black" d="m25 23 .8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"/></svg></div>
-                              <div className={`${styles.glitchLayer} ${styles.glitchLayer2}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" height="54" width="54"><circle cx="18" cy="18" r="18" fill="currentColor"/><path fill="black" d="m25 23 .8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"/></svg></div>
-                            </a>
-                            <a href="https://www.youtube.com/channel/UCiD4_8JWUt24lkJwYMum8NA" target="_blank" rel="noopener noreferrer" className={styles.snsIconWrapper}>
-                              <div className={styles.baseIcon}>
-                                <svg viewBox="0 0 256 180" width="54" height="54" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><rect width="256" height="180" rx="36" fill="currentColor"/><path fill="black" d="m102.421 128.06 66.328-38.418-66.328-38.418z"/></svg>
+                             
+                             <div className="space-y-4">
+                               <div>
+                                 <label className="block text-lg font-medium text-white mb-3">Additional Retouch (+$15 each)</label>
+                                 <Controller
+                                   name="additionalRetouch"
+                                   control={control}
+                                   render={({ field }) => (
+                                     <select
+                                       {...field}
+                                       onChange={(e) => field.onChange(parseInt(e.target.value))}
+                                       className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
+                                     >
+                                       {[0, 1, 2, 3, 4, 5].map(num => (
+                                         <option key={num} value={num}>{num}</option>
+                                       ))}
+                                     </select>
+                                   )}
+                                 />
                   </div>
-                              <div className={`${styles.glitchLayer} ${styles.glitchLayer1}`}><svg viewBox="0 0 256 180" width="54" height="54" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><rect width="256" height="180" rx="36" fill="currentColor"/><path fill="black" d="m102.421 128.06 66.328-38.418-66.328-38.418z"/></svg></div>
-                              <div className={`${styles.glitchLayer} ${styles.glitchLayer2}`}><svg viewBox="0 0 256 180" width="54" height="54" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><rect width="256" height="180" rx="36" fill="currentColor"/><path fill="black" d="m102.421 128.06 66.328-38.418-66.328-38.418z"/></svg></div>
-                            </a>
                   </div>
                 </div>
               </div>
 
-                    <div className={styles.formColumn}>
-                      <h3 className={styles.formSectionTitle}>II. Your Information</h3>
-                      <div className={styles.formControl}>
-                        <label htmlFor="name">Name</label>
-                        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+                                                 {/* 메시지 */}
+                         <div className="mb-8">
+                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Additional Requests</h3>
+                           <Controller
+                             name="message"
+                             control={control}
+                             render={({ field }) => (
+                               <textarea
+                                 {...field}
+                                 rows={4}
+                                 placeholder="Any special requests or comments?"
+                                 className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg resize-none transition-all duration-300"
+                               />
+                             )}
+                           />
+                         </div>
+
+                                                 {/* 총 금액 및 다음 단계 버튼 */}
+                         <div className="mb-8">
+                           <div className="flex justify-between items-center mb-8">
+                             <span className="text-2xl font-bold text-white">Total Amount</span>
+                             <span className="text-4xl font-bold bg-gradient-to-r from-[#FF6100] to-[#FF8A00] bg-clip-text text-transparent">
+                               ${calculateTotalPrice()}
+                             </span>
+                           </div>
+                           <button
+                             type="submit"
+                             disabled={!isValid}
+                             className={`w-full py-6 px-8 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 ${
+                               isValid
+                                 ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl'
+                                 : 'bg-gray-600 cursor-not-allowed'
+                             } text-white`}
+                           >
+                             Next Step
+                           </button>
+                         </div>
+                      </form>
+                    </motion.div>
+                  )}
+
+                  {currentStep === 2 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="max-w-4xl mx-auto"
+                    >
+                                             {/* 결제 정보 요약 */}
+                       <div className="mb-8">
+                         <h3 className="text-3xl font-bold text-white mb-6 text-center">Booking Summary</h3>
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-200 text-lg">
+                           <div className="space-y-3">
+                             <p><span className="text-gray-400 font-medium">Name:</span> {watchedValues.name}</p>
+                             <p><span className="text-gray-400 font-medium">Email:</span> {watchedValues.email}</p>
+                             <p><span className="text-gray-400 font-medium">Phone:</span> {watchedValues.phone}</p>
+                           </div>
+                           <div className="space-y-3">
+                             <p><span className="text-gray-400 font-medium">Date:</span> {watchedValues.date?.toLocaleDateString()}</p>
+                             <p><span className="text-gray-400 font-medium">Time:</span> {watchedValues.time}</p>
+                             <p><span className="text-gray-400 font-medium">People:</span> {watchedValues.shootingType}</p>
+                           </div>
                       </div>
-                      <div className={styles.formControl}>
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+                         <div className="mt-6 pt-6 border-t border-white/20">
+                           <div className="flex justify-between items-center">
+                             <span className="text-2xl font-bold text-white">Total Amount</span>
+                             <span className="text-3xl font-bold bg-gradient-to-r from-[#FF6100] to-[#FF8A00] bg-clip-text text-transparent">
+                               ${calculateTotalPrice()}
+                             </span>
                       </div>
-                      <div className={styles.formControl}>
-                        <label htmlFor="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required />
                       </div>
-                      <div className={styles.submitContainer}>
-                        <div className={styles.priceDisplay}>
-                          <span className={styles.priceLabel}>Total</span>
-                          <span className={styles.priceAmount}>${calculateTotalPrice()}</span>
                         </div>
-                        {showPayment ? (
+
+                      {/* Stripe 결제 폼 */}
+                      {stripePromise ? (
                           <Elements stripe={stripePromise}>
                             <PaymentForm
-                              formData={formData}
+                            formData={watchedValues}
                               onSuccess={handlePaymentSuccess}
                               onError={handlePaymentError}
                               isProcessing={isProcessing}
                               setIsProcessing={setIsProcessing}
+                            calculateTotalPrice={calculateTotalPrice}
                             />
                           </Elements>
                         ) : (
-                          <button 
-                            type="submit" 
-                            className={`${styles.submitButton} ${isProcessing ? styles.processing : ''}`}
-                            disabled={isProcessing}
-                          >
-                            {isProcessing ? 'Processing Payment...' : 'Confirm Booking'}
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                        <div className="text-center text-red-400 p-8 bg-red-500/10 rounded-3xl border border-red-500/20">
+                          <p className="text-xl">Stripe is not configured. Please check your environment variables.</p>
+                        </div>
+                      )}
 
-                    <div className={styles.formColumn}>
-                      <h3 className={styles.formSectionTitle}>III. Options & Goods</h3>
-                      <div className={styles.formCheckboxGroup}>
-                        <div className={styles.checkboxControl}>
-                          <input id="a4print" name="a4print" type="checkbox" checked={formData.otherGoods.a4print} onChange={handleCheckboxChange} />
-                          <label htmlFor="a4print">4x6" Print ($10)</label>
+                      {/* 이전 단계로 돌아가기 버튼 */}
+                      <div className="flex justify-center mt-8">
+                          <button 
+                          type="button"
+                          onClick={() => setCurrentStep(1)}
+                          className="px-8 py-4 text-white border border-white/30 rounded-2xl hover:bg-white/10 transition-all duration-300 text-lg font-medium"
+                        >
+                          ← Back to Booking
+                          </button>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {currentStep === 3 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center max-w-2xl mx-auto"
+                    >
+                      {/* 성공 아이콘 */}
+                      <div className="flex justify-center mb-8">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-green-500/20 rounded-full blur-xl"></div>
+                          <div className="relative w-32 h-32 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-2xl">
+                            <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
                           </div>
-                        <div className={styles.checkboxControl}>
-                          <input id="a4frame" name="a4frame" type="checkbox" checked={formData.otherGoods.a4frame} onChange={handleCheckboxChange} />
-                          <label htmlFor="a4frame">4x6" Frame ($15)</label>
-                          </div>
-                        <div className={styles.checkboxControl}>
-                          <input id="digital" name="digital" type="checkbox" checked={formData.otherGoods.digital} onChange={handleCheckboxChange} />
-                          <label htmlFor="digital">Original Digital Film ($20)</label>
-                          </div>
-                        <div className={styles.checkboxControl}>
-                          <label htmlFor="additionalRetouch">Additional Retouch ($15 each)</label>
-                          <select 
-                            id="additionalRetouch" 
-                            name="additionalRetouch" 
-                            value={formData.otherGoods.additionalRetouch || 0} 
-                            onChange={(e) => {
-                              const value = parseInt(e.target.value);
-                              setFormData(prev => ({
-                                ...prev,
-                                otherGoods: { ...prev.otherGoods, additionalRetouch: value }
-                              }));
-                            }}
-                            style={{ 
-                              width: '80px', 
-                              marginLeft: '10px',
-                              padding: '5px',
-                              borderRadius: '4px',
-                              border: '1px solid #ccc',
-                              backgroundColor: '#fff',
-                              color: '#000'
-                            }}
-                          >
-                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                              <option key={num} value={num}>{num}</option>
-                            ))}
-                          </select>
                         </div>
                       </div>
-                       <h3 className={`${styles.formSectionTitle} ${styles.marginTop}`}>IV. Additional Information</h3>
-                       <div className={styles.formControl}>
-                        <textarea id="message" name="message" rows={4} value={formData.message} onChange={handleChange} placeholder="Any special requests or comments?" />
+
+                      {/* 성공 메시지 */}
+                      <div className="space-y-6 mb-8">
+                        <h3 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                          Payment Successful!
+                        </h3>
+                        <p className="text-2xl text-white">Your booking has been confirmed.</p>
+                        <p className="text-xl text-gray-300">We'll send you a confirmation email shortly.</p>
                       </div>
+
+                                             {/* 예약 정보 요약 */}
+                       <div className="mb-8">
+                         <h4 className="text-2xl font-bold text-white mb-6">Booking Details</h4>
+                         <div className="space-y-3 text-gray-200 text-lg">
+                           <p><span className="text-gray-400 font-medium">Name:</span> {watchedValues.name}</p>
+                           <p><span className="text-gray-400 font-medium">Date:</span> {watchedValues.date?.toLocaleDateString()}</p>
+                           <p><span className="text-gray-400 font-medium">Time:</span> {watchedValues.time}</p>
+                           <p><span className="text-gray-400 font-medium">Total:</span> 
+                             <span className="text-[#FF6100] font-bold ml-2">${calculateTotalPrice()}</span>
+                           </p>
                     </div>
                   </div>
-                </section>
+
+                      {/* 완료 메시지 */}
+                      <div className="text-gray-400 text-lg">
+                        <p>This window will close automatically in a few seconds...</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               </div>
-            </form>
+
+              {/* 닫기 버튼 */}
+              <button 
+                onClick={closeBooking} 
+                className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Book Now 버튼 */}
+      <div className="fixed bottom-8 right-8 z-40">
+        <button
+          onClick={handleEnterClick}
+          className="bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+        >
+          Book Now
+        </button>
+      </div>
     </>
   );
 };

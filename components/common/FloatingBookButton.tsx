@@ -48,7 +48,7 @@ const FloatingBookButton = () => {
       transition={{ duration: 0.3, ease: 'easeOut' }}
       style={{
         position: 'fixed',
-        bottom: '25rem',
+        bottom: '15rem',
         left: '3rem',
         zIndex: 9999
       }}
