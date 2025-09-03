@@ -1,6 +1,4 @@
-import { NextPage } from 'next';
-import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,6 +30,11 @@ const bookingSchema = z.object({
 });
 
 type BookingFormData = z.infer<typeof bookingSchema>;
+
+interface BookingModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
 // PaymentForm 컴포넌트
 const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessing, calculateTotalPrice }: any) => {
@@ -174,8 +177,7 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
   );
 };
 
-const Booking: NextPage = () => {
-  const [isBookingVisible, setIsBookingVisible] = useState(false);
+const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -242,7 +244,7 @@ const Booking: NextPage = () => {
     
     // 3초 후 모달 닫기
     setTimeout(() => {
-      setIsBookingVisible(false);
+      onClose();
       setCurrentStep(1);
     }, 3000);
   };
@@ -260,85 +262,75 @@ const Booking: NextPage = () => {
      alert(`Payment failed: ${englishMessage}`);
   };
 
-  const handleEnterClick = () => {
-    setIsBookingVisible(true);
-  };
-
   const closeBooking = () => {
-    setIsBookingVisible(false);
+    onClose();
     setCurrentStep(1);
   };
 
   return (
-    <>
-      <Head>
-        <title>Booking | Emotional Studio</title>
-        <meta name="description" content="Book your session at Emotional Studio" />
-      </Head>
-
-      <AnimatePresence>
-        {isBookingVisible && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={closeBooking}
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={closeBooking}
+        >
+              <motion.div 
+            initial={{ y: 50, opacity: 0, scale: 0.9 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 50, opacity: 0, scale: 0.9 }}
+            className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto custom-scrollbar"
+            onClick={(e) => e.stopPropagation()}
           >
-                <motion.div 
-              initial={{ y: 50, opacity: 0, scale: 0.9 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 50, opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto custom-scrollbar"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* 메인 컨테이너 */}
-              <div className="relative">
-                {/* 그라데이션 배경 */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#111] via-[#111] to-[#111] rounded-3xl"></div>
-                
-                {/* 글래스모피즘 오버레이 */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl border border-white/20"></div>
-                
-                {/* 컨텐츠 */}
-                <div className="relative p-8">
-                  {/* 헤더 */}
-                  <div className="text-center mb-12">
-                    <h2 className="text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
-                      Book Your Session
-                    </h2>
-                    <p className="text-xl text-gray-300">Create unforgettable memories with us</p>
-                  </div>
+            {/* 메인 컨테이너 */}
+            <div className="relative">
+              {/* 그라데이션 배경 */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#111] via-[#111] to-[#111] rounded-3xl"></div>
+              
+              {/* 글래스모피즘 오버레이 */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl border border-white/20"></div>
+              
+              {/* 컨텐츠 */}
+              <div className="relative p-8">
+                {/* 헤더 */}
+                <div className="text-center mb-12">
+                  <h2 className="text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
+                    Book Your Session
+                  </h2>
+                  <p className="text-xl text-gray-300">Create unforgettable memories with us</p>
+                </div>
 
-                  {/* 진행 단계 표시 */}
-                  <div className="flex items-center justify-center space-x-8 mb-12">
-                    {[1, 2, 3].map((step) => (
-                      <div key={step} className="flex items-center">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
-                          currentStep === step 
-                            ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] text-white shadow-lg scale-110' 
-                            : 'bg-gray-700/50 text-gray-400 border border-gray-600'
-                        }`}>
-                          {step}
-                        </div>
-                        {step < 3 && (
-                          <div className={`w-20 h-1 mx-4 transition-all duration-300 ${
-                            currentStep > step ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00]' : 'bg-gray-600'
-                          }`}></div>
-                        )}
+                {/* 진행 단계 표시 */}
+                <div className="flex items-center justify-center space-x-8 mb-12">
+                  {[1, 2, 3].map((step) => (
+                    <div key={step} className="flex items-center">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
+                        currentStep === step 
+                          ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] text-white shadow-lg scale-110' 
+                          : 'bg-gray-700/50 text-gray-400 border border-gray-600'
+                      }`}>
+                        {step}
                       </div>
-                    ))}
-                  </div>
+                      {step < 3 && (
+                        <div className={`w-20 h-1 mx-4 transition-all duration-300 ${
+                          currentStep > step ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00]' : 'bg-gray-600'
+                        }`}></div>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
-                  {/* 단계별 컨텐츠 */}
-                  {currentStep === 1 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="max-w-4xl mx-auto"
-                    >
-                      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                                                 {/* 기본 정보 */}
+                {/* 단계별 컨텐츠 */}
+                {currentStep === 1 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-4xl mx-auto"
+                  >
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                                               {/* 기본 정보 */}
                          <div className="mb-8">
                            <h3 className="text-2xl font-bold text-white mb-6 text-center">Basic Information</h3>
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -401,7 +393,7 @@ const Booking: NextPage = () => {
                 </div>
               </div>
 
-                                                 {/* 세션 정보 */}
+                                               {/* 세션 정보 */}
                          <div className="mb-8">
                            <h3 className="text-2xl font-bold text-white mb-6 text-center">Session Information</h3>
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -474,7 +466,7 @@ const Booking: NextPage = () => {
                            </div>
                          </div>
 
-                                                 {/* 추가 옵션 */}
+                                               {/* 추가 옵션 */}
                          <div className="mb-8">
                            <h3 className="text-2xl font-bold text-white mb-6 text-center">Additional Options</h3>
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -567,7 +559,7 @@ const Booking: NextPage = () => {
                 </div>
               </div>
 
-                                                 {/* 메시지 */}
+                                               {/* 메시지 */}
                          <div className="mb-8">
                            <h3 className="text-2xl font-bold text-white mb-6 text-center">Additional Requests</h3>
                            <Controller
@@ -584,7 +576,7 @@ const Booking: NextPage = () => {
                            />
                          </div>
 
-                                                 {/* 총 금액 및 다음 단계 버튼 */}
+                                               {/* 총 금액 및 다음 단계 버튼 */}
                          <div className="mb-8">
                            <div className="flex justify-between items-center mb-8">
                              <span className="text-2xl font-bold text-white">Total Amount</span>
@@ -604,16 +596,16 @@ const Booking: NextPage = () => {
                              Next Step
                            </button>
                          </div>
-                      </form>
-                    </motion.div>
-                  )}
+                    </form>
+                  </motion.div>
+                )}
 
-                  {currentStep === 2 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="max-w-4xl mx-auto"
-                    >
+                {currentStep === 2 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="max-w-4xl mx-auto"
+                  >
                                              {/* 결제 정보 요약 */}
                        <div className="mb-8">
                          <h3 className="text-3xl font-bold text-white mb-6 text-center">Booking Summary</h3>
@@ -731,19 +723,8 @@ const Booking: NextPage = () => {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
-
-      {/* Book Now 버튼 */}
-      <div className="fixed bottom-8 right-8 z-40">
-        <button
-          onClick={handleEnterClick}
-          className="bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
-        >
-          Book Now
-        </button>
-      </div>
-    </>
+    </AnimatePresence>
   );
 };
 
-export default Booking; 
+export default BookingModal;

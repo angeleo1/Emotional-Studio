@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import BookingModal from './BookingModal';
 
 const navItems = [
   { name: 'ABOUT US', href: '/about' },
   { name: 'SERVICES', href: '/services' },
-  { name: 'BOOKING', href: '/booking' },
+  { name: 'BOOKING', href: '/booking', isModal: true },
   { name: 'GALLERY', href: '/gallery-landing' },
   { name: 'CONTACT', href: '/contact' },
   { name: 'SUPPORT', href: '/support' },
@@ -193,6 +194,7 @@ const SquigglyLogo = () => {
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [shuffledImages, setShuffledImages] = useState<string[]>([]);
@@ -370,15 +372,28 @@ export default function Navbar() {
                     exit="closed"
                     style={{ overflow:'hidden' }}
                   >
-                    <Link href={item.href} legacyBehavior>
-                      <a
+                    {item.isModal ? (
+                      <button
                         className="text-white text-5xl font-serif tracking-widest hover:text-orange-500 transition-colors duration-300"
                         style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => {
+                          setIsOpen(false);
+                          setIsBookingModalOpen(true);
+                        }}
                       >
                         {item.name}
-                      </a>
-                    </Link>
+                      </button>
+                    ) : (
+                      <Link href={item.href} legacyBehavior>
+                        <a
+                          className="text-white text-5xl font-serif tracking-widest hover:text-orange-500 transition-colors duration-300"
+                          style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.name}
+                        </a>
+                      </Link>
+                    )}
                 </motion.div>
               ))}
             </nav>
@@ -386,6 +401,13 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* 부킹 모달 */}
+      <BookingModal 
+        isOpen={isBookingModalOpen} 
+        onClose={() => setIsBookingModalOpen(false)} 
+      />
+      
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
         

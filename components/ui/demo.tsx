@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import Image from "next/image";
 import { ParallaxScrollSecond } from "@/components/ui/parallax-scroll";
+import BookingModal from "../BookingModal";
 
 interface DemoOneProps {
   scrollProgress?: number;
@@ -16,6 +17,7 @@ interface DemoOneProps {
 const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
   const [isTypingFinished, setIsTypingFinished] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     const typingTimer = setTimeout(() => {
@@ -84,16 +86,23 @@ const DemoOne: React.FC<DemoOneProps> = ({ scrollProgress, onReady }) => {
               View Events
             </button>
           </Link>
-          <Link href="/booking" className="glitch-button-wrapper">
+          <div className="glitch-button-wrapper">
             <button
+              onClick={() => setIsBookingModalOpen(true)}
               data-text="Book Now"
               className="contact-style-glitch-button px-8 py-3 sm:px-10 md:px-12 sm:py-4 md:py-5 rounded-full text-sm sm:text-base md:text-lg font-semibold w-48 sm:w-52 md:w-56 whitespace-nowrap"
             >
               Book Now
             </button>
-          </Link>
+          </div>
         </div>
       </motion.div>
+      
+      {/* 부킹 모달 */}
+      <BookingModal 
+        isOpen={isBookingModalOpen} 
+        onClose={() => setIsBookingModalOpen(false)} 
+      />
     </div>
   );
 };
