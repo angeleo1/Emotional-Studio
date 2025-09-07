@@ -1,8 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
+import { isBookingEnabled } from '../../config/booking';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  // booking이 비활성화된 경우 에러 반환
+  if (!isBookingEnabled()) {
+    return res.status(503).json({ 
+      message: 'Booking service is temporarily unavailable',
+      code: 'BOOKING_DISABLED'
+    });
+  }
+
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' });
   }

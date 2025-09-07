@@ -8,6 +8,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
+import { isBookingEnabled } from '../config/booking';
+import BookingDisabled from '../components/BookingDisabled';
 
 // Stripe 초기화
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -94,7 +96,7 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
           }`}
           disabled={!stripe || isProcessing}
         >
-          {isProcessing ? 'Processing Payment...' : 'Pay Now'}
+          {isProcessing ? '결제 처리 중...' : '지금 결제'}
         </button>
       </form>
     </div>
@@ -102,6 +104,21 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
 };
 
 const MobileBooking: NextPage = () => {
+  // booking이 비활성화된 경우 비활성화 메시지 표시
+  if (!isBookingEnabled()) {
+    return (
+      <>
+        <Head>
+          <title>Mobile Booking - Emotional Studio</title>
+          <meta name="description" content="Booking service is temporarily unavailable" />
+        </Head>
+        <MobileNavbar />
+        <BookingDisabled className="pt-20" />
+        <MobileContactButton />
+      </>
+    );
+  }
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',

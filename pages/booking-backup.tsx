@@ -9,6 +9,8 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { isBookingEnabled } from '../config/booking';
+import BookingDisabled from '../components/BookingDisabled';
 
 // Stripe 초기화
 const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
@@ -161,6 +163,19 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
 };
 
 const Booking: NextPage = () => {
+  // booking이 비활성화된 경우 비활성화 메시지 표시
+  if (!isBookingEnabled()) {
+    return (
+      <>
+        <Head>
+          <title>Booking - Emotional Studio</title>
+          <meta name="description" content="Booking service is temporarily unavailable" />
+        </Head>
+        <BookingDisabled />
+      </>
+    );
+  }
+
   const [isBookingVisible, setIsBookingVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);

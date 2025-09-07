@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
 
   const cocktails = [
     {
-      name: "PASSION RED",
-      description: "A vibrant elixir of hibiscus, rose, and ginger, with bittersweet vanilla and clarified grapefruit. Bold, warming, and enticing—crafted to awaken desire, ignite the senses, and stir a lingering sense of passion.",
-      image: "/images/elixir4.jpeg"
+      name: "Passion Red",
+      description: "A vibrant elixir of hibiscus, rose, and ginger, with bittersweet vanilla and clarified grapefruit. Bold, warming, and enticing—crafted to awaken desire, ignite the senses, and stir a lingering sense of passion."
     },
     {
-      name: "ECSTASY GLOW",
-      description: "A curated blend of clarified banana and golden honey, naturally packed with mood-lifting compounds to uplift spirits and ease stress. Bright citrus and a whisper of lemon oil complete this smooth, radiant elixir—crafted to leave you glowing from within.",
-      image: "/images/elixir2.png"
+      name: "Ecstasy Glow",
+      description: "A curated blend of clarified banana and golden honey, naturally packed with mood-lifting compounds to uplift spirits and ease stress. Bright citrus and a whisper of lemon oil complete this smooth, radiant elixir—crafted to leave you glowing from within."
     },
     {
-      name: "RELIEF AURA",
-      description: "A soothing mix of blueberries, lavender, and butterfly pea tea, with a touch of pink Himalayan salt and agave. Balanced and restorative—crafted to calm the senses, refresh the spirit, and bring a comforting sense of relief.",
-      image: "/images/elixir3.png"
+      name: "Aura Relief",
+      description: "A soothing mix of blueberries, lavender, and butterfly pea tea, with a touch of pink Himalayan salt and agave. Balanced and restorative—crafted to calm the senses, refresh the spirit, and bring a comforting sense of relief."
     }
   ];
 
@@ -26,7 +22,6 @@ export default function OurElixirs() {
   const [selectedCocktail, setSelectedCocktail] = useState<{
     name: string;
     description: string;
-    image: string;
   } | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
@@ -80,7 +75,7 @@ export default function OurElixirs() {
                     className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
                       fontSize: isMobile ? 'calc(100vh / 6)' : 'calc(100vh / 3.2)',
-                      color: '#C2185B',
+                      color: '#c2185b',
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
@@ -102,7 +97,7 @@ export default function OurElixirs() {
                     className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
                       fontSize: isMobile ? 'calc(100vh / 6)' : 'calc(100vh / 3.2)',
-                      color: '#FFE135',
+                      color: '#ffcd4a',
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
@@ -124,7 +119,7 @@ export default function OurElixirs() {
                     className="font-extrabold uppercase leading-none cursor-pointer transition-transform duration-500 hover:scale-105 px-2 md:px-8"
                     style={{
                       fontSize: isMobile ? 'calc(100vh / 6)' : 'calc(100vh / 3.2)',
-                      color: '#8A2BE2',
+                      color: '#8a2be2',
                       letterSpacing: '0.01em',
                       whiteSpace: 'nowrap',
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
@@ -146,23 +141,14 @@ export default function OurElixirs() {
               className="absolute inset-0 bg-black/90 backdrop-blur-sm"
               onClick={() => setSelectedCocktail(null)}
             />
-            <div className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden flex flex-col md:flex-row shadow-2xl">
-              <div className="relative w-full md:w-1/2 h-[320px] md:h-[500px] flex items-center justify-center bg-black">
-                <Image
-                  src={selectedCocktail.image}
-                  alt={selectedCocktail.name}
-                  fill
-                  className="object-contain rounded-l-2xl"
-                  priority
-                />
-              </div>
-              <div className="p-6 md:p-8 flex-1 flex flex-col justify-center">
+            <div className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="p-6 md:p-8 flex flex-col justify-center">
                 <h3 
                   className="text-2xl md:text-4xl font-bold mb-4"
                   style={{
                     fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'PASSION RED' ? '#C2185B' :
-                           selectedCocktail.name === 'ECSTASY GLOW' ? '#FFE135' : '#8A2BE2'
+                    color: selectedCocktail.name === 'Passion Red' ? '#c2185b' :
+                           selectedCocktail.name === 'Ecstasy Glow' ? '#ffcd4a' : '#8a2be2'
                   }}
                 >
                   {selectedCocktail.name}

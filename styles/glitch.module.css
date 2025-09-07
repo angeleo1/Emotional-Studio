@@ -1,0 +1,89 @@
+/* Shop1 - Mint Background with Ultra Deep Embossed Text */
+.shop1Container {
+  position: relative;
+  background: #4ecdc4;
+  padding: 2rem 0;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.shop1Container:hover {
+  transform: translateY(-12px);
+}
+
+.shop1 {
+  position: relative;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #111;
+  font-family: 'CS-Valcon-Drawn-akhr7k', sans-serif;
+  text-align: center;
+  margin: 0;
+  text-shadow: 
+    0 4px 0 rgba(255, 255, 255, 0.8),
+    0 -4px 0 rgba(0, 0, 0, 0.5),
+    0 8px 8px rgba(0, 0, 0, 0.3),
+    0 12px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Shop2 - Baby Pink Background with Ultra Deep Embossed Text */
+.shop2Container {
+  position: relative;
+  background: #ff85c0;
+  padding: 2rem 0;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.shop2Container:hover {
+  transform: translateY(-12px);
+}
+
+.shop2 {
+  position: relative;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #111;
+  font-family: 'CS-Valcon-Drawn-akhr7k', sans-serif;
+  text-align: center;
+  margin: 0;
+  text-shadow: 
+    0 4px 0 rgba(255, 255, 255, 0.8),
+    0 -4px 0 rgba(0, 0, 0, 0.5),
+    0 8px 8px rgba(0, 0, 0, 0.3),
+    0 12px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Shop3 - White Background with Ultra Deep Embossed Text */
+.shop3Container {
+  position: relative;
+  background: #ffffff;
+  padding: 2rem 0;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.shop3Container:hover {
+  transform: translateY(-12px);
+}
+
+.shop3 {
+  position: relative;
+  font-size: 5rem;
+  font-weight: bold;
+  color: #111;
+  font-family: 'CS-Valcon-Drawn-akhr7k', sans-serif;
+  text-align: center;
+  margin: 0;
+  text-shadow: 
+    0 4px 0 rgba(255, 255, 255, 1),
+    0 -4px 0 rgba(0, 0, 0, 0.5),
+    0 8px 8px rgba(0, 0, 0, 0.3),
+    0 12px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .shop1, .shop2, .shop3 {
+    font-size: 3rem;
+  }
+}

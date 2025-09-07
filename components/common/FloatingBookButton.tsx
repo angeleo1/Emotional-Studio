@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import BookingModal from '../BookingModal';
+import { isBookingEnabled } from '../../config/booking';
 
 const FloatingBookButton = () => {
   const router = useRouter();
@@ -40,7 +41,8 @@ const FloatingBookButton = () => {
     }
   };
 
-  if (!isVisible || isMobile) return null;
+  // booking이 비활성화된 경우 버튼을 숨김
+  if (!isVisible || isMobile || !isBookingEnabled()) return null;
 
   return (
     <>

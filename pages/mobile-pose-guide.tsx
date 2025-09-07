@@ -108,23 +108,36 @@ function MobilePoseGallerySection() {
             ))}
           </div>
 
-          {/* 이미지 그리드 - 모바일에서 2열 */}
-          <div className="grid gap-3 grid-cols-2">
-            {images.map((src, idx) => (
-              <div 
-                key={src} 
-                className="aspect-[3/4] w-full rounded-lg overflow-hidden bg-neutral-800 flex items-center justify-center cursor-pointer" 
-                onClick={() => { setSelected(src); setOpen(true); }}
-              >
-                <img 
-                  src={src} 
-                  alt={category+idx} 
-                  className="w-full h-full object-cover transition-transform duration-200 hover:scale-105" 
-                  loading="lazy" 
-                />
+          {/* 이미지가 없을 때 표시할 메시지 */}
+          {images.length === 0 && (
+            <div className="flex items-center justify-center min-h-screen -mt-20">
+              <div className="text-center">
+                <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white leading-tight md:whitespace-nowrap px-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
+                  The adventure begins soon.
+                </h2>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+
+          {/* 이미지 그리드 - 모바일에서 2열 */}
+          {images.length > 0 && (
+            <div className="grid gap-3 grid-cols-2">
+              {images.map((src, idx) => (
+                <div 
+                  key={src} 
+                  className="aspect-[3/4] w-full rounded-lg overflow-hidden bg-neutral-800 flex items-center justify-center cursor-pointer" 
+                  onClick={() => { setSelected(src); setOpen(true); }}
+                >
+                  <img 
+                    src={src} 
+                    alt={category+idx} 
+                    className="w-full h-full object-cover transition-transform duration-200 hover:scale-105" 
+                    loading="lazy" 
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 확대 모달 */}

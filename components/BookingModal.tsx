@@ -5,13 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import PaymentMethodModal from './PaymentMethodModal';
 
-// Stripe 초기화
-const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
-  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
-  : null;
 
 // Zod 스키마 정의
 const bookingSchema = z.object({
@@ -36,150 +31,11 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
-// PaymentForm 컴포넌트
-const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessing, calculateTotalPrice }: any) => {
-  const stripe = useStripe();
-  const elements = useElements();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!stripe || !elements) {
-      console.log('Stripe or elements not available');
-      return;
-    }
-
-    setIsProcessing(true);
-    console.log('Starting payment process...');
-
-    try {
-      const totalAmount = calculateTotalPrice();
-      console.log('Total amount:', totalAmount);
-
-      const response = await fetch('/api/create-payment-intent', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: totalAmount,
-          currency: 'aud'
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create payment intent');
-      }
-
-      const { clientSecret } = await response.json();
-      console.log('Payment intent created, client secret received');
-
-      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement)!,
-        },
-      });
-
-      if (error) {
-        console.error('Payment error:', error);
-         // Stripe 에러 메시지를 사용자 친화적으로 변환
-         let userMessage = 'Payment failed. Please try again.';
-         if (error.code === 'card_declined') {
-           userMessage = 'Card was declined. Please try a different card.';
-         } else if (error.code === 'expired_card') {
-           userMessage = 'Card has expired. Please use a different card.';
-         } else if (error.code === 'incorrect_cvc') {
-           userMessage = 'Incorrect CVC. Please check and try again.';
-         } else if (error.code === 'processing_error') {
-           userMessage = 'Payment processing error. Please try again.';
-         }
-         onError(userMessage);
-      } else {
-         console.log('Payment successful:', paymentIntent);
-        onSuccess();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-       onError('Payment processing failed. Please try again.');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  return (
-     <motion.div
-       initial={{ opacity: 0, y: 20 }}
-       animate={{ opacity: 1, y: 0 }}
-       className="mb-8"
-     >
-       <div className="p-8">
-        <h3 className="text-3xl font-bold text-white mb-8 text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-          Payment Information
-        </h3>
-        
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div>
-            <label className="block text-lg font-medium text-white mb-4">
-              Card Details
-            </label>
-                         <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-          <CardElement
-            options={{
-              style: {
-                base: {
-                         fontSize: '18px',
-                         color: '#ffffff',
-                  '::placeholder': {
-                           color: 'rgba(255, 255, 255, 0.6)',
-                  },
-                },
-                invalid: {
-                         color: '#ff6b6b',
-                       },
-                     },
-                     hidePostalCode: true,
-                     disabled: false,
-                     classes: {
-                       base: 'StripeElement',
-                       complete: 'StripeElement--complete',
-                       empty: 'StripeElement--empty',
-                       focus: 'StripeElement--focus',
-                       invalid: 'StripeElement--invalid',
-                       webkitAutofill: 'StripeElement--webkit-autofill',
-                     },
-            }}
-          />
-        </div>
-          </div>
-
-        <button 
-          type="submit" 
-            className={`w-full py-5 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${
-              isProcessing
-                ? 'bg-gray-500 cursor-not-allowed'
-                : 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl'
-            } text-white`}
-          disabled={!stripe || isProcessing}
-        >
-            {isProcessing ? (
-              <div className="flex items-center justify-center space-x-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Processing Payment...</span>
-              </div>
-            ) : (
-              'Pay Now'
-            )}
-        </button>
-      </form>
-    </div>
-    </motion.div>
-  );
-};
 
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   // React Hook Form 설정
   const {
@@ -237,8 +93,15 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     setCurrentStep(2);
   };
 
-  // 결제 성공 핸들러
-  const handlePaymentSuccess = () => {
+  // Open payment modal
+  const handlePaymentClick = () => {
+    setShowPaymentModal(true);
+  };
+
+  // Payment success handler
+  const handlePaymentSuccess = (paymentIntent: any) => {
+    console.log('Payment successful:', paymentIntent);
+    setShowPaymentModal(false);
     setIsProcessing(false);
     setCurrentStep(3);
     
@@ -249,10 +112,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     }, 3000);
   };
 
-     // 결제 실패 핸들러
+     // Payment error handler
   const handlePaymentError = (message: string) => {
      setIsProcessing(false);
-     // 한글 에러 메시지를 영어로 변환
+     // Convert Korean error messages to English
      let englishMessage = message;
      if (message.includes('보안 연결')) {
        englishMessage = 'Payment processing error. Please try again.';
@@ -606,7 +469,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                     animate={{ opacity: 1, y: 0 }}
                     className="max-w-4xl mx-auto"
                   >
-                                             {/* 결제 정보 요약 */}
+                                             {/* Payment Summary */}
                        <div className="mb-8">
                          <h3 className="text-3xl font-bold text-white mb-6 text-center">Booking Summary</h3>
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-200 text-lg">
@@ -631,23 +494,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                       </div>
                         </div>
 
-                      {/* Stripe 결제 폼 */}
-                      {stripePromise ? (
-                          <Elements stripe={stripePromise}>
-                            <PaymentForm
-                            formData={watchedValues}
-                              onSuccess={handlePaymentSuccess}
-                              onError={handlePaymentError}
-                              isProcessing={isProcessing}
-                              setIsProcessing={setIsProcessing}
-                            calculateTotalPrice={calculateTotalPrice}
-                            />
-                          </Elements>
-                        ) : (
-                        <div className="text-center text-red-400 p-8 bg-red-500/10 rounded-3xl border border-red-500/20">
-                          <p className="text-xl">Stripe is not configured. Please check your environment variables.</p>
-                        </div>
-                      )}
+                      {/* Payment Button */}
+                      <div className="text-center">
+                        <button
+                          onClick={handlePaymentClick}
+                          className="w-full py-5 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl text-white"
+                        >
+                          Pay with Various Payment Methods
+                        </button>
+                        <p className="text-gray-400 text-sm mt-3">
+                          Supports various payment methods including Apple Pay, Google Pay, WeChat Pay, and cards
+                        </p>
+                      </div>
 
                       {/* 이전 단계로 돌아가기 버튼 */}
                       <div className="flex justify-center mt-8">
@@ -723,6 +581,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
             </motion.div>
           </motion.div>
         )}
+        
+        {/* PaymentMethodModal */}
+        <PaymentMethodModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          amount={calculateTotalPrice()}
+          currency="aud"
+          onSuccess={handlePaymentSuccess}
+          onError={handlePaymentError}
+        />
     </AnimatePresence>
   );
 };

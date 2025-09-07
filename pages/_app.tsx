@@ -31,14 +31,14 @@ const playfairDisplay = Playfair_Display({
   variable: '--font-playfair',
 })
 
-// 모바일 감지 함수
+// 모바일 감지 함수 (iPad Pro 포함)
 const isMobileDevice = () => {
   if (typeof window === 'undefined') {
     return false;
   }
 
-  // 화면 크기만으로 판단 (단순하게)
-  return window.innerWidth <= 768;
+  // iPad Pro (1024px)까지 모바일로 인식
+  return window.innerWidth <= 1024;
 };
 
 export default function App({ Component, pageProps }: AppProps) {

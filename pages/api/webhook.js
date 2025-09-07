@@ -30,12 +30,12 @@ export default async function handler(req, res) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // 결제 성공 이벤트 처리
+  // Handle payment success event
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object;
     
     try {
-      // 관리자에게 예약 확인 이메일 전송
+      // Send booking confirmation email to admin
       const emailData = {
         name: paymentIntent.metadata.customerName,
         email: paymentIntent.metadata.customerEmail,
@@ -71,7 +71,7 @@ This booking has been automatically confirmed after successful payment.
         type: 'email'
       };
 
-      // Resend를 통해 이메일 전송
+      // Send email through Resend
       const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/pusher`, {
         method: 'POST',
         headers: {

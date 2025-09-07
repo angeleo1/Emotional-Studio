@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import MobileNavbar from '../components/MobileNavbar';
@@ -8,19 +7,16 @@ import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const cocktails = [
   {
-    name: "PASSION RED",
-    description: "A vibrant elixir of hibiscus, rose, and ginger, with bittersweet vanilla and clarified grapefruit. Bold, warming, and enticing—crafted to awaken desire, ignite the senses, and stir a lingering sense of passion.",
-    image: "/images/elixir4.jpeg"
+    name: "Passion Red",
+    description: "A vibrant elixir of hibiscus, rose, and ginger, with bittersweet vanilla and clarified grapefruit. Bold, warming, and enticing—crafted to awaken desire, ignite the senses, and stir a lingering sense of passion."
   },
   {
-    name: "ECSTASY GLOW",
-    description: "A curated blend of clarified banana and golden honey, naturally packed with mood-lifting compounds to uplift spirits and ease stress. Bright citrus and a whisper of lemon oil complete this smooth, radiant elixir—crafted to leave you glowing from within.",
-    image: "/images/elixir2.png"
+    name: "Ecstasy Glow",
+    description: "A curated blend of clarified banana and golden honey, naturally packed with mood-lifting compounds to uplift spirits and ease stress. Bright citrus and a whisper of lemon oil complete this smooth, radiant elixir—crafted to leave you glowing from within."
   },
   {
-    name: "RELIEF AURA",
-    description: "A soothing mix of blueberries, lavender, and butterfly pea tea, with a touch of pink Himalayan salt and agave. Balanced and restorative—crafted to calm the senses, refresh the spirit, and bring a comforting sense of relief.",
-    image: "/images/elixir3.png"
+    name: "Aura Relief",
+    description: "A soothing mix of blueberries, lavender, and butterfly pea tea, with a touch of pink Himalayan salt and agave. Balanced and restorative—crafted to calm the senses, refresh the spirit, and bring a comforting sense of relief."
   }
 ];
 
@@ -28,7 +24,6 @@ const MobileElixirs: NextPage = () => {
   const [selectedCocktail, setSelectedCocktail] = useState<{
     name: string;
     description: string;
-    image: string;
   } | null>(null);
 
   const handleCocktailClick = (cocktail: typeof cocktails[0]) => {
@@ -82,7 +77,7 @@ const MobileElixirs: NextPage = () => {
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
                         style={{
                           fontSize: 'calc(100vh / 15)',
-                          color: '#C2185B',
+                          color: '#c2185b',
                           letterSpacing: '0.01em',
                           fontFamily: 'CS-Valcon-Drawn-akhr7k',
                           writingMode: 'vertical-rl',
@@ -90,7 +85,7 @@ const MobileElixirs: NextPage = () => {
                         }}
                         onClick={()=>handleCocktailClick(cocktails[0])}
                       >
-                        {letter}
+                        {letter === ' ' ? '\u00A0' : letter}
                       </span>
                     ))}
                   </div>
@@ -109,7 +104,7 @@ const MobileElixirs: NextPage = () => {
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
                         style={{
                           fontSize: 'calc(100vh / 15)',
-                          color: '#FFE135',
+                          color: '#ffcd4a',
                           letterSpacing: '0.01em',
                           fontFamily: 'CS-Valcon-Drawn-akhr7k',
                           writingMode: 'vertical-rl',
@@ -117,7 +112,7 @@ const MobileElixirs: NextPage = () => {
                         }}
                         onClick={()=>handleCocktailClick(cocktails[1])}
                       >
-                        {letter}
+                        {letter === ' ' ? '\u00A0' : letter}
                       </span>
                     ))}
                   </div>
@@ -136,15 +131,15 @@ const MobileElixirs: NextPage = () => {
                         className="font-extrabold leading-none cursor-pointer transition-transform duration-500 hover:scale-105"
                         style={{
                           fontSize: 'calc(100vh / 15)',
-                          color: '#8A2BE2',
+                          color: '#8a2be2',
                           letterSpacing: '0.01em',
                           fontFamily: 'CS-Valcon-Drawn-akhr7k',
                           writingMode: 'vertical-rl',
                           textOrientation: 'mixed',
                         }}
-                        onClick={()=>handleCocktailClick({...cocktails[2], name:'AURA RELIEF'})}
+                        onClick={()=>handleCocktailClick({...cocktails[2], name:'Aura Relief'})}
                       >
-                        {letter}
+                        {letter === ' ' ? '\u00A0' : letter}
                       </span>
                     ))}
                   </div>
@@ -162,25 +157,16 @@ const MobileElixirs: NextPage = () => {
               onClick={() => setSelectedCocktail(null)}
             />
             <div 
-              className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden flex flex-col shadow-2xl"
+              className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden shadow-2xl"
               onClick={() => setSelectedCocktail(null)}
             >
-              <div className="relative w-full h-[320px] flex items-center justify-center bg-black">
-                <Image
-                  src={selectedCocktail.image}
-                  alt={selectedCocktail.name}
-                  fill
-                  className="object-contain rounded-t-2xl"
-                  priority
-                />
-              </div>
-              <div className="p-6 flex-1 flex flex-col justify-center">
+              <div className="p-6 flex flex-col justify-center">
                 <h3 
                   className="text-2xl font-bold mb-4"
                   style={{
                     fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'PASSION RED' ? '#C2185B' :
-                           selectedCocktail.name === 'ECSTASY GLOW' ? '#FFE135' : '#8A2BE2'
+                    color: selectedCocktail.name === 'Passion Red' ? '#c2185b' :
+                           selectedCocktail.name === 'Ecstasy Glow' ? '#ffcd4a' : '#8a2be2'
                   }}
                 >
                   {selectedCocktail.name}

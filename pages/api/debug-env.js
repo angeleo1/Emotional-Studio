@@ -11,9 +11,26 @@ export default function handler(req, res) {
       firstChars: process.env.RESEND_API_KEY?.substring(0, 10) || 'N/A',
       lastChars: process.env.RESEND_API_KEY?.substring(-10) || 'N/A'
     },
+    stripeKeys: {
+      publishableKey: {
+        exists: !!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+        length: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.length || 0,
+        firstChars: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.substring(0, 10) || 'N/A'
+      },
+      secretKey: {
+        exists: !!process.env.STRIPE_SECRET_KEY,
+        length: process.env.STRIPE_SECRET_KEY?.length || 0,
+        firstChars: process.env.STRIPE_SECRET_KEY?.substring(0, 10) || 'N/A'
+      }
+    },
     environment: process.env.NODE_ENV,
     vercelUrl: process.env.VERCEL_URL,
-    allEnvVars: Object.keys(process.env).filter(key => key.includes('RESEND') || key.includes('EMAIL'))
+    allEnvVars: Object.keys(process.env).filter(key => 
+      key.includes('RESEND') || 
+      key.includes('EMAIL') || 
+      key.includes('STRIPE') ||
+      key.includes('BOOKING')
+    )
   };
 
   res.status(200).json(debugInfo);

@@ -1,22 +1,93 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
+import { ChromeGrid } from '@/components/ui/chrome-grid';
+import styles from '@/styles/glitch.module.css';
+
+const sections = [
+  {
+    title: 'Shop1',
+    effect: 'neon',
+  },
+  {
+    title: 'Shop2',
+    effect: 'liquid',
+  },
+  {
+    title: 'Shop3',
+    effect: 'typewriter',
+  },
+];
 
 const Collaboration: NextPage = () => {
+  const [is3DReady, setIs3DReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      // 데스크탑에서만 3D 그리드 표시 (1025px 이상, iPad Pro는 모바일로 처리)
+      setIsMobile(window.innerWidth <= 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   return (
     <>
       <Head>
         <title>Collaboration | Emotional Studio</title>
-        <meta name="description" content="Collaboration - Coming Soon" />
+        <meta name="description" content="Explore our collaboration projects and creative partnerships" />
       </Head>
       
-      {/* 임시 메시지 화면 - 나중에 이 부분만 제거하면 기존 내용이 나옵니다 */}
-      <div className="min-h-screen bg-[#111] flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-tight whitespace-nowrap" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-            The adventure begins soon.
-          </h1>
-        </div>
+      {/* 3D Grid Section - Desktop Only */}
+      {!isMobile && (
+        <section className="relative h-screen w-full">
+          <ChromeGrid onReady={() => setIs3DReady(true)} />
+        </section>
+      )}
+
+      {/* Gallery Sections */}
+      <div className="bg-[#111]">
+        {sections.map((section, idx) => (
+          <motion.section
+            key={section.title}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: idx * 0.2 }}
+            viewport={{ once: true }}
+            className="py-20"
+          >
+            {/* Section Title - Full Width */}
+            <div className="w-full">
+              {section.effect === 'neon' && (
+                <div className={`${styles.shop1Container} w-full`}>
+                  <h2 className={`${styles.shop1} text-5xl md:text-7xl font-bold`}>
+                    {section.title}
+                  </h2>
+                </div>
+              )}
+              {section.effect === 'liquid' && (
+                <div className={`${styles.shop2Container} w-full`}>
+                  <h2 className={`${styles.shop2} text-5xl md:text-7xl font-bold`}>
+                    {section.title}
+                  </h2>
+                </div>
+              )}
+              {section.effect === 'typewriter' && (
+                <div className={`${styles.shop3Container} w-full`}>
+                  <h2 className={`${styles.shop3} text-5xl md:text-7xl font-bold`}>
+                    {section.title}
+                  </h2>
+                </div>
+              )}
+            </div>
+          </motion.section>
+        ))}
       </div>
       
       {/* Floating Book Button */}
