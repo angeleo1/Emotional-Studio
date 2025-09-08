@@ -1,25 +1,21 @@
-const Stripe = require('stripe');
+import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
 
 export default async function handler(req, res) {
-  // CORS 헤더 추가
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
   }
 
   try {
     const { amount, currency = 'aud' } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ error: 'Invalid amount' });
+    }
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100),
@@ -33,10 +29,10 @@ export default async function handler(req, res) {
       clientSecret: paymentIntent.client_secret,
     });
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error creating payment intent:', error);
     res.status(500).json({ 
-      message: 'Error creating payment intent',
-      error: error.message
+      error: 'Failed to create payment intent',
+      message: error.message
     });
   }
 }
