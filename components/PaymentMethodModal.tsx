@@ -166,19 +166,33 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
       console.log('Response ok:', response.ok);
 
       if (!response.ok) {
-        const errorData = await response.json();
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (jsonError) {
+          console.error('Failed to parse error response as JSON:', jsonError);
+          throw new Error(`HTTP ${response.status}: Failed to create payment intent - Invalid response format`);
+        }
         console.error('API Error:', errorData);
         console.error('Response status:', response.status);
         console.error('Response headers:', Object.fromEntries(response.headers.entries()));
         throw new Error(errorData.error || errorData.message || `HTTP ${response.status}: Failed to create payment intent`);
       }
 
-      const { clientSecret } = await response.json();
+      let responseData;
+      try {
+        responseData = await response.json();
+      } catch (jsonError) {
+        console.error('Failed to parse success response as JSON:', jsonError);
+        throw new Error('Invalid response format from payment server');
+      }
+
+      const { clientSecret } = responseData;
       console.log('Client secret received:', clientSecret ? 'Yes' : 'No');
       setClientSecret(clientSecret);
     } catch (error) {
       console.error('Error creating payment intent:', error);
-      onError(`결제 초기화에 실패했습니다: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      onError(`Payment initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }

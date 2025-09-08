@@ -54,3 +54,6 @@ NEXT_PUBLIC_BOOKING_ENABLED=false  # true로 변경하면 활성화
 변경 후 개발 서버를 재시작하면 즉시 적용됩니다.
 
 
+
+
+

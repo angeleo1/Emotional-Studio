@@ -50,9 +50,14 @@ export default async function handler(
     });
 
     console.log('PaymentIntent created successfully:', paymentIntent.id);
-    res.status(200).json({
+    console.log('Client secret:', paymentIntent.client_secret);
+    
+    const responseData = {
       clientSecret: paymentIntent.client_secret,
-    });
+    };
+    
+    console.log('Sending response:', responseData);
+    res.status(200).json(responseData);
   } catch (error) {
     console.error('Error creating payment intent:', error);
     console.error('Error details:', {
