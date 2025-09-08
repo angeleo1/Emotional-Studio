@@ -151,7 +151,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     try {
       console.log('Creating payment intent with:', { amount, currency });
       
-      const response = await fetch('/api/create-payment-intent', {
+      const response = await fetch('/api/test-payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
