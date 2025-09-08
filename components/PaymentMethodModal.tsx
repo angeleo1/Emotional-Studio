@@ -171,29 +171,20 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
       console.log('Response ok:', response.ok);
 
       if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch (jsonError) {
-          console.error('Failed to parse error response as JSON:', jsonError);
-          throw new Error(`HTTP ${response.status}: Failed to create payment intent - Invalid response format`);
-        }
-        console.error('API Error:', errorData);
-        console.error('Response status:', response.status);
-        console.error('Response headers:', Object.fromEntries(response.headers.entries()));
-        throw new Error(errorData.error || errorData.message || `HTTP ${response.status}: Failed to create payment intent`);
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
 
-      let responseData;
-      try {
-        responseData = await response.json();
-      } catch (jsonError) {
-        console.error('Failed to parse success response as JSON:', jsonError);
-        throw new Error('Invalid response format from payment server');
-      }
+      const responseData = await response.json();
+      console.log('Response data:', responseData);
 
       const { clientSecret } = responseData;
-      console.log('Client secret received:', clientSecret ? 'Yes' : 'No');
+      if (!clientSecret) {
+        throw new Error('No client secret received from server');
+      }
+
+      console.log('Client secret received successfully');
       setClientSecret(clientSecret);
     } catch (error) {
       console.error('Error creating payment intent:', error);
