@@ -39,16 +39,10 @@ export default async function handler(
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Stripe expects amount in cents
       currency,
-      payment_method_types: [
-        'card',
-        'apple_pay',
-        'google_pay',
-        'link',
-        'klarna',
-        'afterpay_clearpay',
-        'wechat_pay',
-        'alipay'
-      ],
+      automatic_payment_methods: {
+        enabled: true,
+        allow_redirects: 'always',
+      },
       metadata: {
         // Add any additional metadata you want to track
         booking_type: 'photo_session',

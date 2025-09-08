@@ -91,7 +91,6 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         <PaymentElement 
           options={{
             layout: 'tabs',
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'card'],
             fields: {
               billingDetails: 'auto'
             }
