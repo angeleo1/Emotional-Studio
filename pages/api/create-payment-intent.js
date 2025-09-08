@@ -1,15 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import Stripe from 'stripe';
-import { isBookingEnabled } from '../../config/booking';
+const Stripe = require('stripe');
+const { isBookingEnabled } = require('../../config/booking');
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req, res) {
   console.log('=== Payment Intent API Called ===');
   console.log('Method:', req.method);
   console.log('Body:', req.body);
@@ -77,4 +73,4 @@ export default async function handler(
       details: process.env.NODE_ENV === 'development' ? error : undefined
     });
   }
-} 
+}
