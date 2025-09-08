@@ -93,6 +93,11 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             layout: 'tabs',
             fields: {
               billingDetails: 'auto'
+            },
+            paymentMethodOrder: ['apple_pay', 'google_pay', 'card', 'link'],
+            wallets: {
+              applePay: 'auto',
+              googlePay: 'auto'
             }
           }}
         />
@@ -151,7 +156,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     try {
       console.log('Creating payment intent with:', { amount, currency });
       
-      const response = await fetch('/api/debug-payment', {
+      const response = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -266,6 +271,9 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     appearance,
     loader: 'auto',
     locale: 'en',
+    business: {
+      name: 'e.st Photography'
+    }
   };
 
   return (
