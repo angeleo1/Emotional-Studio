@@ -154,6 +154,22 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
   const createPaymentIntent = async () => {
     setIsLoading(true);
     try {
+      console.log('Testing API first...');
+      
+      // First test if API routes are working
+      const testResponse = await fetch('/api/test-api', {
+        method: 'GET',
+      });
+      
+      console.log('Test API status:', testResponse.status);
+      
+      if (!testResponse.ok) {
+        throw new Error(`Test API failed: ${testResponse.status}`);
+      }
+      
+      const testData = await testResponse.json();
+      console.log('Test API response:', testData);
+      
       console.log('Creating payment intent with:', { amount, currency });
       
       const response = await fetch('/api/create-payment-intent', {
@@ -167,17 +183,17 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
         }),
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
+      console.log('Payment API status:', response.status);
+      console.log('Payment API ok:', response.ok);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('API Error Response:', errorText);
+        console.error('Payment API Error Response:', errorText);
         throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
 
       const responseData = await response.json();
-      console.log('Response data:', responseData);
+      console.log('Payment API response data:', responseData);
 
       const { clientSecret } = responseData;
       if (!clientSecret) {
