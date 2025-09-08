@@ -1,12 +1,17 @@
-const Stripe = require('stripe');
+import { NextApiRequest, NextApiResponse } from 'next';
+import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
 });
 
-module.exports = async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
   }
 
   try {
@@ -31,7 +36,7 @@ module.exports = async function handler(req, res) {
     console.error('Error creating payment intent:', error);
     res.status(500).json({ 
       error: 'Failed to create payment intent',
-      message: error.message
+      message: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
