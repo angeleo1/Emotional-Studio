@@ -15,6 +15,9 @@ import { X, CreditCard, Smartphone, Globe, Shield } from 'lucide-react';
 // Stripe public key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+// 디버깅을 위한 로그
+console.log('Stripe public key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ? 'Loaded' : 'Not loaded');
+
 interface PaymentMethodModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -49,7 +52,12 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
   // PaymentRequest 초기화
   useEffect(() => {
-    if (stripe) {
+    if (!stripe) {
+      console.log('Stripe not loaded yet');
+      return;
+    }
+
+    try {
       const pr = stripe.paymentRequest({
         country: 'AU',
         currency: currency.toLowerCase(),
@@ -117,6 +125,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       });
 
       setPaymentRequest(pr);
+    } catch (error) {
+      console.error('Error initializing PaymentRequest:', error);
+      onError('Failed to initialize payment system. Please try again.');
     }
   }, [stripe, amount, currency, onSuccess, onError]);
 

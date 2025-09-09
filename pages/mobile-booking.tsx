@@ -95,56 +95,62 @@ const MobileBooking: NextPage = () => {
       return;
     }
 
-    // 예약 저장
+    // 결제 모달로 이동
+    setShowPayment(true);
+  };
+
+  const handlePaymentSuccess = async (paymentIntent: any) => {
     try {
-      const dateString = formData.date.toISOString().split('T')[0];
+      // 결제 성공 후 부킹 데이터 저장
+      const bookingData = {
+        ...formData,
+        date: formData.date?.toISOString().split('T')[0]
+      };
+      
       const response = await fetch('/api/save-booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...formData,
-          date: dateString
-        }),
+        body: JSON.stringify(bookingData),
       });
 
       if (response.ok) {
-        setShowPayment(true);
+        setShowSuccess(true);
+        setShowPayment(false);
+        setIsProcessing(false);
+        
+        // 폼 데이터 초기화
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: null,
+          time: '',
+          shootingType: '',
+          colorOption: false,
+          otherGoods: {
+            a4print: false,
+            a4frame: false,
+            digital: false,
+            calendar: false
+          },
+          message: ''
+        });
+        setAvailableTimes([]);
+        setBookedTimes([]);
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Failed to save booking. Please try again.');
+        setShowPayment(false);
+        setIsProcessing(false);
       }
     } catch (error) {
-      console.error('Error saving booking:', error);
-      setErrorMessage('Failed to save booking. Please try again.');
+      console.error('Error saving booking after payment:', error);
+      setErrorMessage('Payment successful but failed to save booking. Please contact us.');
+      setShowPayment(false);
+      setIsProcessing(false);
     }
-  };
-
-  const handlePaymentSuccess = (paymentIntent: any) => {
-    setShowSuccess(true);
-    setShowPayment(false);
-    setIsProcessing(false);
-    
-    // 폼 데이터 초기화
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      date: null,
-      time: '',
-      shootingType: '',
-      colorOption: false,
-      otherGoods: {
-        a4print: false,
-        a4frame: false,
-        digital: false,
-        calendar: false
-      },
-      message: ''
-    });
-    setAvailableTimes([]);
-    setBookedTimes([]);
   };
 
   const handlePaymentError = (message: string) => {

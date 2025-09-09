@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' RESEND_API_KEY=re_M9fAPd4P_HtfftQHJuc9A1ernnzvW93cM CONTACT_EMAIL=admin@emotionalstudios.com.au next dev",
-    "dev:https": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' RESEND_API_KEY=re_M9fAPd4P_HtfftQHJuc9A1ernnzvW93cM CONTACT_EMAIL=admin@emotionalstudios.com.au next dev --experimental-https",
+    "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev",
+    "dev:https": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev --experimental-https",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true next build",
     "start": "next start",
     "lint": "next lint"
