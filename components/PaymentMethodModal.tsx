@@ -7,6 +7,7 @@ import {
   useElements,
   LinkAuthenticationElement,
   AddressElement,
+  PaymentRequestButtonElement,
 } from '@stripe/react-stripe-js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Smartphone, Globe, Shield } from 'lucide-react';
@@ -43,6 +44,81 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isComplete, setIsComplete] = useState(false);
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
+  const [canMakePayment, setCanMakePayment] = useState(false);
+
+  // PaymentRequest 초기화
+  useEffect(() => {
+    if (stripe) {
+      const pr = stripe.paymentRequest({
+        country: 'AU',
+        currency: currency.toLowerCase(),
+        total: {
+          label: 'Total',
+          amount: Math.round(amount * 100), // 센트 단위로 변환
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+
+      pr.canMakePayment().then((result) => {
+        console.log('PaymentRequest canMakePayment result:', result);
+        console.log('Browser info:', {
+          userAgent: navigator.userAgent,
+          isChrome: /Chrome/.test(navigator.userAgent),
+          isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
+          isHTTPS: location.protocol === 'https:',
+          isLocalhost: location.hostname === 'localhost'
+        });
+        setCanMakePayment(!!result);
+        if (!result) {
+          console.log('Google Pay/Apple Pay not available. Reasons:', result);
+          console.log('PaymentRequest object:', pr);
+        }
+      });
+
+      pr.on('paymentmethod', async (ev) => {
+        try {
+          // Payment Intent 생성
+          const response = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              amount,
+              currency
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to create payment intent');
+          }
+
+          const { clientSecret } = await response.json();
+
+          // PaymentRequest로 결제 확인
+          const { error } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: ev.paymentMethod.id,
+          });
+
+          if (error) {
+            onError(error.message || 'Payment failed');
+            ev.complete('fail');
+          } else {
+            onSuccess({ id: ev.paymentMethod.id });
+            ev.complete('success');
+          }
+        } catch (error) {
+          console.error('PaymentRequest error:', error);
+          onError('Payment failed. Please try again.');
+          ev.complete('fail');
+        }
+      });
+
+      setPaymentRequest(pr);
+    }
+  }, [stripe, amount, currency, onSuccess, onError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +161,31 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Google Pay / Apple Pay 버튼 */}
+      {canMakePayment && paymentRequest && (
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            Quick Payment
+          </label>
+          <div className="border border-gray-300 rounded-lg p-4">
+            <PaymentRequestButtonElement
+              options={{
+                paymentRequest,
+                style: {
+                  paymentRequestButton: {
+                    theme: 'light',
+                    height: '48px',
+                  },
+                },
+              }}
+            />
+          </div>
+          <div className="text-center mt-3">
+            <span className="text-gray-500 text-sm">or pay with card below</span>
+          </div>
+        </div>
+      )}
+
       <div className="space-y-4">
         <LinkAuthenticationElement />
         <AddressElement options={{ mode: 'billing' }} />
@@ -94,10 +195,9 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             fields: {
               billingDetails: 'auto'
             },
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'card', 'link'],
-            wallets: {
-              applePay: 'auto',
-              googlePay: 'auto'
+            paymentMethodOrder: ['card', 'link'],
+            business: {
+              name: 'Emotional Studio'
             }
           }}
         />

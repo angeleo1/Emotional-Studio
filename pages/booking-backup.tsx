@@ -8,7 +8,7 @@ import { z } from 'zod';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Elements, CardElement, useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import { isBookingEnabled } from '../config/booking';
 import BookingDisabled from '../components/BookingDisabled';
 
@@ -25,10 +25,10 @@ const bookingSchema = z.object({
   date: z.date().min(new Date(), 'Please select a future date'),
   time: z.string().min(1, 'Please select a time'),
   shootingType: z.string().min(1, 'Please select number of people'),
-  colorOption: z.boolean().default(false),
-  a4print: z.boolean().default(false),
-  a4frame: z.boolean().default(false),
-  digital: z.boolean().default(false),
+  colorOption: z.boolean(),
+  a4print: z.boolean(),
+  a4frame: z.boolean(),
+  digital: z.boolean(),
   additionalRetouch: z.number().min(0).max(5),
   message: z.string().optional(),
 });
@@ -39,6 +39,73 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessing, calculateTotalPrice }: any) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [paymentRequest, setPaymentRequest] = useState<any>(null);
+  const [canMakePayment, setCanMakePayment] = useState(false);
+
+  // PaymentRequest 초기화
+  useEffect(() => {
+    if (stripe) {
+      const pr = stripe.paymentRequest({
+        country: 'AU',
+        currency: 'aud',
+        total: {
+          label: 'Total',
+          amount: calculateTotalPrice() * 100, // 센트 단위로 변환
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+
+      pr.canMakePayment().then((result) => {
+        console.log('PaymentRequest canMakePayment result:', result);
+        setCanMakePayment(!!result);
+        if (!result) {
+          console.log('Google Pay/Apple Pay not available. Reasons:', result);
+        }
+      });
+
+      pr.on('paymentmethod', async (ev) => {
+        try {
+          // Payment Intent 생성
+          const response = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              amount: calculateTotalPrice(),
+              currency: 'aud'
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to create payment intent');
+          }
+
+          const { clientSecret } = await response.json();
+
+          // PaymentRequest로 결제 확인
+          const { error } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: ev.paymentMethod.id,
+          });
+
+          if (error) {
+            onError(error.message || 'Payment failed');
+            ev.complete('fail');
+          } else {
+            onSuccess();
+            ev.complete('success');
+          }
+        } catch (error) {
+          console.error('PaymentRequest error:', error);
+          onError('Payment failed. Please try again.');
+          ev.complete('fail');
+        }
+      });
+
+      setPaymentRequest(pr);
+    }
+  }, [stripe, calculateTotalPrice, onSuccess, onError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,6 +121,7 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
     try {
       const totalAmount = calculateTotalPrice();
       console.log('Total amount:', totalAmount);
+
 
       const response = await fetch('/api/create-payment-intent', {
         method: 'POST',
@@ -110,6 +178,34 @@ const PaymentForm = ({ formData, onSuccess, onError, isProcessing, setIsProcessi
         </h3>
         
         <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Google Pay / Apple Pay 버튼 */}
+          {canMakePayment && paymentRequest && (
+            <div className="mb-6">
+              <label className="block text-lg font-medium text-white mb-4">
+                Quick Payment
+              </label>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-2xl blur-xl"></div>
+                <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+                  <PaymentRequestButtonElement
+                    options={{
+                      paymentRequest,
+                      style: {
+                        paymentRequestButton: {
+                          theme: 'dark',
+                          height: '48px',
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="text-center mt-4">
+                <span className="text-gray-400 text-sm">or pay with card below</span>
+              </div>
+            </div>
+          )}
+
           <div>
             <label className="block text-lg font-medium text-white mb-4">
               Card Details
@@ -191,11 +287,18 @@ const Booking: NextPage = () => {
     resolver: zodResolver(bookingSchema),
     mode: 'onChange',
     defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      date: undefined,
+      time: '',
+      shootingType: '',
       colorOption: false,
       a4print: false,
       a4frame: false,
       digital: false,
       additionalRetouch: 0,
+      message: '',
     },
   });
 
@@ -237,15 +340,42 @@ const Booking: NextPage = () => {
   };
 
   // 결제 성공 핸들러
-  const handlePaymentSuccess = () => {
+  const handlePaymentSuccess = async () => {
     setIsProcessing(false);
-    setCurrentStep(3);
     
-    // 3초 후 모달 닫기
-    setTimeout(() => {
-      setIsBookingVisible(false);
-      setCurrentStep(1);
-    }, 3000);
+    try {
+      // 예약 데이터 저장
+      const bookingData = {
+        ...watchedValues,
+        date: watchedValues.date?.toISOString().split('T')[0]
+      };
+      
+      const response = await fetch('/api/save-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Booking saved successfully:', result);
+        setCurrentStep(3);
+        
+        // 3초 후 모달 닫기
+        setTimeout(() => {
+          setIsBookingVisible(false);
+          setCurrentStep(1);
+        }, 3000);
+      } else {
+        throw new Error('Failed to save booking');
+      }
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert('Payment successful but failed to save booking. Please contact us.');
+      setCurrentStep(3);
+    }
   };
 
   // 결제 실패 핸들러
@@ -497,10 +627,12 @@ const Booking: NextPage = () => {
                                     control={control}
                                     render={({ field }) => (
                                       <input
-                                        {...field}
                                         type="checkbox"
                                         checked={field.value}
                                         onChange={(e) => field.onChange(e.target.checked)}
+                                        onBlur={field.onBlur}
+                                        name={field.name}
+                                        ref={field.ref}
                                         className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
                                       />
                                     )}
@@ -514,10 +646,12 @@ const Booking: NextPage = () => {
                                     control={control}
                                     render={({ field }) => (
                                       <input
-                                        {...field}
                                         type="checkbox"
                                         checked={field.value}
                                         onChange={(e) => field.onChange(e.target.checked)}
+                                        onBlur={field.onBlur}
+                                        name={field.name}
+                                        ref={field.ref}
                                         className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
                                       />
                                     )}
@@ -531,10 +665,12 @@ const Booking: NextPage = () => {
                                     control={control}
                                     render={({ field }) => (
                                       <input
-                                        {...field}
                                         type="checkbox"
                                         checked={field.value}
                                         onChange={(e) => field.onChange(e.target.checked)}
+                                        onBlur={field.onBlur}
+                                        name={field.name}
+                                        ref={field.ref}
                                         className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
                                       />
                                     )}
@@ -548,10 +684,12 @@ const Booking: NextPage = () => {
                                     control={control}
                                     render={({ field }) => (
                                       <input
-                                        {...field}
                                         type="checkbox"
                                         checked={field.value}
                                         onChange={(e) => field.onChange(e.target.checked)}
+                                        onBlur={field.onBlur}
+                                        name={field.name}
+                                        ref={field.ref}
                                         className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
                                       />
                                     )}
@@ -667,7 +805,23 @@ const Booking: NextPage = () => {
 
                       {/* Stripe 결제 폼 */}
                       {stripePromise ? (
-                        <Elements stripe={stripePromise}>
+                        <Elements 
+                          stripe={stripePromise}
+                          options={{
+                            appearance: {
+                              theme: 'night',
+                              variables: {
+                                colorPrimary: '#FF6100',
+                                colorBackground: 'rgba(255, 255, 255, 0.1)',
+                                colorText: '#ffffff',
+                                colorDanger: '#ff6b6b',
+                                fontFamily: 'system-ui, sans-serif',
+                                spacingUnit: '4px',
+                                borderRadius: '8px',
+                              },
+                            },
+                          }}
+                        >
                           <PaymentForm
                             formData={watchedValues}
                             onSuccess={handlePaymentSuccess}
@@ -679,7 +833,15 @@ const Booking: NextPage = () => {
                         </Elements>
                       ) : (
                         <div className="text-center text-red-400 p-8 bg-red-500/10 rounded-3xl border border-red-500/20">
-                          <p className="text-xl">Stripe is not configured. Please check your environment variables.</p>
+                          <div className="space-y-4">
+                            <div className="text-6xl">⚠️</div>
+                            <p className="text-xl font-bold">Payment System Not Available</p>
+                            <p className="text-lg">Stripe is not configured. Please contact us directly to complete your booking.</p>
+                            <div className="mt-6 space-y-2">
+                              <p className="text-sm text-gray-300">Email: info@emotionalstudio.com</p>
+                              <p className="text-sm text-gray-300">Phone: +61 123 456 789</p>
+                            </div>
+                          </div>
                         </div>
                       )}
 

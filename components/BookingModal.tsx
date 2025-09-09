@@ -47,11 +47,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     resolver: zodResolver(bookingSchema),
     mode: 'onChange',
     defaultValues: {
-    colorOption: false,
+      name: '',
+      email: '',
+      phone: '',
+      date: undefined,
+      time: '',
+      shootingType: '',
+      colorOption: false,
       a4print: false,
       a4frame: false,
       digital: false,
       additionalRetouch: 0,
+      message: '',
     },
   });
 
@@ -99,17 +106,44 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   };
 
   // Payment success handler
-  const handlePaymentSuccess = (paymentIntent: any) => {
+  const handlePaymentSuccess = async (paymentIntent: any) => {
     console.log('Payment successful:', paymentIntent);
     setShowPaymentModal(false);
     setIsProcessing(false);
-    setCurrentStep(3);
     
-    // 3초 후 모달 닫기
-    setTimeout(() => {
-      onClose();
-      setCurrentStep(1);
-    }, 3000);
+    try {
+      // 예약 데이터 저장
+      const bookingData = {
+        ...watchedValues,
+        date: watchedValues.date?.toISOString().split('T')[0]
+      };
+      
+      const response = await fetch('/api/save-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Booking saved successfully:', result);
+        setCurrentStep(3);
+        
+        // 3초 후 모달 닫기
+        setTimeout(() => {
+          onClose();
+          setCurrentStep(1);
+        }, 3000);
+      } else {
+        throw new Error('Failed to save booking');
+      }
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert('Payment successful but failed to save booking. Please contact us.');
+      setCurrentStep(3);
+    }
   };
 
      // Payment error handler

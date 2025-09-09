@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { isBookingEnabled } from '../../config/booking';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
@@ -9,6 +10,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // booking이 비활성화된 경우 에러 반환
+  if (!isBookingEnabled()) {
+    return res.status(503).json({ 
+      error: 'Booking service is temporarily unavailable',
+      message: 'Booking service is temporarily unavailable'
+    });
+  }
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' RESEND_API_KEY=re_M9fAPd4P_HtfftQHJuc9A1ernnzvW93cM CONTACT_EMAIL=admin@emotionalstudios.com.au next dev",
+    "dev:https": "cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' RESEND_API_KEY=re_M9fAPd4P_HtfftQHJuc9A1ernnzvW93cM CONTACT_EMAIL=admin@emotionalstudios.com.au next dev --experimental-https",
     "build": "cross-env DISABLE_ESLINT_PLUGIN=true next build",
     "start": "next start",
     "lint": "next lint"
@@ -52,7 +53,7 @@
     "react-i18next": "^14.0.5",
     "react-icons": "^5.5.0",
     "react-use": "^17.6.0",
-    "resend": "^4.7.0",
+    "resend": "^4.8.0",
     "roughjs": "^4.6.6",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
