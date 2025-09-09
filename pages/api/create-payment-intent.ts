@@ -10,14 +10,25 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log('=== Payment Intent API Called ===');
+  console.log('Method:', req.method);
+  console.log('URL:', req.url);
+  console.log('Headers:', req.headers);
+  console.log('Body:', req.body);
+  console.log('Stripe Secret Key exists:', !!process.env.STRIPE_SECRET_KEY);
+  console.log('Booking enabled:', isBookingEnabled());
+
   // booking이 비활성화된 경우 에러 반환
   if (!isBookingEnabled()) {
+    console.log('Booking is disabled');
     return res.status(503).json({ 
       error: 'Booking service is temporarily unavailable',
       message: 'Booking service is temporarily unavailable'
     });
   }
+  
   if (req.method === 'OPTIONS') {
+    console.log('Handling OPTIONS request');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -25,6 +36,7 @@ export default async function handler(
   }
 
   if (req.method !== 'POST') {
+    console.log('Method not allowed:', req.method);
     return res.status(405).json({ error: 'Method not allowed' });
   }
 

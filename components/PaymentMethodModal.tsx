@@ -88,7 +88,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       pr.on('paymentmethod', async (ev) => {
         try {
           // Payment Intent 생성
-          const response = await fetch('/api/create-payment-intent', {
+          const response = await fetch(`${window.location.origin}/api/create-payment-intent`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -267,7 +267,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     try {
       console.log('Creating payment intent with:', { amount, currency });
       
-      const response = await fetch('/api/create-payment-intent', {
+      const response = await fetch(`${window.location.origin}/api/create-payment-intent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
