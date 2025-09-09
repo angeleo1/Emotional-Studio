@@ -12,11 +12,16 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Smartphone, Globe, Shield } from 'lucide-react';
 
-// Stripe public key
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+// Stripe public key - 환경변수 확인
+const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+console.log('Stripe public key:', stripePublishableKey ? 'Loaded' : 'Not loaded');
+console.log('Stripe key value:', stripePublishableKey);
 
-// 디버깅을 위한 로그
-console.log('Stripe public key:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ? 'Loaded' : 'Not loaded');
+if (!stripePublishableKey) {
+  console.error('STRIPE_PUBLISHABLE_KEY is not defined in environment variables');
+}
+
+const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
 
 interface PaymentMethodModalProps {
   isOpen: boolean;
@@ -431,7 +436,13 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
 
             {/* Payment Form */}
             <div className="p-6 flex-1 overflow-y-auto min-h-0">
-              {isLoading ? (
+              {!stripePublishableKey ? (
+                <div className="text-center py-8">
+                  <div className="text-red-500 text-6xl mb-4">⚠️</div>
+                  <p className="text-red-600 text-lg font-bold mb-2">Payment System Not Configured</p>
+                  <p className="text-gray-500">Stripe is not properly configured. Please contact support.</p>
+                </div>
+              ) : isLoading ? (
                 <div className="flex items-center justify-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
                   <span className="ml-3 text-gray-600">Initializing payment...</span>
