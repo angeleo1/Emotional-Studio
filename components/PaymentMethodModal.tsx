@@ -265,22 +265,6 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
   const createPaymentIntent = async () => {
     setIsLoading(true);
     try {
-      console.log('Testing API first...');
-      
-      // First test if API routes are working
-      const testResponse = await fetch('/api/test-api', {
-        method: 'GET',
-      });
-      
-      console.log('Test API status:', testResponse.status);
-      
-      if (!testResponse.ok) {
-        throw new Error(`Test API failed: ${testResponse.status}`);
-      }
-      
-      const testData = await testResponse.json();
-      console.log('Test API response:', testData);
-      
       console.log('Creating payment intent with:', { amount, currency });
       
       const response = await fetch('/api/create-payment-intent', {
