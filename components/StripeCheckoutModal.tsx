@@ -45,7 +45,7 @@ const StripeCheckoutModal: React.FC<StripeCheckoutModalProps> = ({
       console.log('Request body:', requestBody);
       console.log('Request body stringified:', JSON.stringify(requestBody));
       
-      const response = await fetch('/api/create-checkout-session', {
+      const response = await fetch('/api/create-payment-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
