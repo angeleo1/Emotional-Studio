@@ -15,6 +15,8 @@ export default async function handler(
   console.log('URL:', req.url);
   console.log('Headers:', req.headers);
   console.log('Body:', req.body);
+  console.log('Body type:', typeof req.body);
+  console.log('Body stringified:', JSON.stringify(req.body));
   console.log('Stripe Secret Key exists:', !!process.env.STRIPE_SECRET_KEY);
   console.log('Booking enabled:', isBookingEnabled());
 
@@ -75,17 +77,28 @@ export default async function handler(
 
     console.log('Payment Intent created:', paymentIntent.id);
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    return res.status(200).json({
+    const responseData = {
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id,
-    });
+    };
+    
+    console.log('Sending response data:', responseData);
+    console.log('Response data stringified:', JSON.stringify(responseData));
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.status(200).json(responseData);
 
   } catch (error) {
     console.error('Stripe error:', error);
-    return res.status(500).json({ 
+    
+    // 에러 응답을 JSON으로 명확히 반환
+    const errorResponse = {
       error: 'Failed to create payment intent',
-      message: error instanceof Error ? error.message : 'Unknown error'
-    });
+      message: error instanceof Error ? error.message : 'Unknown error',
+      details: process.env.NODE_ENV === 'development' ? error : undefined
+    };
+    
+    console.log('Sending error response:', errorResponse);
+    return res.status(500).json(errorResponse);
   }
 }

@@ -326,15 +326,35 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
       });
 
       console.log('Payment API status:', response.status);
+      console.log('Payment API headers:', response.headers);
+      console.log('Payment API response type:', response.type);
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Payment API Error Response:', errorText);
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          const errorText = await response.text();
+          errorMessage = errorText || errorMessage;
+        }
+        console.error('Payment API Error Response:', errorMessage);
+        throw new Error(errorMessage);
       }
 
-      const responseData = await response.json();
-      console.log('Payment API response data:', responseData);
+      // 응답 내용을 먼저 텍스트로 확인
+      const responseText = await response.text();
+      console.log('Payment API response text:', responseText);
+      
+      let responseData;
+      try {
+        responseData = JSON.parse(responseText);
+        console.log('Payment API response data:', responseData);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        console.error('Response text that failed to parse:', responseText);
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}...`);
+      }
 
       const { clientSecret } = responseData;
       if (!clientSecret) {

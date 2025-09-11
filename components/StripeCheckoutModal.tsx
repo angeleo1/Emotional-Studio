@@ -36,24 +36,55 @@ const StripeCheckoutModal: React.FC<StripeCheckoutModalProps> = ({
     try {
       console.log('Creating checkout session with:', { bookingData, amount, currency });
       
+      const requestBody = {
+        bookingData,
+        amount,
+        currency,
+      };
+      
+      console.log('Request body:', requestBody);
+      console.log('Request body stringified:', JSON.stringify(requestBody));
+      
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          bookingData,
-          amount,
-          currency,
-        }),
+        body: JSON.stringify(requestBody),
       });
+      
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      console.log('Response type:', response.type);
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create checkout session');
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          const errorText = await response.text();
+          errorMessage = errorText || errorMessage;
+        }
+        console.error('Checkout API Error Response:', errorMessage);
+        throw new Error(errorMessage);
       }
 
-      const { url } = await response.json();
+      // 응답 내용을 먼저 텍스트로 확인
+      const responseText = await response.text();
+      console.log('Checkout API response text:', responseText);
+      
+      let responseData;
+      try {
+        responseData = JSON.parse(responseText);
+        console.log('Checkout API response data:', responseData);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        console.error('Response text that failed to parse:', responseText);
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}...`);
+      }
+
+      const { url } = responseData;
       
       if (url) {
         // Stripe Checkout 페이지로 리디렉션

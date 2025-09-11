@@ -12,7 +12,11 @@ export default async function handler(
 ) {
   console.log('=== Checkout Session API Called ===');
   console.log('Method:', req.method);
+  console.log('URL:', req.url);
+  console.log('Headers:', req.headers);
   console.log('Body:', req.body);
+  console.log('Body type:', typeof req.body);
+  console.log('Body stringified:', JSON.stringify(req.body));
 
   // booking이 비활성화된 경우 에러 반환
   if (!isBookingEnabled()) {
@@ -77,8 +81,8 @@ export default async function handler(
         },
       ],
       mode: 'payment',
-      success_url: `${req.headers.origin}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin}/booking-cancel`,
+      success_url: `${req.headers.origin || 'http://localhost:3001'}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.origin || 'http://localhost:3001'}/booking-cancel`,
       metadata: {
         bookingId: `ES${Date.now()}`,
         customerName: bookingData.name,
