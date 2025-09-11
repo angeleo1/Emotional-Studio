@@ -1,0 +1,158 @@
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
+import { CheckCircle, Mail, Calendar, Users, DollarSign } from 'lucide-react';
+
+const BookingSuccess = () => {
+  const router = useRouter();
+  const { session_id } = router.query;
+  const [sessionData, setSessionData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (session_id) {
+      // 실제로는 서버에서 세션 데이터를 가져와야 하지만,
+      // 여기서는 URL 파라미터에서 정보를 추출
+      const bookingId = `ES${Date.now()}`;
+      setSessionData({
+        bookingId,
+        sessionId: session_id,
+        status: 'completed'
+      });
+      setIsLoading(false);
+    }
+  }, [session_id]);
+
+  const handleBackToHome = () => {
+    router.push('/');
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 max-w-2xl w-full border border-white/20 text-center"
+      >
+        {/* Success Icon */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          className="flex justify-center mb-8"
+        >
+          <div className="relative">
+            <div className="absolute inset-0 bg-green-500/20 rounded-full blur-xl"></div>
+            <div className="relative w-32 h-32 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-2xl">
+              <CheckCircle className="w-16 h-16 text-white" />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Success Message */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="space-y-6 mb-8"
+        >
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+            Payment Successful!
+          </h1>
+          <p className="text-2xl text-white">Your booking has been confirmed</p>
+          <p className="text-xl text-gray-300">We'll send you a confirmation email shortly</p>
+        </motion.div>
+
+        {/* Booking Details */}
+        {sessionData && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-white/5 rounded-2xl p-6 mb-8"
+          >
+            <h2 className="text-2xl font-bold text-white mb-6">Booking Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+              <div className="flex items-center gap-3">
+                <Calendar className="w-5 h-5 text-orange-400" />
+                <div>
+                  <p className="text-gray-400 text-sm">Booking ID</p>
+                  <p className="text-white font-medium">{sessionData.bookingId}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail className="w-5 h-5 text-orange-400" />
+                <div>
+                  <p className="text-gray-400 text-sm">Payment ID</p>
+                  <p className="text-white font-medium text-sm">{sessionData.sessionId}</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Next Steps */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="space-y-4 mb-8"
+        >
+          <h3 className="text-xl font-semibold text-white">What's Next?</h3>
+          <div className="space-y-3 text-gray-300">
+            <p>• You'll receive a confirmation email with all the details</p>
+            <p>• We'll contact you 24 hours before your session</p>
+            <p>• Please arrive 10 minutes early for your session</p>
+            <p>• Bring a valid ID for verification</p>
+          </div>
+        </motion.div>
+
+        {/* Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+        >
+          <button
+            onClick={handleBackToHome}
+            className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105"
+          >
+            Back to Home
+          </button>
+          <button
+            onClick={() => window.print()}
+            className="px-8 py-4 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300"
+          >
+            Print Confirmation
+          </button>
+        </motion.div>
+
+        {/* Contact Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="mt-8 pt-6 border-t border-white/20"
+        >
+          <p className="text-gray-400 text-sm">
+            Questions? Contact us at{' '}
+            <a href="mailto:info@emotionalstudio.com" className="text-orange-400 hover:text-orange-300">
+              info@emotionalstudio.com
+            </a>
+          </p>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default BookingSuccess;

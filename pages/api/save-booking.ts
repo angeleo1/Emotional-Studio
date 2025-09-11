@@ -24,7 +24,16 @@ export default async function handler(
     const bookingData = req.body;
     console.log('Saving booking:', bookingData);
 
-    const bookingId = Date.now().toString();
+    // 필수 필드 검증
+    if (!bookingData.name || !bookingData.email || !bookingData.phone || !bookingData.date || !bookingData.time || !bookingData.shootingType) {
+      return res.status(400).json({ 
+        message: 'Missing required booking information',
+        code: 'MISSING_REQUIRED_FIELDS'
+      });
+    }
+
+    const bookingId = `ES${Date.now()}`;
+    const totalAmount = bookingData.totalAmount || calculateTotalAmount(bookingData);
     
     // 이메일로 예약 정보 전송
     try {
@@ -35,6 +44,8 @@ export default async function handler(
         html: `
           <h2>New Booking Confirmation</h2>
           <p><strong>Booking ID:</strong> ${bookingId}</p>
+          <p><strong>Payment Intent ID:</strong> ${bookingData.paymentIntentId || 'N/A'}</p>
+          <p><strong>Payment Status:</strong> ${bookingData.paymentStatus || 'N/A'}</p>
           <p><strong>Name:</strong> ${bookingData.name}</p>
           <p><strong>Email:</strong> ${bookingData.email}</p>
           <p><strong>Phone:</strong> ${bookingData.phone}</p>
@@ -50,7 +61,7 @@ export default async function handler(
             ${bookingData.additionalRetouch > 0 ? `<li>Additional Retouch: ${bookingData.additionalRetouch} (+$${bookingData.additionalRetouch * 15})</li>` : ''}
           </ul>
           ${bookingData.message ? `<p><strong>Message:</strong> ${bookingData.message}</p>` : ''}
-          <p><strong>Total Amount:</strong> $${calculateTotalAmount(bookingData)}</p>
+          <p><strong>Total Amount:</strong> $${totalAmount}</p>
         `
       });
 
@@ -67,7 +78,7 @@ export default async function handler(
           <p><strong>Date:</strong> ${bookingData.date}</p>
           <p><strong>Time:</strong> ${bookingData.time}</p>
           <p><strong>People:</strong> ${bookingData.shootingType}</p>
-          <p><strong>Total Amount:</strong> $${calculateTotalAmount(bookingData)}</p>
+          <p><strong>Total Amount:</strong> $${totalAmount}</p>
           <p>We look forward to seeing you at Emotional Studio!</p>
           <p>Best regards,<br>Emotional Studio Team</p>
         `
@@ -79,11 +90,15 @@ export default async function handler(
 
     res.status(200).json({ 
       message: 'Booking saved successfully',
-      bookingId: bookingId
+      bookingId: bookingId,
+      totalAmount: totalAmount
     });
   } catch (error) {
     console.error('Error saving booking:', error);
-    res.status(500).json({ message: 'Error saving booking' });
+    res.status(500).json({ 
+      message: 'Error saving booking',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 }
 
@@ -91,6 +106,7 @@ export default async function handler(
 function calculateTotalAmount(bookingData: any) {
   let basePrice = 0;
   switch (bookingData.shootingType) {
+    case 'test': basePrice = 1; break;
     case '1person': basePrice = 65; break;
     case '2people': basePrice = 130; break;
     case '3people': basePrice = 195; break;

@@ -11,17 +11,11 @@ import {
 } from '@stripe/react-stripe-js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Smartphone, Globe, Shield } from 'lucide-react';
+import { getStripeConfig } from '../utils/stripeValidation';
 
-// Stripe public key - 환경변수 확인
-const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-console.log('Stripe public key:', stripePublishableKey ? 'Loaded' : 'Not loaded');
-console.log('Stripe key value:', stripePublishableKey);
-
-if (!stripePublishableKey) {
-  console.error('STRIPE_PUBLISHABLE_KEY is not defined in environment variables');
-}
-
-const stripePromise = stripePublishableKey ? loadStripe(stripePublishableKey) : null;
+// Stripe 설정 검증 및 초기화
+const stripeConfig = getStripeConfig();
+const stripePromise = stripeConfig?.publishableKey ? loadStripe(stripeConfig.publishableKey) : null;
 
 interface PaymentMethodModalProps {
   isOpen: boolean;
@@ -54,6 +48,21 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const [isComplete, setIsComplete] = useState(false);
   const [paymentRequest, setPaymentRequest] = useState<any>(null);
   const [canMakePayment, setCanMakePayment] = useState(false);
+  const [isElementsReady, setIsElementsReady] = useState(false);
+
+  // Elements 준비 상태 확인
+  useEffect(() => {
+    if (elements) {
+      const paymentElement = elements.getElement('payment');
+      if (paymentElement) {
+        setIsElementsReady(true);
+        console.log('Payment element is ready');
+      } else {
+        console.log('Payment element not found, waiting...');
+        setIsElementsReady(false);
+      }
+    }
+  }, [elements]);
 
   // PaymentRequest 초기화
   useEffect(() => {
@@ -76,22 +85,17 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
       pr.canMakePayment().then((result) => {
         console.log('PaymentRequest canMakePayment result:', result);
-        console.log('Browser info:', {
-          userAgent: navigator.userAgent,
-          isChrome: /Chrome/.test(navigator.userAgent),
-          isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
-          isHTTPS: location.protocol === 'https:',
-          isLocalhost: location.hostname === 'localhost'
-        });
         setCanMakePayment(!!result);
         if (!result) {
-          console.log('Google Pay/Apple Pay not available. Reasons:', result);
-          console.log('PaymentRequest object:', pr);
+          console.log('Google Pay/Apple Pay not available');
         }
       });
 
       pr.on('paymentmethod', async (ev) => {
         try {
+          setIsProcessing(true);
+          setMessage('Processing payment...');
+
           // Payment Intent 생성
           const response = await fetch(`${window.location.origin}/api/create-payment-intent`, {
             method: 'POST',
@@ -105,27 +109,40 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           });
 
           if (!response.ok) {
-            throw new Error('Failed to create payment intent');
+            const errorText = await response.text();
+            throw new Error(`Failed to create payment intent: ${errorText}`);
           }
 
           const { clientSecret } = await response.json();
 
+          if (!clientSecret) {
+            throw new Error('No client secret received');
+          }
+
           // PaymentRequest로 결제 확인
-          const { error } = await stripe.confirmCardPayment(clientSecret, {
+          const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
             payment_method: ev.paymentMethod.id,
           });
 
           if (error) {
+            console.error('Payment error:', error);
             onError(error.message || 'Payment failed');
             ev.complete('fail');
-          } else {
-            onSuccess({ id: ev.paymentMethod.id });
+          } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+            setMessage('Payment successful!');
+            onSuccess(paymentIntent);
             ev.complete('success');
+            setIsComplete(true);
+          } else {
+            onError('Payment was not completed');
+            ev.complete('fail');
           }
         } catch (error) {
           console.error('PaymentRequest error:', error);
-          onError('Payment failed. Please try again.');
+          onError(error instanceof Error ? error.message : 'Payment failed. Please try again.');
           ev.complete('fail');
+        } finally {
+          setIsProcessing(false);
         }
       });
 
@@ -139,12 +156,18 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !isElementsReady) {
+      console.error('Payment system not ready:', { 
+        stripe: !!stripe, 
+        elements: !!elements, 
+        isElementsReady 
+      });
+      onError('Payment system not ready. Please wait a moment and try again.');
       return;
     }
 
     setIsProcessing(true);
-    setMessage(null);
+    setMessage('Processing payment...');
 
     try {
       const { error, paymentIntent } = await stripe.confirmPayment({
@@ -156,20 +179,30 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       });
 
       if (error) {
+        console.error('Payment error:', error);
+        let errorMessage = 'Payment failed. Please try again.';
+        
         if (error.type === 'card_error' || error.type === 'validation_error') {
-          setMessage(error.message || 'An unexpected error occurred.');
-        } else {
-          setMessage('An unexpected error occurred.');
+          errorMessage = error.message || 'Please check your card details and try again.';
+        } else if (error.type === 'authentication_required') {
+          errorMessage = 'Additional authentication required. Please complete the verification.';
         }
-        onError(error.message || 'Payment failed');
+        
+        setMessage(errorMessage);
+        onError(errorMessage);
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        setMessage('Payment succeeded!');
+        setMessage('Payment successful!');
         onSuccess(paymentIntent);
         setIsComplete(true);
+      } else {
+        setMessage('Payment was not completed. Please try again.');
+        onError('Payment was not completed');
       }
     } catch (err) {
-      setMessage('An unexpected error occurred.');
-      onError('Payment failed');
+      console.error('Payment submission error:', err);
+      const errorMessage = 'An unexpected error occurred. Please try again.';
+      setMessage(errorMessage);
+      onError(errorMessage);
     } finally {
       setIsProcessing(false);
     }
@@ -191,6 +224,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
                   paymentRequestButton: {
                     theme: 'light',
                     height: '48px',
+                    type: 'default',
                   },
                 },
               }}
@@ -203,20 +237,28 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       )}
 
       <div className="space-y-4">
-        <LinkAuthenticationElement />
-        <AddressElement options={{ mode: 'billing' }} />
-        <PaymentElement 
-          options={{
-            layout: 'tabs',
-            fields: {
-              billingDetails: 'auto'
-            },
-            paymentMethodOrder: ['card', 'link'],
-            business: {
-              name: 'Emotional Studio'
-            }
-          }}
-        />
+        {!isElementsReady ? (
+          <div className="flex items-center justify-center py-8">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="ml-3 text-gray-600">Loading payment form...</span>
+          </div>
+        ) : (
+          <>
+            <LinkAuthenticationElement />
+            <AddressElement options={{ mode: 'billing' }} />
+            <PaymentElement 
+              options={{
+                layout: 'tabs',
+                fields: {
+                  billingDetails: 'auto'
+                },
+                business: {
+                  name: 'Emotional Studio'
+                }
+              }}
+            />
+          </>
+        )}
       </div>
 
       {message && (
@@ -240,10 +282,10 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         </button>
         <button
           type="submit"
-          disabled={!stripe || !elements || isProcessing || isComplete}
+          disabled={!stripe || !elements || !isElementsReady || isProcessing || isComplete}
           className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {isProcessing ? 'Processing...' : isComplete ? 'Complete' : `Pay $${amount.toFixed(2)}`}
+          {!isElementsReady ? 'Loading...' : isProcessing ? 'Processing...' : isComplete ? 'Complete' : `Pay $${amount.toFixed(2)}`}
         </button>
       </div>
     </form>
@@ -284,7 +326,6 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
       });
 
       console.log('Payment API status:', response.status);
-      console.log('Payment API ok:', response.ok);
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -313,18 +354,35 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
   const appearance = {
     theme: 'stripe' as const,
     variables: {
-      colorPrimary: '#3b82f6',
+      colorPrimary: '#FF6100',
       colorBackground: '#ffffff',
       colorText: '#1f2937',
       colorDanger: '#ef4444',
       fontFamily: 'system-ui, sans-serif',
       spacingUnit: '4px',
-      borderRadius: '8px',
+      borderRadius: '12px',
+      colorBorder: '#e5e7eb',
     },
     rules: {
+      '.Input': {
+        borderRadius: '12px',
+        border: '1px solid #e5e7eb',
+        padding: '12px 16px',
+        fontSize: '16px',
+      },
+      '.Input:focus': {
+        borderColor: '#FF6100',
+        boxShadow: '0 0 0 2px rgba(255, 97, 0, 0.1)',
+      },
+      '.Label': {
+        fontSize: '14px',
+        fontWeight: '500',
+        color: '#374151',
+        marginBottom: '8px',
+      },
       '.Tab': {
         border: '1px solid #e5e7eb',
-        borderRadius: '8px',
+        borderRadius: '12px',
         padding: '16px',
         marginBottom: '8px',
         marginRight: '8px',
@@ -336,6 +394,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
         flexDirection: 'column',
         gap: '8px',
         flex: '1',
+        transition: 'all 0.2s ease',
       },
       '.Tabs': {
         display: 'flex',
@@ -344,12 +403,13 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
       },
       '.Tab:hover': {
         backgroundColor: '#f9fafb',
-        borderColor: '#3b82f6',
+        borderColor: '#FF6100',
+        transform: 'translateY(-1px)',
       },
       '.Tab--selected': {
-        borderColor: '#3b82f6',
-        backgroundColor: '#eff6ff',
-        boxShadow: '0 0 0 2px #3b82f6',
+        borderColor: '#FF6100',
+        backgroundColor: '#fff5f0',
+        boxShadow: '0 0 0 2px rgba(255, 97, 0, 0.1)',
       },
       '.TabIcon': {
         width: '24px',
@@ -359,16 +419,11 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
         fontSize: '14px',
         fontWeight: '500',
       },
-      // Apple Pay and Google Pay specific styling
-      '.Tab[data-testid="apple-pay"]': {
-        backgroundColor: '#000',
-        color: '#fff',
-        borderColor: '#000',
-      },
-      '.Tab[data-testid="google-pay"]': {
-        backgroundColor: '#fff',
-        color: '#000',
-        borderColor: '#dadce0',
+      '.PaymentElement': {
+        padding: '20px',
+        backgroundColor: '#fafafa',
+        borderRadius: '12px',
+        border: '1px solid #e5e7eb',
       },
     },
   };
@@ -379,8 +434,9 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     loader: 'auto',
     locale: 'en',
     business: {
-      name: 'e.st Photography'
-    }
+      name: 'Emotional Studio'
+    },
+    paymentMethodOrder: ['card', 'link'],
   };
 
   return (
@@ -436,7 +492,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
 
             {/* Payment Form */}
             <div className="p-6 flex-1 overflow-y-auto min-h-0">
-              {!stripePublishableKey ? (
+              {!stripeConfig?.isConfigured ? (
                 <div className="text-center py-8">
                   <div className="text-red-500 text-6xl mb-4">⚠️</div>
                   <p className="text-red-600 text-lg font-bold mb-2">Payment System Not Configured</p>

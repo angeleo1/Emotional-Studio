@@ -44,7 +44,18 @@ export default async function handler(
     const { amount, currency = 'aud' } = req.body;
 
     if (!amount || amount <= 0) {
-      return res.status(400).json({ error: 'Invalid amount' });
+      return res.status(400).json({ 
+        error: 'Invalid amount',
+        message: 'Amount must be greater than 0'
+      });
+    }
+
+    // 최소 금액 검증 (테스트용 $1 허용)
+    if (amount < 1 && amount !== 1) {
+      return res.status(400).json({ 
+        error: 'Amount too low',
+        message: 'Minimum amount is $1'
+      });
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
@@ -54,11 +65,20 @@ export default async function handler(
         enabled: true,
         allow_redirects: 'always'
       },
+      metadata: {
+        source: 'emotional-studio-booking',
+        amount: amount.toString(),
+        currency: currency
+      },
+      description: `Emotional Studio Booking - $${amount} AUD`,
     });
+
+    console.log('Payment Intent created:', paymentIntent.id);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     return res.status(200).json({
       clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
     });
 
   } catch (error) {

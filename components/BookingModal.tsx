@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import PaymentMethodModal from './PaymentMethodModal';
+import StripeCheckoutModal from './StripeCheckoutModal';
 
 
 // Zod 스키마 정의
@@ -35,7 +35,7 @@ interface BookingModalProps {
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   // React Hook Form 설정
   const {
@@ -100,63 +100,23 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     setCurrentStep(2);
   };
 
-  // Open payment modal
-  const handlePaymentClick = () => {
-    setShowPaymentModal(true);
+  // Open checkout modal
+  const handleCheckoutClick = () => {
+    setShowCheckoutModal(true);
   };
 
-  // Payment success handler
-  const handlePaymentSuccess = async (paymentIntent: any) => {
-    console.log('Payment successful:', paymentIntent);
-    setShowPaymentModal(false);
+  // Checkout success handler
+  const handleCheckoutSuccess = (sessionId: string) => {
+    console.log('Checkout successful:', sessionId);
+    setShowCheckoutModal(false);
+    // Stripe Checkout은 자동으로 성공 페이지로 리디렉션되므로
+    // 여기서는 모달만 닫습니다
+  };
+
+  // Checkout error handler
+  const handleCheckoutError = (message: string) => {
     setIsProcessing(false);
-    
-    try {
-      // 예약 데이터 저장
-      const bookingData = {
-        ...watchedValues,
-        date: watchedValues.date?.toISOString().split('T')[0]
-      };
-      
-      const response = await fetch('/api/save-booking', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingData),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Booking saved successfully:', result);
-        setCurrentStep(3);
-        
-        // 3초 후 모달 닫기
-        setTimeout(() => {
-          onClose();
-          setCurrentStep(1);
-        }, 3000);
-      } else {
-        throw new Error('Failed to save booking');
-      }
-    } catch (error) {
-      console.error('Error saving booking:', error);
-      alert('Payment successful but failed to save booking. Please contact us.');
-      setCurrentStep(3);
-    }
-  };
-
-     // Payment error handler
-  const handlePaymentError = (message: string) => {
-     setIsProcessing(false);
-     // Convert Korean error messages to English
-     let englishMessage = message;
-     if (message.includes('보안 연결')) {
-       englishMessage = 'Payment processing error. Please try again.';
-     } else if (message.includes('자동 결제')) {
-       englishMessage = 'Payment method error. Please check your card details.';
-     }
-     alert(`Payment failed: ${englishMessage}`);
+    alert(`Payment failed: ${message}`);
   };
 
   const closeBooking = () => {
@@ -528,16 +488,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                       </div>
                         </div>
 
-                      {/* Payment Button */}
+                      {/* Checkout Button */}
                       <div className="text-center">
                         <button
-                          onClick={handlePaymentClick}
+                          onClick={handleCheckoutClick}
                           className="w-full py-5 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl text-white"
                         >
-                          Pay with Various Payment Methods
+                          Proceed to Secure Payment
                         </button>
                         <p className="text-gray-400 text-sm mt-3">
-                          Supports various payment methods including Apple Pay, Google Pay, WeChat Pay, and cards
+                          Secure payment with Apple Pay, Google Pay, and all major cards
                         </p>
                       </div>
 
@@ -616,14 +576,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
           </motion.div>
         )}
         
-        {/* PaymentMethodModal */}
-        <PaymentMethodModal
-          isOpen={showPaymentModal}
-          onClose={() => setShowPaymentModal(false)}
+        {/* StripeCheckoutModal */}
+        <StripeCheckoutModal
+          isOpen={showCheckoutModal}
+          onClose={() => setShowCheckoutModal(false)}
+          bookingData={{
+            ...watchedValues,
+            date: watchedValues.date?.toISOString().split('T')[0]
+          }}
           amount={calculateTotalPrice()}
           currency="aud"
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
+          onSuccess={handleCheckoutSuccess}
+          onError={handleCheckoutError}
         />
     </AnimatePresence>
   );
