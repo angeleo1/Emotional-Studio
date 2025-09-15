@@ -54,16 +54,39 @@ const BookingSuccess = () => {
 
   const sendBookingEmails = async (bookingData: any) => {
     try {
-      await fetch('/api/send-booking-emails', {
+      console.log('Sending booking emails for:', bookingData);
+      
+      // 먼저 부킹 데이터를 저장
+      const saveResponse = await fetch('/api/save-booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      });
+      
+      if (saveResponse.ok) {
+        console.log('Booking data saved successfully');
+      } else {
+        console.error('Failed to save booking data:', await saveResponse.text());
+      }
+      
+      // 이메일 전송
+      const emailResponse = await fetch('/api/send-booking-emails', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ bookingData }),
       });
-      console.log('Booking confirmation emails sent');
+      
+      if (emailResponse.ok) {
+        console.log('Booking confirmation emails sent');
+      } else {
+        console.error('Failed to send emails:', await emailResponse.text());
+      }
     } catch (error) {
-      console.error('Error sending booking emails:', error);
+      console.error('Error in sendBookingEmails:', error);
     }
   };
 
