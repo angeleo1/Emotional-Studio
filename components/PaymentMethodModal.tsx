@@ -11,11 +11,19 @@ import {
 } from '@stripe/react-stripe-js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Smartphone, Globe, Shield } from 'lucide-react';
-import { getStripeConfig } from '../utils/stripeValidation';
 
-// Stripe 설정 검증 및 초기화
-const stripeConfig = getStripeConfig();
-const stripePromise = stripeConfig?.publishableKey ? loadStripe(stripeConfig.publishableKey) : null;
+// Stripe 설정 검증 및 초기화 - 하드코딩으로 즉시 해결
+const publishableKey = 'pk_live_51S1JBl2zEM74rjqu3JsPy5E0hqcxkGT6yD9GY3ohWfb3QoQ3EGnq3RGb8RkykfRxlkncAWxIxOUPKsopZdwNAaof003bAkdluC';
+
+const stripeConfig = {
+  publishableKey,
+  isConfigured: true
+};
+
+console.log('Stripe config:', stripeConfig);
+console.log('Publishable key:', publishableKey);
+
+const stripePromise = loadStripe(publishableKey);
 
 interface PaymentMethodModalProps {
   isOpen: boolean;
@@ -97,7 +105,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           setMessage('Processing payment...');
 
           // Payment Intent 생성
-          const response = await fetch(`${window.location.origin}/api/create-payment-session`, {
+          const response = await fetch(`${window.location.origin}/api/create-payment-intent`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -314,7 +322,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     try {
       console.log('Creating payment intent with:', { amount, currency });
       
-      const response = await fetch(`${window.location.origin}/api/create-payment-session`, {
+      const response = await fetch(`${window.location.origin}/api/create-payment-intent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

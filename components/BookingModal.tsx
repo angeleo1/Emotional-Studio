@@ -5,8 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import StripeCheckoutModal from './StripeCheckoutModal';
-
+import { loadStripe } from '@stripe/stripe-js';
+import { X, Calendar, Clock, Users, CreditCard, CheckCircle } from 'lucide-react';
 
 // Zod 스키마 정의
 const bookingSchema = z.object({
@@ -31,11 +31,10 @@ interface BookingModalProps {
   onClose: () => void;
 }
 
-
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   // React Hook Form 설정
   const {
@@ -94,105 +93,130 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     return basePrice + additionalCost;
   };
 
+  // Stripe Checkout으로 결제 처리
+  const handlePayment = async () => {
+    if (!isValid) {
+      console.log('Form is not valid');
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      const bookingData = {
+        name: watchedValues.name,
+        email: watchedValues.email,
+        phone: watchedValues.phone,
+        date: watchedValues.date?.toISOString().split('T')[0],
+        time: watchedValues.time,
+        shootingType: watchedValues.shootingType,
+        colorOption: watchedValues.colorOption,
+        a4print: watchedValues.a4print,
+        a4frame: watchedValues.a4frame,
+        digital: watchedValues.digital,
+        additionalRetouch: watchedValues.additionalRetouch,
+        message: watchedValues.message || '',
+      };
+
+      console.log('Creating checkout session with:', { bookingData, amount: calculateTotalPrice() });
+
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bookingData,
+          amount: calculateTotalPrice(),
+          currency: 'aud',
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create checkout session');
+      }
+
+      const { url } = await response.json();
+
+      if (url) {
+        // Stripe Checkout 페이지로 리디렉션
+        window.location.href = url;
+      } else {
+        throw new Error('No checkout URL received');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert(`Payment failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   // 폼 제출 핸들러
   const onSubmit = (data: BookingFormData) => {
     console.log('Form data:', data);
     setCurrentStep(2);
   };
 
-  // Open checkout modal
-  const handleCheckoutClick = () => {
-    setShowCheckoutModal(true);
-  };
-
-  // Checkout success handler
-  const handleCheckoutSuccess = (sessionId: string) => {
-    console.log('Checkout successful:', sessionId);
-    setShowCheckoutModal(false);
-    // Stripe Checkout은 자동으로 성공 페이지로 리디렉션되므로
-    // 여기서는 모달만 닫습니다
-  };
-
-  // Checkout error handler
-  const handleCheckoutError = (message: string) => {
-    setIsProcessing(false);
-    alert(`Payment failed: ${message}`);
-  };
-
+  // 모달 닫기
   const closeBooking = () => {
-    onClose();
     setCurrentStep(1);
+    setIsSuccess(false);
+    onClose();
   };
+
+  // 성공 후 폼 리셋
+  const resetForm = () => {
+    setCurrentStep(1);
+    setIsSuccess(false);
+  };
+
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={closeBooking}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
         >
               <motion.div 
-            initial={{ y: 50, opacity: 0, scale: 0.9 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 50, opacity: 0, scale: 0.9 }}
-            className="relative w-full max-w-5xl max-h-[95vh] overflow-y-auto custom-scrollbar"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* 메인 컨테이너 */}
-            <div className="relative">
-              {/* 그라데이션 배경 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#111] via-[#111] to-[#111] rounded-3xl"></div>
-              
-              {/* 글래스모피즘 오버레이 */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl border border-white/20"></div>
-              
-              {/* 컨텐츠 */}
-              <div className="relative p-8">
-                {/* 헤더 */}
-                <div className="text-center mb-12">
-                  <h2 className="text-5xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent mb-4">
-                    Book Your Session
-                  </h2>
-                  <p className="text-xl text-gray-300">Create unforgettable memories with us</p>
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[95vh] overflow-hidden"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <Calendar className="w-6 h-6 text-orange-600" />
                 </div>
-
-                {/* 진행 단계 표시 */}
-                <div className="flex items-center justify-center space-x-8 mb-12">
-                  {[1, 2, 3].map((step) => (
-                    <div key={step} className="flex items-center">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 ${
-                        currentStep === step 
-                          ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] text-white shadow-lg scale-110' 
-                          : 'bg-gray-700/50 text-gray-400 border border-gray-600'
-                      }`}>
-                        {step}
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Book Your Session</h2>
+                <p className="text-gray-500">Create unforgettable memories with us</p>
                       </div>
-                      {step < 3 && (
-                        <div className={`w-20 h-1 mx-4 transition-all duration-300 ${
-                          currentStep > step ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00]' : 'bg-gray-600'
-                        }`}></div>
-                      )}
                     </div>
-                  ))}
+            <button
+              onClick={closeBooking}
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
                 </div>
 
-                {/* 단계별 컨텐츠 */}
+          {/* Content */}
+          <div className="p-6 overflow-y-auto max-h-[calc(95vh-140px)]">
                 {currentStep === 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="max-w-4xl mx-auto"
-                  >
-                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-                                               {/* 기본 정보 */}
-                         <div className="mb-8">
-                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Basic Information</h3>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {/* Personal Information */}
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                              <div>
-                               <label className="block text-lg font-medium text-white mb-3">Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Name *
+                    </label>
                                <Controller
                                  name="name"
                                  control={control}
@@ -200,18 +224,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                                    <input
                                      {...field}
                                      type="text"
-                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-300"
-                                     placeholder="Enter your name"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Your full name"
                                    />
                                  )}
                                />
                                {errors.name && (
-                                 <p className="text-red-400 text-sm mt-2">{errors.name.message}</p>
+                      <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
                                )}
                              </div>
                              
                              <div>
-                               <label className="block text-lg font-medium text-white mb-3">Email *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email *
+                    </label>
                                <Controller
                                  name="email"
                                  control={control}
@@ -219,18 +245,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                                    <input
                                      {...field}
                                      type="email"
-                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-300"
-                                     placeholder="Enter your email"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="your@email.com"
                                    />
                                  )}
                                />
                                {errors.email && (
-                                 <p className="text-red-400 text-sm mt-2">{errors.email.message}</p>
+                      <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
                                )}
                              </div>
                              
                              <div>
-                               <label className="block text-lg font-medium text-white mb-3">Phone *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone *
+                    </label>
                                <Controller
                                  name="phone"
                                  control={control}
@@ -238,357 +266,339 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                                    <input
                                      {...field}
                                      type="tel"
-                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg transition-all duration-300"
-                                     placeholder="Enter your phone number"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Your phone number"
                                    />
                                  )}
                                />
                                {errors.phone && (
-                                 <p className="text-red-400 text-sm mt-2">{errors.phone.message}</p>
-                               )}
-                             </div>
-                </div>
-              </div>
-
-                                               {/* 세션 정보 */}
-                         <div className="mb-8">
-                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Session Information</h3>
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                             <div>
-                               <label className="block text-lg font-medium text-white mb-3">Number of People *</label>
-                               <Controller
-                                 name="shootingType"
-                                 control={control}
-                                 render={({ field }) => (
-                                                                        <select
-                                       {...field}
-                                       className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
-                                     >
-                                       <option value="">Please select</option>
-                                       <option value="test">Test ($1)</option>
-                                       <option value="1person">1 Person ($65)</option>
-                                       <option value="2people">2 People ($130)</option>
-                                       <option value="3people">3 People ($195)</option>
-                                       <option value="4people">4 People ($260)</option>
-                          </select>
-                                 )}
-                               />
-                               {errors.shootingType && (
-                                 <p className="text-red-400 text-sm mt-2">{errors.shootingType.message}</p>
+                      <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
                                )}
                 </div>
                              
                              <div>
-                               <label className="block text-lg font-medium text-white mb-3">Date *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Date *
+                    </label>
                                <Controller
                                  name="date"
                                  control={control}
                                  render={({ field }) => (
                                    <DatePicker
                                      selected={field.value}
-                                     onChange={(date) => field.onChange(date)}
+                          onChange={field.onChange}
                                      minDate={new Date()}
-                                     dateFormat="yyyy-MM-dd"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                      placeholderText="Select date"
-                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
                                    />
                                  )}
                                />
                                {errors.date && (
-                                 <p className="text-red-400 text-sm mt-2">{errors.date.message}</p>
+                      <p className="mt-1 text-sm text-red-600">{errors.date.message}</p>
                                )}
                 </div>
                              
                              <div>
-                               <label className="block text-lg font-medium text-white mb-3">Time *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Time *
+                    </label>
                                <Controller
                                  name="time"
                                  control={control}
                                  render={({ field }) => (
                         <select 
                                      {...field}
-                                     className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                    >
                                      <option value="">Select time</option>
                                      {availableTimes.map((time) => (
-                                       <option key={time} value={time}>{time}</option>
+                            <option key={time} value={time}>
+                              {time}
+                            </option>
                                      ))}
                         </select>
                                  )}
                                />
                                {errors.time && (
-                                 <p className="text-red-400 text-sm mt-2">{errors.time.message}</p>
-                               )}
-                             </div>
+                      <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Number of People *
+                    </label>
+                    <Controller
+                      name="shootingType"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        >
+                          <option value="">Select people</option>
+                          <option value="test">Test Session - $1</option>
+                          <option value="1person">1 Person - $65</option>
+                          <option value="2people">2 People - $130</option>
+                          <option value="3people">3 People - $195</option>
+                          <option value="4people">4 People - $260</option>
+                        </select>
+                      )}
+                    />
+                    {errors.shootingType && (
+                      <p className="mt-1 text-sm text-red-600">{errors.shootingType.message}</p>
+                    )}
                            </div>
                          </div>
 
-                                               {/* 추가 옵션 */}
-                         <div className="mb-8">
-                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Additional Options</h3>
-                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Additional Options */}
                              <div className="space-y-4">
-                               <div className="flex items-center">
+                  <h3 className="text-lg font-semibold text-gray-900">Additional Options</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                  <Controller
                                    name="colorOption"
                                    control={control}
                                    render={({ field }) => (
+                        <label className="flex items-center space-x-3 cursor-pointer">
                                      <input
                                        type="checkbox"
                                        checked={field.value}
-                                       onChange={(e) => field.onChange(e.target.checked)}
-                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                            onChange={field.onChange}
+                            className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                                      />
+                          <span className="text-gray-700">Color Option (+$10)</span>
+                        </label>
                                    )}
                                  />
-                                 <label className="ml-4 text-white text-lg">Color Option (+$10)</label>
-                               </div>
                                
-                               <div className="flex items-center">
                                  <Controller
                                    name="a4print"
                                    control={control}
                                    render={({ field }) => (
+                        <label className="flex items-center space-x-3 cursor-pointer">
                                      <input
                                        type="checkbox"
                                        checked={field.value}
-                                       onChange={(e) => field.onChange(e.target.checked)}
-                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                            onChange={field.onChange}
+                            className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                                      />
+                          <span className="text-gray-700">4x6" Print (+$10)</span>
+                        </label>
                                    )}
                                  />
-                                 <label className="ml-4 text-white text-lg">4x6" Print (+$10)</label>
-                               </div>
                                
-                               <div className="flex items-center">
                                  <Controller
                                    name="a4frame"
                                    control={control}
                                    render={({ field }) => (
+                        <label className="flex items-center space-x-3 cursor-pointer">
                                      <input
                                        type="checkbox"
                                        checked={field.value}
-                                       onChange={(e) => field.onChange(e.target.checked)}
-                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                            onChange={field.onChange}
+                            className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                                      />
+                          <span className="text-gray-700">4x6" Frame (+$15)</span>
+                        </label>
                                    )}
                                  />
-                                 <label className="ml-4 text-white text-lg">4x6" Frame (+$15)</label>
-                </div>
                                
-                               <div className="flex items-center">
                                  <Controller
                                    name="digital"
                                    control={control}
                                    render={({ field }) => (
+                        <label className="flex items-center space-x-3 cursor-pointer">
                                      <input
                                        type="checkbox"
                                        checked={field.value}
-                                       onChange={(e) => field.onChange(e.target.checked)}
-                                       className="w-6 h-6 text-[#FF6100] bg-white/10 border-white/20 rounded-lg focus:ring-[#FF6100] focus:ring-2 transition-all duration-300"
+                            onChange={field.onChange}
+                            className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
                                      />
+                          <span className="text-gray-700">Digital Original (+$20)</span>
+                        </label>
                                    )}
                                  />
-                                 <label className="ml-4 text-white text-lg">Original Digital Film (+$20)</label>
-              </div>
                   </div>
                              
-                             <div className="space-y-4">
                                <div>
-                                 <label className="block text-lg font-medium text-white mb-3">Additional Retouch (+$15 each)</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Additional Retouch (${watchedValues.additionalRetouch * 15})
+                    </label>
                                  <Controller
                                    name="additionalRetouch"
                                    control={control}
                                    render={({ field }) => (
-                                     <select
+                        <input
                                        {...field}
-                                       onChange={(e) => field.onChange(parseInt(e.target.value))}
-                                       className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white text-lg transition-all duration-300"
-                                     >
-                                       {[0, 1, 2, 3, 4, 5].map(num => (
-                                         <option key={num} value={num}>{num}</option>
-                                       ))}
-                                     </select>
-                                   )}
-                                 />
-                  </div>
-                  </div>
+                          type="range"
+                          min="0"
+                          max="5"
+                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                        />
+                      )}
+                    />
+                    <div className="flex justify-between text-sm text-gray-500 mt-1">
+                      <span>0</span>
+                      <span>5</span>
                 </div>
               </div>
 
-                                               {/* 메시지 */}
-                         <div className="mb-8">
-                           <h3 className="text-2xl font-bold text-white mb-6 text-center">Additional Requests</h3>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Special Requests
+                    </label>
                            <Controller
                              name="message"
                              control={control}
                              render={({ field }) => (
                                <textarea
                                  {...field}
-                                 rows={4}
-                                 placeholder="Any special requests or comments?"
-                                 className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#FF6100] focus:border-transparent text-white placeholder-gray-400 text-lg resize-none transition-all duration-300"
+                          rows={3}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                          placeholder="Any special requests or notes..."
                                />
                              )}
                            />
+                  </div>
                          </div>
 
-                                               {/* 총 금액 및 다음 단계 버튼 */}
-                         <div className="mb-8">
-                           <div className="flex justify-between items-center mb-8">
-                             <span className="text-2xl font-bold text-white">Total Amount</span>
-                             <span className="text-4xl font-bold bg-gradient-to-r from-[#FF6100] to-[#FF8A00] bg-clip-text text-transparent">
-                               ${calculateTotalPrice()}
+                {/* Total Price */}
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-semibold text-gray-900">Total Amount</span>
+                    <span className="text-2xl font-bold text-orange-600">
+                      ${calculateTotalPrice()}.00 AUD
                              </span>
                            </div>
+                </div>
+
+                {/* Submit Button */}
                            <button
                              type="submit"
                              disabled={!isValid}
-                             className={`w-full py-6 px-8 rounded-2xl font-bold text-xl transition-all duration-300 transform hover:scale-105 ${
-                               isValid
-                                 ? 'bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl'
-                                 : 'bg-gray-600 cursor-not-allowed'
-                             } text-white`}
-                           >
-                             Next Step
+                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+                >
+                  Continue to Payment
                            </button>
-                         </div>
                     </form>
-                  </motion.div>
                 )}
 
                 {currentStep === 2 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="max-w-4xl mx-auto"
-                  >
-                                             {/* Payment Summary */}
-                       <div className="mb-8">
-                         <h3 className="text-3xl font-bold text-white mb-6 text-center">Booking Summary</h3>
-                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-200 text-lg">
-                           <div className="space-y-3">
-                             <p><span className="text-gray-400 font-medium">Name:</span> {watchedValues.name}</p>
-                             <p><span className="text-gray-400 font-medium">Email:</span> {watchedValues.email}</p>
-                             <p><span className="text-gray-400 font-medium">Phone:</span> {watchedValues.phone}</p>
+              <div className="space-y-6">
+                {/* Booking Summary */}
+                <div className="bg-gray-50 p-6 rounded-lg">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Booking Summary</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-500">Name:</span>
+                      <p className="font-medium text-gray-900">{watchedValues.name}</p>
                            </div>
-                           <div className="space-y-3">
-                             <p><span className="text-gray-400 font-medium">Date:</span> {watchedValues.date?.toLocaleDateString()}</p>
-                             <p><span className="text-gray-400 font-medium">Time:</span> {watchedValues.time}</p>
-                             <p><span className="text-gray-400 font-medium">People:</span> {watchedValues.shootingType}</p>
+                    <div>
+                      <span className="text-gray-500">Email:</span>
+                      <p className="font-medium text-gray-900">{watchedValues.email}</p>
                            </div>
+                    <div>
+                      <span className="text-gray-500">Phone:</span>
+                      <p className="font-medium text-gray-900">{watchedValues.phone}</p>
                       </div>
-                         <div className="mt-6 pt-6 border-t border-white/20">
-                           <div className="flex justify-between items-center">
-                             <span className="text-2xl font-bold text-white">Total Amount</span>
-                             <span className="text-3xl font-bold bg-gradient-to-r from-[#FF6100] to-[#FF8A00] bg-clip-text text-transparent">
-                               ${calculateTotalPrice()}
-                             </span>
-                      </div>
-                      </div>
-                        </div>
-
-                      {/* Checkout Button */}
-                      <div className="text-center">
-                        <button
-                          onClick={handleCheckoutClick}
-                          className="w-full py-5 px-8 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 bg-gradient-to-r from-[#FF6100] to-[#FF8A00] hover:from-[#E55600] hover:to-[#E57300] shadow-lg hover:shadow-xl text-white"
-                        >
-                          Proceed to Secure Payment
-                        </button>
-                        <p className="text-gray-400 text-sm mt-3">
-                          Secure payment with Apple Pay, Google Pay, and all major cards
+                    <div>
+                      <span className="text-gray-500">Date:</span>
+                      <p className="font-medium text-gray-900">
+                        {watchedValues.date?.toLocaleDateString('en-AU', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
                         </p>
                       </div>
-
-                      {/* 이전 단계로 돌아가기 버튼 */}
-                      <div className="flex justify-center mt-8">
-                          <button 
-                          type="button"
-                          onClick={() => setCurrentStep(1)}
-                          className="px-8 py-4 text-white border border-white/30 rounded-2xl hover:bg-white/10 transition-all duration-300 text-lg font-medium"
-                        >
-                          ← Back to Booking
-                          </button>
+                    <div>
+                      <span className="text-gray-500">Time:</span>
+                      <p className="font-medium text-gray-900">{watchedValues.time}</p>
                       </div>
-                    </motion.div>
-                  )}
-
-                  {currentStep === 3 && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="text-center max-w-2xl mx-auto"
-                    >
-                      {/* 성공 아이콘 */}
-                      <div className="flex justify-center mb-8">
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-green-500/20 rounded-full blur-xl"></div>
-                          <div className="relative w-32 h-32 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center shadow-2xl">
-                            <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* 성공 메시지 */}
-                      <div className="space-y-6 mb-8">
-                        <h3 className="text-4xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
-                          Payment Successful!
-                        </h3>
-                        <p className="text-2xl text-white">Your booking has been confirmed.</p>
-                        <p className="text-xl text-gray-300">We'll send you a confirmation email shortly.</p>
-                      </div>
-
-                                             {/* 예약 정보 요약 */}
-                       <div className="mb-8">
-                         <h4 className="text-2xl font-bold text-white mb-6">Booking Details</h4>
-                         <div className="space-y-3 text-gray-200 text-lg">
-                           <p><span className="text-gray-400 font-medium">Name:</span> {watchedValues.name}</p>
-                           <p><span className="text-gray-400 font-medium">Date:</span> {watchedValues.date?.toLocaleDateString()}</p>
-                           <p><span className="text-gray-400 font-medium">Time:</span> {watchedValues.time}</p>
-                           <p><span className="text-gray-400 font-medium">Total:</span> 
-                             <span className="text-[#FF6100] font-bold ml-2">${calculateTotalPrice()}</span>
+                    <div>
+                      <span className="text-gray-500">Session:</span>
+                      <p className="font-medium text-gray-900">
+                        {watchedValues.shootingType === 'test' ? 'Test Session' :
+                         watchedValues.shootingType === '1person' ? '1 Person' :
+                         watchedValues.shootingType === '2people' ? '2 People' :
+                         watchedValues.shootingType === '3people' ? '3 People' :
+                         watchedValues.shootingType === '4people' ? '4 People' :
+                         watchedValues.shootingType}
                            </p>
                     </div>
                   </div>
 
-                      {/* 완료 메시지 */}
-                      <div className="text-gray-400 text-lg">
-                        <p>This window will close automatically in a few seconds...</p>
-                      </div>
-                    </motion.div>
+                  {/* Additional Options */}
+                  {(watchedValues.colorOption || watchedValues.a4print || watchedValues.a4frame || 
+                    watchedValues.digital || watchedValues.additionalRetouch > 0) && (
+                    <div className="mt-4">
+                      <span className="text-gray-500 text-sm">Additional Options:</span>
+                      <ul className="mt-1 space-y-1">
+                        {watchedValues.colorOption && <li className="text-sm text-gray-700">• Color Option (+$10)</li>}
+                        {watchedValues.a4print && <li className="text-sm text-gray-700">• 4x6" Print (+$10)</li>}
+                        {watchedValues.a4frame && <li className="text-sm text-gray-700">• 4x6" Frame (+$15)</li>}
+                        {watchedValues.digital && <li className="text-sm text-gray-700">• Digital Original (+$20)</li>}
+                        {watchedValues.additionalRetouch > 0 && (
+                          <li className="text-sm text-gray-700">
+                            • Additional Retouch: {watchedValues.additionalRetouch} (+${watchedValues.additionalRetouch * 15})
+                          </li>
+                        )}
+                      </ul>
+                    </div>
                   )}
-                </div>
-              </div>
 
-              {/* 닫기 버튼 */}
-              <button 
-                onClick={closeBooking} 
-                className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10"
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                  {watchedValues.message && (
+                    <div className="mt-4">
+                      <span className="text-gray-500 text-sm">Special Requests:</span>
+                      <p className="text-sm text-gray-700 mt-1">{watchedValues.message}</p>
+                      </div>
+                  )}
+
+                  {/* Total Amount */}
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-semibold text-gray-900">Total Amount</span>
+                      <span className="text-2xl font-bold text-orange-600">
+                        ${calculateTotalPrice()}.00 AUD
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Payment Button */}
+                <button
+                  onClick={handlePayment}
+                  disabled={isProcessing}
+                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  {isProcessing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-5 h-5" />
+                      Pay with Stripe - ${calculateTotalPrice()}.00 AUD
+                    </>
+                  )}
+                </button>
+
+                {/* Back Button */}
+                <button
+                  onClick={() => setCurrentStep(1)}
+                  className="w-full py-3 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  ← Back to Details
+                </button>
+              </div>
+            )}
+          </div>
             </motion.div>
           </motion.div>
-        )}
-        
-        {/* StripeCheckoutModal */}
-        <StripeCheckoutModal
-          isOpen={showCheckoutModal}
-          onClose={() => setShowCheckoutModal(false)}
-          bookingData={{
-            ...watchedValues,
-            date: watchedValues.date?.toISOString().split('T')[0]
-          }}
-          amount={calculateTotalPrice()}
-          currency="aud"
-          onSuccess={handleCheckoutSuccess}
-          onError={handleCheckoutError}
-        />
     </AnimatePresence>
   );
 };

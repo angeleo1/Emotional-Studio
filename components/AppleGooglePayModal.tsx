@@ -7,7 +7,7 @@ import {
   useElements
 } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe('pk_live_51S1JBl2zEM74rjqu3JsPy5E0hqcxkGT6yD9GY3ohWfb3QoQ3EGnq3RGb8RkykfRxlkncAWxIxOUPKsopZdwNAaof003bAkdluC');
 
 interface AppleGooglePayModalProps {
   isOpen: boolean;

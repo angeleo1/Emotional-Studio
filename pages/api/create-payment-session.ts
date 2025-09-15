@@ -41,7 +41,12 @@ export default async function handler(
 
     // Stripe Checkout Session 생성
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'link'],
+      payment_method_types: ['card', 'link', 'wechat_pay', 'alipay'],
+      payment_method_options: {
+        wechat_pay: {
+          client: 'web'
+        }
+      },
       line_items: [
         {
           price_data: {
@@ -56,8 +61,8 @@ export default async function handler(
         },
       ],
       mode: 'payment',
-      success_url: `${req.headers.origin || 'https://www.emotionalstudios.com.au'}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin || 'https://www.emotionalstudios.com.au'}/booking-cancel`,
+      success_url: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.emotionalstudios.com.au'}/booking-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.emotionalstudios.com.au'}/booking-cancel`,
       metadata: {
         bookingId: `ES${Date.now()}`,
         customerName: bookingData.name,
