@@ -41,9 +41,16 @@ export default async function handler(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('PayPal capture error:', errorData);
-      throw new Error(`PayPal capture error: ${errorData.message || 'Unknown error'}`);
+      const errorText = await response.text();
+      console.error('PayPal capture error:', errorText);
+      let errorMessage = 'Unknown error';
+      try {
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.message || errorMessage;
+      } catch {
+        errorMessage = errorText || errorMessage;
+      }
+      throw new Error(`PayPal capture error: ${errorMessage}`);
     }
 
     const captureData = await response.json();

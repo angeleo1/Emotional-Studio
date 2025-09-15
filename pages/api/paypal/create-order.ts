@@ -80,9 +80,16 @@ export default async function handler(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('PayPal API Error:', errorData);
-      throw new Error(`PayPal API Error: ${errorData.message || 'Unknown error'}`);
+      const errorText = await response.text();
+      console.error('PayPal API Error:', errorText);
+      let errorMessage = 'Unknown error';
+      try {
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.message || errorMessage;
+      } catch {
+        errorMessage = errorText || errorMessage;
+      }
+      throw new Error(`PayPal API Error: ${errorMessage}`);
     }
 
     const order = await response.json();

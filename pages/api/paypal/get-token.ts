@@ -27,9 +27,16 @@ export default async function handler(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error('PayPal token error:', errorData);
-      throw new Error(`PayPal token error: ${errorData.error_description || 'Unknown error'}`);
+      const errorText = await response.text();
+      console.error('PayPal token error:', errorText);
+      let errorMessage = 'Unknown error';
+      try {
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.error_description || errorMessage;
+      } catch {
+        errorMessage = errorText || errorMessage;
+      }
+      throw new Error(`PayPal token error: ${errorMessage}`);
     }
 
     const tokenData = await response.json();
