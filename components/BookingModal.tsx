@@ -80,6 +80,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     }
   }, [watchedValues.date]);
 
+  // 모달이 열릴 때마다 최신 예약 데이터 확인
+  useEffect(() => {
+    if (isOpen) {
+      console.log('Booking modal opened, checking latest availability...');
+      if (watchedValues.date) {
+        checkAvailability();
+      }
+    }
+  }, [isOpen]);
+
   const checkAvailability = async () => {
     if (!watchedValues.date) return;
     

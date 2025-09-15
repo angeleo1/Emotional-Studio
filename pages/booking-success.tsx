@@ -26,7 +26,10 @@ const BookingSuccess = () => {
         // 이메일 전송 (즉시)
         if (data.bookingData) {
           console.log('Sending booking emails immediately...');
+          console.log('Booking data:', data.bookingData);
           await sendBookingEmails(data.bookingData);
+        } else {
+          console.error('No booking data found in session');
         }
       } else {
         console.error('Failed to fetch session data:', response.status);

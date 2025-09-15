@@ -49,7 +49,10 @@ export default async function handler(
     
     // 이메일로 예약 정보 전송
     try {
-      await resend.emails.send({
+      console.log('Sending admin email to:', 'admin@emotionalstudios.com.au');
+      console.log('Sending customer email to:', bookingData.email);
+      
+      const adminEmailResult = await resend.emails.send({
         from: 'Emotional Studio <noreply@emotionalstudio.com>',
         to: ['admin@emotionalstudios.com.au'],
         subject: `🎉 New Booking #${bookingId} - ${bookingData.name}`,
@@ -59,9 +62,10 @@ export default async function handler(
           totalAmount
         })
       });
+      console.log('Admin email sent:', adminEmailResult);
 
       // 고객에게도 확인 이메일 전송
-      await resend.emails.send({
+      const customerEmailResult = await resend.emails.send({
         from: 'Emotional Studio <noreply@emotionalstudio.com>',
         to: [bookingData.email],
         subject: `✅ Booking Confirmed #${bookingId} - ${new Date(bookingData.date).toLocaleDateString()}`,
@@ -71,8 +75,12 @@ export default async function handler(
           totalAmount
         })
       });
+      console.log('Customer email sent:', customerEmailResult);
+      
+      console.log('All emails sent successfully');
     } catch (emailError) {
       console.error('Email sending failed:', emailError);
+      console.error('Email error details:', JSON.stringify(emailError, null, 2));
       // 이메일 전송 실패해도 예약은 성공으로 처리
     }
 
