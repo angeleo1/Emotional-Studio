@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,6 +35,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [isLoadingTimes, setIsLoadingTimes] = useState(false);
 
   // React Hook Form 설정
   const {
@@ -63,11 +65,42 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
 
   const watchedValues = watch();
 
-  // 사용 가능한 시간
-  const [availableTimes] = useState([
+  // 모든 가능한 시간
+  const allTimes = [
     '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
     '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
-  ]);
+  ];
+
+  // 선택된 날짜에 따라 예약 가능한 시간 체크
+  useEffect(() => {
+    if (watchedValues.date) {
+      checkAvailability();
+    } else {
+      setAvailableTimes(allTimes);
+    }
+  }, [watchedValues.date]);
+
+  const checkAvailability = async () => {
+    if (!watchedValues.date) return;
+    
+    setIsLoadingTimes(true);
+    try {
+      const dateString = watchedValues.date.toISOString().split('T')[0];
+      const response = await fetch(`/api/check-availability?date=${dateString}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setAvailableTimes(data.availableTimes || allTimes);
+      } else {
+        setAvailableTimes(allTimes);
+      }
+    } catch (error) {
+      console.error('Error checking availability:', error);
+      setAvailableTimes(allTimes);
+    } finally {
+      setIsLoadingTimes(false);
+    }
+  };
 
      // 총 가격 계산 함수
   const calculateTotalPrice = () => {
@@ -310,6 +343,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                              <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Time *
+                      {isLoadingTimes && (
+                        <span className="ml-2 text-sm text-gray-500">(Checking availability...)</span>
+                      )}
                     </label>
                                <Controller
                                  name="time"
@@ -318,6 +354,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                         <select 
                                      {...field}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                   disabled={isLoadingTimes}
                                    >
                                      <option value="">Select time</option>
                                      {availableTimes.map((time) => (
@@ -330,6 +367,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                                />
                                {errors.time && (
                       <p className="mt-1 text-sm text-red-600">{errors.time.message}</p>
+                    )}
+                    {availableTimes.length === 0 && !isLoadingTimes && (
+                      <p className="mt-1 text-sm text-red-600">No available times for this date</p>
                     )}
                   </div>
 

@@ -35,9 +35,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const bookingsData = JSON.parse(fs.readFileSync(bookingsPath, 'utf8'));
     
-    // 해당 날짜의 예약된 시간 찾기
+    // 해당 날짜의 예약된 시간 찾기 (확인된 예약만)
     const bookedTimes = bookingsData.bookings
-      .filter((booking: any) => booking.date === date && booking.status === 'confirmed')
+      .filter((booking: any) => 
+        booking.date === date && 
+        (booking.status === 'confirmed' || booking.status === 'completed')
+      )
       .map((booking: any) => booking.time);
 
     // 사용 가능한 시간 계산
