@@ -120,7 +120,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
 
       console.log('Creating checkout session with:', { bookingData, amount: calculateTotalPrice() });
 
-      const response = await fetch('/api/create-checkout-session', {
+      const response = await fetch(`${window.location.origin}/api/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -133,11 +133,28 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create checkout session');
+        let errorMessage = `HTTP ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          const errorText = await response.text();
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
-      const { url } = await response.json();
+      let responseData;
+      try {
+        responseData = await response.json();
+      } catch (error) {
+        const responseText = await response.text();
+        console.error('JSON parse error:', error);
+        console.error('Response text:', responseText);
+        throw new Error(`Invalid response from server: ${responseText.substring(0, 200)}...`);
+      }
+
+      const { url } = responseData;
 
       if (url) {
         // Stripe Checkout 페이지로 리디렉션
