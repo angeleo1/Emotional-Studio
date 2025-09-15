@@ -1,3 +1,4 @@
+﻿// Mobile support page
 import { NextPage } from 'next';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
