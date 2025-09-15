@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isBookingEnabled } from '../../config/booking';
 import { Resend } from 'resend';
+import { generateBookingEmail, generateCustomerConfirmationEmail } from '../../utils/emailTemplates';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -39,49 +40,25 @@ export default async function handler(
     try {
       await resend.emails.send({
         from: 'Emotional Studio <noreply@emotionalstudio.com>',
-        to: [process.env.CONTACT_EMAIL || 'angeleo9691@gmail.com'],
-        subject: `New Booking #${bookingId}`,
-        html: `
-          <h2>New Booking Confirmation</h2>
-          <p><strong>Booking ID:</strong> ${bookingId}</p>
-          <p><strong>Payment Intent ID:</strong> ${bookingData.paymentIntentId || 'N/A'}</p>
-          <p><strong>Payment Status:</strong> ${bookingData.paymentStatus || 'N/A'}</p>
-          <p><strong>Name:</strong> ${bookingData.name}</p>
-          <p><strong>Email:</strong> ${bookingData.email}</p>
-          <p><strong>Phone:</strong> ${bookingData.phone}</p>
-          <p><strong>Date:</strong> ${bookingData.date}</p>
-          <p><strong>Time:</strong> ${bookingData.time}</p>
-          <p><strong>People:</strong> ${bookingData.shootingType}</p>
-          <p><strong>Additional Options:</strong></p>
-          <ul>
-            ${bookingData.colorOption ? '<li>Color Option (+$10)</li>' : ''}
-            ${bookingData.a4print ? '<li>4x6" Print (+$10)</li>' : ''}
-            ${bookingData.a4frame ? '<li>4x6" Frame (+$15)</li>' : ''}
-            ${bookingData.digital ? '<li>Original Digital Film (+$20)</li>' : ''}
-            ${bookingData.additionalRetouch > 0 ? `<li>Additional Retouch: ${bookingData.additionalRetouch} (+$${bookingData.additionalRetouch * 15})</li>` : ''}
-          </ul>
-          ${bookingData.message ? `<p><strong>Message:</strong> ${bookingData.message}</p>` : ''}
-          <p><strong>Total Amount:</strong> $${totalAmount}</p>
-        `
+        to: ['admin@emotionalstudios.com.au'],
+        subject: `🎉 New Booking #${bookingId} - ${bookingData.name}`,
+        html: generateBookingEmail({
+          ...bookingData,
+          bookingId,
+          totalAmount
+        })
       });
 
       // 고객에게도 확인 이메일 전송
       await resend.emails.send({
         from: 'Emotional Studio <noreply@emotionalstudio.com>',
         to: [bookingData.email],
-        subject: `Booking Confirmation #${bookingId}`,
-        html: `
-          <h2>Thank you for your booking!</h2>
-          <p>Dear ${bookingData.name},</p>
-          <p>Your booking has been confirmed. Here are the details:</p>
-          <p><strong>Booking ID:</strong> ${bookingId}</p>
-          <p><strong>Date:</strong> ${bookingData.date}</p>
-          <p><strong>Time:</strong> ${bookingData.time}</p>
-          <p><strong>People:</strong> ${bookingData.shootingType}</p>
-          <p><strong>Total Amount:</strong> $${totalAmount}</p>
-          <p>We look forward to seeing you at Emotional Studio!</p>
-          <p>Best regards,<br>Emotional Studio Team</p>
-        `
+        subject: `✅ Booking Confirmed #${bookingId} - ${new Date(bookingData.date).toLocaleDateString()}`,
+        html: generateCustomerConfirmationEmail({
+          ...bookingData,
+          bookingId,
+          totalAmount
+        })
       });
     } catch (emailError) {
       console.error('Email sending failed:', emailError);

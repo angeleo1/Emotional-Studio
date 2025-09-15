@@ -11,17 +11,59 @@ const BookingSuccess = () => {
 
   useEffect(() => {
     if (session_id) {
-      // 실제로는 서버에서 세션 데이터를 가져와야 하지만,
-      // 여기서는 URL 파라미터에서 정보를 추출
+      // Stripe 세션에서 부킹 데이터 가져오기
+      fetchSessionData();
+    }
+  }, [session_id]);
+
+  const fetchSessionData = async () => {
+    try {
+      const response = await fetch(`/api/get-session-data?session_id=${session_id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setSessionData(data);
+        
+        // 이메일 전송
+        if (data.bookingData) {
+          await sendBookingEmails(data.bookingData);
+        }
+      } else {
+        // 폴백: 기본 데이터 설정
+        const bookingId = `ES${Date.now()}`;
+        setSessionData({
+          bookingId,
+          sessionId: session_id,
+          status: 'completed'
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+      // 폴백: 기본 데이터 설정
       const bookingId = `ES${Date.now()}`;
       setSessionData({
         bookingId,
         sessionId: session_id,
         status: 'completed'
       });
+    } finally {
       setIsLoading(false);
     }
-  }, [session_id]);
+  };
+
+  const sendBookingEmails = async (bookingData: any) => {
+    try {
+      await fetch('/api/send-booking-emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bookingData }),
+      });
+      console.log('Booking confirmation emails sent');
+    } catch (error) {
+      console.error('Error sending booking emails:', error);
+    }
+  };
 
   const handleBackToHome = () => {
     router.push('/');
