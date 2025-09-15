@@ -2,14 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 import { isBookingEnabled } from '../../config/booking';
 
-// Stripe 객체는 환경변수가 있을 때만 생성
-let stripe: Stripe | null = null;
-
-if (process.env.STRIPE_SECRET_KEY) {
-  stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
-  });
-}
+// Stripe 객체는 런타임에 생성
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,13 +19,18 @@ export default async function handler(
   console.log('Booking enabled:', isBookingEnabled());
 
   // Stripe 환경변수 체크
-  if (!stripe) {
+  if (!process.env.STRIPE_SECRET_KEY) {
     console.log('Stripe not configured - missing STRIPE_SECRET_KEY');
     return res.status(503).json({ 
       error: 'Payment service is not configured',
       message: 'Payment service is temporarily unavailable'
     });
   }
+
+  // Stripe 객체 생성
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2023-10-16',
+  });
 
   // booking이 비활성화된 경우 에러 반환
   if (!isBookingEnabled()) {
