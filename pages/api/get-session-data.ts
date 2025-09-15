@@ -31,11 +31,11 @@ export default async function handler(
 
     // 부킹 데이터 추출
     const bookingData = {
-      name: session.customer_details?.name || 'Unknown',
-      email: session.customer_details?.email || 'Unknown',
-      phone: session.customer_details?.phone || 'Unknown',
-      date: session.metadata?.date || 'Unknown',
-      time: session.metadata?.time || 'Unknown',
+      name: session.customer_details?.name || session.metadata?.customerName || 'Unknown',
+      email: session.customer_details?.email || session.metadata?.customerEmail || 'Unknown',
+      phone: session.customer_details?.phone || session.metadata?.customerPhone || 'Unknown',
+      date: session.metadata?.sessionDate || 'Unknown',
+      time: session.metadata?.sessionTime || 'Unknown',
       shootingType: session.metadata?.shootingType || 'Unknown',
       colorOption: session.metadata?.colorOption === 'true',
       a4print: session.metadata?.a4print === 'true',
