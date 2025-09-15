@@ -21,12 +21,14 @@ export default async function handler(
     });
   }
 
-  // Stripe 환경변수 체크 - 더 자세한 디버깅
+  // Stripe 환경변수 체크
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  
   console.log('All env keys:', Object.keys(process.env));
-  console.log('STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY ? 'EXISTS' : 'NOT_FOUND');
+  console.log('STRIPE_SECRET_KEY:', stripeSecretKey ? 'EXISTS' : 'NOT_FOUND');
   console.log('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:', process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ? 'EXISTS' : 'NOT_FOUND');
   
-  if (!process.env.STRIPE_SECRET_KEY) {
+  if (!stripeSecretKey) {
     console.log('Stripe not configured - missing STRIPE_SECRET_KEY');
     return res.status(503).json({ 
       error: 'Payment service is not configured',
