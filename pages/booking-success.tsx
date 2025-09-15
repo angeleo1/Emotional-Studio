@@ -23,11 +23,13 @@ const BookingSuccess = () => {
         const data = await response.json();
         setSessionData(data);
         
-        // 이메일 전송
+        // 이메일 전송 (즉시)
         if (data.bookingData) {
+          console.log('Sending booking emails immediately...');
           await sendBookingEmails(data.bookingData);
         }
       } else {
+        console.error('Failed to fetch session data:', response.status);
         // 폴백: 기본 데이터 설정
         const bookingId = `ES${Date.now()}`;
         setSessionData({
@@ -162,19 +164,13 @@ const BookingSuccess = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex justify-center"
         >
           <button
             onClick={handleBackToHome}
             className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105"
           >
             Back to Home
-          </button>
-          <button
-            onClick={() => window.print()}
-            className="px-8 py-4 border border-white/30 text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300"
-          >
-            Print Confirmation
           </button>
         </motion.div>
 
