@@ -58,7 +58,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const [canMakePayment, setCanMakePayment] = useState(false);
   const [isElementsReady, setIsElementsReady] = useState(false);
 
-  // Elements 준비 상태 확인
+  // Elements 준비 상태 확인 - 모바일 최적화
   useEffect(() => {
     if (elements) {
       const paymentElement = elements.getElement('payment');
@@ -71,6 +71,18 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       }
     }
   }, [elements]);
+
+  // 모바일에서 Elements 로딩 타임아웃 처리
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isElementsReady) {
+        console.log('Elements loading timeout - forcing ready state');
+        setIsElementsReady(true);
+      }
+    }, 10000); // 10초 타임아웃
+
+    return () => clearTimeout(timer);
+  }, [isElementsReady]);
 
   // PaymentRequest 초기화
   useEffect(() => {
@@ -246,9 +258,18 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
       <div className="space-y-4">
         {!isElementsReady ? (
-          <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span className="ml-3 text-gray-600">Loading payment form...</span>
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+            <span className="text-gray-600 text-center">Loading payment form...</span>
+            <span className="text-gray-400 text-sm text-center mt-2">
+              This may take a moment on mobile devices
+            </span>
+            <button
+              onClick={() => setIsElementsReady(true)}
+              className="mt-4 px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Skip loading (if stuck)
+            </button>
           </div>
         ) : (
           <>
@@ -454,17 +475,21 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
       name: 'Emotional Studio'
     },
     paymentMethodOrder: ['card', 'link'],
+    // 모바일 최적화
+    fonts: [{
+      cssSrc: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap'
+    }],
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black bg-opacity-50">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] flex flex-col overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md sm:max-w-2xl max-h-[95vh] flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
@@ -516,9 +541,12 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
                   <p className="text-gray-500">Stripe is not properly configured. Please contact support.</p>
                 </div>
               ) : isLoading ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-                  <span className="ml-3 text-gray-600">Initializing payment...</span>
+                <div className="flex flex-col items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mb-4"></div>
+                  <span className="text-gray-700 text-lg font-medium mb-2">Initializing payment...</span>
+                  <span className="text-gray-500 text-sm text-center">
+                    Please wait while we set up your secure payment
+                  </span>
                 </div>
               ) : clientSecret ? (
                 <Elements stripe={stripePromise} options={options}>
@@ -532,13 +560,25 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
                 </Elements>
               ) : (
                 <div className="text-center py-8">
-                  <p className="text-gray-500">Unable to initialize payment.</p>
-                  <button
-                    onClick={createPaymentIntent}
-                    className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Try Again
-                  </button>
+                  <div className="text-orange-500 text-4xl mb-4">⚠️</div>
+                  <p className="text-gray-700 text-lg font-medium mb-2">Unable to initialize payment</p>
+                  <p className="text-gray-500 text-sm mb-6">
+                    There was an issue setting up the payment form. This might be due to network connectivity.
+                  </p>
+                  <div className="space-y-3">
+                    <button
+                      onClick={createPaymentIntent}
+                      className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
+                    >
+                      Try Again
+                    </button>
+                    <button
+                      onClick={onClose}
+                      className="w-full px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
