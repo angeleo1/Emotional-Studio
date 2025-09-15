@@ -1,14 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not defined');
-}
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -28,6 +20,20 @@ export default async function handler(
       message: 'Only POST method is allowed'
     });
   }
+
+  // Stripe 환경변수 체크
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.log('Stripe not configured - missing STRIPE_SECRET_KEY');
+    return res.status(503).json({ 
+      error: 'Payment service is not configured',
+      message: 'Payment service is temporarily unavailable'
+    });
+  }
+
+  // Stripe 객체 생성
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2023-10-16',
+  });
 
   try {
     const { bookingData, amount, currency = 'aud' } = req.body;
