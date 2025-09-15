@@ -57,31 +57,22 @@ const StripeCheckoutModal: React.FC<StripeCheckoutModalProps> = ({
       console.log('Response headers:', response.headers);
       console.log('Response type:', response.type);
 
-      // 응답 내용을 먼저 텍스트로 확인
-      const responseText = await response.text();
-      console.log('Checkout API response text:', responseText);
-      
       if (!response.ok) {
+        const errorText = await response.text();
+        console.log('Checkout API error text:', errorText);
         let errorMessage = `HTTP ${response.status}`;
         try {
-          const errorData = JSON.parse(responseText);
+          const errorData = JSON.parse(errorText);
           errorMessage = errorData.message || errorData.error || errorMessage;
         } catch {
-          errorMessage = responseText || errorMessage;
+          errorMessage = errorText || errorMessage;
         }
         console.error('Checkout API Error Response:', errorMessage);
         throw new Error(errorMessage);
       }
       
-      let responseData;
-      try {
-        responseData = JSON.parse(responseText);
-        console.log('Checkout API response data:', responseData);
-      } catch (parseError) {
-        console.error('JSON parse error:', parseError);
-        console.error('Response text that failed to parse:', responseText);
-        throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}...`);
-      }
+      const responseData = await response.json();
+      console.log('Checkout API response data:', responseData);
 
       const { url } = responseData;
       

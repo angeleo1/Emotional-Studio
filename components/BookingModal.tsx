@@ -133,26 +133,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
         let errorMessage = `HTTP ${response.status}`;
         try {
-          const errorData = await response.json();
+          const errorData = JSON.parse(errorText);
           errorMessage = errorData.message || errorData.error || errorMessage;
         } catch {
-          const errorText = await response.text();
           errorMessage = errorText || errorMessage;
         }
         throw new Error(errorMessage);
       }
 
-      let responseData;
-      try {
-        responseData = await response.json();
-      } catch (error) {
-        const responseText = await response.text();
-        console.error('JSON parse error:', error);
-        console.error('Response text:', responseText);
-        throw new Error(`Invalid response from server: ${responseText.substring(0, 200)}...`);
-      }
+      const responseData = await response.json();
 
       const { url } = responseData;
 
