@@ -70,3 +70,4 @@ NEXT_PUBLIC_BOOKING_ENABLED=false  # true로 변경하면 활성화
 
 
 
+
