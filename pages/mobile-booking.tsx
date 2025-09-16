@@ -64,13 +64,22 @@ const MobileBooking: NextPage = () => {
       
       if (response.ok) {
         const data = await response.json();
-        console.log('Availability data received:', data);
+        console.log('=== AVAILABILITY CHECK ===');
+        console.log('Date:', dateStr);
+        console.log('API Response:', data);
+        console.log('Available times from API:', data.availableTimes);
+        console.log('Booked times from API:', data.bookedTimes);
+        
         // availableTimes가 없으면 allTimes 사용, 있으면 해당 값 사용
         const availableTimes = data.availableTimes || allTimes;
+        const bookedTimes = data.bookedTimes || [];
+        
         setAvailableTimes(availableTimes);
-        setBookedTimes(data.bookedTimes || []);
-        console.log('Set availableTimes:', availableTimes);
-        console.log('Set bookedTimes:', data.bookedTimes || []);
+        setBookedTimes(bookedTimes);
+        
+        console.log('Final availableTimes:', availableTimes);
+        console.log('Final bookedTimes:', bookedTimes);
+        console.log('=== END AVAILABILITY CHECK ===');
       } else {
         console.error('Failed to check availability');
         setAvailableTimes(allTimes);
@@ -364,6 +373,11 @@ const MobileBooking: NextPage = () => {
                           const isSelected = formData.time === time;
                           // bookedTimes에 포함되어 있으면 비활성화, 그 외에는 활성화
                           const isDisabled = isBooked;
+                          
+                          // 디버깅용 로그
+                          if (isBooked) {
+                            console.log(`Time ${time} is BOOKED - disabled`);
+                          }
                           return (
                             <button
                               key={time}
