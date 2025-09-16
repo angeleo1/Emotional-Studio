@@ -140,19 +140,12 @@ const BookingSuccess = () => {
             className="bg-white/5 rounded-2xl p-6 mb-8"
           >
             <h2 className="text-2xl font-bold text-white mb-6">Booking Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-              <div className="flex items-center gap-3">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-3">
                 <Calendar className="w-5 h-5" style={{ color: '#ff6100' }} />
                 <div>
                   <p className="text-gray-400 text-sm">Booking ID</p>
                   <p className="text-white font-medium">{sessionData.bookingId}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5" style={{ color: '#ff6100' }} />
-                <div>
-                  <p className="text-gray-400 text-sm">Payment ID</p>
-                  <p className="text-white font-medium text-sm">{sessionData.sessionId}</p>
                 </div>
               </div>
             </div>
@@ -202,8 +195,8 @@ const BookingSuccess = () => {
         >
           <p className="text-gray-400 text-sm">
             Questions? Contact us at{' '}
-            <a href="mailto:info@emotionalstudio.com" style={{ color: '#ff6100' }} className="hover:opacity-80">
-              info@emotionalstudio.com
+            <a href="mailto:admin@emotionalstudios.com.au" style={{ color: '#ff6100' }} className="hover:opacity-80">
+              admin@emotionalstudios.com.au
             </a>
           </p>
         </motion.div>
