@@ -149,11 +149,19 @@ const MobileBooking: NextPage = () => {
       const bookingId = `BK${Date.now()}`;
       const totalAmount = calculateTotalPrice();
       
+      // 날짜를 올바르게 변환 (시간대 문제 해결)
+      const dateString = formData.date ? 
+        `${formData.date.getFullYear()}-${String(formData.date.getMonth() + 1).padStart(2, '0')}-${String(formData.date.getDate()).padStart(2, '0')}` : 
+        '';
+      
+      console.log('Mobile: Original date:', formData.date);
+      console.log('Mobile: Converted date string:', dateString);
+      
       const bookingData = {
         ...formData,
         bookingId: bookingId,
         totalAmount: totalAmount.toString(),
-        date: formData.date?.toISOString().split('T')[0],
+        date: dateString,
         paymentStatus: 'completed',
         paymentIntentId: paymentIntent.id
       };

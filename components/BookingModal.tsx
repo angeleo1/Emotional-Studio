@@ -83,7 +83,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     console.log('=== checkAvailability 호출됨 ===');
     setIsLoadingTimes(true);
     try {
-      const dateString = watchedValues.date.toISOString().split('T')[0];
+      // 날짜를 올바르게 변환 (시간대 문제 해결)
+      const dateString = `${watchedValues.date.getFullYear()}-${String(watchedValues.date.getMonth() + 1).padStart(2, '0')}-${String(watchedValues.date.getDate()).padStart(2, '0')}`;
       console.log('Checking availability for date:', dateString);
       
       // 새로운 availability API 사용
@@ -156,7 +157,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
         name: watchedValues.name,
         email: watchedValues.email,
         phone: watchedValues.phone,
-        date: watchedValues.date?.toISOString().split('T')[0],
+        date: watchedValues.date ? 
+          `${watchedValues.date.getFullYear()}-${String(watchedValues.date.getMonth() + 1).padStart(2, '0')}-${String(watchedValues.date.getDate()).padStart(2, '0')}` : 
+          '',
         time: watchedValues.time,
         shootingType: watchedValues.shootingType,
         colorOption: watchedValues.colorOption,
