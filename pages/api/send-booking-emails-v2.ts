@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendBookingEmails } from '../../lib/emailService';
 import { clearAvailabilityCache } from './check-availability-v2';
-import { saveBooking } from '../../lib/bookingStorage';
+import { saveBooking } from '../../lib/bookingStorageSupabase';
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,8 +22,8 @@ export default async function handler(
     }
 
     console.log('부킹 데이터 저장 시작...');
-    // 부킹 데이터를 메모리 저장소에 저장
-    saveBooking(bookingData);
+    // 부킹 데이터를 Supabase에 저장
+    await saveBooking(bookingData);
     console.log('부킹 데이터 저장 완료');
 
     // 캐시 제거됨 - 실시간 데이터 사용

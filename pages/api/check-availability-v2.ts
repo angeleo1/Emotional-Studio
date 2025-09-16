@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isBookingEnabled } from '../../config/booking';
-import { getBookedTimesForDate, getAllBookings } from '../../lib/bookingStorage';
+import { getBookedTimesForDate, getAllBookings } from '../../lib/bookingStorageSupabase';
 
 // 캐시 제거 - 항상 실시간 데이터 사용
 
@@ -30,11 +30,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
     // 캐시 제거 - 항상 실시간 데이터 사용
 
-    // 메모리 저장소에서 예약된 시간 조회
-    const bookedTimes = getBookedTimesForDate(date);
-    console.log('Booked times from memory storage:', bookedTimes);
+    // Supabase에서 예약된 시간 조회 (실시간)
+    const bookedTimes = await getBookedTimesForDate(date);
+    console.log('Booked times from Supabase:', bookedTimes);
     console.log('Query date:', date);
-    console.log('All bookings in memory:', getAllBookings().length);
+    const allBookings = await getAllBookings();
+    console.log('All bookings in Supabase:', allBookings.length);
 
     // 사용 가능한 시간 계산
     const allTimes = getAvailableTimes();
