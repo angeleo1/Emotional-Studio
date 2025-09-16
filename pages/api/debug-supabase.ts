@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Supabase 연결 테스트
     const { data, error } = await supabaseAdmin
       .from('bookings')
-      .select('count(*)')
+      .select('*')
       .limit(1);
     
     if (error) {

@@ -230,6 +230,14 @@ const MobileBooking: NextPage = () => {
     }
   };
 
+  // 페이지 로드 시 현재 선택된 날짜의 예약 상태 확인
+  useEffect(() => {
+    if (formData.date) {
+      console.log('Mobile: Checking availability on page load for date:', formData.date);
+      checkAvailability();
+    }
+  }, []); // 빈 의존성 배열로 페이지 로드 시 한 번만 실행
+
   return (
     <>
       <Head>
