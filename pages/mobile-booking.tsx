@@ -65,8 +65,12 @@ const MobileBooking: NextPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Availability data received:', data);
-        setAvailableTimes(data.availableTimes || allTimes);
+        // availableTimes가 없거나 빈 배열이면 allTimes 사용
+        const availableTimes = data.availableTimes && data.availableTimes.length > 0 ? data.availableTimes : allTimes;
+        setAvailableTimes(availableTimes);
         setBookedTimes(data.bookedTimes || []);
+        console.log('Set availableTimes:', availableTimes);
+        console.log('Set bookedTimes:', data.bookedTimes || []);
       } else {
         console.error('Failed to check availability');
         setAvailableTimes(allTimes);
@@ -289,7 +293,7 @@ const MobileBooking: NextPage = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                      className="w-full px-4 py-3 bg-[#FF6100]/10 border border-[#FF6100] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                       placeholder="Enter your name"
                       required
                     />
@@ -302,7 +306,7 @@ const MobileBooking: NextPage = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                      className="w-full px-4 py-3 bg-[#FF6100]/10 border border-[#FF6100] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                       placeholder="Enter your email"
                       required
                     />
@@ -315,7 +319,7 @@ const MobileBooking: NextPage = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                      className="w-full px-4 py-3 bg-[#FF6100]/10 border border-[#FF6100] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                       placeholder="Enter your phone number"
                       required
                     />
@@ -332,7 +336,7 @@ const MobileBooking: NextPage = () => {
                       name="shootingType"
                       value={formData.shootingType}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                      className="w-full px-4 py-3 bg-[#FF6100]/10 border border-[#FF6100] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                       required
                     >
                       <option value="">Please select</option>
@@ -352,7 +356,7 @@ const MobileBooking: NextPage = () => {
                       minDate={new Date()}
                       dateFormat="yyyy-MM-dd"
                       placeholderText="Select date"
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                      className="w-full px-4 py-3 bg-[#FF6100]/10 border border-[#FF6100] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                     />
                   </div>
 
@@ -367,7 +371,8 @@ const MobileBooking: NextPage = () => {
                         {allTimes.map((time) => {
                           const isBooked = bookedTimes.includes(time);
                           const isSelected = formData.time === time;
-                          const isAvailable = availableTimes.includes(time);
+                          // availableTimes가 비어있으면 모든 시간을 사용 가능으로 처리
+                          const isAvailable = availableTimes.length === 0 || availableTimes.includes(time);
                           return (
                             <button
                               key={time}
@@ -448,7 +453,7 @@ const MobileBooking: NextPage = () => {
                       name="additionalRetouch"
                       value={formData.additionalRetouch}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                      className="w-full px-4 py-3 bg-[#FF6100]/10 border border-[#FF6100] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                     >
                       <option value={0}>No additional retouch</option>
                       <option value={1}>1 additional photo (+$15)</option>
