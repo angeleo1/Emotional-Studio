@@ -114,8 +114,10 @@ export async function getBookedTimesForDate(date: string): Promise<string[]> {
         
         const jsonBookedTimes = bookingsData.bookings
           ?.filter((booking: any) => {
-            const bookingDate = new Date(booking.date).toISOString().split('T')[0];
-            const queryDate = new Date(date).toISOString().split('T')[0];
+            // 날짜를 직접 문자열로 비교 (YYYY-MM-DD 형식)
+            const bookingDate = booking.date;
+            const queryDate = date;
+            console.log(`JSON 비교: bookingDate=${bookingDate}, queryDate=${queryDate}, status=${booking.status}`);
             return bookingDate === queryDate && 
                    (booking.status === 'confirmed' || booking.status === 'completed');
           })
