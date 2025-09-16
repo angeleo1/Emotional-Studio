@@ -2,9 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { isBookingEnabled } from '../../config/booking';
 import { getBookedTimesForDate, getAllBookings } from '../../lib/bookingStorage';
 
-// 메모리 캐시 (개발 환경에서만 사용)
-let availabilityCache: { [key: string]: { data: any; timestamp: number } } = {};
-const CACHE_DURATION = 30000; // 30초
+// 캐시 제거 - 항상 실시간 데이터 사용
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('=== check-availability-v2 API 호출됨 ===');
@@ -30,13 +28,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ message: 'Date parameter is required' });
     }
 
-    // 캐시 확인
-    const cacheKey = `availability_${date}`;
-    const cached = availabilityCache[cacheKey];
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      console.log('Returning cached availability data for:', date);
-      return res.status(200).json(cached.data);
-    }
+    // 캐시 제거 - 항상 실시간 데이터 사용
 
     // 메모리 저장소에서 예약된 시간 조회
     const bookedTimes = getBookedTimesForDate(date);
@@ -56,11 +48,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       totalSlots: allTimes.length
     };
 
-    // 캐시에 저장
-    availabilityCache[cacheKey] = {
-      data: result,
-      timestamp: Date.now()
-    };
+    // 캐시 제거 - 실시간 데이터만 사용
 
     console.log(`Availability check for ${date}: ${availableTimes.length}/${allTimes.length} slots available`);
 
@@ -93,8 +81,7 @@ function getAvailableTimes() {
   ];
 }
 
-// 캐시 클리어 함수 (필요시 사용)
+// 캐시 제거됨 - 더 이상 필요 없음
 export function clearAvailabilityCache() {
-  availabilityCache = {};
-  console.log('Availability cache cleared');
+  console.log('Cache clearing not needed - using real-time data');
 }

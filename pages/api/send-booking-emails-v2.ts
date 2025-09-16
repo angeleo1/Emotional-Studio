@@ -26,10 +26,7 @@ export default async function handler(
     saveBooking(bookingData);
     console.log('부킹 데이터 저장 완료');
 
-    console.log('예약 가능 시간 캐시 클리어...');
-    // 예약 가능 시간 캐시 클리어 (실시간 업데이트)
-    clearAvailabilityCache();
-    console.log('캐시 클리어 완료');
+    // 캐시 제거됨 - 실시간 데이터 사용
 
     console.log('이메일 전송 시작...');
     // 이메일 전송
