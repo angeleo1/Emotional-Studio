@@ -61,12 +61,21 @@ const StripeCheckoutModal: React.FC<StripeCheckoutModalProps> = ({
         const errorText = await response.text();
         console.log('Checkout API error text:', errorText);
         let errorMessage = `HTTP ${response.status}`;
+        let errorCode = '';
+        
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = errorData.message || errorData.error || errorMessage;
+          errorCode = errorData.code || '';
         } catch {
           errorMessage = errorText || errorMessage;
         }
+        
+        // 중복 예약 에러인 경우 특별 처리
+        if (response.status === 409 && errorCode === 'TIME_SLOT_UNAVAILABLE') {
+          errorMessage = '선택하신 시간이 이미 예약되었습니다. 다른 시간을 선택해주세요.';
+        }
+        
         console.error('Checkout API Error Response:', errorMessage);
         throw new Error(errorMessage);
       }

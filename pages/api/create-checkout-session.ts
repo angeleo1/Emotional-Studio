@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { getBookedTimesForDate } from '../../lib/bookingStorageSupabase';
 
 export default async function handler(
   req: NextApiRequest,
@@ -37,7 +38,7 @@ export default async function handler(
   }
 
   // Stripe 객체 생성
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2023-10-16',
   });
 
@@ -50,6 +51,27 @@ export default async function handler(
         message: 'bookingData and amount are required'
       });
     }
+
+    // 실시간 중복 예약 체크
+    console.log('=== 중복 예약 체크 시작 ===');
+    console.log('체크할 날짜:', bookingData.date);
+    console.log('체크할 시간:', bookingData.time);
+    
+    const bookedTimes = await getBookedTimesForDate(bookingData.date);
+    console.log('이미 예약된 시간들:', bookedTimes);
+    
+    if (bookedTimes.includes(bookingData.time)) {
+      console.log('❌ 중복 예약 감지됨!');
+      return res.status(409).json({
+        error: 'Time slot already booked',
+        message: 'This time slot is no longer available. Please select a different time.',
+        code: 'TIME_SLOT_UNAVAILABLE',
+        availableTimes: bookedTimes
+      });
+    }
+    
+    console.log('✅ 예약 가능한 시간 확인됨');
+    console.log('=== 중복 예약 체크 완료 ===');
 
     // Stripe Checkout Session 생성
     const session = await stripe.checkout.sessions.create({

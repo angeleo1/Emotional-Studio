@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 import { Resend } from 'resend';
 import { generateBookingEmail, generateCustomerConfirmationEmail } from '../../utils/emailTemplates';
+import { saveBooking as saveBookingToSupabase } from '../../lib/bookingStorageSupabase';
 import fs from 'fs';
 import path from 'path';
 
@@ -62,8 +63,9 @@ export default async function handler(
 
       console.log('Processed booking data:', bookingData);
 
-      // 부킹 데이터를 JSON 파일에 저장
+      // 부킹 데이터를 JSON 파일과 Supabase에 모두 저장
       await saveBookingToFile(bookingData);
+      await saveBookingToSupabase(bookingData);
 
       // 이메일로 예약 정보 전송
       try {

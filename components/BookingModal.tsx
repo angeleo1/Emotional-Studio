@@ -187,12 +187,26 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       if (!response.ok) {
         const errorText = await response.text();
         let errorMessage = `HTTP ${response.status}`;
+        let errorCode = '';
+        let availableTimes: string[] = [];
+        
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = errorData.message || errorData.error || errorMessage;
+          errorCode = errorData.code || '';
+          availableTimes = errorData.availableTimes || [];
         } catch {
           errorMessage = errorText || errorMessage;
         }
+        
+        // 중복 예약 에러인 경우 특별 처리
+        if (response.status === 409 && errorCode === 'TIME_SLOT_UNAVAILABLE') {
+          console.log('중복 예약 감지됨, 예약 가능한 시간 다시 로드...');
+          // 예약 가능한 시간 다시 로드
+          await checkAvailability();
+          errorMessage = '선택하신 시간이 이미 예약되었습니다. 다른 시간을 선택해주세요.';
+        }
+        
         throw new Error(errorMessage);
       }
 
