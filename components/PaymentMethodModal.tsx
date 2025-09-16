@@ -570,6 +570,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
                   <PaymentForm
                     amount={amount}
                     currency={currency}
+                    bookingData={bookingData}
                     onSuccess={onSuccess}
                     onError={onError}
                     onClose={onClose}
