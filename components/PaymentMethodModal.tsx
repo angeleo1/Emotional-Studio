@@ -329,6 +329,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
   onClose,
   amount,
   currency = 'aud',
+  bookingData,
   onSuccess,
   onError,
 }) => {
@@ -566,16 +567,16 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
                   </span>
                 </div>
               ) : clientSecret ? (
-                <Elements stripe={stripePromise} options={options}>
-                  <PaymentForm
-                    amount={amount}
-                    currency={currency}
-                    bookingData={bookingData}
-                    onSuccess={onSuccess}
-                    onError={onError}
-                    onClose={onClose}
-                  />
-                </Elements>
+                 <Elements stripe={stripePromise} options={options}>
+                   <PaymentForm
+                     amount={amount}
+                     currency={currency}
+                     bookingData={bookingData}
+                     onSuccess={onSuccess}
+                     onError={onError}
+                     onClose={onClose}
+                   />
+                 </Elements>
               ) : (
                 <div className="text-center py-8">
                   <div className="text-orange-500 text-4xl mb-4">⚠️</div>
