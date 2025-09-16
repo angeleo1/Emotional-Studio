@@ -31,7 +31,7 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
     <html>
     <head>
       <meta charset="utf-8">
-       <title>예약 확인 - Emotional Studios</title>
+       <title>예약 확인 - emotional Studios</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -50,7 +50,7 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
       <div class="container">
         <div class="header">
           <h1>🎉 예약이 확인되었습니다!</h1>
-           <p>Emotional Studios에서의 특별한 순간을 기대해 주세요</p>
+           <p>emotional Studios에서의 특별한 순간을 기대해 주세요</p>
         </div>
         
         <div class="content">
@@ -100,7 +100,7 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
           <div class="footer">
             <p>문의사항이 있으시면 언제든지 연락해 주세요.</p>
             <p>📧 admin@emotionalstudios.com.au | 📱 +61 3 7075 1000</p>
-             <p>Emotional Studios | Melbourne, Australia</p>
+             <p>emotional Studios | Melbourne, Australia</p>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ export function generateAdminNotificationEmail(bookingData: any) {
     <html>
     <head>
       <meta charset="utf-8">
-       <title>새로운 예약 - Emotional Studios</title>
+       <title>새로운 예약 - emotional Studios</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -231,7 +231,7 @@ function getShootingTypeText(type: string): string {
 export async function sendCustomerConfirmationEmail(bookingData: any): Promise<boolean> {
   try {
     const mailOptions = {
-       from: `"Emotional Studios" <${process.env.EMAIL_USER}>`,
+       from: `"emotional Studios" <${process.env.EMAIL_USER}>`,
       to: bookingData.email,
       subject: `✅ 예약 확인 #${bookingData.bookingId} - ${new Date(bookingData.date).toLocaleDateString('ko-KR')}`,
       html: generateCustomerConfirmationEmail(bookingData)
@@ -250,7 +250,7 @@ export async function sendCustomerConfirmationEmail(bookingData: any): Promise<b
 export async function sendAdminNotificationEmail(bookingData: any): Promise<boolean> {
   try {
     const mailOptions = {
-       from: `"Emotional Studios" <${process.env.EMAIL_USER}>`,
+       from: `"emotional Studios" <${process.env.EMAIL_USER}>`,
       to: 'admin@emotionalstudios.com.au',
       subject: `🎉 새로운 예약 #${bookingData.bookingId} - ${bookingData.name}`,
       html: generateAdminNotificationEmail(bookingData)
