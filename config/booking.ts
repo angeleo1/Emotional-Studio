@@ -3,9 +3,9 @@ export function isBookingEnabled(): boolean {
   // 환경변수에서 예약 활성화 여부 확인
   const bookingEnabled = process.env.NEXT_PUBLIC_BOOKING_ENABLED;
   
-  // 기본값은 false (비활성화)
+  // 기본값은 true (활성화) - 테스트를 위해 활성화
   if (bookingEnabled === undefined) {
-    return false;
+    return true;
   }
   
   // 문자열을 boolean으로 변환

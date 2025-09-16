@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
@@ -335,20 +335,15 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && bookingData) {
-      createCheckoutSession();
+  const createCheckoutSession = useCallback(async () => {
+    if (!bookingData) {
+      onError('Booking data is required for checkout session');
+      return;
     }
-  }, [isOpen, bookingData]);
 
-  const createCheckoutSession = async () => {
     setIsLoading(true);
     try {
       console.log('Creating checkout session with:', { bookingData, amount, currency });
-      
-      if (!bookingData) {
-        throw new Error('Booking data is required for checkout session');
-      }
       
       const response = await fetch(`${window.location.origin}/api/create-checkout-session`, {
         method: 'POST',
@@ -403,7 +398,13 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [bookingData, amount, currency, onError]);
+
+  useEffect(() => {
+    if (isOpen && bookingData) {
+      createCheckoutSession();
+    }
+  }, [isOpen, bookingData, createCheckoutSession]);
 
   const appearance = {
     theme: 'stripe' as const,
@@ -583,7 +584,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
                   </p>
                   <div className="space-y-3">
                     <button
-                      onClick={() => createCheckoutSession()}
+                      onClick={createCheckoutSession}
                       className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
                     >
                       Try Again
