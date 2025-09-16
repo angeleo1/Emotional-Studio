@@ -1,4 +1,7 @@
-// 메모리 기반 부킹 저장소 (배포 환경용)
+// JSON 파일 기반 부킹 저장소 (영구 저장)
+import fs from 'fs';
+import path from 'path';
+
 interface Booking {
   id: string;
   bookingId: string;
@@ -22,12 +25,46 @@ interface Booking {
   createdAt: string;
 }
 
-// 메모리 저장소
-let bookings: Booking[] = [];
+// 파일 경로 설정 (Vercel에서는 /tmp 사용)
+const BOOKINGS_FILE = process.env.NODE_ENV === 'production' 
+  ? '/tmp/bookings.json' 
+  : path.join(process.cwd(), 'data', 'bookings.json');
+
+// 파일에서 예약 데이터 로드
+function loadBookings(): Booking[] {
+  try {
+    if (fs.existsSync(BOOKINGS_FILE)) {
+      const data = fs.readFileSync(BOOKINGS_FILE, 'utf8');
+      return JSON.parse(data);
+    }
+  } catch (error) {
+    console.error('Error loading bookings from file:', error);
+  }
+  return [];
+}
+
+// 파일에 예약 데이터 저장
+function saveBookingsToFile(bookings: Booking[]): void {
+  try {
+    // 디렉토리가 없으면 생성
+    const dir = path.dirname(BOOKINGS_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    
+    fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(bookings, null, 2));
+    console.log('Bookings saved to file:', BOOKINGS_FILE);
+  } catch (error) {
+    console.error('Error saving bookings to file:', error);
+    throw error;
+  }
+}
 
 // 부킹 저장
 export function saveBooking(bookingData: any): void {
   try {
+    const bookings = loadBookings();
+    
     const newBooking: Booking = {
       id: bookingData.bookingId,
       bookingId: bookingData.bookingId,
@@ -59,10 +96,13 @@ export function saveBooking(bookingData: any): void {
       bookings.push(newBooking);
     }
 
-    console.log('Booking saved to memory storage:', newBooking.bookingId);
-    console.log('Total bookings in memory:', bookings.length);
+    // 파일에 저장
+    saveBookingsToFile(bookings);
+
+    console.log('Booking saved to file storage:', newBooking.bookingId);
+    console.log('Total bookings in file:', bookings.length);
   } catch (error) {
-    console.error('Error saving booking to memory:', error);
+    console.error('Error saving booking to file:', error);
     throw error;
   }
 }
@@ -70,6 +110,7 @@ export function saveBooking(bookingData: any): void {
 // 특정 날짜의 예약된 시간 조회
 export function getBookedTimesForDate(date: string): string[] {
   try {
+    const bookings = loadBookings();
     const queryDate = new Date(date).toISOString().split('T')[0];
     console.log('Query date for booked times:', queryDate);
     console.log('All bookings:', bookings.map(b => ({ date: b.date, time: b.time, status: b.status })));
@@ -96,19 +137,22 @@ export function getBookedTimesForDate(date: string): string[] {
 
 // 모든 예약 조회
 export function getAllBookings(): Booking[] {
-  return [...bookings];
+  return loadBookings();
 }
 
 // 특정 예약 조회
 export function getBookingById(bookingId: string): Booking | null {
+  const bookings = loadBookings();
   return bookings.find(booking => booking.bookingId === bookingId) || null;
 }
 
 // 예약 삭제
 export function deleteBooking(bookingId: string): boolean {
+  const bookings = loadBookings();
   const index = bookings.findIndex(booking => booking.bookingId === bookingId);
   if (index >= 0) {
     bookings.splice(index, 1);
+    saveBookingsToFile(bookings);
     console.log('Booking deleted:', bookingId);
     return true;
   }
@@ -117,6 +161,6 @@ export function deleteBooking(bookingId: string): boolean {
 
 // 저장소 초기화 (개발용)
 export function clearAllBookings(): void {
-  bookings = [];
-  console.log('All bookings cleared from memory');
+  saveBookingsToFile([]);
+  console.log('All bookings cleared from file');
 }
