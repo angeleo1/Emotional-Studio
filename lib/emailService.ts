@@ -31,26 +31,26 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
     <html>
     <head>
       <meta charset="utf-8">
-       <title>예약 확인 - emotional Studios</title>
+       <title>예약 확인 - emotional studios</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+         .header { background: linear-gradient(135deg, #ff6100 0%, #ff8c00 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
         .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
         .booking-details { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
         .detail-row { display: flex; justify-content: space-between; margin: 10px 0; padding: 10px 0; border-bottom: 1px solid #eee; }
         .detail-label { font-weight: bold; color: #666; }
         .detail-value { color: #333; }
-        .total { font-size: 18px; font-weight: bold; color: #667eea; }
+         .total { font-size: 18px; font-weight: bold; color: #ff6100; }
         .footer { text-align: center; margin-top: 30px; color: #666; font-size: 14px; }
-        .button { display: inline-block; background: #667eea; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+         .button { display: inline-block; background: #ff6100; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin: 20px 0; }
       </style>
     </head>
     <body>
       <div class="container">
         <div class="header">
           <h1>🎉 예약이 확인되었습니다!</h1>
-           <p>emotional Studios에서의 특별한 순간을 기대해 주세요</p>
+           <p>emotional studios에서의 특별한 순간을 기대해 주세요</p>
         </div>
         
         <div class="content">
@@ -88,7 +88,7 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
           <div class="footer">
             <p>문의사항이 있으시면 언제든지 연락해 주세요.</p>
             <p>📧 admin@emotionalstudios.com.au | 📱 +61 3 7075 1000</p>
-             <p>emotional Studios | Melbourne, Australia</p>
+             <p>emotional studios | Melbourne, Australia</p>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export function generateAdminNotificationEmail(bookingData: any) {
     <html>
     <head>
       <meta charset="utf-8">
-       <title>새로운 예약 - emotional Studios</title>
+       <title>새로운 예약 - emotional studios</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -219,7 +219,7 @@ function getShootingTypeText(type: string): string {
 export async function sendCustomerConfirmationEmail(bookingData: any): Promise<boolean> {
   try {
     const mailOptions = {
-       from: `"emotional Studios" <${process.env.EMAIL_USER}>`,
+       from: `"emotional studios" <${process.env.EMAIL_USER}>`,
       to: bookingData.email,
       subject: `✅ 예약 확인 #${bookingData.bookingId} - ${new Date(bookingData.date).toLocaleDateString('ko-KR')}`,
       html: generateCustomerConfirmationEmail(bookingData)
@@ -238,7 +238,7 @@ export async function sendCustomerConfirmationEmail(bookingData: any): Promise<b
 export async function sendAdminNotificationEmail(bookingData: any): Promise<boolean> {
   try {
     const mailOptions = {
-       from: `"emotional Studios" <${process.env.EMAIL_USER}>`,
+       from: `"emotional studios" <${process.env.EMAIL_USER}>`,
       to: 'admin@emotionalstudios.com.au',
       subject: `🎉 새로운 예약 #${bookingData.bookingId} - ${bookingData.name}`,
       html: generateAdminNotificationEmail(bookingData)
