@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -79,15 +79,13 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
 
   // 모달이 열릴 때마다 최신 예약 데이터 확인
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && watchedValues.date) {
       console.log('Booking modal opened, checking latest availability...');
-      if (watchedValues.date) {
-        checkAvailability();
-      }
+      checkAvailability();
     }
-  }, [isOpen]);
+  }, [isOpen, checkAvailability]);
 
-  const checkAvailability = async () => {
+  const checkAvailability = useCallback(async () => {
     if (!watchedValues.date) return;
     
     console.log('=== checkAvailability 호출됨 ===');
@@ -119,7 +117,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     } finally {
       setIsLoadingTimes(false);
     }
-  };
+  }, [watchedValues.date]);
 
      // 총 가격 계산 함수
   const calculateTotalPrice = () => {
