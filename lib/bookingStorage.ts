@@ -1,7 +1,4 @@
-// JSON 파일 기반 부킹 저장소 (영구 저장)
-import fs from 'fs';
-import path from 'path';
-
+// 메모리 기반 부킹 저장소 (배포 환경용)
 interface Booking {
   id: string;
   bookingId: string;
@@ -24,39 +21,18 @@ interface Booking {
   createdAt: string;
 }
 
-// 파일 경로 설정 (Vercel에서는 /tmp 사용)
-const BOOKINGS_FILE = process.env.NODE_ENV === 'production' 
-  ? '/tmp/bookings.json' 
-  : path.join(process.cwd(), 'data', 'bookings.json');
+// 메모리에 예약 데이터 저장
+let bookings: Booking[] = [];
 
-// 파일에서 예약 데이터 로드
+// 메모리에서 예약 데이터 로드
 function loadBookings(): Booking[] {
-  try {
-    if (fs.existsSync(BOOKINGS_FILE)) {
-      const data = fs.readFileSync(BOOKINGS_FILE, 'utf8');
-      return JSON.parse(data);
-    }
-  } catch (error) {
-    console.error('Error loading bookings from file:', error);
-  }
-  return [];
+  return bookings;
 }
 
-// 파일에 예약 데이터 저장
-function saveBookingsToFile(bookings: Booking[]): void {
-  try {
-    // 디렉토리가 없으면 생성
-    const dir = path.dirname(BOOKINGS_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    
-    fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(bookings, null, 2));
-    console.log('Bookings saved to file:', BOOKINGS_FILE);
-  } catch (error) {
-    console.error('Error saving bookings to file:', error);
-    throw error;
-  }
+// 메모리에 예약 데이터 저장
+function saveBookingsToFile(bookingsData: Booking[]): void {
+  bookings = bookingsData;
+  console.log('Bookings saved to memory:', bookingsData.length, 'bookings');
 }
 
 // 부킹 저장
