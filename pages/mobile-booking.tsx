@@ -223,19 +223,20 @@ const MobileBooking: NextPage = () => {
     }));
     
     if (date) {
+      console.log('Mobile: Date changed, checking availability for:', date);
       checkAvailability();
     } else {
+      console.log('Mobile: No date selected, clearing times');
       setAvailableTimes([]);
       setBookedTimes([]);
     }
   };
 
-  // 페이지 로드 시 현재 선택된 날짜의 예약 상태 확인
+  // 페이지 로드 시 기본 시간 설정
   useEffect(() => {
-    if (formData.date) {
-      console.log('Mobile: Checking availability on page load for date:', formData.date);
-      checkAvailability();
-    }
+    console.log('Mobile: Page loaded, setting default times');
+    setAvailableTimes(allTimes);
+    setBookedTimes([]);
   }, []); // 빈 의존성 배열로 페이지 로드 시 한 번만 실행
 
   return (
@@ -383,6 +384,7 @@ const MobileBooking: NextPage = () => {
                           const isDisabled = isBooked;
                           
                           // 디버깅용 로그
+                          console.log(`Mobile Time ${time}: isBooked=${isBooked}, bookedTimes=`, bookedTimes);
                           if (isBooked) {
                             console.log(`Time ${time} is BOOKED - disabled`);
                           }
