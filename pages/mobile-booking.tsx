@@ -362,23 +362,21 @@ const MobileBooking: NextPage = () => {
                         {allTimes.map((time) => {
                           const isBooked = bookedTimes.includes(time);
                           const isSelected = formData.time === time;
-                          // availableTimes에 포함되어 있으면 사용 가능
-                          const isAvailable = availableTimes.includes(time);
+                          // bookedTimes에 포함되어 있으면 비활성화, 그 외에는 활성화
+                          const isDisabled = isBooked;
                           return (
                             <button
                               key={time}
                               type="button"
-                              onClick={() => { if (!isBooked && isAvailable) setFormData(prev => ({ ...prev, time })); }}
-                              disabled={isBooked || !isAvailable}
+                              onClick={() => { if (!isBooked) setFormData(prev => ({ ...prev, time })); }}
+                              disabled={isDisabled}
                               className={`
                                 px-3 py-2 text-sm font-medium rounded-lg border transition-all duration-200
                                 ${isBooked
                                   ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                                   : isSelected
                                   ? 'bg-[#FF6100] text-white border-[#FF6100] shadow-md'
-                                  : isAvailable
-                                  ? 'bg-[#FF6100]/10 text-white border-[#FF6100] hover:bg-[#FF6100] hover:border-[#FF6100] hover:text-white'
-                                  : 'bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed'
+                                  : 'bg-[#FF6100]/10 text-white border-[#FF6100] hover:bg-[#FF6100] hover:border-[#FF6100] hover:text-white'
                                 }
                               `}
                             >
