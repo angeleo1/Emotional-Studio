@@ -140,34 +140,7 @@ const MobileBooking: NextPage = () => {
       return;
     }
 
-    // 실시간 중복 예약 체크
-    console.log('=== 모바일 중복 예약 체크 시작 ===');
-    const dateString = formData.date ? 
-      `${formData.date.getFullYear()}-${String(formData.date.getMonth() + 1).padStart(2, '0')}-${String(formData.date.getDate()).padStart(2, '0')}` : 
-      '';
-    
-    try {
-      const response = await fetch(`/api/check-availability-v2?date=${dateString}`);
-      if (response.ok) {
-        const data = await response.json();
-        const bookedTimes = data.bookedTimes || [];
-        
-        if (bookedTimes.includes(formData.time)) {
-          console.log('❌ 모바일: 중복 예약 감지됨!');
-          setErrorMessage('선택하신 시간이 이미 예약되었습니다. 다른 시간을 선택해주세요.');
-          // 예약 가능한 시간 다시 로드
-          await checkAvailability();
-          return;
-        }
-      }
-    } catch (error) {
-      console.error('모바일 중복 체크 에러:', error);
-    }
-    
-    console.log('✅ 모바일: 예약 가능한 시간 확인됨');
-    console.log('=== 모바일 중복 예약 체크 완료 ===');
-
-    // 결제 모달로 이동
+    // 결제 모달로 이동 (중복 체크는 PaymentMethodModal에서 처리)
     setShowPayment(true);
   };
 
