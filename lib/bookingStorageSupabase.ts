@@ -73,68 +73,29 @@ export async function saveBooking(bookingData: any): Promise<void> {
   }
 }
 
-// 특정 날짜의 예약된 시간 조회 (JSON 파일과 Supabase 모두 확인)
+// 특정 날짜의 예약된 시간 조회 (Supabase만 확인)
 export async function getBookedTimesForDate(date: string): Promise<string[]> {
   try {
-    console.log('=== getBookedTimesForDate (통합) 시작 ===');
+    console.log('=== getBookedTimesForDate (Supabase만) 시작 ===');
     console.log('Query date:', date);
 
-    const bookedTimesSet = new Set<string>();
+    // Supabase에서만 예약된 시간 조회
+    const { data, error } = await supabaseAdmin
+      .from('bookings')
+      .select('time, date, status')
+      .eq('date', date)
+      .in('status', ['confirmed', 'completed']);
 
-    // 1. Supabase에서 예약된 시간 조회
-    try {
-      const { data, error } = await supabaseAdmin
-        .from('bookings')
-        .select('time, date, status');
-
-      if (!error && data) {
-        const supabaseBookedTimes = data
-          .filter(booking => 
-            booking.date === date && 
-            (booking.status === 'confirmed' || booking.status === 'completed')
-          )
-          .map(booking => booking.time);
-        
-        supabaseBookedTimes.forEach(time => bookedTimesSet.add(time));
-        console.log(`Supabase에서 ${supabaseBookedTimes.length}개 예약 발견:`, supabaseBookedTimes);
-      }
-    } catch (supabaseError) {
-      console.error('Supabase 조회 에러:', supabaseError);
+    if (error) {
+      console.error('Supabase 조회 에러:', error);
+      return [];
     }
 
-    // 2. JSON 파일에서도 예약된 시간 조회 (백업)
-    try {
-      const fs = require('fs');
-      const path = require('path');
-      const bookingsPath = path.join(process.cwd(), 'data', 'bookings.json');
-      
-      if (fs.existsSync(bookingsPath)) {
-        const fileContent = fs.readFileSync(bookingsPath, 'utf8');
-        const bookingsData = JSON.parse(fileContent);
-        
-        const jsonBookedTimes = bookingsData.bookings
-          ?.filter((booking: any) => {
-            // 날짜를 직접 문자열로 비교 (YYYY-MM-DD 형식)
-            const bookingDate = booking.date;
-            const queryDate = date;
-            console.log(`JSON 비교: bookingDate=${bookingDate}, queryDate=${queryDate}, status=${booking.status}`);
-            return bookingDate === queryDate && 
-                   (booking.status === 'confirmed' || booking.status === 'completed');
-          })
-          ?.map((booking: any) => booking.time) || [];
-        
-        jsonBookedTimes.forEach(time => bookedTimesSet.add(time));
-        console.log(`JSON 파일에서 ${jsonBookedTimes.length}개 예약 발견:`, jsonBookedTimes);
-      }
-    } catch (jsonError) {
-      console.error('JSON 파일 조회 에러:', jsonError);
-    }
-
-    const finalBookedTimes = Array.from(bookedTimesSet);
-    console.log(`총 ${finalBookedTimes.length}개 예약된 시간:`, finalBookedTimes);
-    console.log('=== getBookedTimesForDate (통합) 완료 ===');
+    const bookedTimes = data?.map(booking => booking.time) || [];
+    console.log(`${date}에 예약된 시간 ${bookedTimes.length}개:`, bookedTimes);
+    console.log('=== getBookedTimesForDate (Supabase만) 완료 ===');
     
-    return finalBookedTimes;
+    return bookedTimes;
   } catch (error) {
     console.error('Error getting booked times:', error);
     return [];
