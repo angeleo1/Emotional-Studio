@@ -34,8 +34,7 @@ const MobileBooking: NextPage = () => {
     otherGoods: {
       a4print: false,
       a4frame: false,
-      digital: false,
-      calendar: false
+      digital: false
     },
     additionalRetouch: 0
   });
@@ -69,7 +68,6 @@ const MobileBooking: NextPage = () => {
     if (formData.otherGoods.a4print) additionalCost += 10;
     if (formData.otherGoods.a4frame) additionalCost += 15;
     if (formData.otherGoods.digital) additionalCost += 20;
-    if (formData.otherGoods.calendar) additionalCost += 25;
     if (formData.additionalRetouch) {
       additionalCost += (formData.additionalRetouch * 15);
     }
@@ -389,16 +387,6 @@ const MobileBooking: NextPage = () => {
                       <span className="ml-3 text-gray-300">Original Digital Film (+$20)</span>
                     </label>
 
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="otherGoods.calendar"
-                        checked={formData.otherGoods.calendar}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-[#FF6100] bg-gray-800 border-gray-600 rounded focus:ring-[#FF6100]"
-                      />
-                      <span className="ml-3 text-gray-300">Calendar (+$25)</span>
-                    </label>
                   </div>
                   
                   {/* Additional Retouch */}
