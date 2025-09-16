@@ -77,14 +77,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     }
   }, [watchedValues.date]);
 
-  // 모달이 열릴 때마다 최신 예약 데이터 확인
-  useEffect(() => {
-    if (isOpen && watchedValues.date) {
-      console.log('Booking modal opened, checking latest availability...');
-      checkAvailability();
-    }
-  }, [isOpen, checkAvailability]);
-
   const checkAvailability = useCallback(async () => {
     if (!watchedValues.date) return;
     
@@ -118,6 +110,14 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       setIsLoadingTimes(false);
     }
   }, [watchedValues.date]);
+
+  // 모달이 열릴 때마다 최신 예약 데이터 확인
+  useEffect(() => {
+    if (isOpen && watchedValues.date) {
+      console.log('Booking modal opened, checking latest availability...');
+      checkAvailability();
+    }
+  }, [isOpen, checkAvailability]);
 
      // 총 가격 계산 함수
   const calculateTotalPrice = () => {
