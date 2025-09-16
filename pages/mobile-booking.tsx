@@ -59,7 +59,8 @@ const MobileBooking: NextPage = () => {
     
     setIsLoadingTimes(true);
     try {
-      const dateStr = formData.date.toISOString().split('T')[0];
+      // 날짜를 올바르게 변환 (시간대 문제 해결)
+      const dateStr = `${formData.date.getFullYear()}-${String(formData.date.getMonth() + 1).padStart(2, '0')}-${String(formData.date.getDate()).padStart(2, '0')}`;
       const response = await fetch(`/api/check-availability-v2?date=${dateStr}`);
       
       if (response.ok) {
@@ -232,7 +233,12 @@ const MobileBooking: NextPage = () => {
     
     if (date) {
       console.log('Mobile: Date changed, checking availability for:', date);
-      checkAvailability();
+      // 강제로 상태 초기화 후 재조회
+      setAvailableTimes([]);
+      setBookedTimes([]);
+      setTimeout(() => {
+        checkAvailability();
+      }, 100);
     } else {
       console.log('Mobile: No date selected, clearing times');
       setAvailableTimes([]);
@@ -245,6 +251,14 @@ const MobileBooking: NextPage = () => {
     console.log('Mobile: Page loaded, setting default times');
     setAvailableTimes(allTimes);
     setBookedTimes([]);
+    
+    // 17일이 선택되어 있다면 예약 상태 확인
+    if (formData.date && formData.date.getDate() === 17) {
+      console.log('Mobile: 17일이 선택되어 있음, 예약 상태 확인');
+      setTimeout(() => {
+        checkAvailability();
+      }, 500);
+    }
   }, []); // 빈 의존성 배열로 페이지 로드 시 한 번만 실행
 
   return (
