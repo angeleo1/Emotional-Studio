@@ -81,18 +81,6 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
             </div>
           </div>
           
-          <div class="booking-details">
-            <h3>📞 연락처 정보</h3>
-            <div class="detail-row">
-              <span class="detail-label">이메일:</span>
-              <span class="detail-value">${email}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">전화번호:</span>
-              <span class="detail-value">${phone}</span>
-            </div>
-          </div>
-          
           <div style="text-align: center;">
             <a href="https://emotionalstudios.com.au" class="button">웹사이트 방문하기</a>
           </div>
