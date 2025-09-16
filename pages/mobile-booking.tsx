@@ -87,6 +87,7 @@ const MobileBooking: NextPage = () => {
 
   // 총 가격 계산 함수
   const calculateTotalPrice = () => {
+    console.log('calculateTotalPrice - formData:', formData);
     let basePrice = 0;
     switch (formData.shootingType) {
       case 'test': basePrice = 1; break;
@@ -105,7 +106,9 @@ const MobileBooking: NextPage = () => {
       additionalCost += (formData.additionalRetouch * 15);
     }
 
-    return basePrice + additionalCost;
+    const total = basePrice + additionalCost;
+    console.log('calculateTotalPrice - basePrice:', basePrice, 'additionalCost:', additionalCost, 'total:', total);
+    return total;
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -152,25 +155,6 @@ const MobileBooking: NextPage = () => {
         setShowPayment(false);
         setIsProcessing(false);
         
-        // 폼 데이터 초기화
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          date: null,
-          time: '',
-          shootingType: '',
-          colorOption: false,
-          otherGoods: {
-            a4print: false,
-            a4frame: false,
-            digital: false,
-            calendar: false
-          },
-          message: ''
-        });
-        setAvailableTimes([]);
-        setBookedTimes([]);
       } else {
         const errorData = await response.json();
         setErrorMessage(errorData.message || 'Failed to save booking. Please try again.');
@@ -509,7 +493,7 @@ const MobileBooking: NextPage = () => {
                 <p className="text-gray-300">We'll send you a confirmation email shortly.</p>
               </div>
               
-              <div className="bg-gray-800 p-4 rounded-lg mb-6">
+              <div className="bg-[#FF6100]/10 border border-[#FF6100] p-4 rounded-lg mb-6">
                 <h3 className="text-lg font-semibold text-white mb-3">Booking Details</h3>
                 <div className="space-y-2 text-sm text-gray-300">
                   <p><span className="text-gray-400">Name:</span> {formData.name}</p>
