@@ -31,14 +31,13 @@ const MobileBooking: NextPage = () => {
     date: null as Date | null,
     time: '',
     shootingType: '',
-    colorOption: false,
     otherGoods: {
       a4print: false,
       a4frame: false,
       digital: false,
       calendar: false
     },
-    message: ''
+    additionalRetouch: 0
   });
 
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
@@ -67,11 +66,13 @@ const MobileBooking: NextPage = () => {
     }
 
     let additionalCost = 0;
-    if (formData.colorOption) additionalCost += 10;
     if (formData.otherGoods.a4print) additionalCost += 10;
     if (formData.otherGoods.a4frame) additionalCost += 15;
     if (formData.otherGoods.digital) additionalCost += 20;
     if (formData.otherGoods.calendar) additionalCost += 25;
+    if (formData.additionalRetouch) {
+      additionalCost += (formData.additionalRetouch * 15);
+    }
 
     return basePrice + additionalCost;
   };
@@ -354,16 +355,6 @@ const MobileBooking: NextPage = () => {
                   <h2 className="text-lg font-semibold text-white">Additional Options</h2>
                   
                   <div className="space-y-3">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="colorOption"
-                        checked={formData.colorOption}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-[#FF6100] bg-gray-800 border-gray-600 rounded focus:ring-[#FF6100]"
-                      />
-                      <span className="ml-3 text-gray-300">Color Option (+$10)</span>
-                    </label>
 
                     <label className="flex items-center">
                       <input
@@ -409,20 +400,28 @@ const MobileBooking: NextPage = () => {
                       <span className="ml-3 text-gray-300">Calendar (+$25)</span>
                     </label>
                   </div>
+                  
+                  {/* Additional Retouch */}
+                  <div className="mt-4">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Additional Retouch {formData.additionalRetouch > 0 && `(+$${formData.additionalRetouch * 15})`}
+                    </label>
+                    <select
+                      name="additionalRetouch"
+                      value={formData.additionalRetouch}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                    >
+                      <option value={0}>No additional retouch</option>
+                      <option value={1}>1 additional photo (+$15)</option>
+                      <option value={2}>2 additional photos (+$30)</option>
+                      <option value={3}>3 additional photos (+$45)</option>
+                      <option value={4}>4 additional photos (+$60)</option>
+                      <option value={5}>5 additional photos (+$75)</option>
+                    </select>
+                  </div>
                 </div>
 
-                {/* 메시지 */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Additional Requests</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={3}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white resize-none"
-                    placeholder="Any special requests or comments?"
-                  />
-                </div>
 
                 {/* 총 금액 */}
                 <div className="bg-gray-800 p-4 rounded-lg">
