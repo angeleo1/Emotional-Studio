@@ -1,12 +1,25 @@
 import nodemailer from 'nodemailer';
 
 // Gmail SMTP 설정
+console.log('Initializing email service...');
+console.log('EMAIL_USER:', process.env.EMAIL_USER ? 'SET' : 'NOT_SET');
+console.log('EMAIL_APP_PASSWORD:', process.env.EMAIL_APP_PASSWORD ? 'SET' : 'NOT_SET');
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER, // Gmail 주소
     pass: process.env.EMAIL_APP_PASSWORD, // Gmail 앱 비밀번호
   },
+});
+
+// SMTP 연결 테스트
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('SMTP connection error:', error);
+  } else {
+    console.log('SMTP connection verified successfully');
+  }
 });
 
 // 고객 확인 메일 생성

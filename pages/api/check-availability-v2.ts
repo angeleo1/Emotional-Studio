@@ -8,8 +8,11 @@ let availabilityCache: { [key: string]: { data: any; timestamp: number } } = {};
 const CACHE_DURATION = 30000; // 30초
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  console.log('=== check-availability-v2 API 호출됨 ===');
+  
   // booking이 비활성화된 경우 에러 반환
   if (!isBookingEnabled()) {
+    console.log('Booking is disabled');
     return res.status(503).json({ 
       message: 'Booking service is temporarily unavailable',
       code: 'BOOKING_DISABLED'
@@ -22,6 +25,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     const { date } = req.query;
+    console.log('Checking availability for date:', date);
     
     if (!date || typeof date !== 'string') {
       return res.status(400).json({ message: 'Date parameter is required' });

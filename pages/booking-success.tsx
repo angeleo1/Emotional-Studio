@@ -57,6 +57,7 @@ const BookingSuccess = () => {
 
   const sendBookingEmails = async (bookingData: any) => {
     try {
+      console.log('=== sendBookingEmails 호출됨 ===');
       console.log('Sending booking emails for:', bookingData);
       
       // 새로운 메일 전송 시스템 사용
@@ -68,11 +69,14 @@ const BookingSuccess = () => {
         body: JSON.stringify({ bookingData }),
       });
       
+      console.log('Email response status:', emailResponse.status);
+      
       if (emailResponse.ok) {
         const result = await emailResponse.json();
         console.log('Booking processed successfully:', result);
       } else {
-        console.error('Failed to process booking:', await emailResponse.text());
+        const errorText = await emailResponse.text();
+        console.error('Failed to process booking:', errorText);
       }
     } catch (error) {
       console.error('Error in sendBookingEmails:', error);
@@ -85,14 +89,14 @@ const BookingSuccess = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#111111' }}>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#ff6100' }}></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#111111' }}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -138,14 +142,14 @@ const BookingSuccess = () => {
             <h2 className="text-2xl font-bold text-white mb-6">Booking Details</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
               <div className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-orange-400" />
+                <Calendar className="w-5 h-5" style={{ color: '#ff6100' }} />
                 <div>
                   <p className="text-gray-400 text-sm">Booking ID</p>
                   <p className="text-white font-medium">{sessionData.bookingId}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-orange-400" />
+                <Mail className="w-5 h-5" style={{ color: '#ff6100' }} />
                 <div>
                   <p className="text-gray-400 text-sm">Payment ID</p>
                   <p className="text-white font-medium text-sm">{sessionData.sessionId}</p>
@@ -180,7 +184,10 @@ const BookingSuccess = () => {
         >
           <button
             onClick={handleBackToHome}
-            className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105"
+            className="px-8 py-4 text-white font-bold rounded-lg transition-all duration-300 transform hover:scale-105"
+            style={{ background: '#ff6100' }}
+            onMouseEnter={(e) => e.target.style.background = '#e55a00'}
+            onMouseLeave={(e) => e.target.style.background = '#ff6100'}
           >
             Back to Home
           </button>
@@ -195,7 +202,7 @@ const BookingSuccess = () => {
         >
           <p className="text-gray-400 text-sm">
             Questions? Contact us at{' '}
-            <a href="mailto:info@emotionalstudio.com" className="text-orange-400 hover:text-orange-300">
+            <a href="mailto:info@emotionalstudio.com" style={{ color: '#ff6100' }} className="hover:opacity-80">
               info@emotionalstudio.com
             </a>
           </p>

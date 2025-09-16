@@ -30,10 +30,14 @@ export default async function handler(
     }
 
     // 부킹 데이터 추출
+    console.log('=== get-session-data API 호출됨 ===');
+    console.log('Session ID:', session_id);
     console.log('Session metadata:', session.metadata);
     console.log('Customer details:', session.customer_details);
+    console.log('Payment status:', session.payment_status);
     
     const bookingData = {
+      bookingId: `ES${Date.now()}`,
       name: session.customer_details?.name || session.metadata?.customerName || 'Unknown',
       email: session.customer_details?.email || session.metadata?.customerEmail || 'Unknown',
       phone: session.customer_details?.phone || session.metadata?.customerPhone || 'Unknown',

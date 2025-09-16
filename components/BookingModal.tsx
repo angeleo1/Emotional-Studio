@@ -94,6 +94,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const checkAvailability = async () => {
     if (!watchedValues.date) return;
     
+    console.log('=== checkAvailability 호출됨 ===');
     setIsLoadingTimes(true);
     try {
       const dateString = watchedValues.date.toISOString().split('T')[0];
@@ -101,14 +102,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       
       // 새로운 availability API 사용
       const response = await fetch(`/api/check-availability-v2?date=${dateString}`);
+      console.log('Availability API response status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
         console.log('Availability data received:', data);
+        console.log('Available times:', data.availableTimes);
+        console.log('Booked times:', data.bookedTimes);
         setAvailableTimes(data.availableTimes || allTimes);
         setBookedTimes(data.bookedTimes || []);
       } else {
-        console.error('Failed to fetch availability:', response.status);
+        const errorText = await response.text();
+        console.error('Failed to fetch availability:', response.status, errorText);
         setAvailableTimes(allTimes);
         setBookedTimes([]);
       }

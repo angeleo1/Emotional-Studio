@@ -13,20 +13,29 @@ export default async function handler(
   }
 
   try {
+    console.log('=== send-booking-emails-v2 API 호출됨 ===');
     const { bookingData } = req.body;
+    console.log('받은 bookingData:', bookingData);
 
     if (!bookingData) {
+      console.error('Booking data가 없습니다');
       return res.status(400).json({ message: 'Booking data is required' });
     }
 
+    console.log('부킹 데이터 저장 시작...');
     // 부킹 데이터를 JSON 파일에 저장
     await saveBookingToFile(bookingData);
+    console.log('부킹 데이터 저장 완료');
 
+    console.log('예약 가능 시간 캐시 클리어...');
     // 예약 가능 시간 캐시 클리어 (실시간 업데이트)
     clearAvailabilityCache();
+    console.log('캐시 클리어 완료');
 
+    console.log('이메일 전송 시작...');
     // 이메일 전송
     const emailResults = await sendBookingEmails(bookingData);
+    console.log('이메일 전송 결과:', emailResults);
 
     res.status(200).json({ 
       message: 'Booking processed successfully',
