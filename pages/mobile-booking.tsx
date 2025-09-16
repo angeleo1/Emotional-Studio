@@ -386,7 +386,7 @@ const MobileBooking: NextPage = () => {
                                   : isSelected
                                   ? 'bg-[#FF6100] text-white border-[#FF6100] shadow-md'
                                   : isAvailable
-                                  ? 'bg-gray-800 text-white border-gray-600 hover:bg-[#FF6100] hover:border-[#FF6100] hover:text-white'
+                                  ? 'bg-[#FF6100]/10 text-white border-[#FF6100] hover:bg-[#FF6100] hover:border-[#FF6100] hover:text-white'
                                   : 'bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed'
                                 }
                               `}
