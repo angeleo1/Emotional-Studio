@@ -5,18 +5,12 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content="#ffffff" />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2" />
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.ico?v=2" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.ico?v=2" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png?v=2" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png?v=2" />
-        <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png?v=2" />
-        <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png?v=2" />
-        <meta name="msapplication-TileImage" content="/icon-192x192.png?v=2" />
-        <meta name="msapplication-TileColor" content="#ff6100" />
         <meta name="theme-color" content="#ff6100" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
+        <meta name="msapplication-TileColor" content="#ff6100" />
+        <meta name="msapplication-TileImage" content="/icon-192x192.png" />
         {/* PWA 설치 프롬프트 방지를 위해 manifest 제거 */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
         
