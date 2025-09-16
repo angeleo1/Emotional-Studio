@@ -243,8 +243,8 @@ const MobileBooking: NextPage = () => {
             width: 100%;
             padding: 12px;
             border-radius: 8px;
-            border: 1px solid #374151;
-            background-color: #1f2937;
+            border: 1px solid #FF6100;
+            background-color: rgba(255, 97, 0, 0.1);
             color: white;
             font-size: 16px;
           }
@@ -467,7 +467,7 @@ const MobileBooking: NextPage = () => {
 
 
                 {/* 총 금액 */}
-                <div className="bg-gray-800 p-4 rounded-lg">
+                <div className="bg-[#FF6100]/10 border border-[#FF6100] p-4 rounded-lg">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-white">Total Amount</span>
                     <span className="text-2xl font-bold text-[#FF6100]">${calculateTotalPrice()}</span>
