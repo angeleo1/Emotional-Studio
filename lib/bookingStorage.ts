@@ -71,12 +71,18 @@ export function saveBooking(bookingData: any): void {
 export function getBookedTimesForDate(date: string): string[] {
   try {
     const queryDate = new Date(date).toISOString().split('T')[0];
+    console.log('Query date for booked times:', queryDate);
+    console.log('All bookings:', bookings.map(b => ({ date: b.date, time: b.time, status: b.status })));
     
     const bookedTimes = bookings
       .filter(booking => {
         const bookingDate = new Date(booking.date).toISOString().split('T')[0];
-        return bookingDate === queryDate && 
-               (booking.status === 'confirmed' || booking.status === 'completed');
+        const isDateMatch = bookingDate === queryDate;
+        const isStatusValid = booking.status === 'confirmed' || booking.status === 'completed';
+        
+        console.log(`Booking ${booking.bookingId}: date=${bookingDate}, time=${booking.time}, status=${booking.status}, dateMatch=${isDateMatch}, statusValid=${isStatusValid}`);
+        
+        return isDateMatch && isStatusValid;
       })
       .map(booking => booking.time);
 

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { isBookingEnabled } from '../../config/booking';
-import { getBookedTimesForDate } from '../../lib/bookingStorage';
+import { getBookedTimesForDate, getAllBookings } from '../../lib/bookingStorage';
 
 // 메모리 캐시 (개발 환경에서만 사용)
 let availabilityCache: { [key: string]: { data: any; timestamp: number } } = {};
@@ -41,6 +41,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     // 메모리 저장소에서 예약된 시간 조회
     const bookedTimes = getBookedTimesForDate(date);
     console.log('Booked times from memory storage:', bookedTimes);
+    console.log('Query date:', date);
+    console.log('All bookings in memory:', getAllBookings().length);
 
     // 사용 가능한 시간 계산
     const allTimes = getAvailableTimes();
