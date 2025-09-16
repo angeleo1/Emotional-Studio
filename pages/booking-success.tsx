@@ -59,38 +59,20 @@ const BookingSuccess = () => {
     try {
       console.log('Sending booking emails for:', bookingData);
       
-      // 부킹 데이터를 저장하고 이메일도 함께 전송
-      const saveResponse = await fetch('/api/save-booking', {
+      // 새로운 메일 전송 시스템 사용
+      const emailResponse = await fetch('/api/send-booking-emails-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify({ bookingData }),
       });
       
-      if (saveResponse.ok) {
-        console.log('Booking data saved and emails sent successfully');
+      if (emailResponse.ok) {
+        const result = await emailResponse.json();
+        console.log('Booking processed successfully:', result);
       } else {
-        console.error('Failed to save booking data:', await saveResponse.text());
-        
-        // 저장 실패 시 이메일만 전송 시도
-        try {
-          const emailResponse = await fetch('/api/send-booking-emails', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ bookingData }),
-          });
-          
-          if (emailResponse.ok) {
-            console.log('Emails sent successfully (without saving)');
-          } else {
-            console.error('Failed to send emails:', await emailResponse.text());
-          }
-        } catch (emailError) {
-          console.error('Email sending failed:', emailError);
-        }
+        console.error('Failed to process booking:', await emailResponse.text());
       }
     } catch (error) {
       console.error('Error in sendBookingEmails:', error);

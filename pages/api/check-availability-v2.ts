@@ -3,6 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import { isBookingEnabled } from '../../config/booking';
 
+// 메모리 캐시 (개발 환경에서만 사용)
+let availabilityCache: { [key: string]: { data: any; timestamp: number } } = {};
+const CACHE_DURATION = 30000; // 30초
+
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // booking이 비활성화된 경우 에러 반환
   if (!isBookingEnabled()) {
@@ -23,14 +27,31 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).json({ message: 'Date parameter is required' });
     }
 
+    // 캐시 확인
+    const cacheKey = `availability_${date}`;
+    const cached = availabilityCache[cacheKey];
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      console.log('Returning cached availability data for:', date);
+      return res.status(200).json(cached.data);
+    }
+
     // JSON 파일에서 예약 데이터 읽기
     const bookingsPath = path.join(process.cwd(), 'data', 'bookings.json');
     
     if (!fs.existsSync(bookingsPath)) {
-      return res.status(200).json({ 
+      const result = { 
         availableTimes: getAvailableTimes(),
-        bookedTimes: []
-      });
+        bookedTimes: [],
+        lastUpdated: new Date().toISOString()
+      };
+      
+      // 캐시에 저장
+      availabilityCache[cacheKey] = {
+        data: result,
+        timestamp: Date.now()
+      };
+      
+      return res.status(200).json(result);
     }
 
     const bookingsData = JSON.parse(fs.readFileSync(bookingsPath, 'utf8'));
@@ -51,10 +72,23 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const allTimes = getAvailableTimes();
     const availableTimes = allTimes.filter(time => !bookedTimes.includes(time));
 
-    res.status(200).json({
+    const result = {
       availableTimes,
-      bookedTimes
-    });
+      bookedTimes,
+      lastUpdated: new Date().toISOString(),
+      totalBookings: bookedTimes.length,
+      totalSlots: allTimes.length
+    };
+
+    // 캐시에 저장
+    availabilityCache[cacheKey] = {
+      data: result,
+      timestamp: Date.now()
+    };
+
+    console.log(`Availability check for ${date}: ${availableTimes.length}/${allTimes.length} slots available`);
+
+    res.status(200).json(result);
 
   } catch (error) {
     console.error('Error checking availability:', error);
@@ -81,4 +115,10 @@ function getAvailableTimes() {
     '19:30',
     '20:00'
   ];
-} 
+}
+
+// 캐시 클리어 함수 (필요시 사용)
+export function clearAvailabilityCache() {
+  availabilityCache = {};
+  console.log('Availability cache cleared');
+}

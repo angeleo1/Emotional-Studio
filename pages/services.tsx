@@ -228,6 +228,18 @@ export default function Services() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 text-3xl font-bold mb-2">
             <span className="w-8 h-8 inline-block align-middle">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </span>
+            <span>Additional Retouch</span>
+          </div>
+          <span className="text-3xl font-bold text-right ml-4">$15</span>
+        </div>
+        <p className="text-lg mt-1 mb-4">We will professionally enhance your selected images to ensure you look your absolute best</p>
+      </div>
+      <div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-3xl font-bold mb-2">
+            <span className="w-8 h-8 inline-block align-middle">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
             </span>
             <span>Digital original film</span>

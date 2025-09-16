@@ -36,6 +36,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
   const [isLoadingTimes, setIsLoadingTimes] = useState(false);
 
   // React Hook Form 설정
@@ -96,13 +97,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     setIsLoadingTimes(true);
     try {
       const dateString = watchedValues.date.toISOString().split('T')[0];
-      const response = await fetch(`/api/check-availability?date=${dateString}`);
+      console.log('Checking availability for date:', dateString);
+      
+      // 새로운 availability API 사용
+      const response = await fetch(`/api/check-availability-v2?date=${dateString}`);
       
       if (response.ok) {
         const data = await response.json();
+        console.log('Availability data received:', data);
         setAvailableTimes(data.availableTimes || allTimes);
+        setBookedTimes(data.bookedTimes || []);
       } else {
+        console.error('Failed to fetch availability:', response.status);
         setAvailableTimes(allTimes);
+        setBookedTimes([]);
       }
     } catch (error) {
       console.error('Error checking availability:', error);
@@ -361,18 +369,53 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                                  name="time"
                                  control={control}
                                  render={({ field }) => (
-                        <select 
-                                     {...field}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                                   disabled={isLoadingTimes}
-                                   >
-                                     <option value="">Select time</option>
-                                     {availableTimes.map((time) => (
-                            <option key={time} value={time}>
-                              {time}
-                            </option>
-                                     ))}
-                        </select>
+                        <div className="space-y-2">
+                          {isLoadingTimes ? (
+                            <div className="flex items-center justify-center py-8">
+                              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                              <span className="ml-2 text-gray-500">Loading times...</span>
+                            </div>
+                          ) : (
+                            <div className="grid grid-cols-4 gap-2">
+                              {allTimes.map((time) => {
+                                const isBooked = bookedTimes.includes(time);
+                                const isSelected = field.value === time;
+                                const isAvailable = availableTimes.includes(time);
+                                
+                                return (
+                                  <button
+                                    key={time}
+                                    type="button"
+                                    onClick={() => {
+                                      if (!isBooked && isAvailable) {
+                                        field.onChange(time);
+                                      }
+                                    }}
+                                    disabled={isBooked || !isAvailable}
+                                    className={`
+                                      px-3 py-2 text-sm font-medium rounded-lg border transition-all duration-200
+                                      ${isBooked 
+                                        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed' 
+                                        : isSelected
+                                        ? 'bg-orange-500 text-white border-orange-500 shadow-md'
+                                        : isAvailable
+                                        ? 'bg-white text-gray-700 border-gray-300 hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700'
+                                        : 'bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed'
+                                      }
+                                    `}
+                                  >
+                                    <div className="flex flex-col items-center">
+                                      <span>{time}</span>
+                                      {isBooked && (
+                                        <span className="text-xs text-gray-400">Booked</span>
+                                      )}
+                                    </div>
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
                                  )}
                                />
                                {errors.time && (
@@ -482,25 +525,25 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                              
                                <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Additional Retouch (${watchedValues.additionalRetouch * 15})
+                      Additional Retouch {watchedValues.additionalRetouch > 0 && `($${watchedValues.additionalRetouch * 15})`}
                     </label>
                                  <Controller
                                    name="additionalRetouch"
                                    control={control}
                                    render={({ field }) => (
-                        <input
+                        <select
                                        {...field}
-                          type="range"
-                          min="0"
-                          max="5"
-                          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-                        />
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        >
+                          <option value={0}>No additional retouch</option>
+                          <option value={1}>1 additional photo (+$15)</option>
+                          <option value={2}>2 additional photos (+$30)</option>
+                          <option value={3}>3 additional photos (+$45)</option>
+                          <option value={4}>4 additional photos (+$60)</option>
+                          <option value={5}>5 additional photos (+$75)</option>
+                        </select>
                       )}
                     />
-                    <div className="flex justify-between text-sm text-gray-500 mt-1">
-                      <span>0</span>
-                      <span>5</span>
-                </div>
               </div>
 
                   <div>

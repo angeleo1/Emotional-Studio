@@ -30,6 +30,9 @@ export default async function handler(
     }
 
     // 부킹 데이터 추출
+    console.log('Session metadata:', session.metadata);
+    console.log('Customer details:', session.customer_details);
+    
     const bookingData = {
       name: session.customer_details?.name || session.metadata?.customerName || 'Unknown',
       email: session.customer_details?.email || session.metadata?.customerEmail || 'Unknown',
@@ -48,6 +51,8 @@ export default async function handler(
       paymentStatus: session.payment_status,
       paymentIntentId: session.payment_intent?.id || session.id,
     };
+    
+    console.log('Extracted booking data:', bookingData);
 
     const bookingId = `ES${Date.now()}`;
 
