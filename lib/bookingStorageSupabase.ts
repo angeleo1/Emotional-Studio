@@ -79,18 +79,24 @@ export async function getBookedTimesForDate(date: string): Promise<string[]> {
     console.log('=== getBookedTimesForDate (Supabase) 시작 ===');
     console.log('Query date:', date);
 
+    // 모든 예약을 가져와서 필터링 (더 안전한 방법)
     const { data, error } = await supabaseAdmin
       .from('bookings')
-      .select('time')
-      .eq('date', date)
-      .in('status', ['confirmed', 'completed']);
+      .select('time, date, status');
 
     if (error) {
       console.error('Supabase 조회 에러:', error);
       return [];
     }
 
-    const bookedTimes = data?.map(booking => booking.time) || [];
+    // 클라이언트에서 필터링
+    const bookedTimes = data
+      ?.filter(booking => 
+        booking.date === date && 
+        (booking.status === 'confirmed' || booking.status === 'completed')
+      )
+      ?.map(booking => booking.time) || [];
+
     console.log(`Found ${bookedTimes.length} booked times for ${date}:`, bookedTimes);
     console.log('=== getBookedTimesForDate (Supabase) 완료 ===');
     
