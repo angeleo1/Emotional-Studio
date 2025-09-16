@@ -99,7 +99,7 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
           
           <div class="footer">
             <p>문의사항이 있으시면 언제든지 연락해 주세요.</p>
-            <p>📧 admin@emotionalstudios.com.au | 📱 0433 904 242</p>
+            <p>📧 admin@emotionalstudios.com.au | 📱 +61 3 7075 1000</p>
             <p>Emotional Studio | Melbourne, Australia</p>
           </div>
         </div>
