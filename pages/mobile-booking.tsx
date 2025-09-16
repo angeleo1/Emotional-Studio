@@ -31,12 +31,12 @@ const MobileBooking: NextPage = () => {
     date: null as Date | null,
     time: '',
     shootingType: '',
-    otherGoods: {
-      a4print: false,
-      a4frame: false,
-      digital: false
-    },
-    additionalRetouch: 0
+    colorOption: false,
+    a4print: false,
+    a4frame: false,
+    digital: false,
+    additionalRetouch: 0,
+    message: ''
   });
 
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
@@ -109,9 +109,9 @@ const MobileBooking: NextPage = () => {
     }
 
     let additionalCost = 0;
-    if (formData.otherGoods.a4print) additionalCost += 10;
-    if (formData.otherGoods.a4frame) additionalCost += 15;
-    if (formData.otherGoods.digital) additionalCost += 20;
+    if (formData.a4print) additionalCost += 10;
+    if (formData.a4frame) additionalCost += 15;
+    if (formData.digital) additionalCost += 20;
     if (formData.additionalRetouch) {
       additionalCost += (formData.additionalRetouch * 15);
     }
@@ -140,6 +140,33 @@ const MobileBooking: NextPage = () => {
       return;
     }
 
+    // 실시간 중복 예약 체크
+    console.log('=== 모바일 중복 예약 체크 시작 ===');
+    const dateString = formData.date ? 
+      `${formData.date.getFullYear()}-${String(formData.date.getMonth() + 1).padStart(2, '0')}-${String(formData.date.getDate()).padStart(2, '0')}` : 
+      '';
+    
+    try {
+      const response = await fetch(`/api/check-availability-v2?date=${dateString}`);
+      if (response.ok) {
+        const data = await response.json();
+        const bookedTimes = data.bookedTimes || [];
+        
+        if (bookedTimes.includes(formData.time)) {
+          console.log('❌ 모바일: 중복 예약 감지됨!');
+          setErrorMessage('선택하신 시간이 이미 예약되었습니다. 다른 시간을 선택해주세요.');
+          // 예약 가능한 시간 다시 로드
+          await checkAvailability();
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('모바일 중복 체크 에러:', error);
+    }
+    
+    console.log('✅ 모바일: 예약 가능한 시간 확인됨');
+    console.log('=== 모바일 중복 예약 체크 완료 ===');
+
     // 결제 모달로 이동
     setShowPayment(true);
   };
@@ -159,10 +186,20 @@ const MobileBooking: NextPage = () => {
       console.log('Mobile: Converted date string:', dateString);
       
       const bookingData = {
-        ...formData,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        date: dateString,
+        time: formData.time,
+        shootingType: formData.shootingType,
+        colorOption: formData.colorOption,
+        a4print: formData.a4print,
+        a4frame: formData.a4frame,
+        digital: formData.digital,
+        additionalRetouch: formData.additionalRetouch,
+        message: formData.message,
         bookingId: bookingId,
         totalAmount: totalAmount.toString(),
-        date: dateString,
         paymentStatus: 'completed',
         paymentIntentId: paymentIntent.id
       };
@@ -202,16 +239,7 @@ const MobileBooking: NextPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     
-    if (name.startsWith('otherGoods.')) {
-      const field = name.split('.')[1];
-      setFormData(prev => ({
-        ...prev,
-        otherGoods: {
-          ...prev.otherGoods,
-          [field]: (e.target as HTMLInputElement).checked
-        }
-      }));
-    } else if (type === 'checkbox') {
+    if (type === 'checkbox') {
       setFormData(prev => ({
         ...prev,
         [name]: (e.target as HTMLInputElement).checked
@@ -447,8 +475,8 @@ const MobileBooking: NextPage = () => {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        name="otherGoods.a4print"
-                        checked={formData.otherGoods.a4print}
+                        name="a4print"
+                        checked={formData.a4print}
                         onChange={handleChange}
                         className="w-4 h-4 text-[#FF6100] bg-gray-800 border-gray-600 rounded focus:ring-[#FF6100]"
                       />
@@ -458,8 +486,8 @@ const MobileBooking: NextPage = () => {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        name="otherGoods.a4frame"
-                        checked={formData.otherGoods.a4frame}
+                        name="a4frame"
+                        checked={formData.a4frame}
                         onChange={handleChange}
                         className="w-4 h-4 text-[#FF6100] bg-gray-800 border-gray-600 rounded focus:ring-[#FF6100]"
                       />
@@ -469,8 +497,8 @@ const MobileBooking: NextPage = () => {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        name="otherGoods.digital"
-                        checked={formData.otherGoods.digital}
+                        name="digital"
+                        checked={formData.digital}
                         onChange={handleChange}
                         className="w-4 h-4 text-[#FF6100] bg-gray-800 border-gray-600 rounded focus:ring-[#FF6100]"
                       />
@@ -547,11 +575,11 @@ const MobileBooking: NextPage = () => {
               <div className="bg-[#FF6100]/10 border border-[#FF6100] p-4 rounded-lg mb-6">
                 <h3 className="text-lg font-semibold text-white mb-3">Booking Details</h3>
                 <div className="space-y-2 text-sm text-gray-300">
-                  <p><span className="text-gray-400">Booking ID:</span> {formData.bookingId || 'N/A'}</p>
+                  <p><span className="text-gray-400">Booking ID:</span> N/A</p>
                   <p><span className="text-gray-400">Name:</span> {formData.name}</p>
                   <p><span className="text-gray-400">Date:</span> {formData.date?.toLocaleDateString()}</p>
                   <p><span className="text-gray-400">Time:</span> {formData.time}</p>
-                  <p><span className="text-gray-400">Total:</span> <span className="text-[#FF6100] font-bold">${formData.totalAmount || calculateTotalPrice()}</span></p>
+                  <p><span className="text-gray-400">Total:</span> <span className="text-[#FF6100] font-bold">${calculateTotalPrice()}</span></p>
                 </div>
               </div>
 
@@ -566,12 +594,10 @@ const MobileBooking: NextPage = () => {
                     time: '',
                     shootingType: '',
                     colorOption: false,
-                    otherGoods: {
-                      a4print: false,
-                      a4frame: false,
-                      digital: false,
-                      calendar: false
-                    },
+                    a4print: false,
+                    a4frame: false,
+                    digital: false,
+                    additionalRetouch: 0,
                     message: ''
                   });
                 }}
@@ -589,6 +615,22 @@ const MobileBooking: NextPage = () => {
           onClose={() => setShowPayment(false)}
           amount={calculateTotalPrice()}
           currency="aud"
+          bookingData={{
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            date: formData.date ? 
+              `${formData.date.getFullYear()}-${String(formData.date.getMonth() + 1).padStart(2, '0')}-${String(formData.date.getDate()).padStart(2, '0')}` : 
+              '',
+            time: formData.time,
+            shootingType: formData.shootingType,
+            colorOption: formData.colorOption,
+            a4print: formData.a4print,
+            a4frame: formData.a4frame,
+            digital: formData.digital,
+            additionalRetouch: formData.additionalRetouch,
+            message: formData.message || '',
+          }}
           onSuccess={handlePaymentSuccess}
           onError={handlePaymentError}
         />

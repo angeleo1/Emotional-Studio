@@ -30,6 +30,7 @@ interface PaymentMethodModalProps {
   onClose: () => void;
   amount: number;
   currency?: string;
+  bookingData?: any; // 예약 데이터 추가
   onSuccess: (paymentIntent: any) => void;
   onError: (error: string) => void;
 }
@@ -37,6 +38,7 @@ interface PaymentMethodModalProps {
 interface PaymentFormProps {
   amount: number;
   currency: string;
+  bookingData?: any; // 예약 데이터 추가
   onSuccess: (paymentIntent: any) => void;
   onError: (error: string) => void;
   onClose: () => void;
@@ -45,6 +47,7 @@ interface PaymentFormProps {
 const PaymentForm: React.FC<PaymentFormProps> = ({
   amount,
   currency,
+  bookingData,
   onSuccess,
   onError,
   onClose,
@@ -333,56 +336,69 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (isOpen && !clientSecret) {
-      createPaymentIntent();
+    if (isOpen && bookingData) {
+      createCheckoutSession();
     }
-  }, [isOpen, clientSecret]);
+  }, [isOpen, bookingData]);
 
-  const createPaymentIntent = async () => {
+  const createCheckoutSession = async () => {
     setIsLoading(true);
     try {
-      console.log('Creating payment intent with:', { amount, currency });
+      console.log('Creating checkout session with:', { bookingData, amount, currency });
       
-      const response = await fetch(`${window.location.origin}/api/create-payment-intent`, {
+      if (!bookingData) {
+        throw new Error('Booking data is required for checkout session');
+      }
+      
+      const response = await fetch(`${window.location.origin}/api/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          bookingData,
           amount,
           currency,
         }),
       });
 
-      console.log('Payment API status:', response.status);
-      console.log('Payment API headers:', response.headers);
-      console.log('Payment API response type:', response.type);
+      console.log('Checkout API status:', response.status);
 
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Payment API Error Response:', errorText);
+        console.error('Checkout API Error Response:', errorText);
         let errorMessage = `HTTP ${response.status}`;
+        let errorCode = '';
+        
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = errorData.message || errorData.error || errorMessage;
+          errorCode = errorData.code || '';
         } catch {
           errorMessage = errorText || errorMessage;
         }
+        
+        // 중복 예약 에러인 경우 특별 처리
+        if (response.status === 409 && errorCode === 'TIME_SLOT_UNAVAILABLE') {
+          errorMessage = '선택하신 시간이 이미 예약되었습니다. 다른 시간을 선택해주세요.';
+        }
+        
         throw new Error(errorMessage);
       }
       
       const responseData = await response.json();
-      console.log('Payment API response data:', responseData);
+      console.log('Checkout API response data:', responseData);
 
-      const { clientSecret } = responseData;
-      if (!clientSecret) {
-        throw new Error('No client secret received from server');
+      const { url } = responseData;
+      if (!url) {
+        throw new Error('No checkout URL received from server');
       }
 
-      console.log('Client secret received successfully');
-      setClientSecret(clientSecret);
+      console.log('Checkout URL received successfully, redirecting...');
+      // Stripe Checkout 페이지로 리디렉션
+      window.location.href = url;
     } catch (error) {
-      console.error('Error creating payment intent:', error);
+      console.error('Error creating checkout session:', error);
       onError(`Payment initialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsLoading(false);
@@ -567,7 +583,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
                   </p>
                   <div className="space-y-3">
                     <button
-                      onClick={createPaymentIntent}
+                      onClick={() => createCheckoutSession()}
                       className="w-full px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors font-medium"
                     >
                       Try Again
