@@ -49,44 +49,44 @@ export function generateCustomerConfirmationEmail(bookingData: any) {
     <body>
       <div class="container">
         <div class="header">
-          <h1>🎉 예약이 확인되었습니다!</h1>
-           <p>emotional studios에서의 특별한 순간을 기대해 주세요</p>
+          <h1>🎉 Booking Confirmed!</h1>
+           <p>Looking forward to creating special moments at emotional studios</p>
         </div>
         
         <div class="content">
-          <h2>안녕하세요, ${name}님!</h2>
-          <p>예약이 성공적으로 완료되었습니다. 아래 세부 정보를 확인해 주세요.</p>
+          <h2>Hello, ${name}!</h2>
+          <p>Your booking has been successfully completed. Please check the details below.</p>
           
           <div class="booking-details">
-            <h3>📅 예약 정보</h3>
+            <h3>📅 Booking Information</h3>
             <div class="detail-row">
-              <span class="detail-label">예약 번호:</span>
+              <span class="detail-label">Booking ID:</span>
               <span class="detail-value">#${bookingId}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">날짜:</span>
-              <span class="detail-value">${new Date(date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</span>
+              <span class="detail-label">Date:</span>
+              <span class="detail-value">${new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">시간:</span>
+              <span class="detail-label">Time:</span>
               <span class="detail-value">${time}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">촬영 유형:</span>
+              <span class="detail-label">Session Type:</span>
               <span class="detail-value">${getShootingTypeText(shootingType)}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">총 금액:</span>
+              <span class="detail-label">Total Amount:</span>
               <span class="detail-value total">$${totalAmount}</span>
             </div>
           </div>
           
           <div style="text-align: center;">
-            <a href="https://emotionalstudios.com.au" class="button">웹사이트 방문하기</a>
+            <a href="https://emotionalstudios.com.au" class="button">Visit Website</a>
           </div>
           
           <div class="footer">
-            <p>문의사항이 있으시면 언제든지 연락해 주세요.</p>
+            <p>If you have any questions, please don't hesitate to contact us.</p>
             <p>📧 admin@emotionalstudios.com.au | 📱 +61 3 7075 1000</p>
              <p>emotional studios | Melbourne, Australia</p>
           </div>
@@ -106,7 +106,7 @@ export function generateAdminNotificationEmail(bookingData: any) {
     <html>
     <head>
       <meta charset="utf-8">
-       <title>새로운 예약 - emotional studios</title>
+       <title>New Booking - emotional studios</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -123,74 +123,74 @@ export function generateAdminNotificationEmail(bookingData: any) {
     <body>
       <div class="container">
         <div class="header">
-          <h1>🎉 새로운 예약이 도착했습니다!</h1>
-          <p>예약 번호: #${bookingId}</p>
+          <h1>🎉 New Booking Arrived!</h1>
+          <p>Booking ID: #${bookingId}</p>
         </div>
         
         <div class="content">
           <div class="urgent">
-            <h3>⚠️ 즉시 확인 필요</h3>
-            <p>새로운 예약이 접수되었습니다. 고객과의 일정을 확인하고 준비해 주세요.</p>
+            <h3>⚠️ Immediate Attention Required</h3>
+            <p>A new booking has been received. Please check the schedule with the customer and prepare accordingly.</p>
           </div>
           
           <div class="booking-details">
-            <h3>👤 고객 정보</h3>
+            <h3>👤 Customer Information</h3>
             <div class="detail-row">
-              <span class="detail-label">이름:</span>
+              <span class="detail-label">Name:</span>
               <span class="detail-value">${name}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">이메일:</span>
+              <span class="detail-label">Email:</span>
               <span class="detail-value">${email}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">전화번호:</span>
+              <span class="detail-label">Phone:</span>
               <span class="detail-value">${phone}</span>
             </div>
           </div>
           
           <div class="booking-details">
-            <h3>📅 예약 세부사항</h3>
+            <h3>📅 Booking Details</h3>
             <div class="detail-row">
-              <span class="detail-label">예약 번호:</span>
+              <span class="detail-label">Booking ID:</span>
               <span class="detail-value">#${bookingId}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">날짜:</span>
-              <span class="detail-value">${new Date(date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</span>
+              <span class="detail-label">Date:</span>
+              <span class="detail-value">${new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">시간:</span>
+              <span class="detail-label">Time:</span>
               <span class="detail-value">${time}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">촬영 유형:</span>
+              <span class="detail-label">Session Type:</span>
               <span class="detail-value">${getShootingTypeText(shootingType)}</span>
             </div>
             <div class="detail-row">
-              <span class="detail-label">총 금액:</span>
+              <span class="detail-label">Total Amount:</span>
               <span class="detail-value total">$${totalAmount}</span>
             </div>
           </div>
           
           ${message ? `
           <div class="booking-details">
-            <h3>💬 고객 메시지</h3>
+            <h3>💬 Customer Message</h3>
             <p>${message}</p>
           </div>
           ` : ''}
           
           <div class="booking-details">
-            <h3>📋 추가 옵션</h3>
-            ${bookingData.colorOption ? '<p>✅ 컬러 옵션</p>' : ''}
-            ${bookingData.a4print ? '<p>✅ A4 프린트</p>' : ''}
-            ${bookingData.a4frame ? '<p>✅ A4 프레임</p>' : ''}
-            ${bookingData.digital ? '<p>✅ 디지털 파일</p>' : ''}
-            ${bookingData.additionalRetouch ? `<p>✅ 추가 리터치: ${bookingData.additionalRetouch}장</p>` : ''}
+            <h3>📋 Additional Options</h3>
+            ${bookingData.colorOption ? '<p>✅ Color Option</p>' : ''}
+            ${bookingData.a4print ? '<p>✅ A4 Print</p>' : ''}
+            ${bookingData.a4frame ? '<p>✅ A4 Frame</p>' : ''}
+            ${bookingData.digital ? '<p>✅ Digital File</p>' : ''}
+            ${bookingData.additionalRetouch ? `<p>✅ Additional Retouch: ${bookingData.additionalRetouch} photos</p>` : ''}
           </div>
           
           <div style="text-align: center; margin-top: 30px;">
-            <p><strong>예약 시간: ${new Date().toLocaleString('ko-KR')}</strong></p>
+            <p><strong>Booking Time: ${new Date().toLocaleString('en-US')}</strong></p>
           </div>
         </div>
       </div>

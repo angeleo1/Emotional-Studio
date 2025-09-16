@@ -65,8 +65,8 @@ const MobileBooking: NextPage = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Availability data received:', data);
-        // availableTimes가 없거나 빈 배열이면 allTimes 사용
-        const availableTimes = data.availableTimes && data.availableTimes.length > 0 ? data.availableTimes : allTimes;
+        // availableTimes가 없으면 allTimes 사용, 있으면 해당 값 사용
+        const availableTimes = data.availableTimes || allTimes;
         setAvailableTimes(availableTimes);
         setBookedTimes(data.bookedTimes || []);
         console.log('Set availableTimes:', availableTimes);
@@ -137,9 +137,16 @@ const MobileBooking: NextPage = () => {
   const handlePaymentSuccess = async (paymentIntent: any) => {
     try {
       // 결제 성공 후 부킹 데이터 저장
+      const bookingId = `BK${Date.now()}`;
+      const totalAmount = calculateTotalPrice();
+      
       const bookingData = {
         ...formData,
-        date: formData.date?.toISOString().split('T')[0]
+        bookingId: bookingId,
+        totalAmount: totalAmount.toString(),
+        date: formData.date?.toISOString().split('T')[0],
+        paymentStatus: 'completed',
+        paymentIntentId: paymentIntent.id
       };
       
       const response = await fetch('/api/send-booking-emails-v2', {
@@ -355,8 +362,8 @@ const MobileBooking: NextPage = () => {
                         {allTimes.map((time) => {
                           const isBooked = bookedTimes.includes(time);
                           const isSelected = formData.time === time;
-                          // availableTimes가 비어있으면 모든 시간을 사용 가능으로 처리
-                          const isAvailable = availableTimes.length === 0 || availableTimes.includes(time);
+                          // availableTimes에 포함되어 있으면 사용 가능
+                          const isAvailable = availableTimes.includes(time);
                           return (
                             <button
                               key={time}
@@ -496,10 +503,11 @@ const MobileBooking: NextPage = () => {
               <div className="bg-[#FF6100]/10 border border-[#FF6100] p-4 rounded-lg mb-6">
                 <h3 className="text-lg font-semibold text-white mb-3">Booking Details</h3>
                 <div className="space-y-2 text-sm text-gray-300">
+                  <p><span className="text-gray-400">Booking ID:</span> {formData.bookingId || 'N/A'}</p>
                   <p><span className="text-gray-400">Name:</span> {formData.name}</p>
                   <p><span className="text-gray-400">Date:</span> {formData.date?.toLocaleDateString()}</p>
                   <p><span className="text-gray-400">Time:</span> {formData.time}</p>
-                  <p><span className="text-gray-400">Total:</span> <span className="text-[#FF6100] font-bold">${calculateTotalPrice()}</span></p>
+                  <p><span className="text-gray-400">Total:</span> <span className="text-[#FF6100] font-bold">${formData.totalAmount || calculateTotalPrice()}</span></p>
                 </div>
               </div>
 
