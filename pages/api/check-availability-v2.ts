@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import fs from 'fs';
-import path from 'path';
 import { isBookingEnabled } from '../../config/booking';
+import { getBookedTimesForDate } from '../../lib/bookingStorage';
 
 // 메모리 캐시 (개발 환경에서만 사용)
 let availabilityCache: { [key: string]: { data: any; timestamp: number } } = {};
@@ -39,38 +38,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).json(cached.data);
     }
 
-    // JSON 파일에서 예약 데이터 읽기
-    const bookingsPath = path.join(process.cwd(), 'data', 'bookings.json');
-    
-    if (!fs.existsSync(bookingsPath)) {
-      const result = { 
-        availableTimes: getAvailableTimes(),
-        bookedTimes: [],
-        lastUpdated: new Date().toISOString()
-      };
-      
-      // 캐시에 저장
-      availabilityCache[cacheKey] = {
-        data: result,
-        timestamp: Date.now()
-      };
-      
-      return res.status(200).json(result);
-    }
-
-    const bookingsData = JSON.parse(fs.readFileSync(bookingsPath, 'utf8'));
-    
-    // 해당 날짜의 예약된 시간 찾기 (확인된 예약만)
-    const bookedTimes = bookingsData.bookings
-      .filter((booking: any) => {
-        // 날짜 형식 통일 (YYYY-MM-DD)
-        const bookingDate = new Date(booking.date).toISOString().split('T')[0];
-        const queryDate = new Date(date).toISOString().split('T')[0];
-        
-        return bookingDate === queryDate && 
-               (booking.status === 'confirmed' || booking.status === 'completed');
-      })
-      .map((booking: any) => booking.time);
+    // 메모리 저장소에서 예약된 시간 조회
+    const bookedTimes = getBookedTimesForDate(date);
+    console.log('Booked times from memory storage:', bookedTimes);
 
     // 사용 가능한 시간 계산
     const allTimes = getAvailableTimes();
