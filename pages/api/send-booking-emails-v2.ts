@@ -22,9 +22,17 @@ export default async function handler(
     }
 
     console.log('부킹 데이터 저장 시작...');
-    // 부킹 데이터를 Supabase에 저장
-    await saveBooking(bookingData);
-    console.log('부킹 데이터 저장 완료');
+    try {
+      // 부킹 데이터를 Supabase에 저장
+      await saveBooking(bookingData);
+      console.log('부킹 데이터 저장 완료');
+    } catch (error) {
+      console.error('Supabase 저장 에러:', error);
+      return res.status(500).json({ 
+        message: 'Failed to save booking to database',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
 
     // 캐시 제거됨 - 실시간 데이터 사용
 
