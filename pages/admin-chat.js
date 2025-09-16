@@ -396,12 +396,12 @@ export default function AdminChat() {
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder={isConnected ? "Type your response..." : "Connecting..."}
                 disabled={!isConnected}
-                className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 transition-colors"
+                className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF6100] transition-colors"
               />
               <button
                 type="submit"
                 disabled={!message.trim() || !isConnected}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-8 py-3 rounded-2xl font-medium transition-colors"
+                className="bg-[#FF6100] hover:bg-[#e55a00] disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-8 py-3 rounded-2xl font-medium transition-colors"
               >
                 Send
               </button>
