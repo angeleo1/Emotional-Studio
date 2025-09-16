@@ -16,12 +16,10 @@ const bookingSchema = z.object({
   date: z.date().min(new Date(), 'Please select a future date'),
   time: z.string().min(1, 'Please select a time'),
   shootingType: z.string().min(1, 'Please select number of people'),
-  colorOption: z.boolean(),
   a4print: z.boolean(),
   a4frame: z.boolean(),
   digital: z.boolean(),
   additionalRetouch: z.number().min(0).max(5),
-  message: z.string().optional(),
 });
 
 type BookingFormData = z.infer<typeof bookingSchema>;
@@ -55,12 +53,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
       date: undefined,
       time: '',
       shootingType: '',
-      colorOption: false,
       a4print: false,
       a4frame: false,
       digital: false,
       additionalRetouch: 0,
-      message: '',
     },
   });
 
@@ -138,7 +134,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     }
 
     let additionalCost = 0;
-    if (watchedValues.colorOption) additionalCost += 10;
     if (watchedValues.a4print) additionalCost += 10;
     if (watchedValues.a4frame) additionalCost += 15;
     if (watchedValues.digital) additionalCost += 20;
@@ -366,6 +361,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                              <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Time *
+                      {!watchedValues.date && (
+                        <span className="ml-2 text-sm text-gray-500">(Please select a date first)</span>
+                      )}
                       {isLoadingTimes && (
                         <span className="ml-2 text-sm text-gray-500">(Checking availability...)</span>
                       )}
@@ -375,7 +373,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                                  control={control}
                                  render={({ field }) => (
                         <div className="space-y-2">
-                          {isLoadingTimes ? (
+                          {!watchedValues.date ? (
+                            <div className="flex items-center justify-center py-8">
+                              <span className="text-gray-500">Please select a date first to see available times</span>
+                            </div>
+                          ) : isLoadingTimes ? (
                             <div className="flex items-center justify-center py-8">
                               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
                               <span className="ml-2 text-gray-500">Loading times...</span>
@@ -464,22 +466,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                  <Controller
-                                   name="colorOption"
-                                   control={control}
-                                   render={({ field }) => (
-                        <label className="flex items-center space-x-3 cursor-pointer">
-                                     <input
-                                       type="checkbox"
-                                       checked={field.value}
-                            onChange={field.onChange}
-                            className="w-5 h-5 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
-                                     />
-                          <span className="text-gray-700">Color Option (+$10)</span>
-                        </label>
-                                   )}
-                                 />
-                               
-                                 <Controller
                                    name="a4print"
                                    control={control}
                                    render={({ field }) => (
@@ -551,23 +537,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                     />
               </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Special Requests
-                    </label>
-                           <Controller
-                             name="message"
-                             control={control}
-                             render={({ field }) => (
-                               <textarea
-                                 {...field}
-                          rows={3}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                          placeholder="Any special requests or notes..."
-                               />
-                             )}
-                           />
-                  </div>
                          </div>
 
                 {/* Total Price */}
@@ -639,12 +608,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                   </div>
 
                   {/* Additional Options */}
-                  {(watchedValues.colorOption || watchedValues.a4print || watchedValues.a4frame || 
+                  {(watchedValues.a4print || watchedValues.a4frame || 
                     watchedValues.digital || watchedValues.additionalRetouch > 0) && (
                     <div className="mt-4">
                       <span className="text-gray-500 text-sm">Additional Options:</span>
                       <ul className="mt-1 space-y-1">
-                        {watchedValues.colorOption && <li className="text-sm text-gray-700">• Color Option (+$10)</li>}
                         {watchedValues.a4print && <li className="text-sm text-gray-700">• 4x6" Print (+$10)</li>}
                         {watchedValues.a4frame && <li className="text-sm text-gray-700">• 4x6" Frame (+$15)</li>}
                         {watchedValues.digital && <li className="text-sm text-gray-700">• Digital Original (+$20)</li>}
@@ -655,13 +623,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                         )}
                       </ul>
                     </div>
-                  )}
-
-                  {watchedValues.message && (
-                    <div className="mt-4">
-                      <span className="text-gray-500 text-sm">Special Requests:</span>
-                      <p className="text-sm text-gray-700 mt-1">{watchedValues.message}</p>
-                      </div>
                   )}
 
                   {/* Total Amount */}
