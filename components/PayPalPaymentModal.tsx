@@ -96,7 +96,7 @@ const PayPalButtonWrapper: React.FC<{
   if (isPending) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#FF6100]" />
         <span className="ml-2 text-gray-600">Loading PayPal...</span>
       </div>
     );
@@ -133,7 +133,7 @@ const PayPalButtonWrapper: React.FC<{
               href="https://developer.paypal.com/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-[#FF6100] text-white rounded-lg hover:bg-[#e55a00] transition-colors"
             >
               Get PayPal Credentials
             </a>
@@ -193,9 +193,9 @@ const PayPalButtonWrapper: React.FC<{
         />
         
         {isProcessing && (
-          <div className="flex items-center justify-center p-4 bg-blue-50 rounded-lg">
-            <Loader2 className="w-5 h-5 animate-spin text-blue-600 mr-2" />
-            <span className="text-blue-600 font-medium">Processing payment...</span>
+          <div className="flex items-center justify-center p-4 bg-orange-50 rounded-lg">
+            <Loader2 className="w-5 h-5 animate-spin text-[#FF6100] mr-2" />
+            <span className="text-[#FF6100] font-medium">Processing payment...</span>
           </div>
         )}
       </div>
@@ -255,8 +255,8 @@ const PayPalPaymentModal: React.FC<PayPalPaymentModalProps> = ({
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-blue-600" />
+              <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-[#FF6100]" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">Payment</h2>

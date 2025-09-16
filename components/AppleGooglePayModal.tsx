@@ -133,7 +133,7 @@ const PaymentForm: React.FC<{
 
       {isProcessing && (
         <div className="text-center mb-4">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF6100]"></div>
           <p className="mt-2 text-gray-600">{message}</p>
         </div>
       )}

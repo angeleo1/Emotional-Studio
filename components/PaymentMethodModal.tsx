@@ -259,7 +259,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
       <div className="space-y-4">
         {!isElementsReady ? (
           <div className="flex flex-col items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mb-4"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF6100] mb-4"></div>
             <span className="text-gray-600 text-center">Loading payment form...</span>
             <span className="text-gray-400 text-sm text-center mt-2">
               This may take a moment on mobile devices
@@ -312,7 +312,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         <button
           type="submit"
           disabled={!stripe || !elements || !isElementsReady || isProcessing || isComplete}
-          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex-1 px-4 py-2 bg-[#FF6100] text-white rounded-lg hover:bg-[#e55a00] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {!isElementsReady ? 'Loading...' : isProcessing ? 'Processing...' : isComplete ? 'Complete' : `Pay $${amount.toFixed(2)}`}
         </button>
@@ -494,8 +494,8 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-lg">
-                  <CreditCard className="w-5 h-5 text-blue-600" />
+                <div className="p-2 bg-orange-100 rounded-lg">
+                  <CreditCard className="w-5 h-5 text-[#FF6100]" />
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900">Select Payment Method</h2>

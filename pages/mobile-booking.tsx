@@ -45,12 +45,41 @@ const MobileBooking: NextPage = () => {
   const [showPayment, setShowPayment] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoadingTimes, setIsLoadingTimes] = useState(false);
 
   // 사용 가능한 시간
   const allTimes = [
     '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00',
     '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00'
   ];
+
+  // 예약 가능 시간 확인
+  const checkAvailability = async () => {
+    if (!formData.date) return;
+    
+    setIsLoadingTimes(true);
+    try {
+      const dateStr = formData.date.toISOString().split('T')[0];
+      const response = await fetch(`/api/check-availability-v2?date=${dateStr}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Availability data received:', data);
+        setAvailableTimes(data.availableTimes || allTimes);
+        setBookedTimes(data.bookedTimes || []);
+      } else {
+        console.error('Failed to check availability');
+        setAvailableTimes(allTimes);
+        setBookedTimes([]);
+      }
+    } catch (error) {
+      console.error('Error checking availability:', error);
+      setAvailableTimes(allTimes);
+      setBookedTimes([]);
+    } finally {
+      setIsLoadingTimes(false);
+    }
+  };
 
   // 총 가격 계산 함수
   const calculateTotalPrice = () => {
@@ -106,12 +135,12 @@ const MobileBooking: NextPage = () => {
         date: formData.date?.toISOString().split('T')[0]
       };
       
-      const response = await fetch('/api/save-booking', {
+      const response = await fetch('/api/send-booking-emails-v2', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify({ bookingData }),
       });
 
       if (response.ok) {
@@ -190,9 +219,7 @@ const MobileBooking: NextPage = () => {
     }));
     
     if (date) {
-      // 선택된 날짜의 예약된 시간을 가져오는 로직 (실제로는 API 호출)
-      setBookedTimes([]);
-      setAvailableTimes(allTimes);
+      checkAvailability();
     } else {
       setAvailableTimes([]);
       setBookedTimes([]);
@@ -331,20 +358,34 @@ const MobileBooking: NextPage = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">Time *</label>
-                    <select
-                      name="time"
-                      value={formData.time}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
-                      required
-                    >
-                      <option value="">Select time</option>
-                      {availableTimes.map((time) => (
-                        <option key={time} value={time} disabled={bookedTimes.includes(time)}>
-                          {time} {bookedTimes.includes(time) ? '(Booked)' : ''}
-                        </option>
-                      ))}
-                    </select>
+                    {isLoadingTimes ? (
+                      <div className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-center text-gray-400">
+                        Loading available times...
+                      </div>
+                    ) : (
+                      <select
+                        name="time"
+                        value={formData.time}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
+                        required
+                      >
+                        <option value="">Select time</option>
+                        {allTimes.map((time) => {
+                          const isBooked = bookedTimes.includes(time);
+                          const isAvailable = availableTimes.includes(time);
+                          return (
+                            <option 
+                              key={time} 
+                              value={time} 
+                              disabled={isBooked || !isAvailable}
+                            >
+                              {time} {isBooked ? '(Booked)' : !isAvailable ? '(Not Available)' : ''}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    )}
                   </div>
                 </div>
 

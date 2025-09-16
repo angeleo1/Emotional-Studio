@@ -260,7 +260,7 @@ export default function MobileContactModal({ isOpen, onClose }: MobileContactMod
                     {adminConnected ? (
                       <>
                         <span className="text-gray-400">•</span>
-                        <span className="text-blue-400">Admin: Live agent available</span>
+                        <span className="text-[#FF6100]">Admin: Live agent available</span>
                       </>
                     ) : (
                       <>

@@ -380,7 +380,7 @@ export default function ContactPopup({ isOpen, onClose }) {
                     {adminConnected ? (
                       <>
                         <span className="text-gray-400">•</span>
-                        <span className="text-blue-400">Admin: Live agent available</span>
+                        <span className="text-[#FF6100]">Admin: Live agent available</span>
                       </>
                     ) : (
                       <>
@@ -413,7 +413,7 @@ export default function ContactPopup({ isOpen, onClose }) {
                               msg.sender === 'user'
                                 ? 'bg-orange-500 text-white'
                                 : msg.sender === 'admin'
-                                ? 'bg-blue-500 text-white'
+                                ? 'bg-[#FF6100] text-white'
                                 : 'bg-gray-600 text-white'
                             }`}
                           >

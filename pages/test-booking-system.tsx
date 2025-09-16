@@ -56,7 +56,7 @@ const TestBookingSystem = () => {
             <button
               onClick={testEmailSystem}
               disabled={isLoading}
-              className="px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-4 bg-gradient-to-r from-[#FF6100] to-[#e55a00] text-white font-bold rounded-lg hover:from-[#e55a00] hover:to-[#cc4d00] transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? '테스트 중...' : '메일 시스템 테스트'}
             </button>
