@@ -14,10 +14,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     
     console.log('환경 변수 상태:', envCheck);
     
-    // Supabase 연결 테스트
+    // Supabase 연결 테스트 - 간단한 쿼리
     const { data, error } = await supabaseAdmin
       .from('bookings')
-      .select('*')
+      .select('id')
       .limit(1);
     
     if (error) {
