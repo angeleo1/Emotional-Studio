@@ -6,8 +6,10 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#ffffff" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="shortcut icon" href="/icon-192x192.png" />
         {/* PWA 설치 프롬프트 방지를 위해 manifest 제거 */}
         {/* <link rel="manifest" href="/manifest.json" /> */}
         
