@@ -15,7 +15,6 @@ interface Booking {
   a4print: boolean;
   a4frame: boolean;
   digital: boolean;
-  calendar: boolean;
   additionalRetouch: number;
   message: string;
   totalAmount: string;
@@ -63,7 +62,11 @@ function saveBookingsToFile(bookings: Booking[]): void {
 // 부킹 저장
 export function saveBooking(bookingData: any): void {
   try {
+    console.log('=== saveBooking 시작 ===');
+    console.log('받은 bookingData:', JSON.stringify(bookingData, null, 2));
+    
     const bookings = loadBookings();
+    console.log('기존 bookings 수:', bookings.length);
     
     const newBooking: Booking = {
       id: bookingData.bookingId,
@@ -78,7 +81,6 @@ export function saveBooking(bookingData: any): void {
       a4print: bookingData.a4print || false,
       a4frame: bookingData.a4frame || false,
       digital: bookingData.digital || false,
-      calendar: bookingData.calendar || false,
       additionalRetouch: bookingData.additionalRetouch || 0,
       message: bookingData.message || '',
       totalAmount: bookingData.totalAmount || '0',
@@ -88,21 +90,32 @@ export function saveBooking(bookingData: any): void {
       createdAt: new Date().toISOString()
     };
 
+    console.log('생성된 newBooking:', JSON.stringify(newBooking, null, 2));
+
     // 기존 예약이 있으면 업데이트, 없으면 추가
     const existingIndex = bookings.findIndex(b => b.bookingId === bookingData.bookingId);
     if (existingIndex >= 0) {
       bookings[existingIndex] = newBooking;
+      console.log('기존 예약 업데이트:', existingIndex);
     } else {
       bookings.push(newBooking);
+      console.log('새 예약 추가');
     }
 
+    console.log('파일 저장 시작...');
     // 파일에 저장
     saveBookingsToFile(bookings);
+    console.log('파일 저장 완료');
 
     console.log('Booking saved to file storage:', newBooking.bookingId);
     console.log('Total bookings in file:', bookings.length);
+    console.log('=== saveBooking 완료 ===');
   } catch (error) {
     console.error('Error saving booking to file:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
     throw error;
   }
 }
