@@ -4,7 +4,7 @@ import { getBookedTimesForDate, getAllBookings } from '../../lib/bookingStorageS
 
 // 캐시 제거 - 항상 실시간 데이터 사용
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('=== check-availability-v2 API 호출됨 ===');
   
   // booking이 비활성화된 경우 에러 반환
