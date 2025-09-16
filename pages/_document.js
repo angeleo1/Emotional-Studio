@@ -6,6 +6,9 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#ff6100" />
+        <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta httpEquiv="Pragma" content="no-cache" />
+        <meta httpEquiv="Expires" content="0" />
         
         {/* 파비콘 설정 - 여러 형식 지원 */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
