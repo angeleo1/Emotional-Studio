@@ -68,6 +68,9 @@ export function saveBooking(bookingData: any): void {
 
     console.log('생성된 newBooking:', JSON.stringify(newBooking, null, 2));
 
+    // UI에서 이미 비활성화되므로 중복 체크 제거
+    // 예약된 시간은 UI에서 선택할 수 없도록 처리됨
+
     // 기존 예약이 있으면 업데이트, 없으면 추가
     const existingIndex = bookings.findIndex(b => b.bookingId === bookingData.bookingId);
     if (existingIndex >= 0) {

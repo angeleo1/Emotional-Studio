@@ -75,8 +75,9 @@ const BookingSuccess = () => {
         const result = await emailResponse.json();
         console.log('Booking processed successfully:', result);
       } else {
-        const errorText = await emailResponse.text();
-        console.error('Failed to process booking:', errorText);
+        const errorData = await emailResponse.json();
+        console.error('Failed to process booking:', errorData);
+        alert(`예약 처리 중 오류가 발생했습니다: ${errorData.message || 'Unknown error'}`);
       }
     } catch (error) {
       console.error('Error in sendBookingEmails:', error);
