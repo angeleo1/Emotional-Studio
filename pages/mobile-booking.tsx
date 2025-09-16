@@ -352,7 +352,7 @@ const MobileBooking: NextPage = () => {
                       minDate={new Date()}
                       dateFormat="yyyy-MM-dd"
                       placeholderText="Select date"
-                      className="w-full"
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
                     />
                   </div>
 
@@ -363,28 +363,37 @@ const MobileBooking: NextPage = () => {
                         Loading available times...
                       </div>
                     ) : (
-                      <select
-                        name="time"
-                        value={formData.time}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FF6100] text-white"
-                        required
-                      >
-                        <option value="">Select time</option>
+                      <div className="grid grid-cols-4 gap-2">
                         {allTimes.map((time) => {
                           const isBooked = bookedTimes.includes(time);
+                          const isSelected = formData.time === time;
                           const isAvailable = availableTimes.includes(time);
                           return (
-                            <option 
-                              key={time} 
-                              value={time} 
+                            <button
+                              key={time}
+                              type="button"
+                              onClick={() => { if (!isBooked && isAvailable) setFormData(prev => ({ ...prev, time })); }}
                               disabled={isBooked || !isAvailable}
+                              className={`
+                                px-3 py-2 text-sm font-medium rounded-lg border transition-all duration-200
+                                ${isBooked
+                                  ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                                  : isSelected
+                                  ? 'bg-[#FF6100] text-white border-[#FF6100] shadow-md'
+                                  : isAvailable
+                                  ? 'bg-gray-800 text-white border-gray-600 hover:bg-[#FF6100] hover:border-[#FF6100] hover:text-white'
+                                  : 'bg-gray-50 text-gray-400 border-gray-200 cursor-not-allowed'
+                                }
+                              `}
                             >
-                              {time} {isBooked ? '(Booked)' : !isAvailable ? '(Not Available)' : ''}
-                            </option>
+                              <div className="flex flex-col items-center">
+                                <span>{time}</span>
+                                {isBooked && (<span className="text-xs text-gray-400">Booked</span>)}
+                              </div>
+                            </button>
                           );
                         })}
-                      </select>
+                      </div>
                     )}
                   </div>
                 </div>
