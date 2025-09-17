@@ -57,7 +57,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   } catch (error) {
     console.error('Error checking availability:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    
+    // Supabase 연결 실패 시 기본 시간 반환
+    if (error instanceof Error && error.message.includes('Supabase')) {
+      console.log('Supabase connection failed, returning default times');
+      const allTimes = getAvailableTimes();
+      return res.status(200).json({
+        availableTimes: allTimes,
+        bookedTimes: [],
+        lastUpdated: new Date().toISOString(),
+        totalBookings: 0,
+        totalSlots: allTimes.length,
+        warning: 'Using default availability - database connection failed'
+      });
+    }
+    
+    res.status(500).json({ 
+      message: 'Internal server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 }
 
