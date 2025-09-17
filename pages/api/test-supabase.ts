@@ -3,46 +3,39 @@ import { supabaseAdmin } from '../../lib/supabase';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    console.log('=== Supabase 테스트 시작 ===');
+    console.log('=== Supabase 연결 테스트 ===');
     
-    // 환경 변수 확인
-    const envCheck = {
-      NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'NOT_SET',
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT_SET',
-      SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY ? 'SET' : 'NOT_SET',
-    };
+    // 환경변수 확인
+    console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'EXISTS' : 'NOT_FOUND');
+    console.log('SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? 'EXISTS' : 'NOT_FOUND');
     
-    console.log('환경 변수 상태:', envCheck);
-    
-    // 가장 간단한 쿼리로 테스트
+    // Supabase 연결 테스트
     const { data, error } = await supabaseAdmin
       .from('bookings')
-      .select('id, booking_id, date, time')
-      .limit(1);
+      .select('*')
+      .limit(5);
     
     if (error) {
-      console.error('Supabase 쿼리 에러:', error);
-      return res.status(500).json({
-        success: false,
-        error: error.message,
-        envCheck
+      console.error('Supabase 에러:', error);
+      return res.status(500).json({ 
+        error: 'Supabase connection failed',
+        details: error.message 
       });
     }
     
-    console.log('Supabase 쿼리 성공:', data);
+    console.log('Supabase 연결 성공! 데이터 개수:', data?.length || 0);
     
-    res.status(200).json({
-      success: true,
-      message: 'Supabase 연결 성공',
-      envCheck,
-      data: data || []
+    res.status(200).json({ 
+      success: true, 
+      dataCount: data?.length || 0,
+      sampleData: data?.slice(0, 3) || []
     });
     
   } catch (error) {
     console.error('테스트 에러:', error);
-    res.status(500).json({
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
+    res.status(500).json({ 
+      error: 'Test failed',
+      details: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 }
