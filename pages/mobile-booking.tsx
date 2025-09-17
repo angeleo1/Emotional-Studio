@@ -86,19 +86,27 @@ const MobileBookingPage: React.FC = () => {
       if (response.ok) {
         setAvailableTimes(data.availableTimes || []);
         setBookedTimes(data.bookedTimes || []);
+      } else if (response.status === 503) {
+        // 서비스 비활성화 상태
+        console.error('Booking service is unavailable:', data.message);
+        setAvailableTimes([]);
+        setBookedTimes([]);
+        alert('예약 서비스가 일시적으로 사용할 수 없습니다. 잠시 후 다시 시도해주세요.');
       } else {
         console.error('Failed to fetch available times:', data.error);
-        setAvailableTimes(allTimes);
+        setAvailableTimes([]);
         setBookedTimes([]);
+        alert('예약 정보를 가져올 수 없습니다. 잠시 후 다시 시도해주세요.');
       }
     } catch (error) {
       console.error('Error fetching available times:', error);
-      setAvailableTimes(allTimes);
+      setAvailableTimes([]);
       setBookedTimes([]);
+      alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setIsLoadingTimes(false);
     }
-  }, [allTimes]);
+  }, []);
 
   // 결제 처리
   const handlePayment = async (data: BookingFormData) => {

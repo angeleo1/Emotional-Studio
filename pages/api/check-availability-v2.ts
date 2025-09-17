@@ -58,17 +58,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (error) {
     console.error('Error checking availability:', error);
     
-    // Supabase 연결 실패 시 기본 시간 반환
+    // Supabase 연결 실패 시 서비스 비활성화
     if (error instanceof Error && error.message.includes('Supabase')) {
-      console.log('Supabase connection failed, returning default times');
-      const allTimes = getAvailableTimes();
-      return res.status(200).json({
-        availableTimes: allTimes,
+      console.log('Supabase connection failed, disabling booking service');
+      return res.status(503).json({
+        message: 'Booking service is temporarily unavailable due to database connection issues',
+        code: 'DATABASE_CONNECTION_FAILED',
+        availableTimes: [],
         bookedTimes: [],
         lastUpdated: new Date().toISOString(),
         totalBookings: 0,
-        totalSlots: allTimes.length,
-        warning: 'Using default availability - database connection failed'
+        totalSlots: 0
       });
     }
     
