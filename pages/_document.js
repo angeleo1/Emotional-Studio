@@ -72,6 +72,12 @@ export default function Document() {
         />
         {/* Pusher Beams SDK */}
         <script src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
+        
+        {/* SimplyBook.me Widget */}
+        <script src="//widget.simplybook.net/v2/widget/widget.js" type="text/javascript"></script>
+        <script type="text/javascript">
+          var widget = new SimplybookWidget({"widget_type":"button","url":"https:\/\/emotionalstudios.simplybook.net","theme":"concise","theme_settings":{"timeline_hide_unavailable":"1","hide_past_days":"0","timeline_show_end_time":"0","timeline_modern_display":"as_slots","light_font_color":"#ffffff","sb_secondary_base":"#111111","sb_base_color":"#ff6100","display_item_mode":"block","booking_nav_bg_color":"#ffffff","sb_review_image":"1","sb_review_image_preview":"\/uploads\/emotionalstudios\/image_files\/preview\/5f40b1513e7cf31e3115abd5fcb117a8.jpg","dark_font_color":"#111111","btn_color_1":"#ff6100","sb_company_label_color":"#ff6100","hide_img_mode":"0","show_sidebar":"1","sb_busy":"#c7b3b3","sb_available":"#ff6100"},"timeline":"modern","datepicker":"inline_datepicker","is_rtl":false,"app_config":{"clear_session":0,"allow_switch_to_ada":0,"predefined":[]},"button_title":"Book now","button_background_color":"#ff6100","button_text_color":"#ffffff","button_position":"right","button_position_offset":"55%"});
+        </script>
       </Head>
       <body>
         <Main />

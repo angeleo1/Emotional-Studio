@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
-import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 // 데스크탑과 동일한 SquigglyLogo 컴포넌트 (크기만 조정)
 const MobileSquigglyLogo = () => {
@@ -816,7 +815,6 @@ export default function MobilePage() {
       <MobileContactButton />
       
       {/* Floating Book Button */}
-      <FloatingBookButton />
       
     </>
   );
