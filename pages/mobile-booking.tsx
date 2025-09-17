@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { loadStripe } from '@stripe/stripe-js';
 import { X, Calendar, Clock, Users, CreditCard, CheckCircle } from 'lucide-react';
-import MobileNavbar from '../components/layout/MobileNavbar';
+import MobileNavbar from '../components/MobileNavbar';
 
 // Zod 스키마 정의
 const bookingSchema = z.object({
