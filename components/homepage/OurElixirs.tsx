@@ -142,18 +142,34 @@ export default function OurElixirs() {
               onClick={() => setSelectedCocktail(null)}
             />
             <div className="relative w-full max-w-4xl mx-4 bg-[#111] rounded-2xl overflow-hidden shadow-2xl">
-              <div className="p-6 md:p-8 flex flex-col justify-center">
-                <h3 
-                  className="text-2xl md:text-4xl font-bold mb-4"
-                  style={{
-                    fontFamily: 'CS-Valcon-Drawn-akhr7k',
-                    color: selectedCocktail.name === 'Passion Red' ? '#c2185b' :
-                           selectedCocktail.name === 'Ecstasy Glow' ? '#ffcd4a' : '#8a2be2'
-                  }}
-                >
-                  {selectedCocktail.name}
-                </h3>
-                <p className="text-white text-base md:text-lg leading-relaxed">{selectedCocktail.description}</p>
+              <div className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
+                {/* 이미지 섹션 */}
+                <div className="w-full md:w-1/2 flex justify-center">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden">
+                    <img
+                      src={`/images/Elixir/${selectedCocktail.name === 'Passion Red' ? 'Passion Red.jpeg' :
+                             selectedCocktail.name === 'Ecstasy Glow' ? 'Ecstasy Glow.png' :
+                             selectedCocktail.name === 'AURA RELIEF' ? 'Aura relief.png' : ''}`}
+                      alt={selectedCocktail.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                
+                {/* 텍스트 섹션 */}
+                <div className="w-full md:w-1/2 flex flex-col justify-center">
+                  <h3 
+                    className="text-2xl md:text-4xl font-bold mb-4"
+                    style={{
+                      fontFamily: 'CS-Valcon-Drawn-akhr7k',
+                      color: selectedCocktail.name === 'Passion Red' ? '#c2185b' :
+                             selectedCocktail.name === 'Ecstasy Glow' ? '#ffcd4a' : '#8a2be2'
+                    }}
+                  >
+                    {selectedCocktail.name}
+                  </h3>
+                  <p className="text-white text-base md:text-lg leading-relaxed">{selectedCocktail.description}</p>
+                </div>
               </div>
               <button
                 className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"

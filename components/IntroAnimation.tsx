@@ -151,7 +151,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
         {/* 버튼 영역 */}
         <div className="flex flex-col items-center justify-center px-4 pb-8 md:pb-12 gap-4 md:gap-6">
           {/* 모바일에서는 세로 배치, 데스크탑에서는 가로 배치 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 w-full max-w-4xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full max-w-4xl">
             <span className="glitch-button-wrapper">
               <MotionButton
                 className="glitch-button w-full"
@@ -210,36 +210,6 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 onClick={() => { router.push('/elixirs'); }}
               >
                 <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Our Elixirs</span>
-              </MotionButton>
-            </span>
-            <span className="glitch-button-wrapper">
-              <MotionButton
-                className="glitch-button w-full"
-                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
-                  initial: { opacity: 0, scale: 0.8 },
-                  animate: { opacity: 1, scale: 1 },
-                  transition: { delay: 2.4, duration: 0.5, ease: 'backOut' }
-                }))}
-              style={{ 
-                  background: 'none',
-                  border: '2px solid #fff',
-                  color: '#fff',
-                  borderRadius: '999px',
-                  padding: '0.8em 1.2em',
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'background 0.2s, color 0.2s',
-                  opacity: 1,
-                  pointerEvents: 'auto',
-                  boxSizing: 'border-box',
-                }}
-                onClick={() => { router.push('/collaboration'); }}
-              >
-                <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Collaboration</span>
               </MotionButton>
             </span>
             <span className="glitch-button-wrapper">

@@ -36,8 +36,8 @@ const FloatingBookButton = () => {
     <div
       style={{
         position: 'fixed',
-        bottom: '15rem',
-        left: '3rem',
+        bottom: '2rem',
+        left: '0.5rem',
         zIndex: 9999
       }}
     >

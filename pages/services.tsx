@@ -232,7 +232,7 @@ export default function Services() {
             </span>
             <span>Additional Retouch</span>
           </div>
-          <span className="text-3xl font-bold text-right ml-4">$15</span>
+          <span className="text-3xl font-bold text-right ml-4">$10</span>
         </div>
         <p className="text-lg mt-1 mb-4">We will professionally enhance your selected images to ensure you look your absolute best</p>
       </div>
@@ -297,7 +297,7 @@ export default function Services() {
   return (
     <div className="relative w-full min-h-screen overflow-hidden" style={{ background: '#111111' }}>
       {/* 좌측 하단 스크롤(화살표+텍스트) UI - 데스크톱에서만 표시 */}
-      <div className="hidden md:flex fixed left-6 bottom-[9.25rem] flex-col items-center z-20 select-none pointer-events-none">
+      <div className="hidden md:flex fixed left-6 bottom-[20rem] flex-col items-center z-20 select-none pointer-events-none">
         {currentPage === 3 ? (
           // Other Goods 페이지일 때 위쪽 화살표
           <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-up mb-8">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
@@ -8,39 +9,54 @@ import FloatingBookButton from '@/components/common/FloatingBookButton';
 // 카테고리 리스트
 const CATEGORY_LIST = [
   "All",
-  "Black & White",
-  "Color",
-  "Collaboration",
+  "B&W",
+  "Cool tone",
+  "Warm tone",
   "Studio",
 ];
 
-// 갤러리 이미지 데이터 - 모든 이미지 제거
-const GALLERY_IMAGES = {
-  'Black & White': [],
-  'Color': [],
-  'Collaboration': [],
-  'Studio': [],
-};
-
-// 카테고리별 이미지 분배 - 빈 배열
-const IMAGES_BW: string[] = [];
-const IMAGES_COLOR: string[] = [];
-const IMAGES_COLLAB: string[] = [];
-const IMAGES_EST: string[] = [];
-const IMAGES_ALL: string[] = [];
-
-const CATEGORY_MAP: Record<string, string[]> = {
-  All: IMAGES_ALL,
-  "Black & White": IMAGES_BW,
-  "Color": IMAGES_COLOR,
-  "Collaboration": IMAGES_COLLAB,
-  "Studio": IMAGES_EST,
+// 갤러리 이미지 데이터
+const galleryImages = {
+  'B&W': [
+    '/images/Galllery/BW/BW (1).png',
+    '/images/Galllery/BW/BW (2).png',
+    '/images/Galllery/BW/BW (3).png',
+    '/images/Galllery/BW/BW (4).png',
+    '/images/Galllery/BW/BW (5).png',
+    '/images/Galllery/BW/BW (6).png',
+    '/images/Galllery/BW/BW (7).png',
+    '/images/Galllery/BW/BW.jpg',
+    '/images/Galllery/BW/BW.png',
+  ],
+  'Cool tone': [
+    '/images/Galllery/COOL/COOL (2).png',
+    '/images/Galllery/COOL/COOL (3).png',
+    '/images/Galllery/COOL/COOL (4).png',
+    '/images/Galllery/COOL/COOL (5).png',
+    '/images/Galllery/COOL/COOL.png',
+  ],
+  'Warm tone': [
+    '/images/Galllery/WARM/WARM (2).png',
+    '/images/Galllery/WARM/WARM.png',
+  ],
+  'Studio': [
+    '/images/Galllery/STUDIO/STUDIO (2).jpg',
+    '/images/Galllery/STUDIO/STUDIO.jpg',
+  ],
 };
 
 const MobileGallery: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const currentImages = CATEGORY_MAP[selectedCategory] || [];
+  // 현재 선택된 카테고리에 따른 이미지 목록
+  const getCurrentImages = () => {
+    if (selectedCategory === 'All') {
+      return Object.values(galleryImages).flat();
+    }
+    return galleryImages[selectedCategory as keyof typeof galleryImages] || [];
+  };
+
+  const currentImages = getCurrentImages();
 
   return (
     <>
@@ -108,18 +124,42 @@ const MobileGallery: NextPage = () => {
           </div>
         </div>
 
-        {/* Coming Soon 메시지 */}
+        {/* 이미지 갤러리 */}
         <div className="px-4 pb-20">
-          {currentImages.length === 0 && (
+          {currentImages.length > 0 ? (
+            <div className="grid grid-cols-2 gap-3">
+              {currentImages.map((image, index) => (
+                  <div
+                    key={index}
+                    className="relative overflow-hidden rounded-lg group hover:scale-105 transition-transform duration-300"
+                    style={{ aspectRatio: 'auto' }}
+                  >
+                  <Image
+                    src={image}
+                    alt={`Gallery image ${index + 1}`}
+                    width={200}
+                    height={300}
+                    className="w-full h-auto object-contain"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                </div>
+              ))}
+            </div>
+          ) : (
             <div className="flex items-center justify-center min-h-[50vh]">
               <div className="text-center">
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight px-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-                  The adventure begins soon.
+                  No images found
                 </h2>
+                <p className="text-lg text-gray-300 mt-4">
+                  No images available for this category
+                </p>
               </div>
             </div>
           )}
         </div>
+
 
       </div>
       <MobileContactButton />

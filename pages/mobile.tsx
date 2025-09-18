@@ -618,169 +618,48 @@ export default function MobilePage() {
 
 
 
-        {/* 버튼 영역 - 하단으로 이동, 겹침 완전 해결 */}
-        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 px-4 w-full max-w-sm sm:max-w-md">
-          <div className="flex flex-col gap-3 sm:gap-4 w-full">
-            {/* 첫 번째 줄: Pose Guide, Our Elixirs - 작은 크기 */}
-            <div className="flex gap-3 sm:gap-4">
-              <span className="glitch-button-wrapper flex-1">
-              <button
-                  className="glitch-button w-full"
-                  style={{
-                    background: 'none',
-                    border: '1px solid #fff',
-                    color: '#fff',
-                    borderRadius: '999px',
-                    padding: '0.75em 1em',
-                    fontWeight: 700,
-                    fontSize: '0.875rem',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.2s, color 0.2s',
-                    opacity: 1,
-                    pointerEvents: 'auto',
-                    boxSizing: 'border-box',
-                    whiteSpace: 'nowrap',
-                    height: '2.5rem',
-                    minHeight: '2.5rem',
-                    maxHeight: '2.5rem',
-                  }}
-                  onClick={() => { router.push('/mobile-pose-guide'); }}
-                >
-                  <span className="glitch" data-text="Pose Guide" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Pose Guide</span>
-              </button>
-              </span>
-              <span className="glitch-button-wrapper flex-1">
-              <button
-                  className="glitch-button w-full"
-                  style={{
-                    background: 'none',
-                    border: '1px solid #fff',
-                    color: '#fff',
-                    borderRadius: '999px',
-                    padding: '0.75em 1em',
-                    fontWeight: 700,
-                    fontSize: '0.875rem',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.2s, color 0.2s',
-                    opacity: 1,
-                    pointerEvents: 'auto',
-                    boxSizing: 'border-box',
-                    whiteSpace: 'nowrap',
-                    height: '2.5rem',
-                    minHeight: '2.5rem',
-                    maxHeight: '2.5rem',
-                  }}
-                  onClick={() => { router.push('/mobile-elixirs'); }}
-                >
-                  <span className="glitch" data-text="Our Elixirs" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Our Elixirs</span>
-              </button>
-              </span>
-            </div>
-              
-            {/* 두 번째 줄: Collaboration, Booking - 중간 크기 */}
-            <div className="flex gap-3 sm:gap-4">
-              <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.375rem)' }}>
-              <button
-                  className="glitch-button w-full"
-                  style={{
-                    background: 'none',
-                    border: '1px solid #fff',
-                    color: '#fff',
-                    borderRadius: '999px',
-                    padding: '0.75em 0.75em',
-                    fontWeight: 700,
-                    fontSize: '0.875rem',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.2s, color 0.2s',
-                    opacity: 1,
-                    pointerEvents: 'auto',
-                    boxSizing: 'border-box',
-                    whiteSpace: 'nowrap',
-                    height: '2.5rem',
-                    minHeight: '2.5rem',
-                    maxHeight: '2.5rem',
-                    minWidth: '120px',
-                  }}
-                  onClick={() => { router.push('/mobile-collaboration'); }}
-                >
-                  <span className="glitch" data-text="Collaboration" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Collaboration</span>
-              </button>
-              </span>
-              <span className="glitch-button-wrapper" style={{ width: 'calc(50% - 0.375rem)' }}>
-              <button
-                  className="glitch-button w-full"
-                  style={{
-                    background: 'none',
-                    border: '1px solid #fff',
-                    color: '#fff',
-                    borderRadius: '999px',
-                    padding: '0.75em 0.75em',
-                    fontWeight: 700,
-                    fontSize: '0.875rem',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.2s, color 0.2s',
-                    opacity: 1,
-                    pointerEvents: 'auto',
-                    boxSizing: 'border-box',
-                    whiteSpace: 'nowrap',
-                    height: '2.5rem',
-                    minHeight: '2.5rem',
-                    maxHeight: '2.5rem',
-                    minWidth: '120px',
-                  }}
-                  onClick={() => { router.push('/mobile-booking'); }}
-                >
-                  <span className="glitch" data-text="Booking" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>Booking</span>
-              </button>
-              </span>
-            </div>
-              
-            {/* 세 번째 줄: emotional Moments (중앙 정렬) - 큰 크기 */}
-            <div className="flex justify-center">
-              <span className="glitch-button-wrapper">
-              <button
-                  className="glitch-button"
-                  style={{
-                    background: 'none',
-                    border: '1px solid #fff',
-                    color: '#fff',
-                    borderRadius: '999px',
-                    padding: '0.75em 2em',
-                    fontWeight: 700,
-                    fontSize: '0.875rem',
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'background 0.2s, color 0.2s',
-                    opacity: 1,
-                    pointerEvents: 'auto',
-                    boxSizing: 'border-box',
-                    whiteSpace: 'nowrap',
-                    height: '2.5rem',
-                    minHeight: '2.5rem',
-                    maxHeight: '2.5rem',
-                  }}
-                  onClick={() => { router.push('/mobile-gallery-landing'); }}
-                >
-                  <span className="glitch" data-text="emotional Moments" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif', fontSize: '0.875rem' }}>emotional Moments</span>
-              </button>
-              </span>
-            </div>
-          </div>
-          </div>
+        {/* 버튼 영역 - 가운데 아래쪽에 세로로 한 줄씩 정렬 */}
+        <div className="absolute left-1/2 bottom-24 transform -translate-x-1/2 flex flex-col gap-3">
+          <button
+            className="bg-transparent border border-white text-white rounded-full py-3 px-4 text-sm font-bold transition-all duration-200 hover:bg-white hover:text-black whitespace-nowrap"
+            onClick={() => { router.push('/mobile-pose-guide'); }}
+            style={{
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
+              minHeight: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            Pose Guide
+          </button>
+          <button
+            className="bg-transparent border border-white text-white rounded-full py-3 px-4 text-sm font-bold transition-all duration-200 hover:bg-white hover:text-black whitespace-nowrap"
+            onClick={() => { router.push('/mobile-elixirs'); }}
+            style={{
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
+              minHeight: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            Our Elixirs
+          </button>
+          <button
+            className="bg-transparent border border-white text-white rounded-full py-3 px-4 text-sm font-bold transition-all duration-200 hover:bg-white hover:text-black whitespace-nowrap"
+            onClick={() => { router.push('/mobile-gallery-landing'); }}
+            style={{
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
+              minHeight: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            emotional Moments
+          </button>
+        </div>
 
         {/* 상단 우측: since Oct.2025 - 햄버거 메뉴 밑으로 이동 */}
         <div className="absolute top-20 right-2 sm:right-4 text-xs sm:text-sm font-normal tracking-wider select-none pointer-events-none z-10 flex flex-col items-end gap-1 px-2">

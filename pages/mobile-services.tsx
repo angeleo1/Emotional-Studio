@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { NextPage } from 'next';
 import MobileNavbar from '../components/MobileNavbar';
 import Image from 'next/image';
@@ -91,6 +91,18 @@ const services = [
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3 text-xl font-bold mb-2">
               <span className="w-8 h-8 inline-block align-middle">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              </span>
+              <span>Additional Retouch</span>
+            </div>
+            <span className="text-base font-bold text-right ml-2">$10</span>
+          </div>
+          <p className="text-lg mt-1 mb-4">We will professionally enhance your selected images to ensure you look your absolute best</p>
+        </div>
+        <div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-xl font-bold mb-2">
+              <span className="w-8 h-8 inline-block align-middle">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
               </span>
               <span>Digital original film</span>
@@ -105,6 +117,8 @@ const services = [
 ];
 
 const MobileServices: NextPage = () => {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
+
   return (
     <>
       <Head>
@@ -158,15 +172,27 @@ const MobileServices: NextPage = () => {
                       />
                     ) : service.images ? (
                       // 여러 이미지
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-3">
                         {service.images.map((img, imgIndex) => (
-                          <div key={imgIndex} className="relative">
+                          <div 
+                            key={imgIndex} 
+                            className="relative cursor-pointer"
+                            onClick={() => {
+                              if (typeof img === 'object' && img.label) {
+                                setSelectedImage({
+                                  src: img.src,
+                                  alt: img.alt,
+                                  label: img.label
+                                });
+                              }
+                            }}
+                          >
                             <Image
                               src={typeof img === 'string' ? img : img.src}
                               alt={typeof img === 'string' ? `${service.title} ${imgIndex + 1}` : img.alt}
                               width={200}
                               height={200}
-                              className="w-full h-32 object-cover transition-transform duration-700 group-hover:scale-105"
+                              className="w-full h-40 object-contain transition-transform duration-700 group-hover:scale-105"
                             />
                             {typeof img === 'object' && img.label && (
                               <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-2 text-center">
@@ -235,6 +261,46 @@ const MobileServices: NextPage = () => {
       
       {/* Floating Book Button */}
       <FloatingBookButton />
+
+      {/* 이미지 모달 */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative max-w-[90vw] max-h-[80vh] mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                width={400}
+                height={500}
+                className="w-full h-auto object-contain rounded-lg"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-center p-3 rounded-b-lg">
+                <p className="text-lg font-semibold">{selectedImage.label}</p>
+              </div>
+              <button
+                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+                onClick={() => setSelectedImage(null)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
     </>
   );

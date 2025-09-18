@@ -6,10 +6,30 @@ import { useRouter } from 'next/router';
 import MobileNavbar from '../components/MobileNavbar';
 
 const GALLERY_IMAGES = {
-  Cute: [],
-  Lovely: [],
-  Dynamic: [],
-  'with Pet': [],
+  Cute: [
+    '/images/Pose Guide/cute/005.png',
+    '/images/Pose Guide/cute/006.png',
+    '/images/Pose Guide/cute/007.png',
+    '/images/Pose Guide/cute/008.png',
+    '/images/Pose Guide/cute/009.png',
+  ],
+  Lovely: [
+    '/images/Pose Guide/lovely/010.png',
+    '/images/Pose Guide/lovely/011.png',
+    '/images/Pose Guide/lovely/012.png',
+    '/images/Pose Guide/lovely/013.png',
+  ],
+  Dynamic: [
+    '/images/Pose Guide/dynamic/014.png',
+    '/images/Pose Guide/dynamic/015.png',
+    '/images/Pose Guide/dynamic/016.png',
+    '/images/Pose Guide/dynamic/017.png',
+    '/images/Pose Guide/dynamic/018.png',
+    '/images/Pose Guide/dynamic/019.png',
+  ],
+  'with Pet': [
+    '/images/Pose Guide/pet/020.png',
+  ],
 };
 
 function MobilePoseGallerySection() {
@@ -21,12 +41,6 @@ function MobilePoseGallerySection() {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const router = useRouter();
   
-  const description = {
-    Cute: 'This pose creates a cute and natural vibe.',
-    Lovely: 'This pose emphasizes a lovely and soft mood.',
-    Dynamic: 'This pose gives an energetic and dynamic impression.',
-    'with Pet': 'This pose captures special moments with your pet.',
-  };
 
   // 터치 이벤트 핸들러
   const onTouchStart = (e: React.TouchEvent) => {
@@ -162,19 +176,6 @@ function MobilePoseGallerySection() {
                 </div>
               )}
               
-              <div 
-                className="text-center mt-4 px-4 py-3 rounded-lg border-2"
-                style={{
-                  maxWidth: '90vw',
-                  color: '#ff6100',
-                  border: '2px solid #ff6100',
-                  background: 'rgba(17,17,17,0.9)',
-                  fontWeight: 700,
-                  fontSize: '0.9rem'
-                }}
-              >
-                {description[category]}
-              </div>
             </Dialog.Panel>
           </Dialog>
         </Transition.Root>
