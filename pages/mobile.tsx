@@ -731,14 +731,14 @@ export default function MobilePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm cursor-pointer"
             onClick={() => setShowTipsModal(false)}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-4xl mx-4 bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+              className="relative max-w-4xl mx-4 bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-3xl overflow-hidden shadow-2xl border border-white/10 cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}

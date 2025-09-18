@@ -40,7 +40,8 @@ const services = [
       { src: '/images/test27.jpg', alt: 'Warm', label: 'Warm tone' },
       { src: '/images/test26.jpg', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/test28.jpg', alt: 'B/W', label: 'B/W' },
-      { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' }
+      { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' },
+      { src: '/images/elixir/elixirs.png', alt: 'Elixir', label: 'Elixirs' }
     ],
     text: (
       <div className="space-y-10 text-white pt-8">
@@ -49,7 +50,7 @@ const services = [
           <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
           <div className="space-y-2 text-xl font-bold text-white mt-16">
             <p>OOTD Photo</p>
-            <p>Elixir concentrate</p>
+            <p>Elixirs</p>
             <p className="whitespace-nowrap">4x6'' prints of 2 selected photos</p>
             <p>Timelapse video original file</p>
           </div>
@@ -171,8 +172,99 @@ const MobileServices: NextPage = () => {
                         className="w-full h-48 object-contain transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : service.images ? (
-                      // 여러 이미지
-                      <div className="grid grid-cols-2 gap-3">
+                    // Session 섹션인 경우 특별한 레이아웃 적용
+                    service.title === 'Session' ? (
+                      <div className="space-y-2">
+                        {/* 첫 번째 행: Warm tone, Cool tone */}
+                        <div className="grid grid-cols-2 gap-2">
+                          {service.images.slice(0, 2).map((img, imgIndex) => (
+                            <div 
+                              key={imgIndex} 
+                              className="relative cursor-pointer"
+                              onClick={() => {
+                                if (typeof img === 'object' && img.label) {
+                                  setSelectedImage({
+                                    src: img.src,
+                                    alt: img.alt,
+                                    label: img.label
+                                  });
+                                }
+                              }}
+                            >
+                              <Image
+                                src={typeof img === 'string' ? img : img.src}
+                                alt={typeof img === 'string' ? `${service.title} ${imgIndex + 1}` : img.alt}
+                                width={200}
+                                height={200}
+                                className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
+                              />
+                              {typeof img === 'object' && img.label && (
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
+                                  {img.label}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* 두 번째 행: B/W, OOTD Photo */}
+                        <div className="grid grid-cols-2 gap-2">
+                          {service.images.slice(2, 4).map((img, imgIndex) => (
+                            <div 
+                              key={imgIndex + 2} 
+                              className="relative cursor-pointer"
+                              onClick={() => {
+                                if (typeof img === 'object' && img.label) {
+                                  setSelectedImage({
+                                    src: img.src,
+                                    alt: img.alt,
+                                    label: img.label
+                                  });
+                                }
+                              }}
+                            >
+                              <Image
+                                src={typeof img === 'string' ? img : img.src}
+                                alt={typeof img === 'string' ? `${service.title} ${imgIndex + 3}` : img.alt}
+                                width={200}
+                                height={200}
+                                className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
+                              />
+                              {typeof img === 'object' && img.label && (
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
+                                  {img.label}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        
+                        {/* 세 번째 행: Elixirs (단독으로 전체 너비) */}
+                        {service.images && service.images[4] && (
+                          <div className="relative cursor-pointer">
+                            <Image
+                              src={service.images[4].src}
+                              alt={service.images[4].alt}
+                              width={200}
+                              height={200}
+                              className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
+                              onClick={() => {
+                                setSelectedImage({
+                                  src: service.images[4].src,
+                                  alt: service.images[4].alt,
+                                  label: service.images[4].label
+                                });
+                              }}
+                            />
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
+                              {service.images[4].label}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      // 다른 섹션들은 기존 레이아웃 사용
+                      <div className="grid grid-cols-3 gap-2">
                         {service.images.map((img, imgIndex) => (
                           <div 
                             key={imgIndex} 
@@ -192,16 +284,17 @@ const MobileServices: NextPage = () => {
                               alt={typeof img === 'string' ? `${service.title} ${imgIndex + 1}` : img.alt}
                               width={200}
                               height={200}
-                              className="w-full h-40 object-contain transition-transform duration-700 group-hover:scale-105"
+                              className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
                             />
                             {typeof img === 'object' && img.label && (
-                              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-2 text-center">
+                              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
                                 {img.label}
                               </div>
                             )}
                           </div>
                         ))}
                       </div>
+                    )
                     ) : null}
                     {/* 이미지 오버레이 그라데이션 */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>

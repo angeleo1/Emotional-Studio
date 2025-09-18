@@ -14,7 +14,8 @@ const pages = [
       { src: '/images/test27.jpg', alt: 'Warm', label: 'Warm tone' },
       { src: '/images/test26.jpg', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/test28.jpg', alt: 'B/W', label: 'B/W' },
-      { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' }
+      { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' },
+      { src: '/images/elixir/elixirs.png', alt: 'Elixir', label: 'Elixir concentrate' }
     ],
     text: (
       <div className="space-y-10 text-white pt-8">
@@ -332,7 +333,7 @@ export default function Services() {
                       {currentPage === 1 && (
                         <div className="relative w-full h-[90vh] max-w-4xl mx-auto flex items-center justify-center">
                           <div className="relative w-full h-full max-w-none flex items-center justify-center m-0 p-0">
-                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} />
+                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'contain'}} />
                           </div>
                         </div>
                       )}
@@ -342,7 +343,7 @@ export default function Services() {
                           <div className="animate-infinite-slide">
                             {[...page.images, ...page.images].map((img, j) => (
                               <div key={`${j}-${img}`} className="relative w-full h-[40vh] shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center mb-4">
-                          <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                          <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
                         </div>
                       ))}
                           </div>
@@ -394,7 +395,7 @@ export default function Services() {
                                 src={page.images[currentImageIndex].src || page.images[currentImageIndex]} 
                                 alt={page.images[currentImageIndex].alt || "section image"} 
                                 fill 
-                                style={{objectFit:'cover'}} 
+                                style={{objectFit:'contain'}} 
                                 className="rounded-xl" 
                               />
                             </div>
@@ -419,10 +420,10 @@ export default function Services() {
                       {currentPage === 4 && (
                         <div className="flex flex-row gap-10 w-full h-full justify-center items-center">
                           <div className="relative w-[70%] h-[70vh] max-w-4xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
                           </div>
                           <div className="relative w-full h-[70vh] max-w-2xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                            <Image src={page.images[1]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                            <Image src={page.images[1]} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
                           </div>
                         </div>
                       )}
@@ -439,7 +440,7 @@ export default function Services() {
                 {currentPage === 1 && (
                   <div className="relative w-full h-80 max-w-md mx-auto flex items-center justify-center">
                     <div className="relative w-full h-full max-w-none flex items-center justify-center m-0 p-0">
-                      <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} />
+                      <Image src={page.images[0]} alt="section image" fill style={{objectFit:'contain'}} />
                     </div>
                   </div>
                 )}
@@ -466,7 +467,7 @@ export default function Services() {
                           src={page.images[currentImageIndex].src || page.images[currentImageIndex]} 
                           alt={page.images[currentImageIndex].alt || "section image"} 
                           fill 
-                          style={{objectFit:'cover'}} 
+                          style={{objectFit:'contain'}} 
                           className="rounded-xl" 
                         />
                       </div>
@@ -490,7 +491,7 @@ export default function Services() {
                 {/* Other Goods, Special: 기존대로(세로 배치) */}
                 {(currentPage !== 1 && currentPage !== 2 && currentPage !== 3) && page.images.map((img, j) => (
                   <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                    <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                    <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
                   </div>
                 ))}
                 {/* Other Goods: Mobile */}
@@ -498,7 +499,7 @@ export default function Services() {
                   <div className="w-full max-w-md space-y-4">
                     {page.images.map((img, j) => (
                       <div key={j} className="relative w-full h-64 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                        <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                        <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
                       </div>
                     ))}
                   </div>
@@ -508,7 +509,7 @@ export default function Services() {
                   <div className="flex flex-col gap-6 w-full justify-center items-center">
                     {page.images.map((img, j) => (
                       <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                        <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
+                        <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
                       </div>
                     ))}
                   </div>

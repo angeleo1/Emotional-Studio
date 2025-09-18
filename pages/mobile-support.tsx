@@ -93,11 +93,11 @@ const MobileSupport: NextPage = () => {
       content: "Our camera and lighting are pre-calibrated for the best results, so there is no need to adjust them.\n\nFeel free to use a variety of props! Please kindly return them to their original spot once you're done."
     },
     {
-      title: "📸 During Your Session",
+      title: "During Your Session",
       content: "This is your own private space, free from a photographer's presence.\n\nThe wired remote is your shutter button. Just press it to take a photo.\n\nYour reflection and recent shots are shown on the screen. Feel free to use it as a reference for your poses!\n\nA sandglass timer on the screen will count down your session time. Relax and enjoy your moment!\n\nPlease handle all props and equipment with care. Intentional damage will result in a damage claim."
     },
     {
-      title: "✨ After Your Session",
+      title: "After Your Session",
       content: "Once your session is complete, an iPad will pop up for photo selection.\n\nYou can select 2 of your favorite photos to print, which are included with your session.\n\nIf you'd like to purchase additional prints or products like frames, you can do so on-site.\n\nPhoto printing will begin as soon as you are finished with your selection."
     }
   ];
