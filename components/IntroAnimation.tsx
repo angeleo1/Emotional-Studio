@@ -16,6 +16,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
   const [typingDone, setTypingDone] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [showTipsModal, setShowTipsModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -151,7 +152,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
         {/* 버튼 영역 */}
         <div className="flex flex-col items-center justify-center px-4 pb-8 md:pb-12 gap-4 md:gap-6">
           {/* 모바일에서는 세로 배치, 데스크탑에서는 가로 배치 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full max-w-4xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 w-full max-w-6xl">
             <span className="glitch-button-wrapper">
               <MotionButton
                 className="glitch-button w-full"
@@ -218,7 +219,67 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                 {...(isMobile ? {} : (isMobile ? mobileAnimation : {
                   initial: { opacity: 0, scale: 0.8 },
                   animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 2.4, duration: 0.5, ease: 'backOut' }
+                }))}
+                style={{
+                  background: 'none',
+                  border: '2px solid #fff',
+                  color: '#fff',
+                  borderRadius: '999px',
+                  padding: '0.8em 1.2em',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'background 0.2s, color 0.2s',
+                  opacity: 1,
+                  pointerEvents: 'auto',
+                  boxSizing: 'border-box',
+                }}
+                onClick={() => { router.push('/support?tab=event'); }}
+              >
+                <span className="glitch" data-text="Events" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Events</span>
+              </MotionButton>
+            </span>
+            <span className="glitch-button-wrapper">
+              <MotionButton
+                className="glitch-button w-full"
+                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
+                  initial: { opacity: 0, scale: 0.8 },
+                  animate: { opacity: 1, scale: 1 },
                   transition: { delay: 2.5, duration: 0.5, ease: 'backOut' }
+                }))}
+                style={{
+                  background: 'none',
+                  border: '2px solid #fff',
+                  color: '#fff',
+                  borderRadius: '999px',
+                  padding: '0.8em 1.2em',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'background 0.2s, color 0.2s',
+                  opacity: 1,
+                  pointerEvents: 'auto',
+                  boxSizing: 'border-box',
+                }}
+                onClick={() => { setShowTipsModal(true); }}
+              >
+                <span className="glitch" data-text="Tips" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Tips</span>
+              </MotionButton>
+            </span>
+            <span className="glitch-button-wrapper">
+              <MotionButton
+                className="glitch-button w-full"
+                {...(isMobile ? {} : (isMobile ? mobileAnimation : {
+                  initial: { opacity: 0, scale: 0.8 },
+                  animate: { opacity: 1, scale: 1 },
+                  transition: { delay: 2.6, duration: 0.5, ease: 'backOut' }
                 }))}
               style={{ 
                   background: 'none',
@@ -247,6 +308,126 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
         
         {/* Floating Book Button */}
         <FloatingBookButton />
+
+        {/* Tips Modal */}
+        <AnimatePresence>
+          {showTipsModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+              onClick={() => setShowTipsModal(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                className="relative max-w-5xl mx-4 bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Header */}
+                <div className="bg-white/10 backdrop-blur-sm p-8 text-center border-b border-white/20">
+                  <h2
+                    className="text-4xl font-bold text-white mb-2"
+                    style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
+                  >
+                    ✨ Tips for Your Studio Session
+                  </h2>
+                  <p className="text-white/80 text-lg">Make the most of your 20-minute session</p>
+                </div>
+
+                {/* Content */}
+                <div className="p-10">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Left Column */}
+                    <div className="space-y-8">
+                      <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex-shrink-0 border border-white/30">
+                            <span className="text-2xl">🎯</span>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-white mb-2">Perfect Positioning</h3>
+                            <p className="text-gray-300 leading-relaxed">To appear centered in your final photos, align your eyes with the camera lens.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex-shrink-0 border border-white/30">
+                            <span className="text-2xl">⏱️</span>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-white mb-2">Time Management</h3>
+                            <p className="text-gray-300 leading-relaxed">Each session is only 20 minutes! Check out our Pose Guide Page beforehand so you can maximize your photo time.</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex-shrink-0 border border-white/30">
+                            <span className="text-2xl">🍸</span>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-white mb-2">Signature Elixir</h3>
+                            <p className="text-gray-300 leading-relaxed">Our signature Elixir helps boost your emotions before the shoot! It changes every season — let us know in advance if you have any allergies.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Right Column */}
+                    <div className="space-y-8">
+                      <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex-shrink-0 border border-white/30">
+                            <span className="text-2xl">🖼️</span>
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-white mb-2">Quick Prints</h3>
+                            <p className="text-gray-300 leading-relaxed">Same-day prints are ready in about 10 minutes after your session. (Extra print options may take a little longer.)</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                        <div className="flex items-start gap-4">
+                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex-shrink-0 border border-white/30">
+                            <span className="text-2xl">👉</span>
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold text-white mb-2">Need More Help?</h3>
+                            <p className="text-gray-300 leading-relaxed mb-4">For more questions, please refer to the Q&A section on our Support Page.</p>
+                            <button
+                              onClick={() => { 
+                                setShowTipsModal(false);
+                                router.push('/support');
+                              }}
+                              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-6 py-3 rounded-full font-bold transition-all duration-300 flex items-center gap-2 border border-white/30"
+                            >
+                              <span>Visit Support</span>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Close Button */}
+                <button
+                  className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all duration-300"
+                  onClick={() => setShowTipsModal(false)}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
         
       </MotionWrapper>
     </AnimatePresence>

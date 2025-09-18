@@ -198,6 +198,7 @@ export default function MobilePage() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [showTipsModal, setShowTipsModal] = useState(false);
 
   useEffect(() => {
     // 페이지 로딩 완료 후 로딩 상태 해제
@@ -648,6 +649,32 @@ export default function MobilePage() {
           </button>
           <button
             className="bg-transparent border border-white text-white rounded-full py-3 px-4 text-sm font-bold transition-all duration-200 hover:bg-white hover:text-black whitespace-nowrap"
+            onClick={() => { router.push('/mobile-support?tab=event'); }}
+            style={{
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
+              minHeight: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            Events
+          </button>
+          <button
+            className="bg-transparent border border-white text-white rounded-full py-3 px-4 text-sm font-bold transition-all duration-200 hover:bg-white hover:text-black whitespace-nowrap"
+            onClick={() => { setShowTipsModal(true); }}
+            style={{
+              fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
+              minHeight: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            Tips
+          </button>
+          <button
+            className="bg-transparent border border-white text-white rounded-full py-3 px-4 text-sm font-bold transition-all duration-200 hover:bg-white hover:text-black whitespace-nowrap"
             onClick={() => { router.push('/mobile-gallery-landing'); }}
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
@@ -696,6 +723,120 @@ export default function MobilePage() {
       
       {/* Floating Book Button */}
       <FloatingBookButton />
+
+      {/* Tips Modal */}
+      <AnimatePresence>
+        {showTipsModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+            onClick={() => setShowTipsModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="relative max-w-4xl mx-4 bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-3xl overflow-hidden shadow-2xl border border-white/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="bg-white/10 backdrop-blur-sm p-6 text-center border-b border-white/20">
+                <h2
+                  className="text-3xl font-bold text-white mb-2"
+                  style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
+                >
+                  ✨ Tips for Your Studio Session
+                </h2>
+                <p className="text-white/80 text-base">Make the most of your 20-minute session</p>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="space-y-6">
+                  <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 flex-shrink-0 border border-white/30">
+                        <span className="text-lg">🎯</span>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white mb-1">Perfect Positioning</h3>
+                        <p className="text-gray-300 leading-relaxed text-sm">To appear centered in your final photos, align your eyes with the camera lens.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 flex-shrink-0 border border-white/30">
+                        <span className="text-lg">⏱️</span>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white mb-1">Time Management</h3>
+                        <p className="text-gray-300 leading-relaxed text-sm">Each session is only 20 minutes! Check out our Pose Guide Page beforehand so you can maximize your photo time.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 flex-shrink-0 border border-white/30">
+                        <span className="text-lg">🍸</span>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white mb-1">Signature Elixir</h3>
+                        <p className="text-gray-300 leading-relaxed text-sm">Our signature Elixir helps boost your emotions before the shoot! It changes every season — let us know in advance if you have any allergies.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 flex-shrink-0 border border-white/30">
+                        <span className="text-lg">🖼️</span>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white mb-1">Quick Prints</h3>
+                        <p className="text-gray-300 leading-relaxed text-sm">Same-day prints are ready in about 10 minutes after your session. (Extra print options may take a little longer.)</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+                    <div className="flex items-start gap-3">
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-2 flex-shrink-0 border border-white/30">
+                        <span className="text-lg">👉</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-white mb-1">Need More Help?</h3>
+                        <p className="text-gray-300 leading-relaxed text-sm mb-3">For more questions, please refer to the Q&A section on our Support Page.</p>
+                        <button
+                          onClick={() => { 
+                            setShowTipsModal(false);
+                            router.push('/mobile-support');
+                          }}
+                          className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-2 rounded-full font-bold transition-all duration-300 flex items-center gap-2 text-sm border border-white/30"
+                        >
+                          <span>Visit Support</span>
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Close Button */}
+              <button
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-all duration-300"
+                onClick={() => setShowTipsModal(false)}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       
     </>
   );

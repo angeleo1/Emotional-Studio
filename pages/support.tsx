@@ -74,31 +74,29 @@ const Support: NextPage = () => {
 
   const events = [
     {
-      title: "Sample1",
-      content: "Sample content for event 1"
+      title: "Grand Opening Event",
+      content: "Celebrate Our Grand Opening!\n\nTo celebrate our new beginning, we're giving you a month of amazing perks! From October 1st to October 31st, take advantage of these exclusive offers.\n\nFollow & Print: Follow our official Instagram or Xiaohongshu page and get a free print of one of your photos!\n\nReview & Frame: After your photo shoot, leave a quick review on Google and we'll give you a free framed photo.\n\nShare & Earn: Share your favorite photos from your session on social media and receive a special bonus reward!",
+      images: ["/images/emotional-banana-1758193888425.png", "/images/Galllery/STUDIO/studiosample.png"]
     },
     {
-      title: "Sample2", 
-      content: "Sample content for event 2"
-    },
-    {
-      title: "Sample3",
-      content: "Sample content for event 3"
+      title: "Business Card Event",
+      content: "Got Our Card? Get a Free Frame!\n\nDid you receive one of our special business cards? Don't lose it! That card is your ticket to a free gift. Just present the card when you book your photo shoot with us, and we'll give you a beautiful black frame with your favorite photo as a token of our appreciation.",
+      images: ["/images/Black frame.png", "/images/emotional-banana-1758194237727.png"]
     }
   ];
 
   const notices = [
     {
-      title: "Sample1",
-      content: "Sample content for notice 1"
+      title: "Before You Begin",
+      content: "Our camera and lighting are pre-calibrated for the best results, so there is no need to adjust them.\n\nFeel free to use a variety of props! Please kindly return them to their original spot once you're done."
     },
     {
-      title: "Sample2",
-      content: "Sample content for notice 2"
+      title: "📸 During Your Session",
+      content: "This is your own private space, free from a photographer's presence.\n\nThe wired remote is your shutter button. Just press it to take a photo.\n\nYour reflection and recent shots are shown on the screen. Feel free to use it as a reference for your poses!\n\nA sandglass timer on the screen will count down your session time. Relax and enjoy your moment!\n\nPlease handle all props and equipment with care. Intentional damage will result in a damage claim."
     },
     {
-      title: "Sample3",
-      content: "Sample content for notice 3"
+      title: "✨ After Your Session",
+      content: "Once your session is complete, an iPad will pop up for photo selection.\n\nYou can select 2 of your favorite photos to print, which are included with your session.\n\nIf you'd like to purchase additional prints or products like frames, you can do so on-site.\n\nPhoto printing will begin as soon as you are finished with your selection."
     }
   ];
 
@@ -302,7 +300,8 @@ const Support: NextPage = () => {
                           color: '#fff', 
                           fontSize: '1rem', 
                           background: 'none', 
-                          overflow: 'hidden'
+                          overflow: 'auto',
+                          maxHeight: '400px'
                         }}
                       >
                         <motion.div
@@ -314,6 +313,51 @@ const Support: NextPage = () => {
                             ease: [0.4, 0.0, 0.2, 1] 
                           }}
                         >
+                          {event.images && event.images.length > 0 && (
+                            <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                                {event.images.map((image, index) => (
+                                  <Image
+                                    key={index}
+                                    src={image}
+                                    alt={`${event.title} ${index + 1}`}
+                                    width={250}
+                                    height={150}
+                                    style={{ 
+                                      maxWidth: '100%', 
+                                      height: 'auto', 
+                                      borderRadius: '8px',
+                                      boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {event.image && !event.images && (
+                            <div style={{ 
+                              display: 'flex', 
+                              justifyContent: 'center', 
+                              alignItems: 'center',
+                              marginBottom: '1rem',
+                              width: '100%'
+                            }}>
+                              <Image
+                                src={event.image}
+                                alt={event.title}
+                                width={300}
+                                height={200}
+                                style={{ 
+                                  maxWidth: '100%', 
+                                  height: 'auto', 
+                                  borderRadius: '8px',
+                                  boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                                  display: 'block',
+                                  margin: '0 auto'
+                                }}
+                              />
+                            </div>
+                          )}
                           <p style={{ margin: 0, lineHeight: '1.6', whiteSpace: 'pre-line' }}>
                             {event.content}
                           </p>

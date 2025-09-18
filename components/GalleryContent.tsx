@@ -28,6 +28,7 @@ const galleryImages = {
   'Studio': [
     '/images/Galllery/STUDIO/STUDIO (2).jpg',
     '/images/Galllery/STUDIO/STUDIO.jpg',
+    '/images/Galllery/STUDIO/studiosample.png',
   ],
 };
 

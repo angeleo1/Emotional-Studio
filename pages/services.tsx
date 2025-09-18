@@ -36,7 +36,7 @@ const pages = [
   },
   // 3. Other Goods
   {
-    images: ['/images/Service3-1.png', '/images/Service3-2.png', '/images/Service3-3.png'],
+    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png'],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div>

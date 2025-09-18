@@ -47,10 +47,10 @@ const services = [
         <div className="text-center mb-6">
           <p className="text-2xl font-bold text-white mb-6">$65 per person</p>
           <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
-          <div className="space-y-2 text-2xl font-bold text-white mt-16">
+          <div className="space-y-2 text-xl font-bold text-white mt-16">
             <p>OOTD Photo</p>
             <p>Elixir concentrate</p>
-            <p>4x6'' prints of 2 selected photos</p>
+            <p className="whitespace-nowrap">4x6'' prints of 2 selected photos</p>
             <p>Timelapse video original file</p>
           </div>
           <p className="text-sm text-white/70 text-center mt-8">Provided with your session</p>
@@ -60,7 +60,7 @@ const services = [
   },
   {
     title: 'Other Goods',
-    images: ['/images/Service3-1.png', '/images/Service3-2.png', '/images/Service3-3.png'],
+    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png'],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div>
@@ -204,7 +204,7 @@ const MobileServices: NextPage = () => {
                       </div>
                     ) : null}
                     {/* 이미지 오버레이 그라데이션 */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
                   </div>
                   
                   {/* 제목 */}
