@@ -28,11 +28,11 @@ const GALLERY_IMAGES = {
     '/images/Pose Guide/dynamic/019.png',
   ],
   'with Pet': [
-    '/images/pose guide/pet/016.png',
-    '/images/pose guide/pet/017.png',
-    '/images/pose guide/pet/018.png',
-    '/images/pose guide/pet/019.png',
-    '/images/pose guide/pet/020.png',
+    '/images/Pose Guide/pet/016.png',
+    '/images/Pose Guide/pet/017.png',
+    '/images/Pose Guide/pet/018.png',
+    '/images/Pose Guide/pet/019.png',
+    '/images/Pose Guide/pet/020.png',
   ],
 };
 
