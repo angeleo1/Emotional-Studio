@@ -75,12 +75,12 @@ const Support: NextPage = () => {
   const events = [
     {
       title: "Grand Opening Event",
-      content: "Celebrate Our Grand Opening!\n\nTo celebrate our new beginning, we're giving you a month of amazing perks! From October 1st to October 31st, take advantage of these exclusive offers.\n\nFollow & Print: Follow our official Instagram or Xiaohongshu page and get a free print of one of your photos!\n\nReview & Frame: After your photo shoot, leave a quick review on Google and we'll give you a free framed photo.\n\nShare & Earn: Share your favorite photos from your session on social media and receive a special bonus reward!",
+      content: "Celebrate Our Grand Opening!\n\nTo celebrate our new beginning, we're giving you a month of amazing perks! From October 1st to October 31st, take advantage of these exclusive offers.\n\nFollow & Print: Follow our official Instagram or Xiaohongshu page and get a free print of one of your photos!\n\nReview & Frame: After your photo shoot, leave a quick review on Google and we'll give you a free framed photo.\n\nShare & Earn: Share your favourite photos from your session on social media and receive a special bonus reward!",
       images: ["/images/emotional-banana-1758193888425.png", "/images/Galllery/STUDIO/studiosample.png"]
     },
     {
       title: "Business Card Event",
-      content: "Got Our Card? Get a Free Frame!\n\nDid you receive one of our special business cards? Don't lose it! That card is your ticket to a free gift. Just present the card when you book your photo shoot with us, and we'll give you a beautiful black frame with your favorite photo as a token of our appreciation.",
+      content: "Got Our Card? Get a Free Frame!\n\nDid you receive one of our special business cards? Don't lose it! That card is your ticket to a free gift. Just present the card when you book your photo shoot with us, and we'll give you a beautiful black frame with your favourite photo as a token of our appreciation.",
       images: ["/images/Black frame.png", "/images/emotional-banana-1758194237727.png"]
     }
   ];
@@ -96,7 +96,7 @@ const Support: NextPage = () => {
     },
     {
       title: "After Your Session",
-      content: "Once your session is complete, an iPad will pop up for photo selection.\n\nYou can select 2 of your favorite photos to print, which are included with your session.\n\nIf you'd like to purchase additional prints or products like frames, you can do so on-site.\n\nPhoto printing will begin as soon as you are finished with your selection."
+      content: "Once your session is complete, an iPad will pop up for photo selection.\n\nYou can select 2 of your favourite photos to print, which are included with your session.\n\nIf you'd like to purchase additional prints or products like frames, you can do so on-site.\n\nPhoto printing will begin as soon as you are finished with your selection."
     }
   ];
 

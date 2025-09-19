@@ -41,7 +41,7 @@ const services = [
       { src: '/images/test26.jpg', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/test28.jpg', alt: 'B/W', label: 'B/W' },
       { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' },
-      { src: '/images/elixir/elixirs.png', alt: 'Elixir', label: 'Elixirs' }
+      { src: '/images/Elixir/elixirs.png', alt: 'Elixir', label: 'Elixirs' }
     ],
     text: (
       <div className="space-y-10 text-white pt-8">
@@ -61,7 +61,7 @@ const services = [
   },
   {
     title: 'Other Goods',
-    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png'],
+    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png', '/images/BW.jpg'],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div>
@@ -264,7 +264,7 @@ const MobileServices: NextPage = () => {
                       </div>
                     ) : (
                       // 다른 섹션들은 기존 레이아웃 사용
-                      <div className="grid grid-cols-3 gap-2">
+                      <div className="grid grid-cols-2 gap-2">
                         {service.images.map((img, imgIndex) => (
                           <div 
                             key={imgIndex} 

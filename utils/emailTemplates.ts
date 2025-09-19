@@ -225,7 +225,7 @@ export const generateCustomerConfirmationEmail = (bookingData: any) => {
 
           <div class="section">
             <h3>📍 Studio Location</h3>
-            <p>2/566 Queensberry Street, West Melbourne, VIC 3051</p>
+            <p>2/566 Queensberry Street, North Melbourne, VIC 3051</p>
           </div>
 
           <div class="section">

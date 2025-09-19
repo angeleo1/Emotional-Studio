@@ -11,7 +11,6 @@ const galleryImages = {
     '/images/Galllery/BW/BW (5).png',
     '/images/Galllery/BW/BW (6).png',
     '/images/Galllery/BW/BW (7).png',
-    '/images/Galllery/BW/BW.jpg',
     '/images/Galllery/BW/BW.png',
   ],
   'Cool tone': [
@@ -28,7 +27,6 @@ const galleryImages = {
   'Studio': [
     '/images/Galllery/STUDIO/STUDIO (2).jpg',
     '/images/Galllery/STUDIO/STUDIO.jpg',
-    '/images/Galllery/STUDIO/studiosample.png',
   ],
 };
 

@@ -5,12 +5,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { isBookingEnabled } from '../config/booking';
 
 const navItems = [
   { name: 'ABOUT US', href: '/mobile-about' },
   { name: 'SERVICES', href: '/mobile-services' },
-  { name: 'BOOKING', href: '/mobile-booking', disabled: !isBookingEnabled() },
   { name: 'GALLERY', href: '/mobile-gallery-landing' },
   { name: 'CONTACT', href: '/mobile-contact' },
   { name: 'SUPPORT', href: '/mobile-support' },
@@ -370,11 +368,7 @@ export default function MobileNavbar() {
                   >
                     <Link href={item.href} legacyBehavior>
                       <a
-                        className={`text-3xl font-serif tracking-widest transition-colors duration-300 ${
-                          item.disabled 
-                            ? 'text-gray-500 cursor-not-allowed' 
-                            : 'text-white hover:text-orange-500'
-                        }`}
+                        className="text-3xl font-serif tracking-widest transition-colors duration-300 text-white hover:text-orange-500"
                         style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
                         onClick={() => setIsOpen(false)}
                       >

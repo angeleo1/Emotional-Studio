@@ -15,7 +15,7 @@ const pages = [
       { src: '/images/test26.jpg', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/test28.jpg', alt: 'B/W', label: 'B/W' },
       { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' },
-      { src: '/images/elixir/elixirs.png', alt: 'Elixir', label: 'Elixir concentrate' }
+      { src: '/images/elixir/elixir concentrate.png', alt: 'Elixir', label: 'Elixir concentrate' }
     ],
     text: (
       <div className="space-y-10 text-white pt-8">
@@ -37,7 +37,7 @@ const pages = [
   },
   // 3. Other Goods
   {
-    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png'],
+    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png', '/images/BW.jpg'],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div>
@@ -342,8 +342,8 @@ export default function Services() {
                         <div className="h-[90vh] w-full max-w-md overflow-hidden relative">
                           <div className="animate-infinite-slide">
                             {[...page.images, ...page.images].map((img, j) => (
-                              <div key={`${j}-${img}`} className="relative w-full h-[40vh] shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center mb-4">
-                          <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
+                              <div key={`${j}-${img}`} className="relative w-full h-[40vh] shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center mb-4">
+                          <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                         </div>
                       ))}
                           </div>
@@ -390,12 +390,14 @@ export default function Services() {
                           
                           {/* 현재 이미지와 설명 */}
                           <div className="flex flex-col items-center">
-                            <div className="relative w-[500px] h-[70vh] shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                            <div className="relative w-[500px] h-[70vh] shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
                               <Image 
                                 src={page.images[currentImageIndex].src || page.images[currentImageIndex]} 
                                 alt={page.images[currentImageIndex].alt || "section image"} 
                                 fill 
-                                style={{objectFit:'contain'}} 
+                                style={{
+                                  objectFit: page.images[currentImageIndex].alt === 'Elixir' ? 'contain' : 'cover'
+                                }} 
                                 className="rounded-xl" 
                               />
                             </div>
@@ -419,11 +421,11 @@ export default function Services() {
                       {/* Special: 가로로 2장, 큼직하게 예쁘게 */}
                       {currentPage === 4 && (
                         <div className="flex flex-row gap-10 w-full h-full justify-center items-center">
-                          <div className="relative w-[70%] h-[70vh] max-w-4xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
+                          <div className="relative w-[70%] h-[70vh] max-w-4xl shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
+                            <Image src={page.images[0]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                           </div>
-                          <div className="relative w-full h-[70vh] max-w-2xl shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                            <Image src={page.images[1]} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
+                          <div className="relative w-full h-[70vh] max-w-2xl shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
+                            <Image src={page.images[1]} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                           </div>
                         </div>
                       )}
@@ -462,12 +464,14 @@ export default function Services() {
                     
                     {/* 현재 이미지와 설명 */}
                     <div className="flex flex-col items-center">
-                      <div className="relative w-[280px] h-64 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
+                      <div className="relative w-[280px] h-64 shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
                         <Image 
                           src={page.images[currentImageIndex].src || page.images[currentImageIndex]} 
                           alt={page.images[currentImageIndex].alt || "section image"} 
                           fill 
-                          style={{objectFit:'contain'}} 
+                          style={{
+                            objectFit: page.images[currentImageIndex].alt === 'Elixir' ? 'contain' : 'cover'
+                          }} 
                           className="rounded-xl" 
                         />
                       </div>
@@ -490,16 +494,16 @@ export default function Services() {
                 )}
                 {/* Other Goods, Special: 기존대로(세로 배치) */}
                 {(currentPage !== 1 && currentPage !== 2 && currentPage !== 3) && page.images.map((img, j) => (
-                  <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                    <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
+                  <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
+                    <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                   </div>
                 ))}
                 {/* Other Goods: Mobile */}
                 {currentPage === 3 && (
                   <div className="w-full max-w-md space-y-4">
                     {page.images.map((img, j) => (
-                      <div key={j} className="relative w-full h-64 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                        <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
+                      <div key={j} className="relative w-full h-64 shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center">
+                        <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                       </div>
                     ))}
                   </div>
@@ -508,8 +512,8 @@ export default function Services() {
                 {currentPage === 4 && (
                   <div className="flex flex-col gap-6 w-full justify-center items-center">
                     {page.images.map((img, j) => (
-                      <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center m-0 p-0">
-                        <Image src={img} alt="section image" fill style={{objectFit:'contain'}} className="rounded-xl" />
+                      <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
+                        <Image src={img} alt="section image" fill style={{objectFit:'cover'}} className="rounded-xl" />
                       </div>
                     ))}
                   </div>
