@@ -18,6 +18,9 @@ const CATEGORY_LIST = [
 // 갤러리 이미지 데이터
 const galleryImages = {
   'B&W': [
+    '/images/Galllery/BW/020.png',
+    '/images/Galllery/BW/021.png',
+    '/images/Galllery/BW/022.png',
     '/images/Galllery/BW/BW (1).png',
     '/images/Galllery/BW/BW (2).png',
     '/images/Galllery/BW/BW (3).png',
@@ -29,6 +32,10 @@ const galleryImages = {
     '/images/Galllery/BW/BW.png',
   ],
   'Cool tone': [
+    '/images/Galllery/COOL/019(1).png',
+    '/images/Galllery/COOL/019.png',
+    '/images/Galllery/COOL/017.png',
+    '/images/Galllery/COOL/018.png',
     '/images/Galllery/COOL/COOL (2).png',
     '/images/Galllery/COOL/COOL (3).png',
     '/images/Galllery/COOL/COOL (4).png',
@@ -45,13 +52,49 @@ const galleryImages = {
   ],
 };
 
+// All 탭용 최신순 정렬된 이미지 배열
+const allImagesLatestFirst = [
+  // 최신 추가된 이미지들 (Cool tone - 019(1), 019)
+  '/images/Galllery/COOL/019(1).png',
+  '/images/Galllery/COOL/019.png',
+  // Cool tone - 017~018
+  '/images/Galllery/COOL/017.png',
+  '/images/Galllery/COOL/018.png',
+  // BW - 020~022
+  '/images/Galllery/BW/020.png',
+  '/images/Galllery/BW/021.png',
+  '/images/Galllery/BW/022.png',
+  // 기존 Cool tone 이미지들
+  '/images/Galllery/COOL/COOL (2).png',
+  '/images/Galllery/COOL/COOL (3).png',
+  '/images/Galllery/COOL/COOL (4).png',
+  '/images/Galllery/COOL/COOL (5).png',
+  '/images/Galllery/COOL/COOL.png',
+  // 기존 BW 이미지들
+  '/images/Galllery/BW/BW (1).png',
+  '/images/Galllery/BW/BW (2).png',
+  '/images/Galllery/BW/BW (3).png',
+  '/images/Galllery/BW/BW (4).png',
+  '/images/Galllery/BW/BW (5).png',
+  '/images/Galllery/BW/BW (6).png',
+  '/images/Galllery/BW/BW (7).png',
+  '/images/Galllery/BW/BW.jpg',
+  '/images/Galllery/BW/BW.png',
+  // Warm tone 이미지들
+  '/images/Galllery/WARM/WARM (2).png',
+  '/images/Galllery/WARM/WARM.png',
+  // Studio 이미지들
+  '/images/Galllery/STUDIO/STUDIO (2).jpg',
+  '/images/Galllery/STUDIO/STUDIO.jpg',
+];
+
 const MobileGallery: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   // 현재 선택된 카테고리에 따른 이미지 목록
   const getCurrentImages = () => {
     if (selectedCategory === 'All') {
-      return Object.values(galleryImages).flat();
+      return allImagesLatestFirst;
     }
     return galleryImages[selectedCategory as keyof typeof galleryImages] || [];
   };
