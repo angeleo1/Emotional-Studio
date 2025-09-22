@@ -37,25 +37,42 @@ const services = [
   {
     title: 'Session',
     images: [
-      { src: '/images/test27.jpg', alt: 'Warm', label: 'Warm tone' },
-      { src: '/images/test26.jpg', alt: 'Cool', label: 'Cool tone' },
-      { src: '/images/test28.jpg', alt: 'B/W', label: 'B/W' },
-      { src: '/images/test29.png', alt: 'OOTD', label: 'OOTD Photo' },
-      { src: '/images/Elixir/elixirs.png', alt: 'Elixir', label: 'Elixirs' }
+        { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
+      { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
+      { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
+      { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard Photo' },
+      { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard Photo' },
+      { src: '/images/Gallery/STUDIO/Studio (3).jpg', alt: 'Elixir', label: 'Elixirs' }
     ],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div className="text-center mb-6">
-          <p className="text-2xl font-bold text-white mb-6">$65 per person</p>
-          <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
-          <div className="space-y-2 text-xl font-bold text-white mt-16">
-            <p>OOTD Photo</p>
-            <p>Elixirs</p>
-            <p className="whitespace-nowrap">4x6'' prints of 2 selected photos</p>
-            <p>Timelapse video original file</p>
+            <div className="text-white mb-6">
+              <div className="space-y-2">
+                <div className="flex items-center justify-center">
+                  <span className="text-xl font-bold w-56">1 - Person Session</span>
+                  <span className="text-xl font-bold">$65</span>
+                </div>
+                <div className="flex items-center justify-center">
+                  <span className="text-xl font-bold w-56 ml-1">2 - People Session</span>
+                  <span className="text-xl font-bold">$120</span>
+                </div>
+                <div className="flex items-center justify-center">
+                  <span className="text-xl font-bold w-56">Add person</span>
+                  <span className="text-xl font-bold">$30</span>
+                </div>
+              </div>
+            </div>
+            <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
+           <div className="space-y-2 text-xl font-bold text-white mt-16">
+             <p>Moodboard Photo</p>
+             <p>Elixirs</p>
+             <p>Timelapse video original file</p>
+             <p className="whitespace-nowrap">4x6'' prints of 2 selected photos</p>
+             <p className="text-sm text-white/70 font-normal">provided per person</p>
+           </div>
+           <p className="text-lg text-white/70 text-center mt-8 italic">Provided with your session</p>
           </div>
-          <p className="text-sm text-white/70 text-center mt-8">Provided with your session</p>
-        </div>
       </div>
     )
   },

@@ -75,8 +75,8 @@ const Support: NextPage = () => {
   const events = [
     {
       title: "Grand Opening Event",
-      content: "Celebrate Our Grand Opening!\n\nTo celebrate our new beginning, we're giving you a month of amazing perks! From October 1st to October 31st, take advantage of these exclusive offers.\n\nFollow & Print: Follow our official Instagram or Xiaohongshu page and get a free print of one of your photos!\n\nReview & Frame: After your photo shoot, leave a quick review on Google and we'll give you a free framed photo.\n\nShare & Earn: Share your favourite photos from your session on social media and receive a special bonus reward!",
-      images: ["/images/emotional-banana-1758193888425.png", "/images/Galllery/STUDIO/studiosample.png"]
+      content: "To celebrate our new studio, we're giving you 20% off your photo session. Capture your special moments with us and enjoy this exclusive offer for a limited time.\n\nBook your session today and enter the code: EMOTIONAL",
+      images: ["/images/emotional-banana-1758193888425.png", "/images/003.png"]
     },
     {
       title: "Business Card Event",

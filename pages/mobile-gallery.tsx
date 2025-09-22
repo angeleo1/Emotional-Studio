@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
+import { sortGalleryImagesByCreationTime, sortAllImagesByCreationTime } from '../utils/gallerySorting';
 
 // 카테고리 리스트
 const CATEGORY_LIST = [
@@ -15,88 +16,137 @@ const CATEGORY_LIST = [
   "Studio",
 ];
 
-// 갤러리 이미지 데이터
+// 갤러리 이미지 데이터 (최적화된 WebP 버전 사용 - 모든 이미지 포함)
 const galleryImages = {
   'B&W': [
-    '/images/Galllery/BW/020.png',
-    '/images/Galllery/BW/021.png',
-    '/images/Galllery/BW/022.png',
-    '/images/Galllery/BW/BW (1).png',
-    '/images/Galllery/BW/BW (2).png',
-    '/images/Galllery/BW/BW (3).png',
-    '/images/Galllery/BW/BW (4).png',
-    '/images/Galllery/BW/BW (5).png',
-    '/images/Galllery/BW/BW (6).png',
-    '/images/Galllery/BW/BW (7).png',
-    '/images/Galllery/BW/BW.jpg',
-    '/images/Galllery/BW/BW.png',
+    '/images/Gallery/BW/optimized/020.webp',
+    '/images/Gallery/BW/optimized/021.webp',
+    '/images/Gallery/BW/optimized/022.webp',
+    '/images/Gallery/BW/optimized/0921 (2).webp',
+    '/images/Gallery/BW/optimized/0921 (3).webp',
+    '/images/Gallery/BW/optimized/0921 (4).webp',
+    '/images/Gallery/BW/optimized/0921 (5).webp',
+    '/images/Gallery/BW/optimized/BW (1).webp',
+    '/images/Gallery/BW/optimized/BW (2).webp',
+    '/images/Gallery/BW/optimized/BW (3).webp',
+    '/images/Gallery/BW/optimized/BW (4).webp',
+    '/images/Gallery/BW/optimized/BW (5).webp',
+    '/images/Gallery/BW/optimized/BW (6).webp',
+    '/images/Gallery/BW/optimized/BW (7).webp',
+    '/images/Gallery/BW/optimized/BW.webp',
   ],
   'Cool tone': [
-    '/images/Galllery/COOL/019(1).png',
-    '/images/Galllery/COOL/019.png',
-    '/images/Galllery/COOL/017.png',
-    '/images/Galllery/COOL/018.png',
-    '/images/Galllery/COOL/COOL (2).png',
-    '/images/Galllery/COOL/COOL (3).png',
-    '/images/Galllery/COOL/COOL (4).png',
-    '/images/Galllery/COOL/COOL (5).png',
-    '/images/Galllery/COOL/COOL.png',
+    '/images/Gallery/COOL/optimized/017.webp',
+    '/images/Gallery/COOL/optimized/018.webp',
+    '/images/Gallery/COOL/optimized/019.webp',
+    '/images/Gallery/COOL/optimized/019(1).webp',
+    '/images/Gallery/COOL/optimized/0921 (1).webp',
+    '/images/Gallery/COOL/optimized/0921 (6).webp',
+    '/images/Gallery/COOL/optimized/COOL (2).webp',
+    '/images/Gallery/COOL/optimized/COOL (3).webp',
+    '/images/Gallery/COOL/optimized/COOL (4).webp',
+    '/images/Gallery/COOL/optimized/COOL (5).webp',
+    '/images/Gallery/COOL/optimized/COOL.webp',
   ],
   'Warm tone': [
-    '/images/Galllery/WARM/WARM (2).png',
-    '/images/Galllery/WARM/WARM.png',
+    '/images/Gallery/WARM/optimized/WARM.webp',
+    '/images/Gallery/WARM/optimized/WARM (2).webp',
   ],
   'Studio': [
-    '/images/Galllery/STUDIO/STUDIO (2).jpg',
-    '/images/Galllery/STUDIO/STUDIO.jpg',
+    '/images/Gallery/STUDIO/optimized/Studio (1).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (2).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (3).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (4).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (5).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (6).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (7).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (8).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (9).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (10).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (11).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (12).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (13).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (14).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (15).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (16).webp',
   ],
 };
 
-// All 탭용 최신순 정렬된 이미지 배열
+// All 탭용 최신순 정렬된 이미지 배열 (최적화된 WebP 버전 사용 - 모든 이미지 포함)
 const allImagesLatestFirst = [
-  // 최신 추가된 이미지들 (Cool tone - 019(1), 019)
-  '/images/Galllery/COOL/019(1).png',
-  '/images/Galllery/COOL/019.png',
+  // 최신 추가된 이미지들 (0921 시리즈)
+  '/images/Gallery/BW/optimized/0921 (2).webp',
+  '/images/Gallery/BW/optimized/0921 (3).webp',
+  '/images/Gallery/BW/optimized/0921 (4).webp',
+  '/images/Gallery/BW/optimized/0921 (5).webp',
+  '/images/Gallery/COOL/optimized/0921 (1).webp',
+  '/images/Gallery/COOL/optimized/0921 (6).webp',
+  // Cool tone - 019 시리즈
+  '/images/Gallery/COOL/optimized/019(1).webp',
+  '/images/Gallery/COOL/optimized/019.webp',
   // Cool tone - 017~018
-  '/images/Galllery/COOL/017.png',
-  '/images/Galllery/COOL/018.png',
+  '/images/Gallery/COOL/optimized/017.webp',
+  '/images/Gallery/COOL/optimized/018.webp',
   // BW - 020~022
-  '/images/Galllery/BW/020.png',
-  '/images/Galllery/BW/021.png',
-  '/images/Galllery/BW/022.png',
-  // 기존 Cool tone 이미지들
-  '/images/Galllery/COOL/COOL (2).png',
-  '/images/Galllery/COOL/COOL (3).png',
-  '/images/Galllery/COOL/COOL (4).png',
-  '/images/Galllery/COOL/COOL (5).png',
-  '/images/Galllery/COOL/COOL.png',
-  // 기존 BW 이미지들
-  '/images/Galllery/BW/BW (1).png',
-  '/images/Galllery/BW/BW (2).png',
-  '/images/Galllery/BW/BW (3).png',
-  '/images/Galllery/BW/BW (4).png',
-  '/images/Galllery/BW/BW (5).png',
-  '/images/Galllery/BW/BW (6).png',
-  '/images/Galllery/BW/BW (7).png',
-  '/images/Galllery/BW/BW.jpg',
-  '/images/Galllery/BW/BW.png',
+  '/images/Gallery/BW/optimized/020.webp',
+  '/images/Gallery/BW/optimized/021.webp',
+  '/images/Gallery/BW/optimized/022.webp',
+  // Cool tone - COOL 시리즈
+  '/images/Gallery/COOL/optimized/COOL (2).webp',
+  '/images/Gallery/COOL/optimized/COOL (3).webp',
+  '/images/Gallery/COOL/optimized/COOL (4).webp',
+  '/images/Gallery/COOL/optimized/COOL (5).webp',
+  '/images/Gallery/COOL/optimized/COOL.webp',
+  // BW - BW 시리즈
+  '/images/Gallery/BW/optimized/BW (1).webp',
+  '/images/Gallery/BW/optimized/BW (2).webp',
+  '/images/Gallery/BW/optimized/BW (3).webp',
+  '/images/Gallery/BW/optimized/BW (4).webp',
+  '/images/Gallery/BW/optimized/BW (5).webp',
+  '/images/Gallery/BW/optimized/BW (6).webp',
+  '/images/Gallery/BW/optimized/BW (7).webp',
+  '/images/Gallery/BW/optimized/BW.webp',
   // Warm tone 이미지들
-  '/images/Galllery/WARM/WARM (2).png',
-  '/images/Galllery/WARM/WARM.png',
+  '/images/Gallery/WARM/optimized/WARM.webp',
+  '/images/Gallery/WARM/optimized/WARM (2).webp',
   // Studio 이미지들
-  '/images/Galllery/STUDIO/STUDIO (2).jpg',
-  '/images/Galllery/STUDIO/STUDIO.jpg',
+  '/images/Gallery/STUDIO/optimized/Studio (1).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (2).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (3).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (4).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (5).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (6).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (7).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (8).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (9).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (10).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (11).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (12).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (13).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (14).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (15).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (16).webp',
 ];
 
 const MobileGallery: NextPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  // 정렬된 갤러리 이미지 (생성 시간 순)
+  const sortedGalleryImages = useMemo(() => {
+    return sortGalleryImagesByCreationTime(galleryImages);
+  }, []);
+
+  // 정렬된 All 탭 이미지 (생성 시간 순)
+  const sortedAllImages = useMemo(() => {
+    return sortAllImagesByCreationTime(allImagesLatestFirst);
+  }, []);
+
   // 현재 선택된 카테고리에 따른 이미지 목록
   const getCurrentImages = () => {
     if (selectedCategory === 'All') {
-      return allImagesLatestFirst;
+      return sortedAllImages;
     }
-    return galleryImages[selectedCategory as keyof typeof galleryImages] || [];
+    return sortedGalleryImages[selectedCategory as keyof typeof sortedGalleryImages] || [];
   };
 
   const currentImages = getCurrentImages();
@@ -175,14 +225,13 @@ const MobileGallery: NextPage = () => {
                   <div
                     key={index}
                     className="relative overflow-hidden rounded-lg group hover:scale-105 transition-transform duration-300"
-                    style={{ aspectRatio: 'auto' }}
+                    style={{ aspectRatio: '2/3' }}
                   >
                   <Image
                     src={image}
                     alt={`Gallery image ${index + 1}`}
-                    width={200}
-                    height={300}
-                    className="w-full h-auto object-contain"
+                    fill
+                    className="object-cover"
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
