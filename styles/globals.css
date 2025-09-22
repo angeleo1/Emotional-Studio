@@ -3,6 +3,97 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iPhone 16 Pro 및 최신 디바이스 지원 */
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-top: max(env(safe-area-inset-top), 20px);
+    padding-bottom: max(env(safe-area-inset-bottom), 20px);
+    padding-left: max(env(safe-area-inset-left), 0px);
+    padding-right: max(env(safe-area-inset-right), 0px);
+  }
+}
+
+/* iPhone 16 Pro Dynamic Island 대응 */
+@media screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) {
+  .mobile-container {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* iPhone 16 Pro Max 대응 */
+@media screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) {
+  .mobile-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* iPhone SE, iPhone 12 mini, iPhone 13 mini 등 작은 화면 대응 */
+@media screen and (max-width: 375px) {
+  .mobile-container {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: max(env(safe-area-inset-top), 10px);
+    padding-bottom: max(env(safe-area-inset-bottom), 10px);
+    padding-left: max(env(safe-area-inset-left), 8px);
+    padding-right: max(env(safe-area-inset-right), 8px);
+  }
+  
+  /* 작은 화면에서 텍스트 크기 조정 */
+  .mobile-text-responsive {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1.2;
+  }
+  
+  /* 작은 화면에서 버튼 크기 조정 */
+  .mobile-button-responsive {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* 작은 화면에서 간격 조정 */
+  .mobile-spacing-responsive {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* iPhone 8, iPhone 7, iPhone 6s 등 구형 기기 대응 */
+@media screen and (max-width: 414px) and (max-height: 736px) {
+  .mobile-container {
+    min-height: 100vh;
+    padding-top: max(env(safe-area-inset-top), 15px);
+    padding-bottom: max(env(safe-area-inset-bottom), 15px);
+  }
+  
+  .mobile-text-responsive {
+    font-size: clamp(1.25rem, 3.5vw, 2rem);
+  }
+}
+
+/* 매우 작은 화면 (320px 이하) 대응 */
+@media screen and (max-width: 320px) {
+  .mobile-container {
+    min-height: 100vh;
+    padding: 8px;
+  }
+  
+  .mobile-text-responsive {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    line-height: 1.1;
+  }
+  
+  .mobile-button-responsive {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
 @font-face {
   font-family: 'RockSalt-Regular';
   src: url('/fonts/RockSalt-Regular.ttf') format('truetype');

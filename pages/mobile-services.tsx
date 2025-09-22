@@ -50,16 +50,16 @@ const services = [
             <div className="text-white mb-6">
               <div className="space-y-2">
                 <div className="flex items-center justify-center">
-                  <span className="text-xl font-bold w-56">1 - Person Session</span>
-                  <span className="text-xl font-bold">$65</span>
+                  <span className="text-xl font-bold w-56 mobile-text-responsive">1 - Person Session</span>
+                  <span className="text-xl font-bold mobile-text-responsive">$65</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <span className="text-xl font-bold w-56 ml-1">2 - People Session</span>
-                  <span className="text-xl font-bold">$120</span>
+                  <span className="text-xl font-bold w-56 ml-1 mobile-text-responsive">2 - People Session</span>
+                  <span className="text-xl font-bold mobile-text-responsive">$120</span>
                 </div>
                 <div className="flex items-center justify-center">
-                  <span className="text-xl font-bold w-56">Add person</span>
-                  <span className="text-xl font-bold">$30</span>
+                  <span className="text-xl font-bold w-56 mobile-text-responsive">Add person</span>
+                  <span className="text-xl font-bold mobile-text-responsive">$30</span>
                 </div>
               </div>
             </div>

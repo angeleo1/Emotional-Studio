@@ -22,7 +22,7 @@ const MobileContact: NextPage = () => {
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
           <h1 
-            className="text-2xl font-medium"
+            className="text-2xl font-medium mobile-text-responsive"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
@@ -43,19 +43,19 @@ const MobileContact: NextPage = () => {
               className="mb-8"
             >
               <h1 
-                className="text-6xl sm:text-7xl font-bold mb-4"
+                className="text-6xl sm:text-7xl font-bold mb-4 mobile-text-responsive"
                 style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
               >
                 <span>Every</span> <span className="text-[#FF6100]">Photo</span>
               </h1>
               <h1 
-                className="text-6xl sm:text-7xl font-bold mb-4"
+                className="text-6xl sm:text-7xl font-bold mb-4 mobile-text-responsive"
                 style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
               >
                 Tells <span>a</span> Story
               </h1>
               <h1 
-                className="text-6xl sm:text-7xl font-bold mb-4"
+                className="text-6xl sm:text-7xl font-bold mb-4 mobile-text-responsive"
                 style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
               >
                 <span>Every</span> <span className="text-[#FF6100]">Elixir</span>

@@ -138,7 +138,6 @@ const MobileSquigglyLogo = () => {
 const navItems = [
   { name: 'ABOUT US', href: '/mobile-about' },
   { name: 'SERVICES', href: '/mobile-services' },
-  { name: 'BOOKING', href: '/mobile-booking' },
   { name: 'GALLERY', href: '/mobile-gallery-landing' },
   { name: 'CONTACT', href: '/mobile-contact' },
   { name: 'SUPPORT', href: '/mobile-support' },
@@ -148,8 +147,9 @@ const menuImages = [
   '/images/menu1.png',
   '/images/menu2.png',
   '/images/menu3.png',
-  '/images/menu4.png',
-  '/images/menu5.png',
+  '/images/menu11.png',
+  '/images/menu12.png',
+  '/images/menu13.png',
 ];
 
 const menuVariants = {
@@ -245,7 +245,7 @@ export default function MobilePage() {
           <title>Emotional Studios - Mobile</title>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
-        <div className="min-h-screen bg-[#111] text-white flex items-center justify-center">
+        <div className="min-h-screen mobile-container bg-[#111] text-white flex items-center justify-center safe-area-inset">
           <div className="text-center">
             <div className="text-2xl font-bold mb-4 font-fallback" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", sans-serif' }}>
               emotional studios
@@ -288,7 +288,7 @@ export default function MobilePage() {
           crossOrigin="anonymous" 
         />
       </Head>
-      <div className="min-h-screen bg-[#111] text-white relative overflow-hidden">
+      <div className="min-h-screen mobile-container bg-[#111] text-white relative overflow-hidden safe-area-inset">
         {/* 좌상단 SquigglyLogo - 데스크탑과 동일 */}
         <Link href="/" legacyBehavior>
           <a className="glitch-wrapper" style={{ 
@@ -602,9 +602,9 @@ export default function MobilePage() {
         </AnimatePresence>
 
         {/* 메인 컨텐츠 */}
-        <div className="flex flex-col items-center justify-center min-h-screen px-4">
+        <div className="flex flex-col items-center justify-center min-h-screen mobile-container px-4 safe-area-inset">
           <h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white text-center leading-none tracking-wider select-none mb-8 px-4 font-fallback"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white text-center leading-none tracking-wider select-none mb-8 px-4 font-fallback mobile-text-responsive"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, "Arial Black", "Helvetica Black", "Impact", sans-serif',
               letterSpacing: '0.08em',

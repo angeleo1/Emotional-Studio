@@ -42,7 +42,7 @@ const MobileElixirs: NextPage = () => {
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
           <h1 
-            className="text-2xl font-medium"
+            className="text-2xl font-medium mobile-text-responsive"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
@@ -177,7 +177,7 @@ const MobileElixirs: NextPage = () => {
                 {/* 텍스트 섹션 */}
                 <div className="w-full flex flex-col justify-center">
                   <h3 
-                    className="text-2xl font-bold mb-4 text-center"
+                    className="text-2xl font-bold mb-4 text-center mobile-text-responsive"
                     style={{
                       fontFamily: 'CS-Valcon-Drawn-akhr7k',
                       color: selectedCocktail.name === 'Passion Red' ? '#c2185b' :

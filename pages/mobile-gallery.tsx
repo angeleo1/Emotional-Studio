@@ -163,7 +163,7 @@ const MobileGallery: NextPage = () => {
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
           <h1 
-            className="text-2xl font-medium"
+            className="text-2xl font-medium mobile-text-responsive"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
@@ -241,7 +241,7 @@ const MobileGallery: NextPage = () => {
           ) : (
             <div className="flex items-center justify-center min-h-[50vh]">
               <div className="text-center">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight px-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight px-4 mobile-text-responsive" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
                   No images found
                 </h2>
                 <p className="text-lg text-gray-300 mt-4">

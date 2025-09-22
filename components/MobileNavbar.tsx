@@ -343,11 +343,15 @@ export default function MobileNavbar() {
                     transition={{ duration: 1.5, ease: 'easeInOut' }}
                   >
                     <Image
-                      src={shuffledImages[currentImageIndex]}
+                      src={shuffledImages[currentImageIndex] || '/images/menu1.png'}
                       alt="Creative menu display"
                       layout="fill"
                       objectFit="cover"
                       priority
+                      onError={(e) => {
+                        console.error('Image failed to load:', shuffledImages[currentImageIndex]);
+                        e.currentTarget.src = '/images/menu1.png';
+                      }}
                     />
                   </motion.div>
                 )}

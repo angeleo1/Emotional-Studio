@@ -136,7 +136,7 @@ const MobileAbout: NextPage = () => {
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
           <h1 
-            className="text-2xl font-medium"
+            className="text-2xl font-medium mobile-text-responsive"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
@@ -179,7 +179,7 @@ const MobileAbout: NextPage = () => {
                 
                   {/* 제목 */}
                 <h2 
-                    className="text-xl font-bold mb-4 text-center"
+                    className="text-xl font-bold mb-4 text-center mobile-text-responsive"
                   style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
                 >
                     {section.title === 'Self Photo Studio' && (
@@ -244,7 +244,7 @@ const MobileAbout: NextPage = () => {
                 
                 {/* 제목 */}
                 <h2 
-                  className="text-xl font-bold mb-4 text-center"
+                  className="text-xl font-bold mb-4 text-center mobile-text-responsive"
                 style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}
               >
                   <span className="text-white/90">Connect with </span>

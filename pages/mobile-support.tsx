@@ -134,7 +134,7 @@ const MobileSupport: NextPage = () => {
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
           <h1 
-            className="text-2xl font-medium"
+            className="text-2xl font-medium mobile-text-responsive"
             style={{
               fontFamily: 'CS-Valcon-Drawn-akhr7k, CS Valcon Drawn, sans-serif',
               letterSpacing: '0.08em',
