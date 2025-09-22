@@ -16,7 +16,7 @@ const sections = [
   },
   {
     title: 'Why emotional?',
-    image: '/images/aboutus2.png',
+    image: '/images/aboutus2.jpg',
     desc: `At Emotional Studio, we believe that photography is more than just taking pictures—it's about capturing the essence of your emotions. Our team is dedicated to making you feel at ease, encouraging genuine smiles and authentic moments. We strive to create an atmosphere where every shot tells a heartfelt story.`
   },
   {
@@ -26,7 +26,7 @@ const sections = [
   },
   {
     title: 'Our Projects',
-    image: '/images/aboutus4.png',
+    image: '/images/aboutus4.jpg',
     desc: `Welcome to emotional studios, where we believe in capturing the most authentic and personal moments of your life in Melbourne. Our first project, emotional studios, was designed to be a private and free-spirited space where you can document your most cherished memories. We invite you to explore your emotions and create lasting, happy memories with us.
 
 As part of our mission to 'Make Melbourne a fun place', we're already hard at work on our second project. Stay tuned—it's coming soon, and we can't wait to share it with you.`
@@ -278,6 +278,17 @@ const MobileAbout: NextPage = () => {
                     </div>
                     <div className="glitch-layer two" style={{ color: '#ff00ff' }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"><path fill="currentColor" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </div>
+                  </a>
+                  <a href="https://www.xiaohongshu.com/user/profile/61667cf2000000000201bbb1?exSource=https://www.xiaohongshu.com/explore" target="_blank" rel="noopener noreferrer" className="svg-glitch-wrapper w-8 h-8" style={{ color: '#FF6100' }}>
+                    <div className="base-icon" style={{ color: '#FF6100', fill: '#FF6100' }}>
+                      <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)' }} />
+                    </div>
+                    <div className="glitch-layer one" style={{ color: '#00ffff' }}>
+                      <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%)' }} />
+                    </div>
+                    <div className="glitch-layer two" style={{ color: '#ff00ff' }}>
+                      <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(25%) sepia(100%) saturate(7500%) hue-rotate(300deg) brightness(100%) contrast(100%)' }} />
                     </div>
                   </a>
 

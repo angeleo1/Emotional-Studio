@@ -15,7 +15,7 @@ const sections = [
   },
   {
     title: 'Why emotional?',
-    image: '/images/aboutus2.png',
+    image: '/images/aboutus2.jpg',
     desc: `At emotional studios, we believe that photography is more than just taking pictures—it's about capturing the essence of your emotions. Our team is dedicated to making you feel at ease, encouraging genuine smiles and authentic moments. We strive to create an atmosphere where every shot tells a heartfelt story.`
   },
   {
@@ -25,7 +25,7 @@ const sections = [
   },
   {
     title: 'Our Projects',
-    image: '/images/aboutus4.png',
+    image: '/images/aboutus4.jpg',
     desc: `Welcome to emotional studios, where we believe in capturing the most authentic and personal moments of your life in Melbourne. Our first project, emotional studios, was designed to be a private and free-spirited space where you can document your most cherished memories. We invite you to explore your emotions and create lasting, happy memories with us.
 
 As part of our mission to 'Make Melbourne a fun place', we're already hard at work on our second project. Stay tuned—it's coming soon, and we can't wait to share it with you.`
@@ -33,7 +33,7 @@ As part of our mission to 'Make Melbourne a fun place', we're already hard at wo
   {
     title: 'Connect with Us',
     image: '/images/aboutus5.png',
-    desc: `Stay connected and be part of our journey! Follow us on social media for the latest updates, behind-the-scenes glimpses, and exclusive offers. We love engaging with our community and sharing the stories that make Emotional Studio a truly special place.`
+    desc: `Stay connected and be part of our journey! Follow us on social media for the latest updates, behind-the-scenes glimpses, and exclusive offers. We love engaging with our community and sharing the stories that make emotional studios a truly special place.`
   },
 ]
 
@@ -121,6 +121,25 @@ function GalleryStyleSquigglyAnimation({ color = '#FF6100' }: { color?: string }
 }
 
 export default function About() {
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // 스크롤이 맨 아래 근처에 있는지 확인 (50px 여유)
+      const isBottom = scrollTop + windowHeight >= documentHeight - 50;
+      setIsAtBottom(isBottom);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // 초기 실행
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       <Head>
@@ -128,11 +147,20 @@ export default function About() {
         <meta name="description" content="Learn about Emotional Studio - a unique self photo studio experience." />
       </Head>
       {/* 좌측 하단 스크롤(화살표+텍스트) UI */}
-      <div className="fixed left-6 bottom-[9.25rem] flex flex-col items-center z-20 select-none pointer-events-none">
-        <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
-          <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-          <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+      <div className="fixed left-6 bottom-[20rem] flex flex-col items-center z-20 select-none pointer-events-none">
+        {isAtBottom ? (
+          // 스크롤이 맨 아래에 있을 때 위쪽 화살표
+          <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-up mb-8">
+            <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M6 12L14 4L22 12" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        ) : (
+          // 스크롤이 맨 아래가 아닐 때 아래쪽 화살표
+          <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
+            <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        )}
         <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
           Scroll
         </span>
@@ -144,8 +172,18 @@ export default function About() {
             60% { transform: translateY(8px); }
             80% { transform: translateY(0); }
           }
+          @keyframes bounce-up {
+            0%, 100% { transform: translateY(0); }
+            20% { transform: translateY(-8px); }
+            40% { transform: translateY(-16px); }
+            60% { transform: translateY(-8px); }
+            80% { transform: translateY(0); }
+          }
           .animate-bounce-down {
             animation: bounce-down 1.5s infinite;
+          }
+          .animate-bounce-up {
+            animation: bounce-up 1.5s infinite;
           }
         `}</style>
                     </div>
@@ -238,6 +276,17 @@ export default function About() {
                           </div>
                           <div className="glitch-layer two" style={{ color: '#ff00ff' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="currentColor" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                          </div>
+                        </a>
+                        <a href="https://www.xiaohongshu.com/user/profile/61667cf2000000000201bbb1?exSource=https://www.xiaohongshu.com/explore" target="_blank" rel="noopener noreferrer" className="mx-2 svg-glitch-wrapper text-white w-12 h-12">
+                          <div className="base-icon">
+                            <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)' }} />
+                          </div>
+                          <div className="glitch-layer one" style={{ color: '#00ffff' }}>
+                            <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%)' }} />
+                          </div>
+                          <div className="glitch-layer two" style={{ color: '#ff00ff' }}>
+                            <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(25%) sepia(100%) saturate(7500%) hue-rotate(300deg) brightness(100%) contrast(100%)' }} />
                           </div>
                         </a>
 

@@ -18,8 +18,9 @@ const menuImages = [
   '/images/menu1.png',
   '/images/menu2.png',
   '/images/menu3.png',
-  '/images/menu4.png',
-  '/images/menu5.png',
+  '/images/menu11.png',
+  '/images/menu12.png',
+  '/images/menu13.png',
 ];
 
 const menuVariants = {
