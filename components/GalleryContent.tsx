@@ -40,7 +40,7 @@ const galleryImages = {
   ],
   'Studio': [
     '/images/Gallery/STUDIO/optimized/Studio (1).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (2).webp',
+    '/images/Gallery/STUDIO/optimized/STUDIO (2).webp',
     '/images/Gallery/STUDIO/optimized/Studio (3).webp',
     '/images/Gallery/STUDIO/optimized/Studio (4).webp',
     '/images/Gallery/STUDIO/optimized/Studio (5).webp',
@@ -97,7 +97,7 @@ const allImagesLatestFirst = [
   '/images/Gallery/WARM/optimized/WARM (2).webp',
   // Studio 이미지들
   '/images/Gallery/STUDIO/optimized/Studio (1).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (2).webp',
+  '/images/Gallery/STUDIO/optimized/STUDIO (2).webp',
   '/images/Gallery/STUDIO/optimized/Studio (3).webp',
   '/images/Gallery/STUDIO/optimized/Studio (4).webp',
   '/images/Gallery/STUDIO/optimized/Studio (5).webp',

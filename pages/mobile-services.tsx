@@ -78,7 +78,7 @@ const services = [
   },
   {
     title: 'Other Goods',
-    images: ['/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png', '/images/BW.jpg'],
+    images: ['/images/BW.jpg', '/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png'],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div>
