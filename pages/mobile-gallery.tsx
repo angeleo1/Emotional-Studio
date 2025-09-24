@@ -164,6 +164,7 @@ const MobileGallery: NextPage = () => {
         <title>Gallery | Emotional Studio</title>
         <meta name="description" content="Explore our photography gallery" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <MobileNavbar />
       <div className="min-h-screen bg-[#111] text-white">

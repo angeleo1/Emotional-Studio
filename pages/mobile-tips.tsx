@@ -27,6 +27,7 @@ export default function MobileTipsPage() {
         <Head>
           <title>Tips - Emotional Studios</title>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="min-h-screen bg-[#111] text-white flex items-center justify-center">
           <div className="text-center">
@@ -49,6 +50,7 @@ export default function MobileTipsPage() {
         <meta name="mobile-web-app-capable" content="no" />
         <meta name="apple-mobile-web-app-capable" content="no" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <link rel="icon" href="/favicon.ico" />
         <meta name="description" content="Tips for your studio session at Emotional Studios" />
         
         {/* 폰트 최적화 */}

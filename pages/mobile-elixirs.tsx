@@ -36,6 +36,7 @@ const MobileElixirs: NextPage = () => {
         <title>Our Elixirs | Emotional Studio</title>
         <meta name="description" content="Discover our signature elixirs at Emotional Studio" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <MobileNavbar />
       <div className="min-h-screen bg-[#111] text-white">

@@ -267,6 +267,7 @@ export default function MobilePage() {
         <meta name="mobile-web-app-capable" content="no" />
         <meta name="apple-mobile-web-app-capable" content="no" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <link rel="icon" href="/favicon.ico" />
         
         {/* 폰트 최적화 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

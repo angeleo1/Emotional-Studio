@@ -195,6 +195,7 @@ const MobilePoseGuide: NextPage = () => {
         <title>e.st - Pose Guide</title>
         <meta name="description" content="Pose Guide for e.st photography" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <MobileNavbar />
       <MobilePoseGallerySection />
