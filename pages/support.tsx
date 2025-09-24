@@ -41,7 +41,7 @@ const Support: NextPage = () => {
     {
       category: 'photo',
       question: 'Can I retouch the selected photos by myself?',
-      answer: 'During the session, you can choose between "emotional studios retouch" or "Retouch by myself" options. If you prefer to retouch the photos yourself, please send the completed files to admin@emotionalstudios.com.au. We will proceed with printing after confirming receipt.'
+      answer: 'During the session, you can choose between "emotional studios retouch" or "Retouch by myself" options. If you prefer to retouch the photos yourself, please send the completed files to admin@emotionalstudios.com.au. We will proceed with printing after received.'
     },
     {
       category: 'editing',
