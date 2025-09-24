@@ -118,6 +118,16 @@ const MobileSupport: NextPage = () => {
     setActiveMainTab(tabId);
   };
 
+  useEffect(() => {
+    const { tab, event } = router.query;
+    if (tab && typeof tab === 'string' && ['faq', 'event', 'notice'].includes(tab)) {
+      setActiveMainTab(tab);
+    }
+    if (event && typeof event === 'string' && event === 'grand-opening') {
+      setOpenEvent('Grand Opening Event');
+    }
+  }, [router.query]);
+
   const filteredFaqs = activeFaqTab === 'all' 
     ? faqs 
     : faqs.filter(faq => faq.category === activeFaqTab);

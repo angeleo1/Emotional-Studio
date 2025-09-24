@@ -117,9 +117,12 @@ const Support: NextPage = () => {
   };
 
   useEffect(() => {
-    const { tab } = router.query;
+    const { tab, event } = router.query;
     if (tab && typeof tab === 'string' && ['faq', 'event', 'notice'].includes(tab)) {
       setActiveMainTab(tab);
+    }
+    if (event && typeof event === 'string' && event === 'grand-opening') {
+      setOpenEvent('Grand Opening Event');
     }
   }, [router.query]);
 
