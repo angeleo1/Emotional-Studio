@@ -37,13 +37,13 @@ const MobileSupport: NextPage = () => {
     {
       category: 'system',
       question: 'How can I make a reservation for a photo session? What is the process?',
-      answer: 'You can make a reservation by visiting our booking page. The detailed process and service information are available on our services page for your reference.\n\nIf you have any questions, feel free to DM us! We will reply as soon as possible.'
+      answer: 'You can make a reservation by clicking "Book Now" button. The detailed process and service information are available on our services page for your reference.\n\nIf you have any questions, feel free to DM us! We will reply as soon as possible.'
     },
 
     {
       category: 'photo',
-      question: 'Can I request specific editing styles?',
-      answer: 'Yes, you can discuss your preferred editing style during the consultation. We offer various styles from natural to artistic edits. You can also select additional retouch options during booking or purchase them when you visit our studio!'
+      question: 'Can I retouch the selected photos by myself?',
+      answer: 'During the session, you can choose between "emotional studios retouch" or "Retouch by myself" options. If you prefer to retouch the photos yourself, please send the completed files to admin@emotionalstudios.com.au. We will proceed with printing after confirming receipt.'
     },
     {
       category: 'editing',

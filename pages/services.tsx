@@ -11,6 +11,7 @@ const pages = [
   // 2. Shooting Type
   {
     images: [
+        { src: '/images/Gallery/Customer Album/Studio (8).jpg', alt: 'Emotional Kit', label: 'emotional Kit' },
         { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
       { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
@@ -39,6 +40,8 @@ const pages = [
             </div>
                      <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
            <div className="space-y-2 text-2xl font-bold text-white mt-16">
+             <div className="text-5xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Kit</div>
+             <div className="border-b-2 border-white/30 w-full mx-auto mb-6" />
              <p>Moodboard Photo</p>
              <p>Elixir concentrate</p>
              <p>Timelapse video original file</p>
@@ -418,7 +421,12 @@ export default function Services() {
                                 className="rounded-xl" 
                               />
                             </div>
-                            <span className="text-white text-xl font-semibold mt-4">{page.images[currentImageIndex].label || ''}</span>
+                            <span 
+                              className="text-white text-xl font-semibold mt-4"
+                              style={page.images[currentImageIndex].label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}
+                            >
+                              {page.images[currentImageIndex].label || ''}
+                            </span>
                           </div>
                           
                           {/* 오른쪽 버튼 */}
@@ -492,7 +500,12 @@ export default function Services() {
                           className="rounded-xl" 
                         />
                       </div>
-                      <span className="text-white text-lg font-semibold mt-3">{page.images[currentImageIndex].label || ''}</span>
+                      <span 
+                        className="text-white text-lg font-semibold mt-3"
+                        style={page.images[currentImageIndex].label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}
+                      >
+                        {page.images[currentImageIndex].label || ''}
+                      </span>
                     </div>
                     
                     {/* 오른쪽 버튼 */}

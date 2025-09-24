@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { sortGalleryImagesByCreationTime, sortAllImagesByCreationTime } from '../utils/gallerySorting';
 
-// 갤러리 이미지 데이터 (최적화된 WebP 버전 사용 - 모든 이미지 포함)
+// 갤러리 이미지 데이터 (실제 폴더의 사진들만 사용)
 const galleryImages = {
   'B&W': [
     '/images/Gallery/BW/optimized/020.webp',
@@ -22,9 +22,10 @@ const galleryImages = {
     '/images/Gallery/BW/optimized/BW.webp',
   ],
   'Cool tone': [
+    '/images/Gallery/COOL/optimized/GAGA-(1 of 2).webp',
+    '/images/Gallery/COOL/optimized/GAGA-(2 of 2).webp',
     '/images/Gallery/COOL/optimized/017.webp',
     '/images/Gallery/COOL/optimized/018.webp',
-    '/images/Gallery/COOL/optimized/019.webp',
     '/images/Gallery/COOL/optimized/019(1).webp',
     '/images/Gallery/COOL/optimized/0921 (1).webp',
     '/images/Gallery/COOL/optimized/0921 (6).webp',
@@ -39,27 +40,32 @@ const galleryImages = {
     '/images/Gallery/WARM/optimized/WARM (2).webp',
   ],
   'Studio': [
-    '/images/Gallery/STUDIO/optimized/Studio (1).webp',
-    '/images/Gallery/STUDIO/optimized/STUDIO (2).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (3).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (4).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (5).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (6).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (7).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (8).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (9).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (10).webp',
     '/images/Gallery/STUDIO/optimized/Studio (11).webp',
     '/images/Gallery/STUDIO/optimized/Studio (12).webp',
     '/images/Gallery/STUDIO/optimized/Studio (13).webp',
     '/images/Gallery/STUDIO/optimized/Studio (14).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (15).webp',
-    '/images/Gallery/STUDIO/optimized/Studio (16).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (4).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (5).webp',
+    '/images/Gallery/STUDIO/optimized/Studio (9).webp',
+  ],
+  'Customer Album': [
+    '/images/Gallery/Customer Album/optimized/Studio (1).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (2).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (3).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (6).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (7).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (8).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (10).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (15).webp',
+    '/images/Gallery/Customer Album/optimized/Studio (16).webp',
   ],
 };
 
-// All 탭용 최신순 정렬된 이미지 배열 (최적화된 WebP 버전 사용 - 모든 이미지 포함)
+// All 탭용 최신순 정렬된 이미지 배열 (실제 폴더의 사진들만 사용)
 const allImagesLatestFirst = [
+  // 최신 추가된 GAGA 이미지들
+  '/images/Gallery/COOL/optimized/GAGA-(1 of 2).webp',
+  '/images/Gallery/COOL/optimized/GAGA-(2 of 2).webp',
   // 최신 추가된 이미지들 (0921 시리즈)
   '/images/Gallery/BW/optimized/0921 (2).webp',
   '/images/Gallery/BW/optimized/0921 (3).webp',
@@ -69,7 +75,6 @@ const allImagesLatestFirst = [
   '/images/Gallery/COOL/optimized/0921 (6).webp',
   // Cool tone - 019 시리즈
   '/images/Gallery/COOL/optimized/019(1).webp',
-  '/images/Gallery/COOL/optimized/019.webp',
   // Cool tone - 017~018
   '/images/Gallery/COOL/optimized/017.webp',
   '/images/Gallery/COOL/optimized/018.webp',
@@ -96,22 +101,23 @@ const allImagesLatestFirst = [
   '/images/Gallery/WARM/optimized/WARM.webp',
   '/images/Gallery/WARM/optimized/WARM (2).webp',
   // Studio 이미지들
-  '/images/Gallery/STUDIO/optimized/Studio (1).webp',
-  '/images/Gallery/STUDIO/optimized/STUDIO (2).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (3).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (4).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (5).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (6).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (7).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (8).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (9).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (10).webp',
   '/images/Gallery/STUDIO/optimized/Studio (11).webp',
   '/images/Gallery/STUDIO/optimized/Studio (12).webp',
   '/images/Gallery/STUDIO/optimized/Studio (13).webp',
   '/images/Gallery/STUDIO/optimized/Studio (14).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (15).webp',
-  '/images/Gallery/STUDIO/optimized/Studio (16).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (4).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (5).webp',
+  '/images/Gallery/STUDIO/optimized/Studio (9).webp',
+  // Customer Album 이미지들
+  '/images/Gallery/Customer Album/optimized/Studio (1).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (2).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (3).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (6).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (7).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (8).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (10).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (15).webp',
+  '/images/Gallery/Customer Album/optimized/Studio (16).webp',
 ];
 
 export default function GalleryContent() {
@@ -155,7 +161,7 @@ export default function GalleryContent() {
       {/* 카테고리 필터 */}
       <div className="px-8 pb-12">
         <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-          {['All', 'B&W', 'Cool tone', 'Warm tone', 'Studio'].map((category) => (
+          {['All', 'B&W', 'Cool tone', 'Warm tone', 'Studio', 'Customer Album'].map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}

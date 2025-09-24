@@ -37,6 +37,7 @@ const services = [
   {
     title: 'Session',
     images: [
+        { src: '/images/Gallery/Customer Album/Studio (8).jpg', alt: 'Emotional Kit', label: 'emotional Kit' },
         { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
       { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
@@ -65,6 +66,8 @@ const services = [
             </div>
             <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
            <div className="space-y-2 text-xl font-bold text-white mt-16">
+             <div className="text-4xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Kit</div>
+             <div className="border-b-2 border-white/30 w-full mx-auto mb-6" />
              <p>Moodboard Photo</p>
              <p>Elixirs</p>
              <p>Timelapse video original file</p>
@@ -217,7 +220,9 @@ const MobileServices: NextPage = () => {
                               />
                               {typeof img === 'object' && img.label && (
                                 <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                  {img.label}
+                                  <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                    {img.label}
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -249,7 +254,9 @@ const MobileServices: NextPage = () => {
                               />
                               {typeof img === 'object' && img.label && (
                                 <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                  {img.label}
+                                  <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                    {img.label}
+                                  </span>
                                 </div>
                               )}
                             </div>
@@ -274,7 +281,9 @@ const MobileServices: NextPage = () => {
                               }}
                             />
                             <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                              {service.images[4].label}
+                              <span style={service.images[4].label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                {service.images[4].label}
+                              </span>
                             </div>
                           </div>
                         )}
@@ -305,7 +314,9 @@ const MobileServices: NextPage = () => {
                             />
                             {typeof img === 'object' && img.label && (
                               <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                {img.label}
+                                <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                  {img.label}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -397,7 +408,12 @@ const MobileServices: NextPage = () => {
                 className="w-full h-auto object-contain rounded-lg"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-center p-3 rounded-b-lg">
-                <p className="text-lg font-semibold">{selectedImage.label}</p>
+                <p 
+                  className="text-lg font-semibold"
+                  style={selectedImage.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}
+                >
+                  {selectedImage.label}
+                </p>
               </div>
               <button
                 className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
