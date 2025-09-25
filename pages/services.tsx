@@ -17,7 +17,7 @@ const pages = [
       { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
       { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard Photo' },
       { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard Photo' },
-      { src: '/images/Gallery/STUDIO/Studio (3).jpg', alt: 'Elixir', label: 'Elixir concentrate' }
+      { src: '/images/Studio (3).jpg', alt: 'Elixir', label: 'Elixir concentrate' }
     ],
     text: (
       <div className="space-y-10 text-white pt-8">
