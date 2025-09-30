@@ -39,7 +39,7 @@ const pages = [
               </div>
             </div>
                      <p className="text-sm text-white mb-6">Children under 5 and pets are welcome free of charge!</p>
-                     <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
+                     <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 20 minutes</p>
            <div className="space-y-2 text-2xl font-bold text-white mt-16">
              <div className="text-5xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Kit</div>
              <div className="border-b-2 border-white/30 w-full mx-auto mb-6" />
