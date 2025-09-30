@@ -13,14 +13,21 @@ export default function Document() {
         {/* 파비콘 설정 - 여러 형식 지원 */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="64x64" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="64x64" href="/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="128x128" href="/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="256x256" href="/icon-512x512.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+        
+        {/* 추가 파비콘 설정 - 브라우저 호환성 */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
+        <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
+        <link rel="icon" href="/icon-192x192.png" sizes="192x192" type="image/png" />
+        <link rel="icon" href="/icon-512x512.png" sizes="512x512" type="image/png" />
         
         {/* Apple 터치 아이콘 */}
         <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
@@ -40,8 +47,8 @@ export default function Document() {
         <meta name="msapplication-square150x150logo" content="/icon-192x192.png" />
         <meta name="msapplication-wide310x150logo" content="/icon-192x192.png" />
         <meta name="msapplication-square310x310logo" content="/icon-512x512.png" />
-        {/* PWA 설치 프롬프트 방지를 위해 manifest 제거 */}
-        {/* <link rel="manifest" href="/manifest.json" /> */}
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
         
         {/* CS-Valcon-Drawn 폰트 최적화 */}
         <link 
