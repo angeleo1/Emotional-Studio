@@ -15,8 +15,8 @@ const pages = [
         { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
       { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
       { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
-      { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard Photo' },
-      { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard Photo' },
+      { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard photo' },
+      { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard photo' },
       { src: '/images/Studio (3).jpg', alt: 'Elixir', label: 'Elixir concentrate' }
     ],
     text: (
@@ -38,11 +38,12 @@ const pages = [
                 </div>
               </div>
             </div>
+                     <p className="text-sm text-white mb-6">Children under 5 and pets are welcome free of charge!</p>
                      <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 10 minutes</p>
            <div className="space-y-2 text-2xl font-bold text-white mt-16">
              <div className="text-5xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Kit</div>
              <div className="border-b-2 border-white/30 w-full mx-auto mb-6" />
-             <p>Moodboard Photo</p>
+             <p>Moodboard photo</p>
              <p>Elixir concentrate</p>
              <p>Timelapse video original file</p>
              <p>4x6'' prints of 2 selected photos</p>

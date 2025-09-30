@@ -5,6 +5,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown } from 'react-icons/fi';
+import { FaInstagram, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
@@ -48,7 +49,7 @@ const MobileSupport: NextPage = () => {
     {
       category: 'editing',
       question: 'How long does it take to receive the edited photos?',
-      answer: 'If you want to receive your photos on the same day, you can pick them up after waiting about 30 minutes after the shoot. However, if you have additional retouch or print services, it may take up to 1 day depending on the quantity.'
+      answer: 'If you want to receive your photos on the same day, pickup is available at least 30 minutes after the shoot. However, if you have additional retouch or print services, it may take up to 1 day depending on the quantity'
     },
 
     {
@@ -84,6 +85,37 @@ const MobileSupport: NextPage = () => {
       title: "Business Card Event",
       content: "Got Our Card? Get a Free Frame!\n\nDid you receive one of our special business cards? Don't lose it! That card is your ticket to a free gift. Just present the card when you book your photo shoot with us, and we'll give you a beautiful black frame with your favourite photo as a token of our appreciation.",
       images: ["/images/Black frame.png", "/images/emotional-banana-1758194237727.png"]
+    },
+    {
+      title: "Follow & Review Event",
+      content: (
+        <div className="flex gap-4">
+          <div className="flex-1 space-y-4">
+            <p className="text-lg font-semibold">Get a free frame after your session!</p>
+            <div className="space-y-3">
+              <p className="font-medium">Here's how:</p>
+              <div className="space-y-2">
+                <p>• Follow us on Instagram or Red Note</p>
+                <p>• Leave a Google review</p>
+                <p>• Show us after your session</p>
+              </div>
+            </div>
+            <p className="text-gray-300">That's it! We'll give you a beautiful frame for free. Perfect way to display your favorite photo from the session.</p>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-4">
+            <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="group">
+              <FaInstagram className="w-10 h-10" style={{ color: '#ffffff', fill: '#ffffff' }} />
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/61667cf2000000000201bbb1?exSource=https://www.xiaohongshu.com/explore" target="_blank" rel="noopener noreferrer" className="group">
+              <img src="/images/rednote.png" alt="Red Note" className="w-10 h-10 group-hover:opacity-80 transition-opacity duration-300" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)' }} />
+            </a>
+            <a href="https://g.page/r/CYJFyuFmHjkyEAI/review" target="_blank" rel="noopener noreferrer" className="group">
+              <FaGoogle className="w-10 h-10" style={{ color: '#ffffff', fill: '#ffffff' }} />
+            </a>
+          </div>
+        </div>
+      ),
+      images: ["/images/554579336_2217374262092330_3022836486883862570_n.jpg", "/images/leobom_modern_loyalty_card_design_matte_background_with_subtl_98ad2255-358d-48fa-8b91-d5d4c742017a_1.png"]
     }
   ];
 
@@ -334,9 +366,13 @@ const MobileSupport: NextPage = () => {
                               />
                             </div>
                           )}
-                          <p className="text-gray-300 text-sm leading-relaxed">
-                            {event.content}
-                          </p>
+                          <div className="text-gray-300 text-sm leading-relaxed">
+                            {typeof event.content === 'string' ? (
+                              <p className="whitespace-pre-line">{event.content}</p>
+                            ) : (
+                              event.content
+                            )}
+                          </div>
                         </motion.div>
                       </motion.div>
                     )}
@@ -416,4 +452,19 @@ const MobileSupport: NextPage = () => {
   );
 };
 
-export default MobileSupport; 
+export default MobileSupport;
+
+<style jsx global>{`
+  .force-white-icon {
+    color: white !important;
+    fill: white !important;
+  }
+  .force-white-icon * {
+    color: white !important;
+    fill: white !important;
+  }
+  .force-white-icon svg {
+    color: white !important;
+    fill: white !important;
+  }
+`}</style> 
