@@ -10,43 +10,33 @@ export default function Document() {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
         
-        {/* 파비콘 설정 - 여러 형식 지원 */}
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        {/* 파비콘 설정 - 새로운 파일들 사용 */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="64x64" href="/icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="128x128" href="/icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="256x256" href="/icon-512x512.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
-        
-        {/* 추가 파비콘 설정 - 브라우저 호환성 */}
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png" />
-        <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
-        <link rel="icon" href="/icon-192x192.png" sizes="192x192" type="image/png" />
-        <link rel="icon" href="/icon-512x512.png" sizes="512x512" type="image/png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/android-icon-192x192.png" />
         
         {/* Apple 터치 아이콘 */}
-        <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/icon-192x192.png" />
-        <link rel="apple-touch-icon" sizes="57x57" href="/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
         
         {/* Windows 타일 */}
         <meta name="msapplication-TileColor" content="#ff6100" />
-        <meta name="msapplication-TileImage" content="/icon-192x192.png" />
-        <meta name="msapplication-square70x70logo" content="/icon-192x192.png" />
-        <meta name="msapplication-square150x150logo" content="/icon-192x192.png" />
-        <meta name="msapplication-wide310x150logo" content="/icon-192x192.png" />
-        <meta name="msapplication-square310x310logo" content="/icon-512x512.png" />
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+        <meta name="msapplication-square70x70logo" content="/ms-icon-70x70.png" />
+        <meta name="msapplication-square150x150logo" content="/ms-icon-150x150.png" />
+        <meta name="msapplication-wide310x150logo" content="/ms-icon-310x310.png" />
+        <meta name="msapplication-square310x310logo" content="/ms-icon-310x310.png" />
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         
