@@ -10,7 +10,13 @@ export default function Document() {
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />
         
-        {/* 파비콘 설정 - 새로운 파일들 사용 */}
+        {/* 구글 검색 최적화 */}
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="description" content="Creating Timeless Moments - Emotional Studio" />
+        <meta name="keywords" content="photography, studio, emotional, moments, timeless" />
+        
+        {/* 파비콘 설정 - 구글 최적화 */}
         <link rel="icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -18,6 +24,10 @@ export default function Document() {
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/android-icon-192x192.png" />
+        
+        {/* 구글 검색 최적화를 위한 추가 파비콘 설정 */}
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-icon-180x180.png" />
         
         {/* Apple 터치 아이콘 */}
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
@@ -37,6 +47,8 @@ export default function Document() {
         <meta name="msapplication-square150x150logo" content="/ms-icon-150x150.png" />
         <meta name="msapplication-wide310x150logo" content="/ms-icon-310x310.png" />
         <meta name="msapplication-square310x310logo" content="/ms-icon-310x310.png" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         
