@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Head from 'next/head';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const pages = [
@@ -317,7 +318,14 @@ export default function Services() {
   }, [currentPage]);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden" style={{ background: '#111111' }}>
+    <>
+      <Head>
+        <title>Services | Emotional Studio - Self Photo Studio in Melbourne</title>
+        <meta name="description" content="Professional self photo studio services in Melbourne. Book your session at Emotional Studio - professional photography without a photographer. Starting from $65." />
+        <meta name="keywords" content="self photo studio services, Melbourne photography, professional photo session, Emotional Studio services, photo booth rental, headshot photography" />
+        <link rel="canonical" href="https://emotionalstudio.com.au/services" />
+      </Head>
+      <div className="relative w-full min-h-screen overflow-hidden" style={{ background: '#111111' }}>
       {/* 좌측 하단 스크롤(화살표+텍스트) UI - 데스크톱에서만 표시 */}
       <div className="hidden md:flex fixed left-6 bottom-[20rem] flex-col items-center z-20 select-none pointer-events-none">
         {currentPage === 3 ? (
@@ -602,6 +610,7 @@ export default function Services() {
       {/* Floating Book Button */}
       <FloatingBookButton />
       
-    </div>
+      </div>
+    </>
   );
 } 

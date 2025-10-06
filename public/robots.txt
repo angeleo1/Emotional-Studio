@@ -1,4 +1,21 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sihyunhada.com/sitemap.xml 
+# 사이트맵 위치
+Sitemap: https://emotionalstudio.com.au/sitemap.xml
+
+# 크롤링 지연 (서버 부하 방지)
+Crawl-delay: 1
+
+# 중요한 페이지 우선 크롤링
+Allow: /$
+Allow: /gallery
+Allow: /services
+Allow: /about
+Allow: /elixirs
+Allow: /pose-guide
+Allow: /tips
+Allow: /support
+
+# 모바일 페이지는 크롤링하지 않음 (데스크탑 우선)
+Disallow: /mobile

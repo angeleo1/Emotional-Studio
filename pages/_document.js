@@ -13,8 +13,28 @@ export default function Document() {
         {/* 구글 검색 최적화 */}
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
-        <meta name="description" content="Creating Timeless Moments - Emotional Studio" />
-        <meta name="keywords" content="photography, studio, emotional, moments, timeless" />
+        <meta name="description" content="Self photo studio in Melbourne - Professional photography without a photographer. Capture timeless moments at Emotional Studio with our premium self-service photo booths and professional lighting." />
+        <meta name="keywords" content="self photo studio, Melbourne, photography, emotional studio, self service photo booth, professional photography, headshots, portrait photography, Melbourne photo studio" />
+        
+        {/* Open Graph 메타 태그 */}
+        <meta property="og:title" content="Emotional Studio - Self Photo Studio in Melbourne" />
+        <meta property="og:description" content="Self photo studio in Melbourne - Professional photography without a photographer. Capture timeless moments with our premium self-service photo booths." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://emotionalstudio.com.au" />
+        <meta property="og:site_name" content="Emotional Studio" />
+        <meta property="og:locale" content="en_AU" />
+        
+        {/* Twitter Card 메타 태그 */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Emotional Studio - Self Photo Studio in Melbourne" />
+        <meta name="twitter:description" content="Self photo studio in Melbourne - Professional photography without a photographer. Capture timeless moments with our premium self-service photo booths." />
+        
+        {/* 캐노니컬 URL 설정 */}
+        <link rel="canonical" href="https://emotionalstudio.com.au" />
+        
+        {/* 모바일 우선순위 조정 */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         
         {/* 파비콘 설정 - 구글 최적화 */}
         <link rel="icon" href="/favicon.ico" />
@@ -81,6 +101,106 @@ export default function Document() {
         />
         {/* Pusher Beams SDK */}
         <script src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
+        
+        {/* 구조화된 데이터 (JSON-LD) - 사이트 링크를 위한 스키마 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Emotional Studio",
+              "description": "Self photo studio in Melbourne - Professional photography without a photographer. Capture timeless moments with our premium self-service photo booths.",
+              "url": "https://emotionalstudio.com.au",
+              "logo": "https://emotionalstudio.com.au/logo.png",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Melbourne",
+                "addressCountry": "AU"
+              },
+              "sameAs": [
+                "https://www.instagram.com/emotionalstudio",
+                "https://www.facebook.com/emotionalstudio"
+              ],
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": "https://emotionalstudio.com.au/search?q={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                }
+              ]
+            })
+          }}
+        />
+        
+        {/* 웹사이트 구조화된 데이터 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Emotional Studio",
+              "description": "Self photo studio in Melbourne - Professional photography without a photographer",
+              "url": "https://emotionalstudio.com.au",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://emotionalstudio.com.au/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              },
+              "mainEntity": {
+                "@type": "Organization",
+                "name": "Emotional Studio",
+                "description": "Self photo studio in Melbourne offering professional photography services without a photographer"
+              }
+            })
+          }}
+        />
+        
+        {/* 사이트 링크를 위한 내비게이션 구조화된 데이터 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SiteNavigationElement",
+              "name": "Main Navigation",
+              "url": "https://emotionalstudio.com.au",
+              "hasPart": [
+                {
+                  "@type": "SiteNavigationElement",
+                  "name": "Gallery",
+                  "description": "View our stunning photography gallery from Emotional Studio",
+                  "url": "https://emotionalstudio.com.au/gallery"
+                },
+                {
+                  "@type": "SiteNavigationElement", 
+                  "name": "Services",
+                  "description": "Professional self photo studio services in Melbourne",
+                  "url": "https://emotionalstudio.com.au/services"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "name": "About",
+                  "description": "Learn about Emotional Studio - Melbourne's premier self photo studio",
+                  "url": "https://emotionalstudio.com.au/about"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "name": "Elixirs",
+                  "description": "Premium elixir concentrates for your photo session",
+                  "url": "https://emotionalstudio.com.au/elixirs"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  "name": "Pose Guide",
+                  "description": "Professional posing tips for your self photo session",
+                  "url": "https://emotionalstudio.com.au/pose-guide"
+                }
+              ]
+            })
+          }}
+        />
       </Head>
       <body>
         <Main />

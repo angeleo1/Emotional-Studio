@@ -44,19 +44,22 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true);
     
-    // 즉시 모바일 체크 및 리다이렉트
+    // 데스크탑 우선 로직 - 모바일 리다이렉트를 지연시킴
     const checkAndRedirect = () => {
       try {
-        // 화면 크기만으로 판단 (단순하게)
-        if (window.innerWidth <= 768) {
-          window.location.href = '/mobile';
+        // 데스크탑 우선: 더 큰 화면에서만 모바일로 리다이렉트
+        // 480px 이하에서만 모바일로 리다이렉트 (더 작은 모바일 기기만)
+        if (window.innerWidth <= 480) {
+          // 지연된 리다이렉트로 SEO 크롤러가 데스크탑 버전을 먼저 인덱싱할 수 있도록 함
+          setTimeout(() => {
+            window.location.href = '/mobile';
+          }, 1000);
           return;
         }
         
       } catch (error) {
         console.error('Mobile detection error:', error);
-        // 에러 시에도 모바일로 가정하고 리다이렉트
-        window.location.href = '/mobile';
+        // 에러 시에는 리다이렉트하지 않음 (데스크탑 버전 유지)
       }
     };
     

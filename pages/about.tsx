@@ -143,8 +143,10 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>About Us | Emotional Studio</title>
-        <meta name="description" content="Learn about Emotional Studio - a unique self photo studio experience." />
+        <title>About Us | Emotional Studio - Self Photo Studio in Melbourne</title>
+        <meta name="description" content="Learn about Emotional Studio, Melbourne's premier self photo studio. Discover our unique approach to capturing authentic moments and emotions through professional self-service photography." />
+        <meta name="keywords" content="about Emotional Studio, self photo studio Melbourne, professional photography, emotional moments, Melbourne photo studio" />
+        <link rel="canonical" href="https://emotionalstudio.com.au/about" />
       </Head>
       {/* 좌측 하단 스크롤(화살표+텍스트) UI */}
       <div className="fixed left-6 bottom-[20rem] flex flex-col items-center z-20 select-none pointer-events-none">
