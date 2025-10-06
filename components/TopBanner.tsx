@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const TopBanner: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // 모바일에서는 모바일 지원 페이지로, 데스크탑에서는 데스크탑 지원 페이지로 이동
+  const supportUrl = isMobile 
+    ? "/mobile-support?tab=event&event=grand-opening"
+    : "/support?tab=event&event=grand-opening";
+
   return (
     <motion.div
       initial={{ y: -50, opacity: 0 }}
@@ -12,7 +30,7 @@ const TopBanner: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center">
         <Link 
-          href="/support?tab=event&event=grand-opening"
+          href={supportUrl}
           className="flex items-center gap-2 hover:opacity-90 transition-opacity duration-200"
         >
           <span 
