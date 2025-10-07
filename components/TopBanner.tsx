@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { isMobileDevice } from '../utils/deviceDetection';
 
 const TopBanner: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -8,7 +9,7 @@ const TopBanner: React.FC = () => {
   useEffect(() => {
     const checkMobile = () => {
       if (typeof window !== 'undefined') {
-        setIsMobile(window.innerWidth <= 1024);
+        setIsMobile(isMobileDevice());
       }
     };
 

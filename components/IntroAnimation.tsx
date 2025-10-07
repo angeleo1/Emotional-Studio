@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
+import { isMobileDevice } from '../utils/deviceDetection';
 
 const INTRO_TEXT = 'emotional studios';
 const TYPING_SPEED = 93; // ms per character (1.5배 빠르게)
@@ -23,7 +24,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
     setIsClient(true);
     // 모바일 감지
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(isMobileDevice());
     };
     
     checkMobile();
@@ -262,7 +263,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   pointerEvents: 'auto',
                   boxSizing: 'border-box',
                 }}
-                onClick={() => { router.push('/support?tab=event'); }}
+                onClick={() => { router.push(isMobile ? '/mobile-support?tab=event' : '/support?tab=event'); }}
               >
                 <span className="glitch" data-text="Events" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Events</span>
               </MotionButton>

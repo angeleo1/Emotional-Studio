@@ -264,8 +264,8 @@ export default function MobileTipsPage() {
           </motion.div>
         </div>
 
-        {/* 하단 정보 */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white text-xs font-normal tracking-wider z-10 select-none pointer-events-none px-4 text-center">
+        {/* 하단 정보 - SNS 아이콘과 겹치지 않도록 더 위로 이동 */}
+        <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-white text-xs font-normal tracking-wider z-10 select-none pointer-events-none px-4 text-center">
           Private Self-Studio in Melbourne
         </div>
 
