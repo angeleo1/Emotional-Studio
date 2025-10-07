@@ -14,8 +14,10 @@ declare global {
 export default function SimplyBookWidget({ className = '' }: SimplyBookWidgetProps) {
   const widgetRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     // 모바일 감지
     const checkMobile = () => {
       setIsMobile(isMobileDevice());
@@ -67,7 +69,7 @@ export default function SimplyBookWidget({ className = '' }: SimplyBookWidgetPro
             "button_background_color": "#ff6100",
             "button_text_color": "#ffffff",
             "button_position": "left",
-            "button_position_offset": isMobile ? "20%" : "30%"
+            "button_position_offset": isClient && isMobile ? "20%" : "30%"
           });
         } catch (error) {
           console.error('SimplyBook 위젯 로드 중 오류:', error);
@@ -104,7 +106,7 @@ export default function SimplyBookWidget({ className = '' }: SimplyBookWidgetPro
       style={{ 
         position: 'relative',
         zIndex: 1000,
-        transform: isMobile ? 'scale(0.8)' : 'scale(1)',
+        transform: isClient && isMobile ? 'scale(0.8)' : 'scale(1)',
         transformOrigin: 'left bottom'
       }}
     />

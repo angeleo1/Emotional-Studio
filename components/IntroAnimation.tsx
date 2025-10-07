@@ -263,7 +263,7 @@ const IntroAnimation: React.FC<IntroAnimationProps> = ({ onFinish }) => {
                   pointerEvents: 'auto',
                   boxSizing: 'border-box',
                 }}
-                onClick={() => { router.push(isMobile ? '/mobile-support?tab=event' : '/support?tab=event'); }}
+                onClick={() => { router.push(isClient && isMobile ? '/mobile-support?tab=event' : '/support?tab=event'); }}
               >
                 <span className="glitch" data-text="Events" style={{ color: '#fff', whiteSpace: 'nowrap', lineHeight: 1, display: 'block', fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>Events</span>
               </MotionButton>

@@ -5,8 +5,10 @@ import { isMobileDevice } from '../utils/deviceDetection';
 
 const TopBanner: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     const checkMobile = () => {
       if (typeof window !== 'undefined') {
         setIsMobile(isMobileDevice());
@@ -19,7 +21,8 @@ const TopBanner: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const supportUrl = isMobile ? '/mobile-support?tab=event&event=grand-opening' : '/support?tab=event&event=grand-opening';
+  // 클라이언트에서 하이드레이션되기 전까지는 기본 데스크탑 링크 사용
+  const supportUrl = isClient && isMobile ? '/mobile-support?tab=event&event=grand-opening' : '/support?tab=event&event=grand-opening';
 
   return (
     <motion.div
