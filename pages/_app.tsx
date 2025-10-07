@@ -12,6 +12,8 @@ import CustomCursor from '@/components/CustomCursor'
 import ContactPopup from '@/components/ContactPopup'
 import Layout from '../components/layout/Layout'
 import PusherBeams from '@/components/PusherBeams'
+import { isMobileDevice } from '../utils/deviceDetection'
+import { isMobileFromUserAgent } from '../utils/serverDeviceDetection'
 
 // 전역 상태 컨텍스트 생성
 const NavbarContext = createContext<{ isDesktopNavbarActive: boolean }>({ isDesktopNavbarActive: false });
@@ -31,20 +33,17 @@ const playfairDisplay = Playfair_Display({
   variable: '--font-playfair',
 })
 
-// 모바일 감지 함수 (iPad Pro 포함)
-const isMobileDevice = () => {
-  if (typeof window === 'undefined') {
-    return false;
-  }
-
-  // iPad Pro (1024px)까지 모바일로 인식
-  return window.innerWidth <= 1024;
-};
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const [isContactOpen, setIsContactOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => {
+    // 서버 사이드에서 User-Agent 기반 초기 감지
+    if (typeof window !== 'undefined') {
+      return isMobileFromUserAgent(navigator.userAgent);
+    }
+    return false;
+  })
   const [isClient, setIsClient] = useState(false)
   const [isDesktopNavbarActive, setIsDesktopNavbarActive] = useState(false)
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import IntroAnimation from '@/components/IntroAnimation';
+import { isMobileDevice } from '../utils/deviceDetection';
 
 // 에러 바운더리 컴포넌트
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
@@ -47,8 +48,8 @@ export default function Home() {
     // 즉시 모바일 체크 및 리다이렉트
     const checkAndRedirect = () => {
       try {
-        // 화면 크기만으로 판단 (단순하게)
-        if (window.innerWidth <= 768) {
+        // 정확한 모바일 감지 사용
+        if (isMobileDevice()) {
           window.location.href = '/mobile';
           return;
         }
