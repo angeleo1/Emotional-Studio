@@ -73,6 +73,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
       <NavbarContext.Provider value={{ isDesktopNavbarActive: false }}>
         <Head>
+          <title>emotional studios</title>
           <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
           <meta httpEquiv="Pragma" content="no-cache" />
           <meta httpEquiv="Expires" content="0" />
@@ -92,6 +93,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <NavbarContext.Provider value={{ isDesktopNavbarActive: true }}>
       <Head>
+        <title>emotional studios</title>
         <meta httpEquiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta httpEquiv="Pragma" content="no-cache" />
         <meta httpEquiv="Expires" content="0" />

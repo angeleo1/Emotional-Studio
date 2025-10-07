@@ -283,7 +283,7 @@ const MobileAbout: NextPage = () => {
                   </a>
                   <a href="https://www.xiaohongshu.com/user/profile/61667cf2000000000201bbb1?exSource=https://www.xiaohongshu.com/explore" target="_blank" rel="noopener noreferrer" className="svg-glitch-wrapper w-8 h-8" style={{ color: '#FF6100' }}>
                     <div className="base-icon" style={{ color: '#FF6100', fill: '#FF6100' }}>
-                      <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(50%) sepia(100%) saturate(1000%) hue-rotate(20deg) brightness(100%) contrast(100%)' }} />
+                      <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(346deg) brightness(119%) contrast(119%)' }} />
                     </div>
                     <div className="glitch-layer one" style={{ color: '#00ffff' }}>
                       <img src="/images/rednote.png" alt="Red Note" className="w-full h-full object-contain" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(100%) saturate(0%) hue-rotate(180deg) brightness(100%) contrast(100%)' }} />

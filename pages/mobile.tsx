@@ -243,7 +243,7 @@ export default function MobilePage() {
     return (
       <>
         <Head>
-          <title>Emotional Studios - Mobile</title>
+          <title>emotional studios</title>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </Head>
         <div className="min-h-screen mobile-container bg-[#111] text-white flex items-center justify-center safe-area-inset">
@@ -260,14 +260,14 @@ export default function MobilePage() {
 
   return (
     <>
-      <Head>
-        <title>Emotional Studios - Mobile</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="mobile-web-app-capable" content="no" />
-        <meta name="apple-mobile-web-app-capable" content="no" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <link rel="icon" href="/favicon.ico" />
+        <Head>
+          <title>emotional studios</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="no" />
+          <meta name="apple-mobile-web-app-capable" content="no" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+          <link rel="icon" href="/favicon.ico" />
         
         {/* 폰트 최적화 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

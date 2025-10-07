@@ -13,8 +13,19 @@ export default function Document() {
         {/* 구글 검색 최적화 */}
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
-        <meta name="description" content="Creating Timeless Moments - Emotional Studio" />
-        <meta name="keywords" content="photography, studio, emotional, moments, timeless" />
+        <meta name="description" content="Private Self-Photo Studio in Melbourne. A place to capture moment visually." />
+        <meta name="keywords" content="photography, studio, emotional, moments, timeless, melbourne, self-photo, private studio" />
+        
+        {/* Open Graph 메타태그 */}
+        <meta property="og:title" content="emotional studios" />
+        <meta property="og:description" content="Private Self-Photo Studio in Melbourne. A place to capture moment visually." />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="emotional studios" />
+        
+        {/* Twitter Card 메타태그 */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="emotional studios" />
+        <meta name="twitter:description" content="Private Self-Photo Studio in Melbourne. A place to capture moment visually." />
         
         {/* 파비콘 설정 - 구글 최적화 */}
         <link rel="icon" href="/favicon.ico" />

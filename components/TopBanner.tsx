@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 const TopBanner: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth <= 1024);
+      }
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const supportUrl = isMobile ? '/mobile-support?tab=event&event=grand-opening' : '/support?tab=event&event=grand-opening';
+
   return (
     <motion.div
       initial={{ y: -50, opacity: 0 }}
@@ -12,7 +29,7 @@ const TopBanner: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center">
         <Link 
-          href="/support?tab=event&event=grand-opening"
+          href={supportUrl}
           className="flex items-center gap-2 hover:opacity-90 transition-opacity duration-200"
         >
           <span 
