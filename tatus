@@ -1,0 +1,5 @@
+[33m9a296cf[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m 모바일에서 배너 제거: 모바일 감지 문제 해결을 위해 모바일에서는 배너를 표시하지 않음
+[33mce6812d[m 모바일 감지 로직 개선: 서버사이드 User-Agent 기반 초기 감지 추가
+[33ma74566f[m SSR 하이드레이션 문제 해결: 배너와 위젯의 모바일 감지 로직 개선
+[33m7099499[m 모바일 UI 개선: 배너 링크 수정, Book now 위젯 크기 조절, Private self 문장과 SNS 아이콘 겹침 해결
+[33md56d781[m Fix mobile banner routing, update favicon, and improve SEO metadata
