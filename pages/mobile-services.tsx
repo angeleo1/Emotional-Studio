@@ -6,8 +6,60 @@ import MobileNavbar from '../components/MobileNavbar';
 import Image from 'next/image';
 import MobileContactButton from '../components/MobileContactButton';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
+import PackagesContent from '@/components/PackagesContent';
+import AddOnsContent from '@/components/AddOnsContent';
 
-const services = [
+const MobileServices: NextPage = () => {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
+  const [loadingType, setLoadingType] = useState<'packages' | 'addons' | null>(null);
+  const [showContent, setShowContent] = useState(false);
+
+  const handlePackagesClick = () => {
+    setLoadingType('packages');
+    setShowContent(true);
+    // MobileNavbar와 TopBanner 숨기기
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = 'none';
+    }
+    // 주황색 배너 숨기기
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = 'none';
+    }
+  };
+
+  const handleAddOnsClick = () => {
+    setLoadingType('addons');
+    setShowContent(true);
+    // MobileNavbar와 TopBanner 숨기기
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = 'none';
+    }
+    // 주황색 배너 숨기기
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = 'none';
+    }
+  };
+
+  const handleBackToMain = () => {
+    setShowContent(false);
+    setLoadingType(null);
+    // MobileNavbar와 TopBanner 다시 표시
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = '';
+    }
+    // 주황색 배너 다시 표시
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = '';
+    }
+  };
+
+  const services = [
   {
     title: 'Provided as Standard',
     image: '/images/dlsus.png',
@@ -81,65 +133,53 @@ const services = [
     )
   },
   {
-    title: 'Other Goods',
-    images: ['/images/BW.jpg', '/images/frame.png (1).png', '/images/frame.png', '/images/frame.png (2).png'],
+    title: 'Packages & Add-ons',
     text: (
       <div className="space-y-10 text-white pt-8">
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-xl font-bold mb-2">
-              <span className="w-8 h-8 inline-block align-middle">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M6 7V3h12v4"/><path d="M6 17h12v4H6z"/></svg>
-              </span>
-              <span>Extra 4x6'' Print</span>
-            </div>
-            <span className="text-base font-bold text-right ml-2">$10</span>
-          </div>
-          <p className="text-lg mt-1 mb-4">High quality prints on premium paper</p>
+        <div className="text-center mb-8">
+          <h3 className="text-2xl font-bold text-white mb-4">Choose Your Experience</h3>
+          <p className="text-base text-white/70">Select the perfect package for your photography needs</p>
         </div>
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-xl font-bold mb-2">
-              <span className="w-8 h-8 inline-block align-middle">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
-              </span>
-              <span>Frame</span>
+        
+        <div className="space-y-4">
+          {/* Packages 버튼 */}
+          <button 
+            onClick={handlePackagesClick}
+            className="group relative p-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl hover:bg-white/20 transition-all duration-300 w-full"
+          >
+            <div className="text-center">
+              <div className="w-12 h-12 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                  <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-white mb-2">Packages</h4>
+              <p className="text-white/70 text-sm">Complete photography packages with everything included</p>
             </div>
-            <span className="text-base font-bold text-right ml-2">$15</span>
-          </div>
-          <p className="text-lg mt-1 mb-4">Elegant frames to display your memories</p>
-        </div>
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-xl font-bold mb-2">
-              <span className="w-8 h-8 inline-block align-middle">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-              </span>
-              <span>Additional Retouch</span>
+          </button>
+
+          {/* Add-ons 버튼 */}
+          <button 
+            onClick={handleAddOnsClick}
+            className="group relative p-6 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl hover:bg-white/20 transition-all duration-300 w-full"
+          >
+            <div className="text-center">
+              <div className="w-12 h-12 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-white mb-2">Add-ons</h4>
+              <p className="text-white/70 text-sm">Additional services to enhance your experience</p>
             </div>
-            <span className="text-base font-bold text-right ml-2">$10</span>
-          </div>
-          <p className="text-lg mt-1 mb-4">We will professionally enhance your selected images to ensure you look your absolute best</p>
-        </div>
-        <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-xl font-bold mb-2">
-              <span className="w-8 h-8 inline-block align-middle">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-              </span>
-              <span>Digital original film</span>
-            </div>
-            <span className="text-base font-bold text-right ml-2">$20</span>
-          </div>
-          <p className="text-lg mt-1 mb-4">High resolution digital files for uploading SNS or download</p>
+          </button>
         </div>
       </div>
     )
   }
 ];
-
-const MobileServices: NextPage = () => {
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
 
   return (
     <>
@@ -150,6 +190,30 @@ const MobileServices: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MobileNavbar />
+      
+      {/* 로딩된 내용 표시 */}
+      {showContent && (
+        <div className="fixed inset-0 z-40 flex flex-col" style={{ background: '#111' }}>
+          {/* 뒤로가기 버튼 - 우측 하단 (중앙보다 왼쪽) */}
+          <div className="fixed bottom-6 right-20 z-50">
+            <button
+              onClick={handleBackToMain}
+              className="flex items-center justify-center w-12 h-12 bg-white hover:bg-white/90 backdrop-blur-sm rounded-full transition-all duration-300 shadow-lg active:scale-95"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
+          </div>
+          
+          {/* 내용 */}
+          <div className="flex-1 overflow-y-auto pt-16">
+            {loadingType === 'packages' && <PackagesContent />}
+            {loadingType === 'addons' && <AddOnsContent />}
+          </div>
+        </div>
+      )}
+      
       <div className="min-h-screen bg-[#111] text-white">
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
@@ -183,9 +247,8 @@ const MobileServices: NextPage = () => {
                 {/* 컨텐츠 */}
                 <div className="relative p-6">
                   {/* 이미지 컨테이너 */}
-                  <div className="relative mb-6 overflow-hidden rounded-2xl">
-                    {service.image ? (
-                      // 단일 이미지
+                  {service.image && (
+                    <div className="relative mb-6 overflow-hidden rounded-2xl">
                       <Image
                         src={service.image}
                         alt={service.title}
@@ -193,13 +256,111 @@ const MobileServices: NextPage = () => {
                         height={300}
                         className="w-full h-48 object-contain transition-transform duration-700 group-hover:scale-105"
                       />
-                    ) : service.images ? (
-                    // Session 섹션인 경우 특별한 레이아웃 적용
-                    service.title === 'Session' ? (
-                      <div className="space-y-2">
-                        {/* 첫 번째 행: Warm tone, Cool tone */}
+                    </div>
+                  )}
+                  {service.images && (
+                    <div className="relative mb-6 overflow-hidden rounded-2xl">
+                      {/* Session 섹션인 경우 특별한 레이아웃 적용 */}
+                      {service.title === 'Session' ? (
+                        <div className="space-y-2">
+                          {/* 첫 번째 행: Warm tone, Cool tone */}
+                          <div className="grid grid-cols-2 gap-2">
+                            {service.images.slice(0, 2).map((img, imgIndex) => (
+                              <div 
+                                key={imgIndex} 
+                                className="relative cursor-pointer"
+                                onClick={() => {
+                                  if (typeof img === 'object' && img.label) {
+                                    setSelectedImage({
+                                      src: img.src,
+                                      alt: img.alt,
+                                      label: img.label
+                                    });
+                                  }
+                                }}
+                              >
+                                <Image
+                                  src={typeof img === 'string' ? img : img.src}
+                                  alt={typeof img === 'string' ? `${service.title} ${imgIndex + 1}` : img.alt}
+                                  width={200}
+                                  height={200}
+                                  className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
+                                />
+                                {typeof img === 'object' && img.label && (
+                                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
+                                    <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                      {img.label}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {/* 두 번째 행: B/W, OOTD Photo */}
+                          <div className="grid grid-cols-2 gap-2">
+                            {service.images.slice(2, 4).map((img, imgIndex) => (
+                              <div 
+                                key={imgIndex + 2} 
+                                className="relative cursor-pointer"
+                                onClick={() => {
+                                  if (typeof img === 'object' && img.label) {
+                                    setSelectedImage({
+                                      src: img.src,
+                                      alt: img.alt,
+                                      label: img.label
+                                    });
+                                  }
+                                }}
+                              >
+                                <Image
+                                  src={typeof img === 'string' ? img : img.src}
+                                  alt={typeof img === 'string' ? `${service.title} ${imgIndex + 3}` : img.alt}
+                                  width={200}
+                                  height={200}
+                                  className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
+                                />
+                                {typeof img === 'object' && img.label && (
+                                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
+                                    <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                      {img.label}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {/* 세 번째 행: Elixirs (단독으로 전체 너비) */}
+                          {service.images && service.images[4] && (
+                            <div className="relative cursor-pointer">
+                              <Image
+                                src={service.images[4].src}
+                                alt={service.images[4].alt}
+                                width={200}
+                                height={200}
+                                className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
+                                onClick={() => {
+                                  setSelectedImage({
+                                    src: service.images[4].src,
+                                    alt: service.images[4].alt,
+                                    label: service.images[4].label
+                                  });
+                                }}
+                              />
+                              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
+                                <span style={service.images[4].label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
+                                  {service.images[4].label}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <>
+                        {/* 다른 섹션들은 기존 레이아웃 사용 */}
                         <div className="grid grid-cols-2 gap-2">
-                          {service.images.slice(0, 2).map((img, imgIndex) => (
+                          {service.images.map((img, imgIndex) => (
                             <div 
                               key={imgIndex} 
                               className="relative cursor-pointer"
@@ -230,105 +391,14 @@ const MobileServices: NextPage = () => {
                             </div>
                           ))}
                         </div>
-                        
-                        {/* 두 번째 행: B/W, OOTD Photo */}
-                        <div className="grid grid-cols-2 gap-2">
-                          {service.images.slice(2, 4).map((img, imgIndex) => (
-                            <div 
-                              key={imgIndex + 2} 
-                              className="relative cursor-pointer"
-                              onClick={() => {
-                                if (typeof img === 'object' && img.label) {
-                                  setSelectedImage({
-                                    src: img.src,
-                                    alt: img.alt,
-                                    label: img.label
-                                  });
-                                }
-                              }}
-                            >
-                              <Image
-                                src={typeof img === 'string' ? img : img.src}
-                                alt={typeof img === 'string' ? `${service.title} ${imgIndex + 3}` : img.alt}
-                                width={200}
-                                height={200}
-                                className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
-                              />
-                              {typeof img === 'object' && img.label && (
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                  <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
-                                    {img.label}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                        
-                        {/* 세 번째 행: Elixirs (단독으로 전체 너비) */}
-                        {service.images && service.images[4] && (
-                          <div className="relative cursor-pointer">
-                            <Image
-                              src={service.images[4].src}
-                              alt={service.images[4].alt}
-                              width={200}
-                              height={200}
-                              className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
-                              onClick={() => {
-                                setSelectedImage({
-                                  src: service.images[4].src,
-                                  alt: service.images[4].alt,
-                                  label: service.images[4].label
-                                });
-                              }}
-                            />
-                            <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                              <span style={service.images[4].label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
-                                {service.images[4].label}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      // 다른 섹션들은 기존 레이아웃 사용
-                      <div className="grid grid-cols-2 gap-2">
-                        {service.images.map((img, imgIndex) => (
-                          <div 
-                            key={imgIndex} 
-                            className="relative cursor-pointer"
-                            onClick={() => {
-                              if (typeof img === 'object' && img.label) {
-                                setSelectedImage({
-                                  src: img.src,
-                                  alt: img.alt,
-                                  label: img.label
-                                });
-                              }
-                            }}
-                          >
-                            <Image
-                              src={typeof img === 'string' ? img : img.src}
-                              alt={typeof img === 'string' ? `${service.title} ${imgIndex + 1}` : img.alt}
-                              width={200}
-                              height={200}
-                              className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
-                            />
-                            {typeof img === 'object' && img.label && (
-                              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
-                                  {img.label}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    )
-                    ) : null}
-                    {/* 이미지 오버레이 그라데이션 */}
+                        </>
+                      )}
+                    </div>
+                  )}
+                  {/* 이미지 오버레이 그라데이션 */}
+                  {service.images && (
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
-                  </div>
+                  )}
                   
                   {/* 제목 */}
                   <h2 

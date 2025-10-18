@@ -27,15 +27,15 @@ const menuVariants = {
   open: {
     clipPath: 'circle(150% at 50% 0%)',
     transition: {
-      duration: 1.2,
-      ease: [0.83, 0, 0.17, 1],
+      duration: 0.5,
+      ease: [0.4, 0, 0.2, 1],
     },
   },
   closed: {
     clipPath: 'circle(0% at 50% 0%)',
     transition: {
-      duration: 1.2,
-      ease: [0.83, 0, 0.17, 1],
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1],
     },
   },
 };
@@ -45,16 +45,16 @@ const navLinkVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.1 + 0.3,
-      duration: 0.4,
+      delay: i * 0.05 + 0.15,
+      duration: 0.2,
       ease: "easeOut"
     },
   }),
   closed: {
     opacity: 0,
-    y: 30,
+    y: 20,
     transition: {
-      duration: 0.2
+      duration: 0.15
     }
   },
 };
