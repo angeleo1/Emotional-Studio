@@ -262,8 +262,8 @@ const MobileServices: NextPage = () => {
                   )}
                   {service.images && (
                     <div className="relative mb-6 overflow-hidden rounded-2xl">
-                      // Session 섹션인 경우 특별한 레이아웃 적용
-                      service.title === 'Session' ? (
+                      {/* Session 섹션인 경우 특별한 레이아웃 적용 */}
+                      {service.title === 'Session' ? (
                         <div className="space-y-2">
                           {/* 첫 번째 행: Warm tone, Cool tone */}
                           <div className="grid grid-cols-2 gap-2">
@@ -359,7 +359,6 @@ const MobileServices: NextPage = () => {
                           )}
                         </div>
                       ) : (
-                        // 다른 섹션들은 기존 레이아웃 사용
                         <div className="grid grid-cols-2 gap-2">
                           {service.images.map((img, imgIndex) => (
                             <div 
