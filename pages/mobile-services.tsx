@@ -443,58 +443,57 @@ const MobileServices: NextPage = () => {
             ))}
           </div>
         </div>
-      </div>
 
-      <MobileContactButton />
-      
-      {/* Floating Book Button */}
-      <FloatingBookButton />
+        <MobileContactButton />
+        
+        {/* Floating Book Button */}
+        <FloatingBookButton />
 
-      {/* 이미지 모달 */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-            onClick={() => setSelectedImage(null)}
-          >
+        {/* 이미지 모달 */}
+        <AnimatePresence>
+          {selectedImage && (
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="relative max-w-[90vw] max-h-[80vh] mx-4"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+              onClick={() => setSelectedImage(null)}
             >
-              <Image
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                width={400}
-                height={500}
-                className="w-full h-auto object-contain rounded-lg"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-center p-3 rounded-b-lg">
-                <p 
-                  className="text-lg font-semibold"
-                  style={selectedImage.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}
-                >
-                  {selectedImage.label}
-                </p>
-              </div>
-              <button
-                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
-                onClick={() => setSelectedImage(null)}
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                className="relative max-w-[90vw] max-h-[80vh] mx-4"
+                onClick={(e) => e.stopPropagation()}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                <Image
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  width={400}
+                  height={500}
+                  className="w-full h-auto object-contain rounded-lg"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-center p-3 rounded-b-lg">
+                  <p 
+                    className="text-lg font-semibold"
+                    style={selectedImage.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}
+                  >
+                    {selectedImage.label}
+                  </p>
+                </div>
+                <button
+                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+                  onClick={() => setSelectedImage(null)}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-        </div>
+          )}
+        </AnimatePresence>
+      </div>
       )}
       
     </>
