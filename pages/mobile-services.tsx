@@ -9,7 +9,57 @@ import FloatingBookButton from '@/components/common/FloatingBookButton';
 import PackagesContent from '@/components/PackagesContent';
 import AddOnsContent from '@/components/AddOnsContent';
 
-const services = [
+const MobileServices: NextPage = () => {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
+  const [loadingType, setLoadingType] = useState<'packages' | 'addons' | null>(null);
+  const [showContent, setShowContent] = useState(false);
+
+  const handlePackagesClick = () => {
+    setLoadingType('packages');
+    setShowContent(true);
+    // MobileNavbar와 TopBanner 숨기기
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = 'none';
+    }
+    // 주황색 배너 숨기기
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = 'none';
+    }
+  };
+
+  const handleAddOnsClick = () => {
+    setLoadingType('addons');
+    setShowContent(true);
+    // MobileNavbar와 TopBanner 숨기기
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = 'none';
+    }
+    // 주황색 배너 숨기기
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = 'none';
+    }
+  };
+
+  const handleBackToMain = () => {
+    setShowContent(false);
+    setLoadingType(null);
+    // MobileNavbar와 TopBanner 다시 표시
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = '';
+    }
+    // 주황색 배너 다시 표시
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = '';
+    }
+  };
+
+  const services = [
   {
     title: 'Provided as Standard',
     image: '/images/dlsus.png',
@@ -130,56 +180,6 @@ const services = [
     )
   }
 ];
-
-const MobileServices: NextPage = () => {
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
-  const [loadingType, setLoadingType] = useState<'packages' | 'addons' | null>(null);
-  const [showContent, setShowContent] = useState(false);
-
-  const handlePackagesClick = () => {
-    setLoadingType('packages');
-    setShowContent(true);
-    // MobileNavbar와 TopBanner 숨기기
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.display = 'none';
-    }
-    // 주황색 배너 숨기기
-    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
-    if (topBanner) {
-      (topBanner as HTMLElement).style.display = 'none';
-    }
-  };
-
-  const handleAddOnsClick = () => {
-    setLoadingType('addons');
-    setShowContent(true);
-    // MobileNavbar와 TopBanner 숨기기
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.display = 'none';
-    }
-    // 주황색 배너 숨기기
-    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
-    if (topBanner) {
-      (topBanner as HTMLElement).style.display = 'none';
-    }
-  };
-
-  const handleBackToMain = () => {
-    setShowContent(false);
-    setLoadingType(null);
-    // MobileNavbar와 TopBanner 다시 표시
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.display = '';
-    }
-    // 주황색 배너 다시 표시
-    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
-    if (topBanner) {
-      (topBanner as HTMLElement).style.display = '';
-    }
-  };
 
   return (
     <>
