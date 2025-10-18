@@ -338,31 +338,20 @@ export default function Services() {
           </div>
         </div>
       )}
-      {/* 좌측 하단 스크롤(화살표+텍스트) UI - 데스크톱에서만 표시 */}
-      <div className="hidden md:flex fixed left-6 bottom-[20rem] flex-col items-center z-20 select-none pointer-events-none">
-        {currentPage === 3 ? (
-          <>
-            {/* 위쪽 화살표 */}
-            <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-up mb-8">
-              <path d="M14 44V4" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-              <path d="M6 12L14 4L22 12" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
-              Scroll
-            </span>
-          </>
-        ) : (
-          <>
-            {/* 아래쪽 화살표 */}
-            <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
-              <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-              <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
-              Scroll
-            </span>
-          </>
-        )}
+      
+      {/* 기본 페이지 내용 - showContent가 false일 때만 표시 */}
+      {!showContent && (
+        <>
+          {/* 좌측 하단 스크롤(화살표+텍스트) UI - 데스크톱에서만 표시 */}
+          <div className="hidden md:flex fixed left-6 bottom-[20rem] flex-col items-center z-20 select-none pointer-events-none">
+        {/* 아래쪽 화살표 */}
+        <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="animate-bounce-down mb-8">
+          <path d="M14 4V44" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
+          <path d="M6 36L14 44L22 36" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span className="mt-2 text-white text-[1.1rem] tracking-widest font-semibold" style={{ writingMode: 'vertical-rl', letterSpacing: '0.2em' }}>
+          Scroll
+        </span>
       </div>
       {(() => {
         const page = pages[currentPage - 1];
@@ -587,17 +576,9 @@ export default function Services() {
         .animate-bounce-down {
           animation: bounce-down 1.5s infinite;
         }
-        @keyframes bounce-up {
-          0%, 100% { transform: translateY(0); }
-          20% { transform: translateY(-8px); }
-          40% { transform: translateY(-16px); }
-          60% { transform: translateY(-8px); }
-          80% { transform: translateY(0); }
-        }
-        .animate-bounce-up {
-          animation: bounce-up 1.5s infinite;
-        }
       `}      </style>
+        </>
+      )}
       
       {/* Floating Book Button */}
       <FloatingBookButton />

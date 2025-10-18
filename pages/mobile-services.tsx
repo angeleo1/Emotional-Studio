@@ -9,57 +9,7 @@ import FloatingBookButton from '@/components/common/FloatingBookButton';
 import PackagesContent from '@/components/PackagesContent';
 import AddOnsContent from '@/components/AddOnsContent';
 
-const MobileServices: NextPage = () => {
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
-  const [loadingType, setLoadingType] = useState<'packages' | 'addons' | null>(null);
-  const [showContent, setShowContent] = useState(false);
-
-  const handlePackagesClick = () => {
-    setLoadingType('packages');
-    setShowContent(true);
-    // MobileNavbar와 TopBanner 숨기기
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.display = 'none';
-    }
-    // 주황색 배너 숨기기
-    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
-    if (topBanner) {
-      (topBanner as HTMLElement).style.display = 'none';
-    }
-  };
-
-  const handleAddOnsClick = () => {
-    setLoadingType('addons');
-    setShowContent(true);
-    // MobileNavbar와 TopBanner 숨기기
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.display = 'none';
-    }
-    // 주황색 배너 숨기기
-    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
-    if (topBanner) {
-      (topBanner as HTMLElement).style.display = 'none';
-    }
-  };
-
-  const handleBackToMain = () => {
-    setShowContent(false);
-    setLoadingType(null);
-    // MobileNavbar와 TopBanner 다시 표시
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-      navbar.style.display = '';
-    }
-    // 주황색 배너 다시 표시
-    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
-    if (topBanner) {
-      (topBanner as HTMLElement).style.display = '';
-    }
-  };
-
-  const services = [
+const services = [
   {
     title: 'Provided as Standard',
     image: '/images/dlsus.png',
@@ -181,6 +131,56 @@ const MobileServices: NextPage = () => {
   }
 ];
 
+const MobileServices: NextPage = () => {
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string; label: string } | null>(null);
+  const [loadingType, setLoadingType] = useState<'packages' | 'addons' | null>(null);
+  const [showContent, setShowContent] = useState(false);
+
+  const handlePackagesClick = () => {
+    setLoadingType('packages');
+    setShowContent(true);
+    // MobileNavbar와 TopBanner 숨기기
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = 'none';
+    }
+    // 주황색 배너 숨기기
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = 'none';
+    }
+  };
+
+  const handleAddOnsClick = () => {
+    setLoadingType('addons');
+    setShowContent(true);
+    // MobileNavbar와 TopBanner 숨기기
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = 'none';
+    }
+    // 주황색 배너 숨기기
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = 'none';
+    }
+  };
+
+  const handleBackToMain = () => {
+    setShowContent(false);
+    setLoadingType(null);
+    // MobileNavbar와 TopBanner 다시 표시
+    const navbar = document.querySelector('nav');
+    if (navbar) {
+      navbar.style.display = '';
+    }
+    // 주황색 배너 다시 표시
+    const topBanner = document.querySelector('.fixed.top-0.bg-gradient-to-r');
+    if (topBanner) {
+      (topBanner as HTMLElement).style.display = '';
+    }
+  };
+
   return (
     <>
       <Head>
@@ -214,7 +214,9 @@ const MobileServices: NextPage = () => {
         </div>
       )}
       
-      <div className="min-h-screen bg-[#111] text-white">
+      {/* 기본 페이지 내용 - showContent가 false일 때만 표시 */}
+      {!showContent && (
+        <div className="min-h-screen bg-[#111] text-white">
         {/* 헤더 */}
         <header className="p-4 flex justify-center items-center border-b border-white/10">
           <h1 
@@ -260,8 +262,8 @@ const MobileServices: NextPage = () => {
                   )}
                   {service.images && (
                     <div className="relative mb-6 overflow-hidden rounded-2xl">
-                      {/* Session 섹션인 경우 특별한 레이아웃 적용 */}
-                      {service.title === 'Session' ? (
+                      // Session 섹션인 경우 특별한 레이아웃 적용
+                      service.title === 'Session' ? (
                         <div className="space-y-2">
                           {/* 첫 번째 행: Warm tone, Cool tone */}
                           <div className="grid grid-cols-2 gap-2">
@@ -357,8 +359,7 @@ const MobileServices: NextPage = () => {
                           )}
                         </div>
                       ) : (
-                        <>
-                        {/* 다른 섹션들은 기존 레이아웃 사용 */}
+                        // 다른 섹션들은 기존 레이아웃 사용
                         <div className="grid grid-cols-2 gap-2">
                           {service.images.map((img, imgIndex) => (
                             <div 
@@ -391,14 +392,13 @@ const MobileServices: NextPage = () => {
                             </div>
                           ))}
                         </div>
-                        </>
-                      )}
-                    </div>
-                  )}
-                  {/* 이미지 오버레이 그라데이션 */}
-                  {service.images && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
-                  )}
+                      )
+                    )}
+                    {/* 이미지 오버레이 그라데이션 */}
+                    {service.images && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+                    )}
+                  </div>
                   
                   {/* 제목 */}
                   <h2 
@@ -499,6 +499,8 @@ const MobileServices: NextPage = () => {
           </motion.div>
         )}
       </AnimatePresence>
+        </div>
+      )}
       
     </>
   );

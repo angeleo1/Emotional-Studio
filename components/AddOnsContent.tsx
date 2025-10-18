@@ -3,114 +3,95 @@ import React from 'react';
 const AddOnsContent: React.FC = () => {
   const addOns = [
     {
-      name: 'EXTRA PRINTS',
-      items: [
-        {
-          name: '4X6" PRINT',
-          price: '$5',
-          image: '/images/addons/print-4x6.jpg'
-        },
-        {
-          name: '8X10" PRINT',
-          price: '$15',
-          image: '/images/addons/print-8x10.jpg'
-        }
-      ]
+      name: '4x6" Print',
+      price: '$5',
+      description: 'Additional high-quality 4x6" prints',
+      image: '/images/BW.jpg',
+      useIcon: false
     },
     {
-      name: 'FRAMES',
-      items: [
-        {
-          name: '4X6" FRAME',
-          price: '$10',
-          image: '/images/addons/frame-4x6.jpg'
-        },
-        {
-          name: '8X10" FRAME',
-          price: '$25',
-          image: '/images/addons/frame-8x10.jpg'
-        }
-      ]
+      name: '4x6" Frame',
+      price: '$10',
+      description: 'Elegant frame for 4x6" prints',
+      image: '/images/frame.png (2).png',
+      useIcon: false
     },
     {
-      name: 'PHOTO PRODUCTS',
-      items: [
-        {
-          name: 'PHOTO BOOK A',
-          price: '$30',
-          image: '/images/addons/photobook-a.jpg'
-        },
-        {
-          name: 'PHOTO BOOK B',
-          price: '$45',
-          image: '/images/addons/photobook-b.jpg'
-        },
-        {
-          name: 'PHOTO MUG',
-          price: '$20',
-          image: '/images/addons/mug.jpg'
-        },
-        {
-          name: 'PHOTO CALENDAR',
-          price: '$25',
-          image: '/images/addons/calendar.jpg'
-        }
-      ]
+      name: '8x10" Print',
+      price: '$10',
+      description: 'Large format 8x10" premium print',
+      image: '/images/810.jpg',
+      useIcon: false
     },
     {
-      name: 'ACCESSORIES',
-      items: [
-        {
-          name: 'KEY RING',
-          price: '$8',
-          image: '/images/addons/keyring.jpg'
-        },
-        {
-          name: 'MAGNET',
-          price: '$5',
-          image: '/images/addons/magnet.jpg'
-        },
-        {
-          name: 'PHOTO GLOBE',
-          price: '$15',
-          image: '/images/addons/globe.jpg'
-        }
-      ]
+      name: '8x10" Frame',
+      price: '$15',
+      description: 'Premium frame for 8x10" prints',
+      image: '/images/Black frame.png',
+      useIcon: false
     },
     {
-      name: 'DIGITAL',
-      items: [
-        {
-          name: 'DIGITAL ORIGINAL FILM',
-          price: '$30',
-          image: '/images/addons/digital.jpg'
-        },
-        {
-          name: 'EXTRA TIME-LAPSE VIDEO',
-          price: '$20',
-          image: '/images/addons/timelapse.jpg'
-        }
-      ]
+      name: 'Photo Book A',
+      price: '$40',
+      description: 'Premium photo book with your selected images',
+      image: '/images/A.jpg',
+      useIcon: false
     },
     {
-      name: 'SESSION EXTRAS',
-      items: [
-        {
-          name: 'ADD 30 MINUTES',
-          price: '$50',
-          image: '/images/addons/extra-time.jpg'
-        },
-        {
-          name: 'ADD PERSON',
-          price: '$30',
-          image: '/images/addons/extra-person.jpg'
-        },
-        {
-          name: 'ELIXIR EXPERIENCE',
-          price: '$25',
-          image: '/images/addons/elixir.jpg'
-        }
-      ]
+      name: 'Photo Book B',
+      price: '$100',
+      description: 'Deluxe photo book with slip case',
+      image: '/images/B.jpg',
+      useIcon: false
+    },
+    {
+      name: 'Photo Calendar',
+      price: '$25',
+      description: 'Custom calendar with your photos',
+      image: '/images/calendar.jpg',
+      useIcon: false
+    },
+    {
+      name: 'Key Ring',
+      price: '$10',
+      description: 'Custom key ring with your photo',
+      image: '/images/ring.jpg',
+      useIcon: false
+    },
+    {
+      name: 'Magnet',
+      price: '$15',
+      description: 'Refrigerator magnet with your image',
+      image: '/images/magnet.jpg',
+      useIcon: false
+    },
+    {
+      name: 'Photo Mug',
+      price: '$20',
+      description: 'Heat activated personalized mug',
+      image: '/images/mug.jpg',
+      useIcon: false
+    },
+    {
+      name: 'Photo Globe',
+      price: '$25',
+      description: 'Decorative globe with your photo',
+      image: '/images/globe.jpg',
+      useIcon: false
+    },
+    {
+      name: 'Additional\nRetouched Photo',
+      price: '$10',
+      description: 'Extra retouched photo',
+      image: '/images/menu11.png',
+      useIcon: false
+    },
+    {
+      name: 'Digital Original Film',
+      price: '$20',
+      description: 'High resolution digital files',
+      icon: '🎞️',
+      useIcon: true
     }
   ];
 
@@ -130,63 +111,54 @@ const AddOnsContent: React.FC = () => {
         </div>
       </div>
 
-      <div className="w-full px-6 pt-8 pb-8">
-        {/* 세로형 그리드 */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-          {addOns.map((category, categoryIndex) => (
+      <div className="max-w-7xl mx-auto px-4 pt-8 pb-8">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {addOns.map((addon, index) => (
             <div
-              key={categoryIndex}
-              className="group"
+              key={index}
+              className={`group cursor-pointer ${addon.useIcon ? 'col-span-3 md:col-span-4 lg:col-span-6' : ''}`}
             >
-              {/* 카테고리 컨테이너 */}
-              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:border-white/30 transition-all duration-300">
-                {/* 카테고리 제목 */}
-                <div className="p-4 border-b border-white/10">
-                  <h3 className="text-xl font-bold text-white text-center" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>
-                    {category.name}
-                  </h3>
-                </div>
-
-                {/* 아이템들 - 세로로 나열 */}
-                <div className="space-y-4 p-4">
-                  {category.items.map((item, itemIndex) => (
-                    <div key={itemIndex} className="space-y-2">
-                      {/* 세로형 이미지 */}
-                      <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-white/5">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center p-4">
-                            <div className="text-white/40 mb-2">
-                              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mx-auto">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <polyline points="21 15 16 10 5 21"/>
-                              </svg>
-                            </div>
-                            <div className="text-sm text-white/70 font-medium">{item.name}</div>
-                          </div>
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        
-                        {/* 가격 */}
-                        <div className="absolute bottom-0 left-0 right-0 p-3">
-                          <div className="text-center">
-                            <span className="text-xl font-bold text-white">{item.price}</span>
-                          </div>
-                        </div>
+              <div className={`bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden transition-all duration-300 ${addon.useIcon ? 'border border-orange-500 hover:border-orange-400' : 'border border-white/10 hover:border-white/30'}`}>
+                {/* 세로형 이미지 또는 아이콘 */}
+                {addon.useIcon ? (
+                  <div className="p-6">
+                    <div className="flex items-center justify-center gap-8">
+                      <div className="text-6xl group-hover:scale-110 transition-transform duration-300">
+                        {addon.icon}
                       </div>
-
-                      {/* 아이템 이름 */}
                       <div className="text-center">
-                        <span className="text-xs text-white/90 font-medium leading-tight">{item.name}</span>
+                        <h3 className="text-lg font-bold mb-2 text-white leading-tight">{addon.name}</h3>
+                        <p className="text-sm text-white/50 leading-tight">{addon.description}</p>
                       </div>
-
-                      {/* 아이템 구분선 (마지막 아이템이 아닐 때만) */}
-                      {itemIndex < category.items.length - 1 && (
-                        <div className="border-t border-white/10 pt-4"></div>
-                      )}
+                      <div className="text-2xl font-bold text-white">{addon.price}</div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ) : (
+                  <>
+                    {/* 세로형 이미지 */}
+                    <div className="relative aspect-[3/4] overflow-hidden">
+                      <img 
+                        src={addon.image} 
+                        alt={addon.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          // 이미지 로드 실패 시 플레이스홀더
+                          e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23333" width="100" height="100"/%3E%3Ctext fill="%23fff" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    </div>
+                    
+                    {/* 정보 */}
+                    <div className="p-4 flex flex-col justify-between min-h-[120px]">
+                      <div className="text-center">
+                        <h3 className="text-sm font-bold mb-2 text-white leading-tight whitespace-pre-line">{addon.name}</h3>
+                        <div className="text-xl font-bold text-white mb-2">{addon.price}</div>
+                        <p className="text-xs text-white/50 leading-tight">{addon.description}</p>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           ))}
@@ -197,4 +169,3 @@ const AddOnsContent: React.FC = () => {
 };
 
 export default AddOnsContent;
-
