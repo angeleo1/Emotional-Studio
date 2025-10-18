@@ -394,11 +394,6 @@ const MobileServices: NextPage = () => {
                       )}
                     </div>
                   )}
-                  {/* 이미지 오버레이 그라데이션 */}
-                  {service.images && (
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
-                    )}
-                  </div>
                   
                   {/* 제목 */}
                   <h2 
