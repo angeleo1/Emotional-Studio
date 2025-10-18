@@ -50,7 +50,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             '8X10" FRAME'
           ],
-          image: '/images/packages/Body Profile/1.png'
+          image: '/images/Packages/Body Profile/1.png'
         }
       ],
       description: 'Showcase your physique',
@@ -70,7 +70,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             '4X6" FRAME'
           ],
-          image: '/images/packages/Maternity/1760766079275-0199f5d5-d729-7804-9f01-254b3196e44f.png',
+          image: '/images/Packages/Maternity/1760766079275-0199f5d5-d729-7804-9f01-254b3196e44f.png',
           addOn: 'ADD PERSON : $30'
         },
         {
@@ -87,7 +87,7 @@ const PackagesContent: React.FC = () => {
             '4X6" FRAME',
             'MINI PHOTO CARDS'
           ],
-          image: '/images/packages/Maternity/1760766079275-0199f5d5-d729-7804-9f01-254b3196e44f.png'
+          image: '/images/Packages/Maternity/1760766079275-0199f5d5-d729-7804-9f01-254b3196e44f.png'
         }
       ],
       description: 'Record a journey with your baby'
@@ -107,7 +107,7 @@ const PackagesContent: React.FC = () => {
             'TWO KEY RINGS',
             'DIGITAL ORIGINAL FILM'
           ],
-          image: '/images/packages/Couple/KakaoTalk_20250924_221547590_02.jpg'
+          image: '/images/Packages/Couple/KakaoTalk_20250924_221547590_02.jpg'
         }
       ],
       description: 'Perfect for couples',
@@ -130,7 +130,7 @@ const PackagesContent: React.FC = () => {
             'MAGNET',
             'DIGITAL ORIGINAL FILM'
           ],
-          image: '/images/packages/Family/1760661213029-0199ef95-e9ee-7fc5-a962-e40504f6f06d.png'
+          image: '/images/Packages/Family/1760661213029-0199ef95-e9ee-7fc5-a962-e40504f6f06d.png'
         }
       ],
       description: 'Capture precious family moments',
