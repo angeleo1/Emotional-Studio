@@ -261,10 +261,10 @@ const MobileServices: NextPage = () => {
                     </div>
                   )}
                   {service.images && (
-                    <div className="relative mb-6 overflow-hidden rounded-2xl">
+                    <div className="mb-6">
                       {/* Session 섹션인 경우 특별한 레이아웃 적용 */}
                       {service.title === 'Session' ? (
-                        <div className="space-y-2">
+                        <div className="space-y-2 overflow-hidden rounded-2xl">
                           {/* 첫 번째 행: Warm tone, Cool tone */}
                           <div className="grid grid-cols-2 gap-2">
                             {service.images.slice(0, 2).map((img, imgIndex) => (
@@ -359,7 +359,7 @@ const MobileServices: NextPage = () => {
                           )}
                         </div>
                       ) : (
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl">
                           {service.images.map((img, imgIndex) => (
                             <div 
                               key={imgIndex} 
