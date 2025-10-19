@@ -87,7 +87,7 @@ const PackagesContent: React.FC = () => {
             '4X6" FRAME',
             'MINI PHOTO CARDS'
           ],
-          image: '/images/Packages/Maternity/1760766079275-0199f5d5-d729-7804-9f01-254b3196e44f.png'
+          image: '/images/Packages/Maternity/b.png'
         }
       ],
       description: 'Record a journey with your baby'
