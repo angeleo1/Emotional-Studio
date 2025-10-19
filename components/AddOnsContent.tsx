@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const AddOnsContent: React.FC = () => {
   const addOns = [
@@ -13,7 +14,7 @@ const AddOnsContent: React.FC = () => {
       name: '4x6" Frame',
       price: '$10',
       description: 'Elegant frame for 4x6" prints',
-      image: '/images/frame.png (2).png',
+      image: '/images/frame.png%20(2).png',
       useIcon: false
     },
     {
@@ -27,7 +28,7 @@ const AddOnsContent: React.FC = () => {
       name: '8x10" Frame',
       price: '$15',
       description: 'Premium frame for 8x10" prints',
-      image: '/images/Black frame.png',
+      image: '/images/Black%20frame.png',
       useIcon: false
     },
     {
@@ -137,15 +138,16 @@ const AddOnsContent: React.FC = () => {
                   <>
                     {/* 세로형 이미지 */}
                     <div className="relative aspect-[3/4] overflow-hidden">
-                      <img 
-                        src={addon.image} 
-                        alt={addon.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        onError={(e) => {
-                          // 이미지 로드 실패 시 플레이스홀더
-                          e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23333" width="100" height="100"/%3E%3Ctext fill="%23fff" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
-                        }}
-                      />
+                      {addon.image && (
+                        <Image 
+                          src={addon.image} 
+                          alt={addon.name}
+                          fill
+                          sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          unoptimized
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                     </div>
                     

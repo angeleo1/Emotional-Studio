@@ -88,15 +88,6 @@ const MobileServices: NextPage = () => {
   },
   {
     title: 'Session',
-    images: [
-        { src: '/images/Gallery/Customer Album/Studio (8).jpg', alt: 'Emotional Kit', label: 'emotional Kit' },
-        { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
-      { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
-      { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
-      { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard photo' },
-      { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard photo' },
-      { src: '/images/Studio (3).jpg', alt: 'Elixir', label: 'Elixirs' }
-    ],
     text: (
       <div className="space-y-10 text-white pt-8">
         <div className="text-center mb-6">
@@ -260,14 +251,10 @@ const MobileServices: NextPage = () => {
                       />
                     </div>
                   )}
-                  {service.images && (
+                  {service.images && service.title !== 'Session' && (
                     <div className="mb-6">
-                      {/* Session 섹션인 경우 특별한 레이아웃 적용 */}
-                      {service.title === 'Session' ? (
-                        <div className="space-y-2 overflow-hidden rounded-2xl">
-                          {/* 첫 번째 행: Warm tone, Cool tone */}
-                          <div className="grid grid-cols-2 gap-2">
-                            {service.images.slice(0, 2).map((img, imgIndex) => (
+                      <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl">
+                        {service.images.map((img, imgIndex) => (
                               <div 
                                 key={imgIndex} 
                                 className="relative cursor-pointer"
@@ -297,101 +284,7 @@ const MobileServices: NextPage = () => {
                                 )}
                               </div>
                             ))}
-                          </div>
-                          
-                          {/* 두 번째 행: B/W, OOTD Photo */}
-                          <div className="grid grid-cols-2 gap-2">
-                            {service.images.slice(2, 4).map((img, imgIndex) => (
-                              <div 
-                                key={imgIndex + 2} 
-                                className="relative cursor-pointer"
-                                onClick={() => {
-                                  if (typeof img === 'object' && img.label) {
-                                    setSelectedImage({
-                                      src: img.src,
-                                      alt: img.alt,
-                                      label: img.label
-                                    });
-                                  }
-                                }}
-                              >
-                                <Image
-                                  src={typeof img === 'string' ? img : img.src}
-                                  alt={typeof img === 'string' ? `${service.title} ${imgIndex + 3}` : img.alt}
-                                  width={200}
-                                  height={200}
-                                  className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
-                                />
-                                {typeof img === 'object' && img.label && (
-                                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                    <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
-                                      {img.label}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                          
-                          {/* 세 번째 행: Elixirs (단독으로 전체 너비) */}
-                          {service.images && service.images[4] && (
-                            <div className="relative cursor-pointer">
-                              <Image
-                                src={service.images[4].src}
-                                alt={service.images[4].alt}
-                                width={200}
-                                height={200}
-                                className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
-                                onClick={() => {
-                                  setSelectedImage({
-                                    src: service.images[4].src,
-                                    alt: service.images[4].alt,
-                                    label: service.images[4].label
-                                  });
-                                }}
-                              />
-                              <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                <span style={service.images[4].label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
-                                  {service.images[4].label}
-                                </span>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-2xl">
-                          {service.images.map((img, imgIndex) => (
-                            <div 
-                              key={imgIndex} 
-                              className="relative cursor-pointer"
-                              onClick={() => {
-                                if (typeof img === 'object' && img.label) {
-                                  setSelectedImage({
-                                    src: img.src,
-                                    alt: img.alt,
-                                    label: img.label
-                                  });
-                                }
-                              }}
-                            >
-                              <Image
-                                src={typeof img === 'string' ? img : img.src}
-                                alt={typeof img === 'string' ? `${service.title} ${imgIndex + 1}` : img.alt}
-                                width={200}
-                                height={200}
-                                className="w-full h-32 object-contain transition-transform duration-700 group-hover:scale-105"
-                              />
-                              {typeof img === 'object' && img.label && (
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1 text-center">
-                                  <span style={img.label === 'emotional Kit' ? { fontFamily: 'CS-Valcon-Drawn-akhr7k' } : {}}>
-                                    {img.label}
-                                  </span>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                      </div>
                     </div>
                   )}
                   

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
 
   const cocktails = [
@@ -146,12 +147,14 @@ export default function OurElixirs() {
                 {/* 이미지 섹션 */}
                 <div className="w-full md:w-1/2 flex justify-center">
                   <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden">
-                    <img
-                      src={`/images/Elixir/${selectedCocktail.name === 'Passion Red' ? 'Passion Red.jpeg' :
-                             selectedCocktail.name === 'Ecstasy Glow' ? 'Ecstasy Glow.png' :
-                             selectedCocktail.name === 'AURA RELIEF' ? 'Aura relief.png' : ''}`}
+                    <Image
+                      src={`/images/Elixir/${selectedCocktail.name === 'Passion Red' ? 'Passion%20Red.jpeg' :
+                             selectedCocktail.name === 'Ecstasy Glow' ? 'Ecstasy%20Glow.png' :
+                             selectedCocktail.name === 'AURA RELIEF' ? 'Aura%20relief.png' : ''}`}
                       alt={selectedCocktail.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      unoptimized
                     />
                   </div>
                 </div>

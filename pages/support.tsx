@@ -82,7 +82,7 @@ const Support: NextPage = () => {
     {
       title: "Business Card Event",
       content: "Got Our Card? Get a Free Frame!\n\nDid you receive one of our special business cards? Don't lose it! That card is your ticket to a free gift. Just present the card when you book your photo shoot with us, and we'll give you a beautiful black frame with your favourite photo as a token of our appreciation.",
-      images: ["/images/Black frame.png", "/images/emotional-banana-1758194237727.png"]
+      images: ["/images/Black%20frame.png", "/images/emotional-banana-1758194237727.png"]
     },
     {
       title: "Follow & Review Event",
