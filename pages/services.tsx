@@ -68,13 +68,13 @@ export default function Services() {
     // 2. Shooting Type
     {
       images: [
-          { src: '/images/Gallery/Customer%20Album/Studio%20(8).jpg', alt: 'Emotional Kit', label: 'emotional Kit' },
-          { src: '/images/Jay%20test%200826,-(1%20of%201).jpg', alt: 'Warm', label: 'Warm tone' },
+          { src: '/images/Gallery/Customer Album/Studio (8).jpg', alt: 'Emotional Kit', label: 'emotional Kit' },
+          { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
         { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
-        { src: '/images/Gallery/BW/0921%20(4).jpg', alt: 'B/W', label: 'B/W' },
+        { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
         { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard photo' },
         { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard photo' },
-        { src: '/images/Studio%20(3).jpg', alt: 'Elixir', label: 'Elixir concentrate' }
+        { src: '/images/Studio (3).jpg', alt: 'Elixir', label: 'Elixir concentrate' }
       ],
       text: (
         <div className="space-y-10 text-white pt-8">

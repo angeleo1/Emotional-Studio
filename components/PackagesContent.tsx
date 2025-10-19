@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 
 const PackagesContent: React.FC = () => {
   const packages = [
@@ -17,7 +16,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             '4X6" FRAME'
           ],
-          image: '/images/p1%20(1).jpg',
+          image: '/images/p1 (1).jpg',
           addOn: 'ADD PERSON : $30'
         },
         {
@@ -31,7 +30,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             'KEY RING'
           ],
-          image: '/images/p1%20(2).jpg',
+          image: '/images/p1 (2).jpg',
           addOn: 'ADD PERSON : $30'
         }
       ],
@@ -51,7 +50,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             '8X10" FRAME'
           ],
-          image: '/images/Packages/Body%20Profile/1.png'
+          image: '/images/Packages/Body Profile/1.png'
         }
       ],
       description: 'Showcase your physique',
@@ -188,13 +187,10 @@ const PackagesContent: React.FC = () => {
                     <div key={setIndex} className="space-y-3">
                       {/* 세로형 이미지 */}
                       <div className="relative aspect-[3/4] overflow-hidden rounded-xl">
-                        <Image 
+                        <img 
                           src={set.image} 
                           alt={`${pkg.name} ${set.set}`}
-                          fill
-                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          unoptimized
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         
