@@ -50,7 +50,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             '8X10" FRAME'
           ],
-          image: '/images/Packages/Body Profile/1.png'
+          image: '/images/Packages/Body Profile/3.png'
         }
       ],
       description: 'Showcase your physique',
@@ -107,7 +107,7 @@ const PackagesContent: React.FC = () => {
             'TWO KEY RINGS',
             'DIGITAL ORIGINAL FILM'
           ],
-          image: '/images/Packages/Couple/KakaoTalk_20250924_221547590_02.jpg'
+          image: '/images/Packages/Couple/unnamed.jpg'
         }
       ],
       description: 'Perfect for couples',
@@ -130,7 +130,7 @@ const PackagesContent: React.FC = () => {
             'MAGNET',
             'DIGITAL ORIGINAL FILM'
           ],
-          image: '/images/Packages/Family/1760661213029-0199ef95-e9ee-7fc5-a962-e40504f6f06d.png'
+          image: '/images/Packages/Family/1.jpg'
         }
       ],
       description: 'Capture precious family moments',
