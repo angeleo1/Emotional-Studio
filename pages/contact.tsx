@@ -179,7 +179,7 @@ const Contact: NextPage = () => {
       >
         <div className={styles.mapContainer}>
           <iframe 
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=2/566+Queensberry+St,North+Melbourne+VIC+3051&zoom=18"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.0799!2d144.9534673!3d-37.8009879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4d2fd1c33d%3A0x1234!2s2%2F566%20Queensberry%20St%2C%20North%20Melbourne%20VIC%203051!5e0!3m2!1sen!2sau!4v1729490400000!5m2!1sen!2sau"
             width="100%" 
             height="100%"
             style={{ border: 0 }}
