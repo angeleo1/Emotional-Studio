@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Contact.module.css';
-import { FaInstagram, FaArrowRight } from 'react-icons/fa';
+import { FaInstagram, FaArrowRight, FaChevronDown } from 'react-icons/fa';
 import WavyClipPath from '@/components/WavyClipPath';
 import { motion } from 'framer-motion';
 import SmoothCurvedLine from '@/components/ui/SmoothCurvedLine';
@@ -11,6 +11,13 @@ import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const Contact: NextPage = () => {
   const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
+
+  const scrollToMap = () => {
+    const mapSection = document.getElementById('map-section');
+    if (mapSection) {
+      mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <>
@@ -147,10 +154,41 @@ const Contact: NextPage = () => {
               >
                 2/566 Queensberry Street, North Melbourne, VIC 3051
               </motion.div>
+              <motion.button
+                onClick={scrollToMap}
+                className={styles.viewMapButton}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.1, duration: 0.6 }}
+              >
+                <span>View Google Map</span>
+                <FaChevronDown className={styles.arrowIcon} />
+              </motion.button>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Google Map Section */}
+      <motion.div
+        id="map-section"
+        className={styles.mapSection}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2.3, duration: 0.6 }}
+      >
+        <div className={styles.mapContainer}>
+          <iframe 
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=2/566+Queensberry+St,North+Melbourne+VIC+3051&zoom=18"
+            width="100%" 
+            height="100%"
+            style={{ border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            title="Emotional Studio Location"
+          />
+        </div>
+      </motion.div>
 
       {/* ContactPopup 컴포넌트 추가 */}
       <ContactPopup 
