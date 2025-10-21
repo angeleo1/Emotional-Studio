@@ -1,12 +1,19 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { FaInstagram, FaArrowRight } from 'react-icons/fa';
+import { FaInstagram, FaArrowRight, FaChevronDown } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import MobileNavbar from '../components/MobileNavbar';
 import MobileContactButton from '../components/MobileContactButton';
 import FloatingBookButton from '@/components/common/FloatingBookButton';
 
 const MobileContact: NextPage = () => {
+  const scrollToMap = () => {
+    const mapSection = document.getElementById('map-section');
+    if (mapSection) {
+      mapSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <>
       <Head>
@@ -140,6 +147,13 @@ const MobileContact: NextPage = () => {
               >
                 2/566 Queensberry Street, North Melbourne, VIC 3051
               </p>
+              <button
+                onClick={scrollToMap}
+                className="mt-6 px-6 py-3 border-2 border-[#FF6100] text-white rounded-lg hover:bg-[#FF6100] transition-all duration-300 flex items-center gap-2 mx-auto"
+              >
+                <span>View Google Map</span>
+                <FaChevronDown className="text-sm" />
+              </button>
             </motion.div>
 
             {/* 소셜 미디어 */}
@@ -178,6 +192,28 @@ const MobileContact: NextPage = () => {
 
         <MobileContactButton />
       </div>
+
+      {/* Google Map Section */}
+      <motion.div
+        id="map-section"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.0, duration: 0.6 }}
+        className="w-full bg-[#111] py-8 px-4"
+        style={{ position: 'relative', zIndex: 10 }}
+      >
+        <div className="w-full h-[400px] max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl">
+          <iframe 
+            src="https://maps.google.com/maps?q=2/566+Queensberry+Street,+North+Melbourne+VIC+3051,+Australia&t=&z=18&ie=UTF8&iwloc=&output=embed"
+            width="100%" 
+            height="100%"
+            style={{ border: 0 }}
+            loading="lazy"
+            allowFullScreen
+            title="Emotional Studio Location"
+          />
+        </div>
+      </motion.div>
       
       {/* Floating Book Button */}
       <FloatingBookButton />
