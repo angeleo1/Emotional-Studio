@@ -5,7 +5,19 @@ import { sortGalleryImagesByCreationTime, sortAllImagesByCreationTime } from '..
 // 갤러리 이미지 데이터 (실제 폴더의 사진들만 사용)
 const galleryImages = {
   'B&W': [
-    // 최신 추가된 이미지 (-m.jpeg)
+    // 1031 최신 추가된 이미지
+    '/images/Gallery/BW/BW (7).jpeg',
+    '/images/Gallery/BW/BW (6).jpeg',
+    '/images/Gallery/BW/BW (5).jpeg',
+    '/images/Gallery/BW/BW (4).jpeg',
+    '/images/Gallery/BW/BW (3).jpeg',
+    '/images/Gallery/BW/BW (2).jpeg',
+    '/images/Gallery/BW/BW (1).jpeg',
+    '/images/Gallery/BW/bw1 (4).png',
+    '/images/Gallery/BW/bw1 (3).png',
+    '/images/Gallery/BW/bw1 (2).png',
+    '/images/Gallery/BW/bw1 (1).png',
+    // 이전 추가된 이미지 (-m.jpeg)
     '/images/Gallery/BW/F9A46B07-1B8B-4263-8705-169532235163-m.jpeg',
     '/images/Gallery/BW/F8C299A7-86CE-4DCC-96A0-74D1922B5FC8-m.jpeg',
     '/images/Gallery/BW/EDEC49E2-7BFE-465D-961C-4511C180694B-m.jpeg',
@@ -86,7 +98,13 @@ const galleryImages = {
     '/images/Gallery/COOL/017.png',
   ],
   'Warm tone': [
-    // 최신 추가된 이미지 (-m.jpeg)
+    // 1031 최신 추가된 이미지
+    '/images/Gallery/WARM/warm (4).jpeg',
+    '/images/Gallery/WARM/warm (3).jpeg',
+    '/images/Gallery/WARM/warm (2).jpeg',
+    '/images/Gallery/WARM/warm (1).jpeg',
+    '/images/Gallery/WARM/warm.jpeg',
+    // 이전 추가된 이미지 (-m.jpeg)
     '/images/Gallery/WARM/D1D22EAC-75D4-4ADB-BC4F-52EE09A374FB-m.jpeg',
     '/images/Gallery/WARM/78AEF9FE-3891-4EA2-B9E0-F4C6DE0D0817-m.jpeg',
     '/images/Gallery/WARM/5B35732E-D300-481B-964D-7F7CE7628604-m.jpeg',
@@ -124,7 +142,24 @@ const galleryImages = {
 
 // All 탭용 최신순 정렬된 이미지 배열 (실제 폴더의 사진들만 사용)
 const allImagesLatestFirst = [
-  // 최신 추가된 이미지 (-m.jpeg) - 카테고리 섞어서
+  // 1031 최신 추가 이미지들 - 카테고리 섞어서
+  '/images/Gallery/BW/BW (7).jpeg',
+  '/images/Gallery/WARM/warm (4).jpeg',
+  '/images/Gallery/BW/BW (6).jpeg',
+  '/images/Gallery/WARM/warm (3).jpeg',
+  '/images/Gallery/BW/BW (5).jpeg',
+  '/images/Gallery/WARM/warm (2).jpeg',
+  '/images/Gallery/BW/BW (4).jpeg',
+  '/images/Gallery/WARM/warm (1).jpeg',
+  '/images/Gallery/BW/BW (3).jpeg',
+  '/images/Gallery/WARM/warm.jpeg',
+  '/images/Gallery/BW/BW (2).jpeg',
+  '/images/Gallery/BW/BW (1).jpeg',
+  '/images/Gallery/BW/bw1 (4).png',
+  '/images/Gallery/BW/bw1 (3).png',
+  '/images/Gallery/BW/bw1 (2).png',
+  '/images/Gallery/BW/bw1 (1).png',
+  // 이전 추가된 이미지 (-m.jpeg) - 카테고리 섞어서
   '/images/Gallery/BW/F9A46B07-1B8B-4263-8705-169532235163-m.jpeg',
   '/images/Gallery/COOL/FA7AC748-B54B-432B-8DB2-4D54844F5450-m.jpeg',
   '/images/Gallery/WARM/D1D22EAC-75D4-4ADB-BC4F-52EE09A374FB-m.jpeg',
