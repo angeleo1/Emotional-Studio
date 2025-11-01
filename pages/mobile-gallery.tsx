@@ -79,6 +79,9 @@ const galleryImages = {
     '/images/Gallery/BW/020.png',
   ],
   'Cool tone': [
+    // 1101 최신 추가된 이미지
+    '/images/Gallery/COOL/cool (2).jpeg',
+    '/images/Gallery/COOL/cool (1).jpeg',
     // 최신 추가된 이미지 (-m.jpeg)
     '/images/Gallery/COOL/FA7AC748-B54B-432B-8DB2-4D54844F5450-m.jpeg',
     '/images/Gallery/COOL/A72B39E8-DB02-48A6-AE13-C3AD0308498F-m.jpeg',
@@ -139,6 +142,9 @@ const galleryImages = {
 
 // All 탭용 최신순 정렬된 이미지 배열 (실제 폴더의 사진들만 사용)
 const allImagesLatestFirst = [
+  // 1101 최신 추가 이미지
+  '/images/Gallery/COOL/cool (2).jpeg',
+  '/images/Gallery/COOL/cool (1).jpeg',
   // 최신 추가된 이미지 (-m.jpeg) - 카테고리 섞어서
   '/images/Gallery/BW/F9A46B07-1B8B-4263-8705-169532235163-m.jpeg',
   '/images/Gallery/COOL/FA7AC748-B54B-432B-8DB2-4D54844F5450-m.jpeg',

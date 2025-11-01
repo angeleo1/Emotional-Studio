@@ -77,33 +77,24 @@ const MobileSupport: NextPage = () => {
 
   const events = [
     {
-      title: "Grand Opening Event",
-      content: "To celebrate our new studio, we're giving you 20% off your photo session. Capture your special moments with us and enjoy this exclusive offer for a limited time.\n\nBook your session today and enter the code: EMOTIONAL",
-      images: ["/images/emotional-banana-1758193888425.png", "/images/003.png"]
-    },
-    {
-      title: "Follow & Review Event",
+      title: "Free 4-Cut Photo Event",
       content: (
         <div className="flex gap-4">
           <div className="flex-1 space-y-4">
-            <p className="text-lg font-semibold">Get a free frame after your session!</p>
+            <p className="text-lg font-semibold">Get free 4-cut photos with a Google review!</p>
             <div className="space-y-3">
-              <p className="font-medium">Here's how:</p>
+              <p className="font-medium">Free 4-cut photos based on group size:</p>
               <div className="space-y-2">
-                <p>• Follow us on Instagram or Red Note</p>
-                <p>• Leave a Google review</p>
-                <p>• Show us after your session</p>
+                <p>• 2 people: 2 free 4-cut photos</p>
+                <p>• 3 people: 3 free 4-cut photos</p>
+                <p>• 4 people: 4 free 4-cut photos</p>
               </div>
+              <p className="font-medium">How to get it:</p>
+              <p>• Leave a Google review after your session</p>
             </div>
-            <p className="text-gray-300">That's it! We'll give you a beautiful frame for free. Perfect way to display your favorite photo from the session.</p>
+            <p className="text-gray-300">Share your experience and receive complimentary 4-cut photos for your group!</p>
           </div>
           <div className="flex flex-col items-center justify-center gap-4">
-            <a href="https://www.instagram.com/emotional_studios/" target="_blank" rel="noopener noreferrer" className="group">
-              <FaInstagram className="w-10 h-10" style={{ color: '#ffffff', fill: '#ffffff' }} />
-            </a>
-            <a href="https://www.xiaohongshu.com/user/profile/61667cf2000000000201bbb1?exSource=https://www.xiaohongshu.com/explore" target="_blank" rel="noopener noreferrer" className="group">
-              <img src="/images/rednote.png" alt="Red Note" className="w-10 h-10 group-hover:opacity-80 transition-opacity duration-300" style={{ filter: 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)' }} />
-            </a>
             <a href="https://g.page/r/CYJFyuFmHjkyEAI/review" target="_blank" rel="noopener noreferrer" className="group">
               <FaGoogle className="w-10 h-10" style={{ color: '#ffffff', fill: '#ffffff' }} />
             </a>
@@ -111,6 +102,25 @@ const MobileSupport: NextPage = () => {
         </div>
       ),
       images: ["/images/554579336_2217374262092330_3022836486883862570_n.jpg", "/images/leobom_modern_loyalty_card_design_matte_background_with_subtl_98ad2255-358d-48fa-8b91-d5d4c742017a_1.png"]
+    },
+    {
+      title: "Graduation Special Event",
+      content: (
+        <div className="space-y-4">
+          <p className="text-lg font-semibold">Celebrate your graduation with exclusive benefits!</p>
+          <div className="space-y-3">
+            <p className="font-medium">Book your graduation session and receive 4 special benefits:</p>
+            <div className="space-y-2">
+              <p>• 10% off all photo sessions</p>
+              <p>• Additional 4x6" prints</p>
+              <p>• Free photo magnet</p>
+              <p>• Free 9-cut photo</p>
+            </div>
+          </div>
+          <p className="text-gray-300">Make your graduation unforgettable with our special package designed just for you!</p>
+        </div>
+      ),
+      images: ["/images/SNS-001.jpg", "/images/SNS-002.jpg"]
     }
   ];
 
