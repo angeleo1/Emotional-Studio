@@ -117,6 +117,10 @@ const MobileSupport: NextPage = () => {
               <p>• Free 9-cut photo</p>
             </div>
           </div>
+          <div className="mt-4 p-4 bg-gradient-to-r from-orange-500/20 to-orange-600/20 rounded-lg border border-orange-500/30">
+            <p className="text-lg font-semibold">🔐 Promo Code: graduation</p>
+            <p className="text-sm text-gray-300 mt-1">(Use this code at checkout)</p>
+          </div>
           <p className="text-gray-300">Make your graduation unforgettable with our special package designed just for you!</p>
         </div>
       ),
