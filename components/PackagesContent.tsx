@@ -50,7 +50,7 @@ const PackagesContent: React.FC = () => {
             'TIME-LAPSE VIDEO',
             '8X10" FRAME'
           ],
-          image: '/images/Packages/Body Profile/3.png'
+          image: '/images/Packages/Body Profile/Body.jpeg'
         }
       ],
       description: 'Showcase your physique',
