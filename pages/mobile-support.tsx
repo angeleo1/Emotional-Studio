@@ -104,27 +104,28 @@ const MobileSupport: NextPage = () => {
       images: ["/images/554579336_2217374262092330_3022836486883862570_n.jpg", "/images/leobom_modern_loyalty_card_design_matte_background_with_subtl_98ad2255-358d-48fa-8b91-d5d4c742017a_1.png"]
     },
     {
-      title: "Graduation Special Event",
+      title: "Christmas Special Event",
       content: (
         <div className="space-y-4">
-          <p className="text-lg font-semibold">Celebrate your graduation with exclusive benefits!</p>
+          <p className="text-lg font-semibold">🎄 Christmas sessions are now open!</p>
           <div className="space-y-3">
-            <p className="font-medium">Book your graduation session and receive 4 special benefits:</p>
+            <p className="font-medium">Book any session or package — Christmas theme is automatically included at no extra cost!</p>
             <div className="space-y-2">
-              <p>• 10% off all photo sessions</p>
-              <p>• Additional 4x6" prints</p>
-              <p>• Free photo magnet</p>
-              <p>• Free 9-cut photo</p>
+              <p>✨ What you'll get:</p>
+              <p>• Christmas-themed studio with festive props & outfits</p>
+              <p>• Limited edition Christmas frames & cuts</p>
+              <p>• Surprise Christmas gift box + cards</p>
+              <p>• All standard session benefits included</p>
             </div>
           </div>
-          <div className="mt-4 p-4 bg-gradient-to-r from-orange-500/20 to-orange-600/20 rounded-lg border border-orange-500/30">
-            <p className="text-lg font-semibold">🔐 Promo Code: graduation</p>
-            <p className="text-sm text-gray-300 mt-1">(Use this code at checkout)</p>
+          <div className="mt-4 p-4 bg-gradient-to-r from-red-500/20 to-green-500/20 rounded-lg border border-red-500/30">
+            <p className="text-lg font-semibold">💌 Sessions starting from only $65!</p>
+            <p className="text-sm text-gray-300 mt-1">Limited spots available</p>
           </div>
-          <p className="text-gray-300">Make your graduation unforgettable with our special package designed just for you!</p>
+          <p className="text-gray-300">Just show up and shoot — everything is ready for you! 🎅</p>
         </div>
       ),
-      images: ["/images/SNS-001.jpg", "/images/SNS-002.jpg"]
+      images: ["/images/Event/Xmas Poster.png"]
     }
   ];
 
