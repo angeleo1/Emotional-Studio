@@ -99,7 +99,7 @@ const Support: NextPage = () => {
           </div>
         </div>
       ),
-      images: ["/images/554579336_2217374262092330_3022836486883862570_n.jpg", "/images/leobom_modern_loyalty_card_design_matte_background_with_subtl_98ad2255-358d-48fa-8b91-d5d4c742017a_1.png"]
+      images: ["/images/Event/4-Cut.png", "/images/Event/4-Cut White.jpg"]
     },
     {
       title: "Christmas Special Event",
