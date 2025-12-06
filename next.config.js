@@ -2,13 +2,16 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      'res.cloudinary.com',
-      'images.unsplash.com',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
@@ -47,7 +50,7 @@ const nextConfig = {
         ]
       },
       {
-        source: '/favicon-:size*.png',
+        source: '/favicon-:size(\\d+).png',
         headers: [
           {
             key: 'Cache-Control',
