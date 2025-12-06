@@ -10,29 +10,29 @@ import FloatingBookButton from '@/components/common/FloatingBookButton';
 const sections = [
   {
     title: 'Self Photo Studio',
-    image: '/images/aboutus1.png',
+    image: '/images/about us/about us.jpeg',
     desc: 'Step into a space designed for self-expression and creativity. Our self photo studio offers a comfortable, private environment where you can capture your true self, experiment with different moods, and create lasting memories. Whether you come alone or with friends, every session is a unique journey of discovery and fun.'
   },
   {
     title: 'Why emotional?',
-    image: '/images/aboutus2.jpg',
+    image: '/images/about us/about us2.jpeg',
     desc: `At emotional studios, we believe that photography is more than just taking pictures—it's about capturing the essence of your emotions. Our team is dedicated to making you feel at ease, encouraging genuine smiles and authentic moments. We strive to create an atmosphere where every shot tells a heartfelt story.`
   },
   {
     title: 'The Records',
-    image: '/images/aboutus3.png',
+    image: '/images/about us/about us3.jpeg',
     desc: `Every photograph taken here becomes part of a larger narrative. Our growing archive is a visual diary, chronicling the laughter, tears, and milestones of our community. We cherish these records as a testament to the beauty and diversity of human experience.`
   },
   {
     title: 'Our Projects',
-    image: '/images/aboutus4.jpg',
+    image: '/images/about us/Studio (3).jpg',
     desc: `Welcome to emotional studios, where we believe in capturing the most authentic and personal moments of your life in Melbourne. Our first project, emotional studios, was designed to be a private and free-spirited space where you can document your most cherished memories. We invite you to explore your emotions and create lasting, happy memories with us.
 
 As part of our mission to 'Make Melbourne a fun place', we're already hard at work on our second project. Stay tuned—it's coming soon, and we can't wait to share it with you.`
   },
   {
     title: 'Connect with Us',
-    image: '/images/aboutus5.png',
+    image: '/images/about us/about us5.jpg',
     desc: `Stay connected and be part of our journey! Follow us on social media for the latest updates, behind-the-scenes glimpses, and exclusive offers. We love engaging with our community and sharing the stories that make emotional studios a truly special place.`
   },
 ]

@@ -68,12 +68,9 @@ export default function Services() {
     // 2. Shooting Type
     {
       images: [
-          { src: '/images/Gallery/Customer Album/Studio (8).jpg', alt: 'Emotional Kit', label: 'emotional Kit' },
-          { src: '/images/Jay test 0826,-(1 of 1).jpg', alt: 'Warm', label: 'Warm tone' },
-        { src: '/images/Gallery/COOL/018.png', alt: 'Cool', label: 'Cool tone' },
-        { src: '/images/Gallery/BW/0921 (4).jpg', alt: 'B/W', label: 'B/W' },
-        { src: '/images/007.png', alt: 'Moodboard', label: 'Moodboard photo' },
-        { src: '/images/001.png', alt: 'Moodboard', label: 'Moodboard photo' },
+        { src: '/images/Service/Warm.jpeg', alt: 'Warm', label: 'Warm tone' },
+        { src: '/images/Service/Cool.jpeg', alt: 'Cool', label: 'Cool tone' },
+        { src: '/images/Service/BW.jpeg', alt: 'B/W', label: 'B/W' },
         { src: '/images/Studio (3).jpg', alt: 'Elixir', label: 'Elixir concentrate' }
       ],
       text: (
@@ -98,9 +95,6 @@ export default function Services() {
                        <p className="text-sm text-white mb-6">Children under 5 and pets are welcome free of charge!</p>
                        <p className="text-sm text-white/70 mb-6">Intro - 10 minutes, Photo shoot - 20 minutes, Selection - 20 minutes</p>
              <div className="space-y-2 text-2xl font-bold text-white mt-16">
-               <div className="text-5xl font-bold uppercase text-white text-center tracking-widest mb-4" style={{ fontFamily: 'CS-Valcon-Drawn-akhr7k' }}>emotional Kit</div>
-               <div className="border-b-2 border-white/30 w-full mx-auto mb-6" />
-               <p>Moodboard photo</p>
                <p>Elixir concentrate</p>
                <p>Timelapse video original file</p>
                <p>4x6'' prints of 2 selected photos</p>
@@ -428,7 +422,7 @@ export default function Services() {
                               alt={page.images[currentImageIndex].alt || "section image"} 
                               fill 
                               style={{
-                                objectFit: page.images[currentImageIndex].alt === 'Elixir' ? 'contain' : 'cover'
+                                objectFit: 'contain'
                               }} 
                               className="rounded-xl" 
                             />
@@ -506,7 +500,7 @@ export default function Services() {
                           alt={page.images[currentImageIndex].alt || "section image"} 
                           fill 
                           style={{
-                            objectFit: page.images[currentImageIndex].alt === 'Elixir' ? 'contain' : 'cover'
+                            objectFit: 'contain'
                           }} 
                           className="rounded-xl" 
                         />
@@ -536,7 +530,7 @@ export default function Services() {
                 {/* Session 페이지의 이미지들 */}
                 {currentPage === 2 && page.images && page.images.map((img, j) => (
                   <div key={j} className="relative w-full h-64 max-w-md shadow-lg rounded-xl overflow-hidden bg-transparent flex items-center justify-center m-0 p-0">
-                    <Image src={typeof img === 'string' ? img : img.src} alt={typeof img === 'string' ? `${page.title} ${j + 1}` : img.alt} fill style={{objectFit:'cover'}} className="rounded-xl" />
+                    <Image src={typeof img === 'string' ? img : img.src} alt={typeof img === 'string' ? `${page.title} ${j + 1}` : img.alt} fill style={{objectFit:'contain'}} className="rounded-xl" />
                   </div>
                 ))}
               </div>
