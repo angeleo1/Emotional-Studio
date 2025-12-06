@@ -16,6 +16,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  turbopack: {},
   // 보안 헤더 추가
   async headers() {
     return [
