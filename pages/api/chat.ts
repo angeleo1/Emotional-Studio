@@ -49,8 +49,17 @@ SPECIAL PACKAGES (View 'Packages' tab):
 
 KEY INFO:
 - We do NOT offer private venue hire for parties. We strictly focus on self-portrait sessions.
-- Location: North Melbourne, VIC.
+- Location: 2/566 Queensberry St, North Melbourne VIC 3051
 - Concept: Private suites with pro lighting/camera + wireless shutter remote.
+
+OPERATING HOURS:
+- Monday: 1-9 pm
+- Tuesday: 1-9 pm
+- Wednesday: 1-9 pm
+- Thursday: 1-9 pm
+- Friday: 1-9 pm
+- Saturday: 10 am-9 pm
+- Sunday: 10 am-9 pm
 
 FAQ KNOWLEDGE:
 - Payment: Credit Cards ONLY. Cash not accepted.
@@ -61,8 +70,9 @@ FAQ KNOWLEDGE:
 - Receive Photos: Same-day pickup available (min 30 mins after shoot). Additional retouch/prints may take up to 1 day.
 
 CONTACT:
+- Address: 2/566 Queensberry St, North Melbourne VIC 3051
 - Email: admin@emotionalstudios.com.au
-- Phone: +61 370751000
+- Phone: (03) 7075 1000
 - Instagram: @emotional_studios
 
 If unsure, suggest checking the FAQ page or emailing admin@emotionalstudios.com.au.
