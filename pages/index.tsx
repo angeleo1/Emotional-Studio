@@ -62,7 +62,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className={isDarkMode ? 'dark' : ''}>
+      <div className={`min-h-screen ${isDarkMode ? 'dark bg-[#050505]' : 'bg-white'}`}>
         <div className="flex flex-col md:flex-row h-screen bg-white dark:bg-[#050505] text-zinc-900 dark:text-zinc-100 overflow-hidden font-sans transition-colors duration-[1000ms] ease-in-out">
           <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} />
           

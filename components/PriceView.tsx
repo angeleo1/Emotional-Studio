@@ -124,12 +124,18 @@ export const PriceView: React.FC = () => {
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="border-t border-zinc-200 dark:border-zinc-800 my-16"></div>
+
         {/* 2. SPLIT LAYOUT: PRICING (LEFT) vs ADD-ONS (RIGHT) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 relative">
           
           {/* LEFT: PRICING TIERS */}
           <div className="space-y-12">
-            <h3 className="text-2xl font-serif italic text-black dark:text-white mb-8 text-center md:text-left">Session Pricing</h3>
+            <div className="mb-8">
+              <span className="text-xs text-black dark:text-white uppercase tracking-widest font-bold bg-zinc-100 dark:bg-zinc-800 px-2 py-1">Pricing</span>
+              <h3 className="text-3xl font-serif italic text-black dark:text-white mt-4 text-center md:text-left">Session Pricing</h3>
+            </div>
             <div className="space-y-10">
               {sessions.map((session) => (
                 <div key={session.name} className="group border-b border-zinc-200 dark:border-none pb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-black dark:hover:bg-zinc-900 transition-colors duration-300">

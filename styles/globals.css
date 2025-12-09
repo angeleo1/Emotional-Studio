@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Font Definition - Regular Version */
+/* Custom Font Definition - CSValcon */
+@font-face {
+  font-family: 'CSValcon';
+  src: url('/fonts/CSValconDrawn-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback: Load from GitHub if local fails */
 @font-face {
   font-family: 'CSValcon';
   src: url('https://raw.githubusercontent.com/angeleo1/google-images/main/CSValconDrawn-Regular.ttf') format('truetype');
@@ -11,23 +20,16 @@
   font-display: swap;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #18181b;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #050505;
-    --foreground: #ffffff;
-  }
-}
-
 body {
   font-family: 'Inter', -apple-system, sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
   transition: background-color 1000ms, color 1000ms;
+}
+
+/* Dark mode body styles */
+.dark body,
+.dark {
+  background-color: #050505;
+  color: #ffffff;
 }
 
 /* Custom scrollbar - Track invisible in dark mode */

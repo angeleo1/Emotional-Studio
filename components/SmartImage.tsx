@@ -8,9 +8,10 @@ interface SmartImageProps {
   alt: string;
   className?: string;
   onImageError?: () => void;
+  priority?: boolean;
 }
 
-export const SmartImage: React.FC<SmartImageProps> = ({ baseName, alt, className = '', onImageError }) => {
+export const SmartImage: React.FC<SmartImageProps> = ({ baseName, alt, className = '', onImageError, priority = false }) => {
   const extensions = ['.jpeg', '.jpg', '.png'];
   const [extIndex, setExtIndex] = useState(0);
   const [hasError, setHasError] = useState(false);
@@ -48,10 +49,12 @@ export const SmartImage: React.FC<SmartImageProps> = ({ baseName, alt, className
     <img
       src={src}
       alt={alt}
-      className={`${className} transition-opacity duration-700 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`${className} transition-opacity duration-300 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
       onError={handleError}
       onLoad={handleLoad}
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
+      decoding="async"
+      fetchPriority={priority ? "high" : "auto"}
     />
   );
 };

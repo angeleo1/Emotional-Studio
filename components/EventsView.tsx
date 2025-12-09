@@ -86,7 +86,8 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook }) => {
              <SmartImage 
                baseName="Event2" 
                alt="Christmas Event Main" 
-               className="w-full h-full object-contain" 
+               className="w-full h-full object-contain"
+               priority={true}
               />
           </div>
         </div>
@@ -146,10 +147,10 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook }) => {
               <div className="w-full md:w-1/2 bg-zinc-100 dark:bg-zinc-900 relative">
                  <div className="w-full h-full flex gap-0">
                     <div className="w-1/2 h-full">
-                       <SmartImage baseName="Event1" alt="4-Cut Example 1" className="w-full h-full object-contain p-4" />
+                       <SmartImage baseName="Event1" alt="4-Cut Example 1" className="w-full h-full object-contain p-4" priority={true} />
                     </div>
                     <div className="w-1/2 h-full">
-                       <SmartImage baseName="Event1-1" alt="4-Cut Example 2" className="w-full h-full object-contain p-4" />
+                       <SmartImage baseName="Event1-1" alt="4-Cut Example 2" className="w-full h-full object-contain p-4" priority={true} />
                     </div>
                  </div>
               </div>
