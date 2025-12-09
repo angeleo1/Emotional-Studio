@@ -6,12 +6,12 @@ let adminStatus = {
   lastSeen: null
 };
 
-// Pusher 설정 (실제 키 사용)
+// Pusher 설정 (환경변수 사용)
 const pusher = new Pusher({
-  appId: '2027943',
-  key: 'd3e0b683cba4fc0f7708',
-  secret: 'c33a8af2037498602a1a',
-  cluster: 'ap1',
+  appId: process.env.PUSHER_APP_ID || '',
+  key: process.env.NEXT_PUBLIC_PUSHER_KEY || '',
+  secret: process.env.PUSHER_SECRET || '',
+  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || 'ap1',
   useTLS: true
 });
 

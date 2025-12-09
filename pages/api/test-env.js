@@ -3,10 +3,9 @@ export default function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 
-  // 환경변수가 로드되지 않으면 직접 설정
+  // 환경변수 확인
   if (!process.env.RESEND_API_KEY) {
-    process.env.RESEND_API_KEY = 're_6nW7eXkK_JwQHw7MiTwVwNYqgDRFHQJFu';
-    process.env.CONTACT_EMAIL = 'admin@emotionalstudios.com.au';
+    console.warn('RESEND_API_KEY is not set in environment variables');
   }
 
   // 환경변수 로딩 시도
