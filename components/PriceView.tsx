@@ -82,7 +82,7 @@ export const PriceView: React.FC<PriceViewProps> = ({ isDark = false }) => {
                 <h4 className={`text-3xl font-serif mb-1 ${isDark ? 'text-white' : 'text-black'}`}>Large group</h4>
                 <div className="text-left sm:text-right">
                   <p className={`text-sm font-light ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>*Minimum 2 sessions required</p>
-                  <a href="mailto:admin@emotionalstudios.com.au" className={`text-sm font-bold border-b hover:opacity-50 transition-opacity ${isDark ? 'text-white border-white' : 'text-black border-black'}`}>Contact us for large group sessions</a>
+                  <a href="mailto:admin@emotionalstudios.com.au" target="_blank" rel="noopener noreferrer" className={`text-sm font-bold border-b hover:opacity-50 transition-opacity ${isDark ? 'text-white border-white' : 'text-black border-black'}`}>Contact us for large group sessions</a>
                 </div>
               </div>
             </div>
