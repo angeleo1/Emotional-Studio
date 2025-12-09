@@ -24,6 +24,17 @@ export default function Home() {
   const openBooking = () => setIsBookingOpen(true);
   const closeBooking = () => setIsBookingOpen(false);
 
+  // Apply dark mode to html element
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.body.style.backgroundColor = '#050505';
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.style.backgroundColor = '#ffffff';
+    }
+  }, [isDarkMode]);
+
   // Scroll to top whenever view changes
   useEffect(() => {
     const mainContent = document.getElementById('main-content');
@@ -62,7 +73,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className={`min-h-screen ${isDarkMode ? 'dark bg-[#050505]' : 'bg-white'}`}>
+      <div className="min-h-screen">
         <div className="flex flex-col md:flex-row h-screen bg-white dark:bg-[#050505] text-zinc-900 dark:text-zinc-100 overflow-hidden font-sans transition-colors duration-[1000ms] ease-in-out">
           <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} />
           

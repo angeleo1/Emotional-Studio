@@ -1,5 +1,5 @@
 import React from 'react';
-import { SmartImage } from './SmartImage';
+import Image from 'next/image';
 import { Gift, Star, Mail, Check, Sparkles } from 'lucide-react';
 
 interface EventsViewProps {
@@ -83,11 +83,12 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook }) => {
           </div>
 
           <div className="w-full md:w-1/2 h-96 md:h-auto relative bg-zinc-100 dark:bg-zinc-900 order-1 md:order-2">
-             <SmartImage 
-               baseName="Event2" 
+             <Image 
+               src="/images/Event/Xmas Poster.png"
                alt="Christmas Event Main" 
-               className="w-full h-full object-contain"
-               priority={true}
+               fill
+               className="object-contain"
+               priority
               />
           </div>
         </div>
@@ -146,11 +147,11 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook }) => {
               </div>
               <div className="w-full md:w-1/2 bg-zinc-100 dark:bg-zinc-900 relative">
                  <div className="w-full h-full flex gap-0">
-                    <div className="w-1/2 h-full">
-                       <SmartImage baseName="Event1" alt="4-Cut Example 1" className="w-full h-full object-contain p-4" priority={true} />
+                    <div className="w-1/2 h-full relative">
+                       <Image src="/images/Event/4-Cut.png" alt="4-Cut Example 1" fill className="object-contain p-4" priority />
                     </div>
-                    <div className="w-1/2 h-full">
-                       <SmartImage baseName="Event1-1" alt="4-Cut Example 2" className="w-full h-full object-contain p-4" priority={true} />
+                    <div className="w-1/2 h-full relative">
+                       <Image src="/images/Event/4-Cut White.jpg" alt="4-Cut Example 2" fill className="object-contain p-4" priority />
                     </div>
                  </div>
               </div>
