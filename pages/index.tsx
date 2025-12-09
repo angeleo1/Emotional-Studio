@@ -51,7 +51,7 @@ export default function Home() {
       case View.PORTFOLIO:
         return <PortfolioView isDark={isDark} />;
       case View.PRICE:
-        return <PriceView isDark={isDark} />;
+        return <PriceView isDark={isDark} onContact={() => setCurrentView(View.CONCIERGE)} />;
       case View.PACKAGES:
         return <PackagesView onBook={openBooking} isDark={isDark} />;
       case View.FAQ:
