@@ -15,7 +15,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
   useEffect(() => {
     if (isOpen && typeof window !== 'undefined' && window.SimplybookWidget) {
       new window.SimplybookWidget({
-        widget_type: "iframe",
+        widget_type: "button",
         url: "https://emotionalstudios.simplybook.net",
         theme: "default",
         theme_settings: {
