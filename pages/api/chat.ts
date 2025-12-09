@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Gemini API를 서버 사이드에서만 호출
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -23,10 +23,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { GoogleGenAI } = await import('@google/genai');
-    const ai = new GoogleGenAI({ apiKey });
-
-    const systemInstruction = `You are the studio concierge for 'emotional studios', a premium self-portrait studio in North Melbourne (Est. 2025).
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: `You are the studio concierge for 'emotional studios', a premium self-portrait studio in North Melbourne (Est. 2025).
 
 CRITICAL BRANDING:
 - We are a SELF-STUDIO. No photographer. Complete privacy.
@@ -66,26 +66,29 @@ CONTACT:
 - Instagram: @emotional_studios
 
 If unsure, suggest checking the FAQ page or emailing admin@emotionalstudios.com.au.
-Keep answers short, chic, and helpful.`;
-
-    const chat = ai.chats.create({
-      model: "gemini-2.0-flash",
-      history: history || [],
-      config: {
-        systemInstruction,
-      }
+Keep answers short, chic, and helpful.`
     });
 
-    const result = await chat.sendMessage({ message });
-    const text = result.text || "I apologise, I'm having trouble responding right now.";
+    // Format history for Gemini
+    const chatHistory = (history || []).map((msg: any) => ({
+      role: msg.role === 'model' ? 'model' : 'user',
+      parts: msg.parts || [{ text: msg.text || '' }]
+    }));
+
+    const chat = model.startChat({
+      history: chatHistory,
+    });
+
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const text = response.text() || "I apologise, I'm having trouble responding right now.";
 
     return res.status(200).json({ text });
-  } catch (error) {
-    console.error('Chat API Error:', error);
+  } catch (error: any) {
+    console.error('Chat API Error:', error?.message || error);
     return res.status(500).json({ 
       error: 'Chat failed',
       text: "Sorry, I'm having trouble connecting. Please try emailing us at admin@emotionalstudios.com.au"
     });
   }
 }
-
