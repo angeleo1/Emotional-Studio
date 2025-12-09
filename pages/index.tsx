@@ -47,17 +47,17 @@ export default function Home() {
       case View.HOME:
         return <DashboardView onNavigate={setCurrentView} onBook={openBooking} isDark={isDark} />;
       case View.EVENT:
-        return <EventsView onBook={openBooking} />;
+        return <EventsView onBook={openBooking} isDark={isDark} />;
       case View.PORTFOLIO:
-        return <PortfolioView />;
+        return <PortfolioView isDark={isDark} />;
       case View.PRICE:
-        return <PriceView />;
+        return <PriceView isDark={isDark} />;
       case View.PACKAGES:
-        return <PackagesView onBook={openBooking} />;
+        return <PackagesView onBook={openBooking} isDark={isDark} />;
       case View.FAQ:
-        return <FAQView />;
+        return <FAQView isDark={isDark} />;
       case View.CONCIERGE:
-        return <ChatView />;
+        return <ChatView isDark={isDark} />;
       default:
         return <DashboardView onNavigate={setCurrentView} onBook={openBooking} isDark={isDark} />;
     }
