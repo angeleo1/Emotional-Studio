@@ -77,7 +77,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) 
 
   return (
     <>
-      <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
+      <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
         <div className="px-8 pt-12 mb-8">
           <h2 className={`text-4xl md:text-6xl font-serif italic mb-8 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>
             visual stories

@@ -21,7 +21,7 @@ export const PriceView: React.FC<PriceViewProps> = ({ isDark = false }) => {
   ];
 
   return (
-    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
       <div className="mb-12 pt-8">
         <span className={`text-xs uppercase tracking-widest font-bold px-2 py-1 ${isDark ? 'text-white bg-zinc-800' : 'text-black bg-zinc-100'}`}>Rates</span>
         <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>
@@ -34,7 +34,7 @@ export const PriceView: React.FC<PriceViewProps> = ({ isDark = false }) => {
 
       <div className="max-w-7xl mx-auto pb-20">
         {/* 1. SESSION BASICS */}
-        <div className={`flex flex-col items-center justify-center mb-24 p-8 rounded-sm ${isDark ? 'bg-black border border-zinc-800' : 'bg-zinc-50'}`}>
+        <div className={`flex flex-col items-center justify-center mb-24 p-8 rounded-sm ${isDark ? 'bg-[#0a0a0a] border border-zinc-800' : 'bg-zinc-50'}`}>
           <h3 className={`text-lg font-serif italic mb-8 border-b pb-2 inline-block ${isDark ? 'text-white border-zinc-700' : 'text-black border-zinc-200'}`}>
             Session Basics (Included)
           </h3>

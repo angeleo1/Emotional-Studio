@@ -32,7 +32,7 @@ export const FAQView: React.FC<FAQViewProps> = ({ isDark = false }) => {
   let globalIndex = 0;
 
   return (
-    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
       <div className="mb-12 pt-8 px-4 md:px-0">
         <span className={`text-xs uppercase tracking-widest font-bold px-2 py-1 ${isDark ? 'text-white bg-zinc-800' : 'text-black bg-zinc-100'}`}>Help Centre</span>
         <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 ${isDark ? 'text-white' : 'text-black'}`}>questions?</h2>
@@ -77,7 +77,7 @@ export const FAQView: React.FC<FAQViewProps> = ({ isDark = false }) => {
         ))}
       </div>
 
-      <div className={`mt-20 p-8 border text-center mx-4 md:mx-0 ${isDark ? 'border-zinc-800 bg-black' : 'border-zinc-200 bg-zinc-50'}`}>
+      <div className={`mt-20 p-8 border text-center mx-4 md:mx-0 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-zinc-50'}`}>
         <p className={`text-sm mb-4 font-light ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Still have questions?</p>
         <a href="mailto:admin@emotionalstudios.com.au" className={`text-sm font-bold uppercase tracking-widest border-b pb-1 transition-all px-2 ${isDark ? 'text-white border-white hover:bg-white hover:text-black' : 'text-black border-black hover:bg-black hover:text-white'}`}>
           Email us directly

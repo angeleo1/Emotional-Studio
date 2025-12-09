@@ -40,7 +40,7 @@ export const ChatView: React.FC<ChatViewProps> = ({ isDark = false }) => {
   const mailToLink = `mailto:admin@emotionalstudios.com.au?subject=${encodeURIComponent(`[Enquiry] ${emailSubject}`)}&body=${encodeURIComponent(emailBody)}`;
 
   return (
-    <div className={`flex flex-col h-full border backdrop-blur-sm max-w-3xl mx-auto rounded-sm overflow-hidden transition-all duration-1000 ${isDark ? 'bg-black border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
+    <div className={`flex flex-col h-full border backdrop-blur-sm max-w-3xl mx-auto rounded-sm overflow-hidden transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a] border-zinc-800' : 'bg-zinc-50 border-zinc-200'}`}>
       <div className={`p-6 border-b flex justify-between items-center ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div>
           <h2 className={`text-xl font-serif italic mb-1 ${isDark ? 'text-white' : 'text-black'}`}>{mode === 'chat' ? 'Studio Concierge' : 'Contact Us'}</h2>
@@ -85,7 +85,7 @@ export const ChatView: React.FC<ChatViewProps> = ({ isDark = false }) => {
             )}
             <div ref={messagesEndRef} />
           </div>
-          <div className={`p-4 border-t ${isDark ? 'border-zinc-800 bg-black' : 'border-zinc-200 bg-white'}`}>
+          <div className={`p-4 border-t ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
             <form onSubmit={handleSendMessage} className="flex gap-4">
               <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)} placeholder="Ask about availability, packages..." disabled={isLoading}
                 className={`flex-1 bg-transparent border-b px-2 py-3 focus:outline-none transition-colors font-light ${isDark ? 'border-zinc-700 text-white placeholder-zinc-600 focus:border-white' : 'border-zinc-200 text-black placeholder-zinc-400 focus:border-black'}`}

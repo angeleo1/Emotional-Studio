@@ -71,7 +71,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className={`min-h-screen transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
+      <div className={`min-h-screen transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
         <div className={`flex flex-col md:flex-row h-screen overflow-hidden font-sans transition-all duration-1000 ease-in-out ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-white text-zinc-900'}`}>
           <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} isDark={isDark} />
           

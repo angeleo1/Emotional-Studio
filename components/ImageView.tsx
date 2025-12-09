@@ -37,7 +37,7 @@ const PackageCategory: React.FC<{ cat: CategoryData; onBook?: () => void; isDark
         
         <div className="grid grid-cols-1 gap-6">
           {cat.items.map((item) => (
-            <div key={item.name} className={`p-6 border transition-all duration-500 ${isDark ? 'border-zinc-800 bg-black hover:bg-zinc-900' : 'border-zinc-200 bg-white hover:border-black'}`}>
+            <div key={item.name} className={`p-6 border transition-all duration-500 ${isDark ? 'border-zinc-800 bg-[#0a0a0a] hover:bg-zinc-900' : 'border-zinc-200 bg-white hover:border-black'}`}>
               <div className="flex justify-between items-baseline mb-2">
                 <h4 className={`text-xl font-serif transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>{item.name}</h4>
                 <div className="text-right">
@@ -80,7 +80,7 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ onBook, isDark = fal
   ];
 
   return (
-    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
       <div className="mb-16 pt-8">
         <span className={`text-xs uppercase tracking-widest font-bold px-2 py-1 ${isDark ? 'text-white bg-zinc-800' : 'text-black bg-zinc-100'}`}>Investments</span>
         <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>packages</h2>
