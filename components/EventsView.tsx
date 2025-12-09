@@ -1,6 +1,7 @@
 import React from 'react';
-import Image from 'next/image';
 import { Gift, Star, Mail, Check, Sparkles } from 'lucide-react';
+
+const GITHUB_BASE = "https://raw.githubusercontent.com/angeleo1/google-images/main/";
 
 interface EventsViewProps {
   onBook?: () => void;
@@ -83,12 +84,11 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook }) => {
           </div>
 
           <div className="w-full md:w-1/2 h-96 md:h-auto relative bg-zinc-100 dark:bg-zinc-900 order-1 md:order-2">
-             <Image 
-               src="/images/Event/Xmas Poster.png"
+             <img 
+               src={`${GITHUB_BASE}Event2.png`}
                alt="Christmas Event Main" 
-               fill
-               className="object-contain"
-               priority
+               className="w-full h-full object-contain"
+               loading="eager"
               />
           </div>
         </div>
@@ -147,11 +147,11 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook }) => {
               </div>
               <div className="w-full md:w-1/2 bg-zinc-100 dark:bg-zinc-900 relative">
                  <div className="w-full h-full flex gap-0">
-                    <div className="w-1/2 h-full relative">
-                       <Image src="/images/Event/4-Cut.png" alt="4-Cut Example 1" fill className="object-contain p-4" priority />
+                    <div className="w-1/2 h-full">
+                       <img src={`${GITHUB_BASE}Event1.jpg`} alt="4-Cut Example 1" className="w-full h-full object-contain p-4" loading="eager" />
                     </div>
-                    <div className="w-1/2 h-full relative">
-                       <Image src="/images/Event/4-Cut White.jpg" alt="4-Cut Example 2" fill className="object-contain p-4" priority />
+                    <div className="w-1/2 h-full">
+                       <img src={`${GITHUB_BASE}Event1-1.png`} alt="4-Cut Example 2" className="w-full h-full object-contain p-4" loading="eager" />
                     </div>
                  </div>
               </div>

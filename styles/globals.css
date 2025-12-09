@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Font Definition - CSValcon */
+/* Custom Font Definition - CSValcon from GitHub */
 @font-face {
   font-family: 'CSValcon';
-  src: url('/fonts/CSValconDrawn-Regular.woff2') format('woff2'),
-       url('/fonts/CSValconDrawn-Regular.woff') format('woff'),
-       url('/fonts/CSValconDrawn-Regular.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/angeleo1/google-images/main/CSValconDrawn-Regular.woff2') format('woff2'),
+       url('https://raw.githubusercontent.com/angeleo1/google-images/main/CSValconDrawn-Regular.woff') format('woff'),
+       url('https://raw.githubusercontent.com/angeleo1/google-images/main/CSValconDrawn-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
