@@ -34,7 +34,7 @@ export const PriceView: React.FC<PriceViewProps> = ({ isDark = false }) => {
 
       <div className="max-w-7xl mx-auto pb-20">
         {/* 1. SESSION BASICS */}
-        <div className={`flex flex-col items-center justify-center mb-24 p-8 rounded-sm ${isDark ? 'bg-zinc-900/50' : 'bg-zinc-50'}`}>
+        <div className={`flex flex-col items-center justify-center mb-24 p-8 rounded-sm ${isDark ? 'bg-[#0a0a0a] border border-zinc-800' : 'bg-zinc-50'}`}>
           <h3 className={`text-lg font-serif italic mb-8 border-b pb-2 inline-block ${isDark ? 'text-white border-zinc-700' : 'text-black border-zinc-200'}`}>
             Session Basics (Included)
           </h3>
