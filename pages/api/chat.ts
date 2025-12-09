@@ -24,8 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+    
     const systemInstruction = `You are the studio concierge for 'emotional studios', a premium self-portrait studio in North Melbourne (Est. 2025).
 
 CRITICAL BRANDING:
@@ -78,17 +77,30 @@ CONTACT:
 If unsure, suggest checking the FAQ page or emailing admin@emotionalstudios.com.au.
 Keep answers short, chic, and helpful.`;
 
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: systemInstruction,
+    });
+
+    // Convert history format
+    const chatHistory = history?.map((h: any) => {
+      const role = h.role === 'model' ? 'model' : 'user';
+      const text = h.parts?.[0]?.text || h.text || '';
+      return {
+        role: role,
+        parts: [{ text: text }]
+      };
+    }) || [];
+
     const chat = model.startChat({
-      history: history?.map((h: any) => ({
-        role: h.role === 'model' ? 'model' : 'user',
-        parts: h.parts || [{ text: h.text || '' }]
-      })) || [],
+      history: chatHistory,
       generationConfig: {
         maxOutputTokens: 500,
+        temperature: 0.7,
       },
     });
 
-    const result = await chat.sendMessage(systemInstruction + "\n\nUser question: " + message);
+    const result = await chat.sendMessage(message);
     const response = await result.response;
     const text = response.text() || "I apologise, I'm having trouble responding right now.";
 
