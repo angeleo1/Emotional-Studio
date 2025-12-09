@@ -45,7 +45,7 @@ export default function Home() {
   const renderContent = () => {
     switch (currentView) {
       case View.HOME:
-        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} />;
+        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} isDark={isDark} />;
       case View.EVENT:
         return <EventsView onBook={openBooking} />;
       case View.PORTFOLIO:
@@ -59,7 +59,7 @@ export default function Home() {
       case View.CONCIERGE:
         return <ChatView />;
       default:
-        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} />;
+        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} isDark={isDark} />;
     }
   };
 

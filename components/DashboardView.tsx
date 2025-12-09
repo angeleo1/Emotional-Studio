@@ -6,9 +6,10 @@ import { SmartImage } from './SmartImage';
 interface HomeViewProps {
   onNavigate: (view: View) => void;
   onBook: () => void;
+  isDark?: boolean;
 }
 
-export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) => {
+export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
   
   const handleNav = (view: View) => {
     if (onNavigate) onNavigate(view);
@@ -39,67 +40,67 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
   ];
 
   return (
-    <div className="h-full overflow-y-auto pb-20 no-scrollbar bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
       {/* 1. HERO SECTION */}
       <div className="min-h-screen md:h-screen flex flex-col md:flex-row">
         
         {/* Left: Text Content */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
+        <div className={`w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
           <div className="max-w-xl">
             
             {/* BRAND LOGO ABOVE TAGLINE */}
             <img 
                src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
                alt="Brand Logo" 
-               className="h-24 w-auto object-contain mb-8 animate-fade-in transition-all duration-[1000ms]"
+               className="h-24 w-auto object-contain mb-8 animate-fade-in transition-all duration-1000"
             />
 
             {/* Tagline */}
-            <div className="text-black dark:text-white text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-black dark:bg-white transition-all duration-[1000ms]"></span>
+            <div className={`text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>
+              <span className={`w-8 h-[1px] transition-all duration-1000 ${isDark ? 'bg-white' : 'bg-black'}`}></span>
               <p>Make a Melbourne a fun place</p>
             </div>
             
             {/* Custom Font Title */}
             <h1 
-              className="text-6xl md:text-8xl text-black dark:text-white leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms]"
+              className={`text-6xl md:text-8xl leading-[0.9] tracking-tighter mb-8 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}
               style={{ fontFamily: "'CSValcon', serif" }}
             >
               emotional<br/>studios
             </h1>
             
             {/* Description */}
-            <p className="text-zinc-600 dark:text-zinc-400 font-light text-lg md:text-xl leading-relaxed max-w-md pl-6 border-l border-black dark:border-white/30 mb-12 transition-all duration-[1000ms]">
+            <p className={`font-light text-lg md:text-xl leading-relaxed max-w-md pl-6 border-l mb-12 transition-all duration-1000 ${isDark ? 'text-zinc-400 border-zinc-600' : 'text-zinc-600 border-black'}`}>
               Private self-portrait suites. <br/>
-              <span className="text-black dark:text-white font-normal">No photographer.</span> Just you.
+              <span className={`font-normal ${isDark ? 'text-white' : 'text-black'}`}>No photographer.</span> Just you.
             </p>
 
             <div className="flex flex-col gap-4">
                <div className="flex flex-col sm:flex-row gap-4">
                  <button 
                    onClick={onBook}
-                   className="bg-black dark:bg-white text-white dark:text-black px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group"
+                   className={`px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}
                  >
                    Book Session <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                  </button>
                  <button 
                    onClick={() => handleNav(View.PACKAGES)}
-                   className="px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase text-black dark:text-white border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 hover:border-black dark:hover:bg-zinc-800 transition-all text-center"
+                   className={`px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase transition-all text-center border ${isDark ? 'text-white border-zinc-600 bg-zinc-900 hover:bg-zinc-800' : 'text-black border-zinc-200 hover:border-black'}`}
                  >
                    View Rates
                  </button>
                </div>
                {/* Micro Price Tag */}
                <p className="text-xs text-zinc-500 font-medium pl-1 animate-fade-in">
-                  Sessions starting from only <span className="text-black dark:text-white border-b border-black/20 dark:border-white/20 pb-0.5">$65</span>
+                  Sessions starting from only <span className={`border-b pb-0.5 ${isDark ? 'text-white border-white/20' : 'text-black border-black/20'}`}>$65</span>
                </p>
             </div>
           </div>
         </div>
 
         {/* Right: Vertical Image */}
-        <div className="w-full md:w-1/2 h-[60vh] md:h-screen order-1 md:order-2 relative bg-zinc-100 dark:bg-zinc-900 overflow-visible transition-colors duration-[1000ms]">
-          <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_120px_-20px_rgba(255,255,255,0.25)] z-10">
+        <div className={`w-full md:w-1/2 h-[60vh] md:h-screen order-1 md:order-2 relative overflow-visible transition-all duration-1000 ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
+          <div className="relative w-full h-full z-10">
              <SmartImage 
                baseName="hero" 
                alt="Studio Atmosphere" 
@@ -110,23 +111,23 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
       </div>
 
       {/* 2. THE CONCEPT */}
-      <div className="max-w-7xl mx-auto px-8 py-32 border-t border-zinc-100 dark:border-zinc-800 transition-colors duration-[1000ms]">
+      <div className={`max-w-7xl mx-auto px-8 py-32 border-t transition-all duration-1000 ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           <div className="space-y-6 group">
-            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-zinc-700 pb-2 inline-block w-full transition-colors duration-[1000ms]">01. Private Suite</span>
-            <p className="text-zinc-600 dark:text-zinc-500 font-light leading-relaxed group-hover:text-black dark:group-hover:text-zinc-300 transition-colors">
+            <span className={`text-lg font-serif italic border-b pb-2 inline-block w-full transition-all duration-1000 ${isDark ? 'text-white border-zinc-700' : 'text-black border-zinc-200'}`}>01. Private Suite</span>
+            <p className={`font-light leading-relaxed transition-colors duration-500 ${isDark ? 'text-zinc-500 group-hover:text-zinc-300' : 'text-zinc-600 group-hover:text-black'}`}>
               A completely private room. It's just you and the mirror. No photographer watching, allowing for your most authentic self.
             </p>
           </div>
           <div className="space-y-6 group">
-            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-zinc-700 pb-2 inline-block w-full transition-colors duration-[1000ms]">02. Wireless Shutter</span>
-            <p className="text-zinc-600 dark:text-zinc-500 font-light leading-relaxed group-hover:text-black dark:group-hover:text-zinc-300 transition-colors">
+            <span className={`text-lg font-serif italic border-b pb-2 inline-block w-full transition-all duration-1000 ${isDark ? 'text-white border-zinc-700' : 'text-black border-zinc-200'}`}>02. Wireless Shutter</span>
+            <p className={`font-light leading-relaxed transition-colors duration-500 ${isDark ? 'text-zinc-500 group-hover:text-zinc-300' : 'text-zinc-600 group-hover:text-black'}`}>
               We provide professional lighting and camera setup. You hold the remote. Take as many photos as you want within your time.
             </p>
           </div>
           <div className="space-y-6 group">
-            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-zinc-700 pb-2 inline-block w-full transition-colors duration-[1000ms]">03. Instant Result</span>
-            <p className="text-zinc-600 dark:text-zinc-500 font-light leading-relaxed group-hover:text-black dark:group-hover:text-zinc-300 transition-colors">
+            <span className={`text-lg font-serif italic border-b pb-2 inline-block w-full transition-all duration-1000 ${isDark ? 'text-white border-zinc-700' : 'text-black border-zinc-200'}`}>03. Instant Result</span>
+            <p className={`font-light leading-relaxed transition-colors duration-500 ${isDark ? 'text-zinc-500 group-hover:text-zinc-300' : 'text-zinc-600 group-hover:text-black'}`}>
               Select your photos immediately. We print them on the spot, and digital files are sent to your phone before you leave.
             </p>
           </div>
@@ -134,7 +135,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
       </div>
 
       {/* 3. GOOGLE REVIEWS SECTION */}
-      <div className="bg-zinc-50 dark:bg-[#0a0a0a] py-24 px-4 transition-colors duration-[1000ms]">
+      <div className={`py-24 px-4 transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-zinc-50'}`}>
         <div className="max-w-5xl mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-12">
@@ -147,9 +148,9 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
                </svg>
             </div>
             <div>
-               <h3 className="text-lg font-bold text-black dark:text-white leading-none transition-colors duration-[1000ms]">emotional studios</h3>
+               <h3 className={`text-lg font-bold leading-none transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>emotional studios</h3>
                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">5.0</span>
+                  <span className={`text-sm font-medium ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>5.0</span>
                   <div className="flex gap-0.5">
                     {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 text-[#F4B400] fill-[#F4B400]" />)}
                   </div>
@@ -161,18 +162,18 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
           {/* Reviews Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
              {reviews.map((review, i) => (
-               <div key={i} className="bg-white dark:bg-[#111111] p-6 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-sm dark:shadow-none hover:border-black dark:hover:bg-zinc-900 transition-colors duration-500 flex flex-col">
+               <div key={i} className={`p-6 rounded-sm transition-all duration-500 flex flex-col ${isDark ? 'bg-[#111111] border border-zinc-800 hover:bg-zinc-900' : 'bg-white border border-zinc-200 shadow-sm hover:border-black'}`}>
                   <div className="flex items-center gap-3 mb-4">
                      <div className={`w-8 h-8 rounded-full ${review.color} flex items-center justify-center flex-shrink-0 text-xs font-bold`}>{review.initial}</div>
                      <div>
-                        <p className="text-xs font-bold text-black dark:text-white transition-colors duration-500">{review.name}</p>
+                        <p className={`text-xs font-bold transition-colors duration-500 ${isDark ? 'text-white' : 'text-black'}`}>{review.name}</p>
                         <p className="text-xs text-zinc-400">{review.time}</p>
                      </div>
                   </div>
                   <div className="flex gap-0.5 mb-3">
                      {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 text-[#F4B400] fill-[#F4B400]" />)}
                   </div>
-                  <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-light line-clamp-6 transition-colors duration-500">
+                  <p className={`text-xs leading-relaxed font-light line-clamp-6 transition-colors duration-500 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
                      "{review.text}"
                   </p>
                </div>
