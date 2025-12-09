@@ -40,12 +40,12 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
   ];
 
   return (
-    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
       {/* 1. HERO SECTION */}
       <div className="min-h-screen md:h-screen flex flex-col md:flex-row">
         
         {/* Left: Text Content */}
-        <div className={`w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
+        <div className={`w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
           <div className="max-w-xl">
             
             {/* BRAND LOGO ABOVE TAGLINE */}

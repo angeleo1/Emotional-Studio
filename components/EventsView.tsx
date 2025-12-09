@@ -10,7 +10,7 @@ interface EventsViewProps {
 
 export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }) => {
   return (
-    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-black' : 'bg-white'}`}>
       <div className="mb-12 pt-8 px-8">
         <span className={`text-xs uppercase tracking-widest font-bold px-2 py-1 ${isDark ? 'text-white bg-zinc-800' : 'text-black bg-zinc-100'}`}>Limited Time</span>
         <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>
@@ -23,7 +23,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
 
       <div className="space-y-16 max-w-6xl px-8 pb-20">
         {/* EVENT 1: CHRISTMAS */}
-        <div className={`border overflow-hidden flex flex-col md:flex-row transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#111111]' : 'border-zinc-200 bg-white'}`}>
+        <div className={`border overflow-hidden flex flex-col md:flex-row transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-black' : 'border-zinc-200 bg-white'}`}>
           <div className="w-full md:w-1/2 p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
             <div className="flex flex-col gap-4 mb-6">
               <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Christmas Special Event</h3>
@@ -67,7 +67,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
         </div>
 
         {/* EVENT 2: FREE 4-CUT */}
-        <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#111111]' : 'border-zinc-200 bg-white'}`}>
+        <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-black' : 'border-zinc-200 bg-white'}`}>
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
             <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Photos</h3>
             <p className={`font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
