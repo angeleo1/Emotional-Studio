@@ -11,21 +11,23 @@ import { View } from '../types';
 import { Moon, Sun } from 'lucide-react';
 import { BookingModal } from '../components/BookingModal';
 import Head from 'next/head';
-import { useTheme } from 'next-themes';
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<View>(View.HOME);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const [isDark, setIsDark] = useState(false);
 
-  // Prevent hydration mismatch
+  // Apply dark mode class to html element
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    setIsDark(!isDark);
   };
 
   const openBooking = () => setIsBookingOpen(true);
@@ -61,13 +63,6 @@ export default function Home() {
     }
   };
 
-  // Avoid hydration mismatch
-  if (!mounted) {
-    return null;
-  }
-
-  const isDark = resolvedTheme === 'dark';
-
   return (
     <>
       <Head>
@@ -76,15 +71,21 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
-        <div className="flex flex-col md:flex-row h-screen bg-white dark:bg-[#050505] text-zinc-900 dark:text-zinc-100 overflow-hidden font-sans transition-colors duration-[1000ms] ease-in-out">
+      {/* Dimmer Overlay for Dark Mode */}
+      <div 
+        className={`fixed inset-0 bg-black pointer-events-none z-[9999] transition-opacity duration-1000 ${isDark ? 'opacity-70' : 'opacity-0'}`}
+        style={{ mixBlendMode: 'multiply' }}
+      />
+      
+      <div className={`min-h-screen transition-all duration-1000 ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
+        <div className={`flex flex-col md:flex-row h-screen overflow-hidden font-sans transition-all duration-1000 ease-in-out ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-white text-zinc-900'}`}>
           <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} />
           
           <main className="flex-1 flex flex-col h-full relative overflow-hidden">
             {/* Minimal Header */}
             <header className="h-16 md:h-20 flex items-center px-4 md:px-8 justify-between shrink-0 bg-transparent z-10 border-none">
               <div className="flex items-center gap-3 overflow-hidden">
-                <span className="text-[10px] md:text-xs text-zinc-500 dark:text-zinc-500 uppercase tracking-widest font-medium transition-colors duration-[1000ms] truncate border-l border-zinc-300 dark:border-zinc-700 pl-3 ml-1">
+                <span className={`text-[10px] md:text-xs uppercase tracking-widest font-medium transition-colors duration-1000 truncate border-l pl-3 ml-1 ${isDark ? 'text-zinc-500 border-zinc-700' : 'text-zinc-500 border-zinc-300'}`}>
                   {currentView === View.HOME && 'NORTH MELBOURNE • Est. 2025'}
                   {currentView === View.EVENT && 'Special Promotions'}
                   {currentView === View.PORTFOLIO && 'Selected Works'}
@@ -98,16 +99,16 @@ export default function Home() {
                  {/* Theme Toggle */}
                  <button 
                   onClick={toggleTheme}
-                  className="p-2 text-zinc-400 hover:text-black dark:hover:text-white transition-colors duration-500"
+                  className={`p-2 transition-colors duration-500 ${isDark ? 'text-yellow-400 hover:text-yellow-300' : 'text-zinc-400 hover:text-black'}`}
                   aria-label="Toggle Dark Mode"
                  >
-                   {isDark ? <Sun className="w-4 h-4 animate-pulse" /> : <Moon className="w-4 h-4" />}
+                   {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                  </button>
 
                  {/* Desktop Book Now Button */}
                  <button 
                    onClick={openBooking}
-                   className="hidden md:block text-[10px] md:text-xs font-bold uppercase tracking-widest border border-zinc-200 dark:border-white/20 px-3 py-2 md:px-6 md:py-3 text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300 whitespace-nowrap"
+                   className={`hidden md:block text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-2 md:px-6 md:py-3 transition-all duration-300 whitespace-nowrap border ${isDark ? 'border-white/30 text-white hover:bg-white hover:text-black' : 'border-zinc-200 text-black hover:bg-black hover:text-white'}`}
                  >
                    Book Now
                  </button>
@@ -115,7 +116,7 @@ export default function Home() {
             </header>
 
             {/* Content Area */}
-            <div id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-8 pb-24 md:pb-0 relative transition-colors duration-[1000ms] no-scrollbar">
+            <div id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-8 pb-24 md:pb-0 relative transition-colors duration-1000 no-scrollbar">
               <div key={currentView} className="h-full w-full">
                 {renderContent()}
               </div>
@@ -124,10 +125,10 @@ export default function Home() {
         </div>
         
         {/* MOBILE STICKY BOOKING BAR */}
-        <div className="md:hidden fixed bottom-0 left-0 w-full z-50 p-4 bg-gradient-to-t from-white via-white dark:from-[#050505] dark:via-[#050505] to-transparent pb-6">
+        <div className={`md:hidden fixed bottom-0 left-0 w-full z-50 p-4 pb-6 bg-gradient-to-t to-transparent ${isDark ? 'from-[#050505] via-[#050505]' : 'from-white via-white'}`}>
           <button 
             onClick={openBooking}
-            className="w-full bg-black text-white dark:bg-white dark:text-black py-4 text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:opacity-90 transition-opacity"
+            className={`w-full py-4 text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:opacity-90 transition-opacity ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}
           >
             Book Session
           </button>
