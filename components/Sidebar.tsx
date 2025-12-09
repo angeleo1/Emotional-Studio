@@ -41,7 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onB
                 <img 
                   src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
                   alt="Home" 
-                  className={`w-5 h-5 object-contain dark:invert transition-all duration-[1000ms] ${isActive ? 'invert dark:invert-0' : 'opacity-60 group-hover:opacity-100'}`}
+                  className={`w-5 h-5 object-contain transition-all duration-[1000ms] ${isActive ? '' : 'opacity-60 group-hover:opacity-100'}`}
                 />
               ) : (
                 Icon && <Icon className={`w-4 h-4 transition-colors duration-[1000ms] ${isActive ? 'text-white dark:text-black' : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-400'}`} />
