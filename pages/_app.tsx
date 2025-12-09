@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Inter, Playfair_Display } from 'next/font/google'
+import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 
 const inter = Inter({
@@ -27,9 +28,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
-      <div className={`${inter.variable} ${playfairDisplay.variable}`}>
-        <Component {...pageProps} />
-      </div>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <div className={`${inter.variable} ${playfairDisplay.variable}`}>
+          <Component {...pageProps} />
+        </div>
+      </ThemeProvider>
     </>
   )
 }

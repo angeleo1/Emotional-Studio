@@ -11,38 +11,25 @@ import { View } from '../types';
 import { Moon, Sun } from 'lucide-react';
 import { BookingModal } from '../components/BookingModal';
 import Head from 'next/head';
+import { useTheme } from 'next-themes';
 
 export default function Home() {
   const [currentView, setCurrentView] = useState<View>(View.HOME);
-  const [isDarkMode, setIsDarkMode] = useState(false); 
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
 
   const openBooking = () => setIsBookingOpen(true);
   const closeBooking = () => setIsBookingOpen(false);
-
-  // Apply dark mode to html and body elements
-  useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
-    
-    if (isDarkMode) {
-      html.classList.add('dark');
-      html.style.backgroundColor = '#050505';
-      html.style.colorScheme = 'dark';
-      body.style.backgroundColor = '#050505';
-      body.style.color = '#ffffff';
-    } else {
-      html.classList.remove('dark');
-      html.style.backgroundColor = '#ffffff';
-      html.style.colorScheme = 'light';
-      body.style.backgroundColor = '#ffffff';
-      body.style.color = '#18181b';
-    }
-  }, [isDarkMode]);
 
   // Scroll to top whenever view changes
   useEffect(() => {
@@ -74,6 +61,13 @@ export default function Home() {
     }
   };
 
+  // Avoid hydration mismatch
+  if (!mounted) {
+    return null;
+  }
+
+  const isDark = resolvedTheme === 'dark';
+
   return (
     <>
       <Head>
@@ -82,7 +76,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
         <div className="flex flex-col md:flex-row h-screen bg-white dark:bg-[#050505] text-zinc-900 dark:text-zinc-100 overflow-hidden font-sans transition-colors duration-[1000ms] ease-in-out">
           <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} />
           
@@ -107,7 +101,7 @@ export default function Home() {
                   className="p-2 text-zinc-400 hover:text-black dark:hover:text-white transition-colors duration-500"
                   aria-label="Toggle Dark Mode"
                  >
-                   {isDarkMode ? <Sun className="w-4 h-4 animate-pulse" /> : <Moon className="w-4 h-4" />}
+                   {isDark ? <Sun className="w-4 h-4 animate-pulse" /> : <Moon className="w-4 h-4" />}
                  </button>
 
                  {/* Desktop Book Now Button */}
@@ -130,7 +124,7 @@ export default function Home() {
         </div>
         
         {/* MOBILE STICKY BOOKING BAR */}
-        <div className="md:hidden fixed bottom-0 left-0 w-full z-50 p-4 bg-gradient-to-t from-white via-white to-transparent dark:from-[#050505] dark:via-[#050505] pb-6">
+        <div className="md:hidden fixed bottom-0 left-0 w-full z-50 p-4 bg-gradient-to-t from-white via-white dark:from-[#050505] dark:via-[#050505] to-transparent pb-6">
           <button 
             onClick={openBooking}
             className="w-full bg-black text-white dark:bg-white dark:text-black py-4 text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:opacity-90 transition-opacity"

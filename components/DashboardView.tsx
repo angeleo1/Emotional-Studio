@@ -6,9 +6,10 @@ import { SmartImage } from './SmartImage';
 interface HomeViewProps {
   onNavigate: (view: View) => void;
   onBook: () => void;
+  isDark?: boolean;
 }
 
-export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) => {
+export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
   
   const handleNav = (view: View) => {
     if (onNavigate) onNavigate(view);
@@ -39,12 +40,12 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
   ];
 
   return (
-    <div className="h-full overflow-y-auto pb-20 no-scrollbar bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
+    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-colors duration-[1000ms] ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
       {/* 1. HERO SECTION */}
       <div className="min-h-screen md:h-screen flex flex-col md:flex-row">
         
         {/* Left: Text Content */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
+        <div className={`w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 transition-colors duration-[1000ms] ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
           <div className="max-w-xl">
             
             {/* BRAND LOGO ABOVE TAGLINE - No dark:invert to keep original color */}
@@ -55,35 +56,27 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
             />
 
             {/* Tagline - DARK MODE LINE HIDDEN */}
-            <div className="text-black dark:text-white text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-black dark:hidden transition-all duration-[1000ms]"></span>
+            <div className={`text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2 ${isDark ? 'text-white' : 'text-black'}`}>
+              {!isDark && <span className="w-8 h-[1px] bg-black transition-all duration-[1000ms]"></span>}
               <p>Make a Melbourne a fun place</p>
             </div>
             
             {/* Custom Font Title */}
-            <h1 
-              className="text-6xl md:text-8xl text-black dark:text-white leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms]"
-              style={{ fontFamily: 'CSValcon, serif' }}
-            >
+            <h1 className={`text-6xl md:text-8xl font-valcon leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms] ${isDark ? 'text-white' : 'text-black'}`}>
               emotional<br/>studios
             </h1>
             
-            {/* Description - DARK MODE LINE HIDDEN */}
-            <p className="text-zinc-600 dark:text-zinc-400 font-light text-lg md:text-xl leading-relaxed max-w-md pl-6 border-l border-black dark:border-0 dark:hidden dark:pl-0 mb-12 transition-all duration-[1000ms]">
+            {/* Description */}
+            <p className={`font-light text-lg md:text-xl leading-relaxed max-w-md mb-12 transition-all duration-[1000ms] ${isDark ? 'text-zinc-400' : 'text-zinc-600 pl-6 border-l border-black'}`}>
               Private self-portrait suites. <br/>
-              <span className="text-black dark:text-white font-normal">No photographer.</span> Just you.
-            </p>
-            {/* Dark mode specific text wrapper to ensure no border */}
-            <p className="hidden dark:block text-zinc-400 font-light text-lg md:text-xl leading-relaxed max-w-md mb-12 transition-all duration-[1000ms]">
-              Private self-portrait suites. <br/>
-              <span className="text-white font-normal">No photographer.</span> Just you.
+              <span className={`font-normal ${isDark ? 'text-white' : 'text-black'}`}>No photographer.</span> Just you.
             </p>
 
             <div className="flex flex-col gap-4">
                <div className="flex flex-col sm:flex-row gap-4">
                  <button 
                    onClick={onBook}
-                   className="bg-black text-white dark:bg-white dark:text-black px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group"
+                   className={`px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}
                  >
                    Book Session <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                  </button>
