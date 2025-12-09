@@ -1,10 +1,5 @@
-import React, { useEffect } from 'react';
-
-declare global {
-  interface Window {
-    SimplybookWidget: any;
-  }
-}
+import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -12,47 +7,38 @@ interface BookingModalProps {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
-  useEffect(() => {
-    if (isOpen && typeof window !== 'undefined' && window.SimplybookWidget) {
-      new window.SimplybookWidget({
-        widget_type: "button",
-        url: "https://emotionalstudios.simplybook.net",
-        theme: "default",
-        theme_settings: {
-          timeline_hide_unavailable: "1",
-          hide_past_days: "0",
-          timeline_show_end_time: "0",
-          timeline_modern_display: "as_slots",
-          sb_base_color: "#ee9cab",
-          display_item_mode: "list",
-          booking_nav_bg_color: "#ee9cab",
-          body_bg_color: "#f9f9f9",
-          sb_review_image: "64",
-          sb_review_image_preview: "/uploads/emotionalstudios/image_files/preview/4d46b939a4eaa4ad6c437c1e0c138ec1.png",
-          dark_font_color: "#3a4445",
-          light_font_color: "#ffffff",
-          btn_color_1: "#d8aeab",
-          sb_company_label_color: "#3a4445",
-          hide_img_mode: "1",
-          show_sidebar: "1",
-          sb_busy: "#c7b3b3",
-          sb_available: "#ebddde"
-        },
-        timeline: "modern",
-        datepicker: "top_calendar",
-        is_rtl: false,
-        app_config: {
-          clear_session: 0,
-          allow_switch_to_ada: 0,
-          predefined: {
-            provider: "2",
-            category: "1"
-          }
-        }
-      });
-      onClose();
-    }
-  }, [isOpen, onClose]);
+  const [loaded, setLoaded] = useState(false);
 
-  return null;
+  useEffect(() => {
+    setLoaded(true);
+  }, []);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-0 md:p-4">
+      <div className="bg-white w-full h-full md:max-w-4xl md:h-[90vh] relative shadow-2xl flex flex-col rounded-sm overflow-hidden">
+        {/* Header */}
+        <div className="flex justify-between items-center p-4 border-b border-zinc-100 bg-white shrink-0">
+          <span className="text-xs font-bold uppercase tracking-widest text-black">Book Session</span>
+          <button 
+            onClick={onClose}
+            className="p-2 hover:bg-zinc-100 rounded-full transition-colors text-black"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {/* SimplyBook.me iframe */}
+        <div className="flex-1 w-full bg-white relative overflow-hidden">
+          <iframe 
+            src="https://emotionalstudios.simplybook.net/v2/#book" 
+            title="Book Session"
+            className="w-full h-full border-0"
+            allow="payment"
+          />
+        </div>
+      </div>
+    </div>
+  );
 };
