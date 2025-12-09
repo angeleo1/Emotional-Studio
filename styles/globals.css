@@ -5,16 +5,9 @@
 /* Custom Font Definition - CSValcon */
 @font-face {
   font-family: 'CSValcon';
-  src: url('/fonts/CSValconDrawn-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Fallback: Load from GitHub if local fails */
-@font-face {
-  font-family: 'CSValcon';
-  src: url('https://raw.githubusercontent.com/angeleo1/google-images/main/CSValconDrawn-Regular.ttf') format('truetype');
+  src: url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.woff2') format('woff2'),
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.woff') format('woff'),
+       url('/fonts/CS-Valcon-Drawn-akhr7k/CS Valcon Drawn/CSValconDrawn-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
