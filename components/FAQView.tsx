@@ -41,7 +41,7 @@ export const FAQView: React.FC<FAQViewProps> = ({ isDark = false }) => {
         </p>
       </div>
 
-      <div className="max-w-3xl space-y-16 px-4 md:px-0">
+      <div className="max-w-3xl space-y-16 px-8">
         {faqs.map((section, sIdx) => (
           <div key={sIdx}>
             <h3 className={`text-lg font-serif italic mb-6 border-b pb-2 ${isDark ? 'text-white border-zinc-800' : 'text-black border-zinc-200'}`}>{section.category}</h3>

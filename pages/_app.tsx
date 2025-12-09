@@ -22,12 +22,10 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>emotional studios</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        {/* Preconnect to SimplyBook.me */}
-        <link rel="preconnect" href="https://simplybook.me" />
+        {/* Preconnect to SimplyBook.me for faster load */}
         <link rel="preconnect" href="https://emotionalstudios.simplybook.me" />
-        <link rel="dns-prefetch" href="https://simplybook.me" />
-        {/* Preload SimplyBook.me widget script */}
-        <script src="//simplybook.me/v2/widget/widget.js" async />
+        <link rel="dns-prefetch" href="https://emotionalstudios.simplybook.me" />
+        <link rel="prerender" href="https://emotionalstudios.simplybook.me/v2/" />
       </Head>
       <div className={`${inter.variable} ${playfairDisplay.variable}`}>
         <Component {...pageProps} />
