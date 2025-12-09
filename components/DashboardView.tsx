@@ -61,7 +61,10 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
             </div>
             
             {/* Custom Font Title */}
-            <h1 className="text-6xl md:text-8xl font-valcon text-black dark:text-white leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms]">
+            <h1 
+              className="text-6xl md:text-8xl text-black dark:text-white leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms]"
+              style={{ fontFamily: 'CSValcon, serif' }}
+            >
               emotional<br/>studios
             </h1>
             

@@ -24,14 +24,23 @@ export default function Home() {
   const openBooking = () => setIsBookingOpen(true);
   const closeBooking = () => setIsBookingOpen(false);
 
-  // Apply dark mode to html element
+  // Apply dark mode to html and body elements
   useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-      document.body.style.backgroundColor = '#050505';
+      html.classList.add('dark');
+      html.style.backgroundColor = '#050505';
+      html.style.colorScheme = 'dark';
+      body.style.backgroundColor = '#050505';
+      body.style.color = '#ffffff';
     } else {
-      document.documentElement.classList.remove('dark');
-      document.body.style.backgroundColor = '#ffffff';
+      html.classList.remove('dark');
+      html.style.backgroundColor = '#ffffff';
+      html.style.colorScheme = 'light';
+      body.style.backgroundColor = '#ffffff';
+      body.style.color = '#18181b';
     }
   }, [isDarkMode]);
 
