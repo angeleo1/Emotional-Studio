@@ -6,10 +6,9 @@ import { SmartImage } from './SmartImage';
 interface HomeViewProps {
   onNavigate: (view: View) => void;
   onBook: () => void;
-  isDark?: boolean;
 }
 
-export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
+export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) => {
   
   const handleNav = (view: View) => {
     if (onNavigate) onNavigate(view);
@@ -40,49 +39,49 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
   ];
 
   return (
-    <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-colors duration-[1000ms] ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
+    <div className="h-full overflow-y-auto pb-20 no-scrollbar bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
       {/* 1. HERO SECTION */}
       <div className="min-h-screen md:h-screen flex flex-col md:flex-row">
         
         {/* Left: Text Content */}
-        <div className={`w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 transition-colors duration-[1000ms] ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
+        <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:px-20 py-20 order-2 md:order-1 bg-white dark:bg-[#050505] transition-colors duration-[1000ms]">
           <div className="max-w-xl">
             
-            {/* BRAND LOGO ABOVE TAGLINE - No dark:invert to keep original color */}
+            {/* BRAND LOGO ABOVE TAGLINE */}
             <img 
                src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
                alt="Brand Logo" 
                className="h-24 w-auto object-contain mb-8 animate-fade-in transition-all duration-[1000ms]"
             />
 
-            {/* Tagline - DARK MODE LINE HIDDEN */}
-            <div className={`text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2 ${isDark ? 'text-white' : 'text-black'}`}>
-              {!isDark && <span className="w-8 h-[1px] bg-black transition-all duration-[1000ms]"></span>}
+            {/* Tagline */}
+            <div className="text-black dark:text-white text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2">
+              <span className="w-8 h-[1px] bg-black dark:bg-white transition-all duration-[1000ms]"></span>
               <p>Make a Melbourne a fun place</p>
             </div>
             
             {/* Custom Font Title */}
-            <h1 className={`text-6xl md:text-8xl font-valcon leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms] ${isDark ? 'text-white' : 'text-black'}`}>
+            <h1 className="text-6xl md:text-8xl font-valcon text-black dark:text-white leading-[0.9] tracking-tighter mb-8 transition-colors duration-[1000ms]">
               emotional<br/>studios
             </h1>
             
             {/* Description */}
-            <p className={`font-light text-lg md:text-xl leading-relaxed max-w-md mb-12 transition-all duration-[1000ms] ${isDark ? 'text-zinc-400' : 'text-zinc-600 pl-6 border-l border-black'}`}>
+            <p className="text-zinc-600 dark:text-zinc-400 font-light text-lg md:text-xl leading-relaxed max-w-md pl-6 border-l border-black dark:border-white/30 mb-12 transition-all duration-[1000ms]">
               Private self-portrait suites. <br/>
-              <span className={`font-normal ${isDark ? 'text-white' : 'text-black'}`}>No photographer.</span> Just you.
+              <span className="text-black dark:text-white font-normal">No photographer.</span> Just you.
             </p>
 
             <div className="flex flex-col gap-4">
                <div className="flex flex-col sm:flex-row gap-4">
                  <button 
                    onClick={onBook}
-                   className={`px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}
+                   className="bg-black dark:bg-white text-white dark:text-black px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group"
                  >
                    Book Session <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                  </button>
                  <button 
                    onClick={() => handleNav(View.PACKAGES)}
-                   className="px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase text-black dark:text-white border border-zinc-200 dark:border-none dark:bg-zinc-900 hover:border-black dark:hover:bg-zinc-800 transition-all text-center"
+                   className="px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase text-black dark:text-white border border-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 hover:border-black dark:hover:bg-zinc-800 transition-all text-center"
                  >
                    View Rates
                  </button>
@@ -108,22 +107,22 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
       </div>
 
       {/* 2. THE CONCEPT */}
-      <div className="max-w-7xl mx-auto px-8 py-32 border-t border-zinc-100 dark:border-none transition-colors duration-[1000ms]">
+      <div className="max-w-7xl mx-auto px-8 py-32 border-t border-zinc-100 dark:border-zinc-800 transition-colors duration-[1000ms]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
           <div className="space-y-6 group">
-            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-none pb-2 inline-block w-full transition-colors duration-[1000ms]">01. Private Suite</span>
+            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-zinc-700 pb-2 inline-block w-full transition-colors duration-[1000ms]">01. Private Suite</span>
             <p className="text-zinc-600 dark:text-zinc-500 font-light leading-relaxed group-hover:text-black dark:group-hover:text-zinc-300 transition-colors">
               A completely private room. It's just you and the mirror. No photographer watching, allowing for your most authentic self.
             </p>
           </div>
           <div className="space-y-6 group">
-            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-none pb-2 inline-block w-full transition-colors duration-[1000ms]">02. Wireless Shutter</span>
+            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-zinc-700 pb-2 inline-block w-full transition-colors duration-[1000ms]">02. Wireless Shutter</span>
             <p className="text-zinc-600 dark:text-zinc-500 font-light leading-relaxed group-hover:text-black dark:group-hover:text-zinc-300 transition-colors">
               We provide professional lighting and camera setup. You hold the remote. Take as many photos as you want within your time.
             </p>
           </div>
           <div className="space-y-6 group">
-            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-none pb-2 inline-block w-full transition-colors duration-[1000ms]">03. Instant Result</span>
+            <span className="text-black dark:text-white text-lg font-serif italic border-b border-zinc-200 dark:border-zinc-700 pb-2 inline-block w-full transition-colors duration-[1000ms]">03. Instant Result</span>
             <p className="text-zinc-600 dark:text-zinc-500 font-light leading-relaxed group-hover:text-black dark:group-hover:text-zinc-300 transition-colors">
               Select your photos immediately. We print them on the spot, and digital files are sent to your phone before you leave.
             </p>
@@ -159,7 +158,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
           {/* Reviews Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
              {reviews.map((review, i) => (
-               <div key={i} className="bg-white dark:bg-[#111111] p-6 border border-zinc-200 dark:border-none rounded-sm shadow-sm dark:shadow-none hover:border-black dark:hover:bg-zinc-900 transition-colors duration-500 flex flex-col">
+               <div key={i} className="bg-white dark:bg-[#111111] p-6 border border-zinc-200 dark:border-zinc-800 rounded-sm shadow-sm dark:shadow-none hover:border-black dark:hover:bg-zinc-900 transition-colors duration-500 flex flex-col">
                   <div className="flex items-center gap-3 mb-4">
                      <div className={`w-8 h-8 rounded-full ${review.color} flex items-center justify-center flex-shrink-0 text-xs font-bold`}>{review.initial}</div>
                      <div>
@@ -181,4 +180,3 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
     </div>
   );
 };
-
