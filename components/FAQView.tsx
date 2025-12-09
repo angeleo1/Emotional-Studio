@@ -33,7 +33,7 @@ export const FAQView: React.FC<FAQViewProps> = ({ isDark = false }) => {
 
   return (
     <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
-      <div className="mb-12 pt-8 px-4 md:px-0">
+      <div className="mb-12 pt-8 px-4 md:px-0 md:pl-24">
         <span className={`text-xs uppercase tracking-widest font-bold px-2 py-1 ${isDark ? 'text-white bg-zinc-800' : 'text-black bg-zinc-100'}`}>Help Centre</span>
         <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 ${isDark ? 'text-white' : 'text-black'}`}>questions?</h2>
         <p className={`font-light max-w-xl leading-relaxed ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>

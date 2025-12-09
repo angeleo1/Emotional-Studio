@@ -81,7 +81,7 @@ export const PackagesView: React.FC<PackagesViewProps> = ({ onBook, isDark = fal
 
   return (
     <div className={`h-full overflow-y-auto pb-20 no-scrollbar transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
-      <div className="mb-16 pt-8">
+      <div className="mb-16 pt-8 pl-24">
         <span className={`text-xs uppercase tracking-widest font-bold px-2 py-1 ${isDark ? 'text-white bg-zinc-800' : 'text-black bg-zinc-100'}`}>Investments</span>
         <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>packages</h2>
         <p className={`font-light max-w-xl leading-relaxed transition-colors duration-1000 ${isDark ? 'text-zinc-500' : 'text-zinc-600'}`}>
