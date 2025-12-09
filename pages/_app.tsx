@@ -22,6 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>emotional studios</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        {/* Preconnect to SimplyBook.me for faster booking modal */}
+        <link rel="preconnect" href="https://emotionalstudios.simplybook.me" />
+        <link rel="dns-prefetch" href="https://emotionalstudios.simplybook.me" />
       </Head>
       <div className={`${inter.variable} ${playfairDisplay.variable}`}>
         <Component {...pageProps} />
