@@ -71,15 +71,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      {/* Dimmer Overlay for Dark Mode */}
-      <div 
-        className={`fixed inset-0 bg-black pointer-events-none z-[9999] transition-opacity duration-1000 ${isDark ? 'opacity-70' : 'opacity-0'}`}
-        style={{ mixBlendMode: 'multiply' }}
-      />
-      
-      <div className={`min-h-screen transition-all duration-1000 ${isDark ? 'bg-[#050505]' : 'bg-white'}`}>
+      <div className={`min-h-screen transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
         <div className={`flex flex-col md:flex-row h-screen overflow-hidden font-sans transition-all duration-1000 ease-in-out ${isDark ? 'bg-[#050505] text-zinc-100' : 'bg-white text-zinc-900'}`}>
-          <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} />
+          <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} isDark={isDark} />
           
           <main className="flex-1 flex flex-col h-full relative overflow-hidden">
             {/* Minimal Header */}
