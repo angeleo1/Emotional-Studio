@@ -116,7 +116,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
           <div className="space-y-6 group">
             <span className={`text-lg font-serif italic border-b pb-2 inline-block w-full transition-all duration-1000 ${isDark ? 'text-white border-zinc-700' : 'text-black border-zinc-200'}`}>01. Private Suite</span>
             <p className={`font-light leading-relaxed transition-colors duration-500 ${isDark ? 'text-zinc-500 group-hover:text-zinc-300' : 'text-zinc-600 group-hover:text-black'}`}>
-              A completely private room. It's just you and the mirror. No photographer watching, allowing for your most authentic self.
+              A completely private room. It's just you and the camera. No photographer watching, allowing for your most authentic self.
             </p>
           </div>
           <div className="space-y-6 group">
