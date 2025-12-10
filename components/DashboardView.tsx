@@ -136,7 +136,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
 
             <p className="text-zinc-600 dark:text-zinc-400 font-light text-lg md:text-xl leading-relaxed max-w-md pl-6 border-l border-black dark:border-0 dark:hidden dark:pl-0 mb-12 transition-all duration-[1000ms]">
 
-              Private self-portrait suites. <br/>
+              Private self-portrait suite. <br/>
 
               <span className="text-black dark:text-white font-normal">No photographer.</span> Just you.
 
@@ -146,7 +146,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
 
             <p className="hidden dark:block text-zinc-400 font-light text-lg md:text-xl leading-relaxed max-w-md mb-12 transition-all duration-[1000ms]">
 
-              Private self-portrait suites. <br/>
+              Private self-portrait suite. <br/>
 
               <span className="text-white font-normal">No photographer.</span> Just you.
 
