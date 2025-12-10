@@ -32,10 +32,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
         {/* SimplyBook.me iframe */}
         <div className="flex-1 w-full bg-white relative overflow-hidden">
           <iframe 
-            src="https://emotionalstudios.simplybook.net/v2/#book" 
+            src="https://emotionalstudios.simplybook.me/v2/" 
             title="Book Session"
             className="w-full h-full border-0"
-            allow="payment"
+            allow="payment; fullscreen"
+            sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation"
           />
         </div>
       </div>
