@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -13,18 +12,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-    
-    const result = await model.generateContent("Say hello in one sentence");
-    const response = await result.response;
-    const text = response.text();
+    // Use v1 API endpoint directly (not v1beta)
+    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          role: 'user',
+          parts: [{ text: 'Say hello in one sentence' }]
+        }],
+        generationConfig: {
+          maxOutputTokens: 100,
+          temperature: 0.7,
+        },
+      }),
+    });
+
+    if (!apiResponse.ok) {
+      const errorData = await apiResponse.json().catch(() => ({}));
+      return res.status(500).json({ 
+        error: 'Gemini API test failed',
+        hasKey: true,
+        keyLength: apiKey.length,
+        status: apiResponse.status,
+        statusText: apiResponse.statusText,
+        errorData: errorData
+      });
+    }
+
+    const data = await apiResponse.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
 
     return res.status(200).json({ 
       success: true,
       hasKey: true,
       keyLength: apiKey.length,
       response: text,
+      usedEndpoint: 'v1/models/gemini-1.5-flash',
       message: 'Gemini API is working correctly'
     });
   } catch (error: any) {
@@ -33,8 +59,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       hasKey: true,
       keyLength: apiKey.length,
       errorMessage: error?.message,
-      errorDetails: error?.toString()
+      errorDetails: error?.toString(),
+      stack: error?.stack
     });
   }
 }
-

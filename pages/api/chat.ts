@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -23,8 +22,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    
     const systemInstruction = `You are the studio concierge for 'emotional studios', a premium self-portrait studio in North Melbourne (Est. 2025).
 
 CRITICAL BRANDING:
@@ -77,45 +74,60 @@ CONTACT:
 If unsure, suggest checking the FAQ page or emailing admin@emotionalstudios.com.au.
 Keep answers short, chic, and helpful.`;
 
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash-latest",
-      systemInstruction: systemInstruction,
+    // Build contents array with history and current message
+    const contents: any[] = [];
+    
+    // Add history (excluding initial greeting)
+    if (history && Array.isArray(history)) {
+      history.forEach((h: any) => {
+        const text = h.parts?.[0]?.text || h.text || '';
+        if (!text.includes("G'day! Welcome to emotional studios")) {
+          contents.push({
+            role: h.role === 'model' ? 'model' : 'user',
+            parts: [{ text: text }]
+          });
+        }
+      });
+    }
+    
+    // Add current message
+    contents.push({
+      role: 'user',
+      parts: [{ text: message }]
     });
 
-    // Convert history format for Gemini API - exclude the initial greeting message
-    const chatHistory = history?.filter((h: any) => {
-      const text = h.parts?.[0]?.text || h.text || '';
-      // Skip the initial greeting message
-      return !text.includes("G'day! Welcome to emotional studios");
-    }).map((h: any) => {
-      const role = h.role === 'model' ? 'model' : 'user';
-      const text = h.parts?.[0]?.text || h.text || '';
-      return {
-        role: role,
-        parts: [{ text: text }]
-      };
-    }) || [];
-
-    // Start chat with system instruction and history
-    const chat = model.startChat({
-      history: chatHistory,
-      generationConfig: {
-        maxOutputTokens: 500,
-        temperature: 0.7,
+    // Use v1 API endpoint (not v1beta)
+    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        contents: contents,
+        systemInstruction: {
+          parts: [{ text: systemInstruction }]
+        },
+        generationConfig: {
+          maxOutputTokens: 500,
+          temperature: 0.7,
+        },
+      }),
     });
 
-    const result = await chat.sendMessage(message);
-    const response = await result.response;
-    const text = response.text() || "I apologise, I'm having trouble responding right now.";
+    if (!apiResponse.ok) {
+      const errorData = await apiResponse.json().catch(() => ({}));
+      console.error('Gemini API error:', apiResponse.status, errorData);
+      throw new Error(`Gemini API returned ${apiResponse.status}: ${JSON.stringify(errorData)}`);
+    }
+
+    const data = await apiResponse.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "I apologise, I'm having trouble responding right now.";
 
     return res.status(200).json({ text });
   } catch (error: any) {
     console.error('Chat API Error:', error);
     console.error('Error details:', {
       message: error?.message,
-      status: error?.status,
-      statusText: error?.statusText,
       stack: error?.stack
     });
     return res.status(500).json({ 
