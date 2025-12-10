@@ -53,7 +53,7 @@ function PoseGallerySection() {
   }, []);
 
   const goBack = () => {
-    router.push('/mobile');
+    router.push('/');
   };
 
   return (

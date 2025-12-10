@@ -22,7 +22,7 @@ const FloatingBookButton = () => {
 
   // booking 페이지에서는 버튼 숨기기
   useEffect(() => {
-    if (router.pathname === '/booking' || router.pathname === '/mobile-booking' || router.pathname === '/booking-backup') {
+    if (router.pathname === '/booking' || router.pathname === '/booking-backup') {
       setIsVisible(false);
     } else {
       setIsVisible(true);
