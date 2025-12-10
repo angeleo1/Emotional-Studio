@@ -30,14 +30,9 @@ export const ChatView: React.FC<ChatViewProps> = ({ isDark = false }) => {
     setIsLoading(true);
     try {
       const history = messages.map(m => ({ role: m.role, parts: [{ text: m.text }] }));
-      console.log('Sending message:', userMsg.text);
-      console.log('History:', history);
       const responseText = await generateChatResponse(history, userMsg.text);
-      console.log('Received response:', responseText);
       setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), role: 'model', text: responseText, timestamp: new Date() }]);
-    } catch (error: any) {
-      console.error('Chat error in component:', error);
-      console.error('Error details:', error?.message, error?.stack);
+    } catch (error) {
       setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), role: 'model', text: "Sorry, I'm having trouble connecting. Please try emailing us instead.", timestamp: new Date() }]);
     } finally { setIsLoading(false); }
   };

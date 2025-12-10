@@ -113,8 +113,8 @@ export default function Home() {
             <div id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden px-4 md:px-8 pb-24 md:pb-0 relative transition-colors duration-1000 no-scrollbar">
               <div key={currentView} className="h-full w-full">
                 {renderContent()}
-              </div>
-            </div>
+        </div>
+      </div>
           </main>
         </div>
         

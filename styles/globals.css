@@ -11,16 +11,16 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
-
-body {
+  }
+  
+  body {
   font-family: 'Inter', -apple-system, sans-serif;
   transition: background-color 1000ms, color 1000ms;
-}
+  }
 
 /* Dark mode body styles */
 .dark body,
-.dark {
+  .dark {
   background-color: #050505;
   color: #ffffff;
 }
@@ -35,7 +35,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #e4e4e7; 
   border-radius: 3px;
-}
+  }
 /* Dark mode scrollbar fixes */
 .dark ::-webkit-scrollbar-thumb {
   background: #333; 
@@ -48,7 +48,7 @@ body {
 ::selection {
   background-color: #000000;
   color: #ffffff;
-}
+  }
 .dark ::selection {
   background-color: #ffffff;
   color: #000000;
@@ -62,3 +62,4 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
