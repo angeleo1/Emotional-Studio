@@ -58,7 +58,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
             {/* Tagline */}
             <div className={`text-xs font-bold tracking-[0.3em] uppercase mb-6 animate-fade-in flex items-center gap-2 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-black'}`}>
               <span className={`w-8 h-[1px] transition-all duration-1000 ${isDark ? 'bg-white' : 'bg-black'}`}></span>
-              <p>Make a Melbourne a fun place</p>
+              <p>Make Melbourne a fun place</p>
             </div>
             
             {/* Custom Font Title */}
@@ -71,7 +71,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
             
             {/* Description */}
             <p className={`font-light text-lg md:text-xl leading-relaxed max-w-md pl-6 border-l mb-12 transition-all duration-1000 ${isDark ? 'text-zinc-400 border-zinc-600' : 'text-zinc-600 border-black'}`}>
-              Private self-portrait suites. <br/>
+              Private self-portrait suite. <br/>
               <span className={`font-normal ${isDark ? 'text-white' : 'text-black'}`}>No photographer.</span> Just you.
             </p>
 

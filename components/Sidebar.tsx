@@ -14,7 +14,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onB
     { id: View.HOME, label: 'home', icon: null }, 
     { id: View.PRICE, label: 'price', icon: Tag },
     { id: View.PACKAGES, label: 'packages', icon: CreditCard },
-    { id: View.PORTFOLIO, label: 'portfolio', icon: Camera },
+    { id: View.PORTFOLIO, label: 'gallery', icon: Camera },
     { id: View.EVENT, label: 'events', icon: Sparkles },
     { id: View.FAQ, label: 'help', icon: HelpCircle },
     { id: View.CONCIERGE, label: 'contact', icon: MessageCircle },
