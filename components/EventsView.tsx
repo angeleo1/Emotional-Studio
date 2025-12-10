@@ -106,11 +106,10 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
             </div>
             <div className={`w-full md:w-1/2 relative ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
               <div className="w-full h-full flex gap-0">
-                <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event1.jpg`} alt="4-Cut 1" className="w-full h-full object-contain p-4" loading="eager" onError={(e) => { e.currentTarget.src = `${GITHUB_BASE}Event1.png`; }} /></div>
                 <div className="w-1/2 h-full">
                   <img 
                     src={`${GITHUB_BASE}Event4.jpg`} 
-                    alt="4-Cut 2" 
+                    alt="4-Cut 1" 
                     className="w-full h-full object-contain p-4" 
                     loading="eager" 
                     onError={(e) => {
@@ -119,6 +118,22 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
                         img.src = `${GITHUB_BASE}Event4.png`;
                       } else if (img.src.includes('.png')) {
                         img.src = `${GITHUB_BASE}Event4.jpeg`;
+                      }
+                    }}
+                  />
+                </div>
+                <div className="w-1/2 h-full">
+                  <img 
+                    src={`${GITHUB_BASE}Event5.jpg`} 
+                    alt="4-Cut 2" 
+                    className="w-full h-full object-contain p-4" 
+                    loading="eager" 
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (img.src.includes('.jpg')) {
+                        img.src = `${GITHUB_BASE}Event5.png`;
+                      } else if (img.src.includes('.png')) {
+                        img.src = `${GITHUB_BASE}Event5.jpeg`;
                       }
                     }}
                   />
