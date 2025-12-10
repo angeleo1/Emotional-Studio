@@ -78,7 +78,7 @@ If unsure, suggest checking the FAQ page or emailing admin@emotionalstudios.com.
 Keep answers short, chic, and helpful.`;
 
     const model = genAI.getGenerativeModel({ 
-      model: "gemini-pro",
+      model: "gemini-1.5-flash-latest",
       systemInstruction: systemInstruction,
     });
 
