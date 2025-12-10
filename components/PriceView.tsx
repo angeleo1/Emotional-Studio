@@ -8,10 +8,10 @@ interface PriceViewProps {
 
 export const PriceView: React.FC<PriceViewProps> = ({ isDark = false, onContact }) => {
   const sessions = [
-    { name: "1-person", price: "$65", features: ["4x6\" prints of 2 selected photos", "Digital original file"] },
-    { name: "2-people", price: "$120", features: ["4x6\" prints of 4 selected photos", "Digital original file"] },
-    { name: "3-people", price: "$150", features: ["4x6\" prints of 6 selected photos", "Digital original file"] },
-    { name: "4-people", price: "$180", features: ["4x6\" prints of 8 selected photos", "Digital original file"] }
+    { name: "1-person", price: "$65", features: ["4x6\" prints of 2 selected photos"] },
+    { name: "2-people", price: "$120", features: ["4x6\" prints of 4 selected photos"] },
+    { name: "3-people", price: "$150", features: ["4x6\" prints of 6 selected photos"] },
+    { name: "4-people", price: "$180", features: ["4x6\" prints of 8 selected photos"] }
   ];
 
   const addOns = [
