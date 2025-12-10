@@ -69,7 +69,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
         {/* EVENT 2: FREE 4-CUT */}
         <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Photos</h3>
+            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Event</h3>
             <p className={`font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
               Leave a Google review after your session and receive complimentary 4-cut photos to take home.
             </p>
@@ -107,7 +107,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
             <div className={`w-full md:w-1/2 relative ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
               <div className="w-full h-full flex gap-0">
                 <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event1.jpg`} alt="4-Cut 1" className="w-full h-full object-contain p-4" loading="eager" /></div>
-                <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event1-1.png`} alt="4-Cut 2" className="w-full h-full object-contain p-4" loading="eager" /></div>
+                <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event4.jpg`} alt="4-Cut 2" className="w-full h-full object-contain p-4" loading="eager" /></div>
               </div>
             </div>
           </div>

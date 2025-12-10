@@ -34,7 +34,7 @@ CRITICAL BRANDING:
 
 CURRENT EVENTS (View 'Events' tab):
 1. Christmas Special: Christmas theme included with any session at no extra cost. Includes props, outfits, and a surprise gift box.
-2. Free 4-Cut Photos: Leave a Google review to get free 4-cut photos (Qty depends on group size: 2 for 2 people, etc).
+2. Free 4-Cut Event: Leave a Google review to get free 4-cut photos (Qty depends on group size: 2 for 2 people, etc).
 
 STANDARD PRICES (View 'Price' tab):
 - 1 Person: $65 (20min, 2 prints, 2 digitals)
