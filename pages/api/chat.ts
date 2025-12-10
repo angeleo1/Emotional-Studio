@@ -90,7 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         - Body Profile: Standard $99 (was $110) - For One Person. Includes Two 4x6" Prints, 8x10" Print, Digital Original Film, Time-Lapse Video, 8x10" Frame. *Add Person: $30.
 
-        - Pet: Plan A $109 (was $125) - For One Person. Includes Two 4x6" Prints, Photo Book A, Magnet, Time-Lapse Video, 4x6" Frame. *Add Person: $30. Plan B $109 (was $120) - For One Person. Includes Two 4x6" Prints, Photo Mug, Photo Globe, Time-Lapse Video, Key Ring. *Add Person: $30.
+        - Pet: Plan A $109 (was $125) - For One Person with their pet (dogs, cats, or any companion animals). Includes Two 4x6" Prints, Photo Book A, Magnet, Time-Lapse Video, 4x6" Frame. *Add Person: $30. Plan B $109 (was $120) - For One Person with their pet (dogs, cats, or any companion animals). Includes Two 4x6" Prints, Photo Mug, Photo Globe, Time-Lapse Video, Key Ring. *Add Person: $30. IMPORTANT: Pet packages are for ALL pets including dogs, cats, and any companion animals - never mention only cats.
 
         - Family: Family Suite $279 (was $335) - Minimum 3 People. Includes 4x6" Print Per Person, 8x10" Print, Photo Calendar, Photo Book B, Time-Lapse Video, 8x10" Frame, Magnet, Digital Original Film. *Add Person: $30. *Add 30mins: $50.
 
