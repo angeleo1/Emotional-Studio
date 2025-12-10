@@ -108,16 +108,16 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
               <div className="w-full h-full flex gap-0">
                 <div className="w-1/2 h-full">
                   <img 
-                    src={`${GITHUB_BASE}Event4.jpg`} 
+                    src={`${GITHUB_BASE}Event44.jpg`} 
                     alt="4-Cut 1" 
                     className="w-full h-full object-contain p-4" 
                     loading="eager" 
                     onError={(e) => {
                       const img = e.currentTarget;
                       if (img.src.includes('.jpg')) {
-                        img.src = `${GITHUB_BASE}Event4.png`;
+                        img.src = `${GITHUB_BASE}Event44.png`;
                       } else if (img.src.includes('.png')) {
-                        img.src = `${GITHUB_BASE}Event4.jpeg`;
+                        img.src = `${GITHUB_BASE}Event44.jpeg`;
                       }
                     }}
                   />
