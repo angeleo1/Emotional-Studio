@@ -116,7 +116,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
 
               <span className="w-8 h-[1px] bg-black dark:hidden transition-all duration-[1000ms]"></span>
 
-              <p>Make a Melbourne a fun place</p>
+              <p>Make Melbourne a fun place</p>
 
             </div>
 
