@@ -79,10 +79,9 @@ Keep answers short, chic, and helpful.`;
 
     const model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-flash",
-      systemInstruction: systemInstruction,
     });
 
-    // Convert history format
+    // Convert history format for Gemini API
     const chatHistory = history?.map((h: any) => {
       const role = h.role === 'model' ? 'model' : 'user';
       const text = h.parts?.[0]?.text || h.text || '';
@@ -92,8 +91,10 @@ Keep answers short, chic, and helpful.`;
       };
     }) || [];
 
+    // Start chat with system instruction and history
     const chat = model.startChat({
       history: chatHistory,
+      systemInstruction: systemInstruction,
       generationConfig: {
         maxOutputTokens: 500,
         temperature: 0.7,

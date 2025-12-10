@@ -117,8 +117,16 @@ export const ChatView: React.FC<ChatViewProps> = ({ isDark = false }) => {
               ))}
             </div>
 
-            <div className={`border-t pt-8 space-y-2 text-center ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
-              <h3 className={`text-lg font-serif italic ${isDark ? 'text-white' : 'text-black'}`}>Send a message</h3>
+            <div className={`border-t pt-8 space-y-4 text-center ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}>
+              <div className="space-y-2">
+                <a href="mailto:admin@emotionalstudios.com.au" className={`block text-sm font-medium hover:opacity-70 transition-opacity ${isDark ? 'text-white' : 'text-black'}`}>
+                  admin@emotionalstudios.com.au
+                </a>
+                <a href="tel:+61370751000" className={`block text-sm font-medium hover:opacity-70 transition-opacity ${isDark ? 'text-white' : 'text-black'}`}>
+                  (03) 7075 1000
+                </a>
+              </div>
+              <h3 className={`text-lg font-serif italic mt-6 ${isDark ? 'text-white' : 'text-black'}`}>Send a message</h3>
               <p className={`text-sm font-light ${isDark ? 'text-zinc-500' : 'text-zinc-500'}`}>We typically respond within 24 hours.</p>
             </div>
 
