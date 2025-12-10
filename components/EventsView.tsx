@@ -71,7 +71,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
             <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Event</h3>
             <p className={`font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Leave a Google review after your session and receive complimentary 4-cut photos to take home.
+              Leave a Google review after your session and receive complimentary 4-cut photos. Quantity matches your group size (for reviewers only).
             </p>
           </div>
           <div className="flex flex-col md:flex-row h-auto md:h-96">
@@ -80,7 +80,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
                 {[
                   { icon: Star, title: "Leave a Review", desc: "Write a simple review on Google Maps about your experience." },
                   { icon: Gift, title: "Get Free Prints", desc: "Receive free 4-cut photo strips immediately." },
-                  { icon: Check, title: "Quantity", desc: "Matches your group size (e.g. 2 people = 2 strips)." }
+                  { icon: Check, title: "Quantity", desc: "For reviewers only: matches your group size (e.g. 2 people = 2 strips)." }
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
                     <item.icon className={`w-5 h-5 mt-1 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`} />
@@ -106,8 +106,23 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
             </div>
             <div className={`w-full md:w-1/2 relative ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
               <div className="w-full h-full flex gap-0">
-                <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event1.jpg`} alt="4-Cut 1" className="w-full h-full object-contain p-4" loading="eager" /></div>
-                <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event4.jpg`} alt="4-Cut 2" className="w-full h-full object-contain p-4" loading="eager" /></div>
+                <div className="w-1/2 h-full"><img src={`${GITHUB_BASE}Event1.jpg`} alt="4-Cut 1" className="w-full h-full object-contain p-4" loading="eager" onError={(e) => { e.currentTarget.src = `${GITHUB_BASE}Event1.png`; }} /></div>
+                <div className="w-1/2 h-full">
+                  <img 
+                    src={`${GITHUB_BASE}Event4.jpg`} 
+                    alt="4-Cut 2" 
+                    className="w-full h-full object-contain p-4" 
+                    loading="eager" 
+                    onError={(e) => {
+                      const img = e.currentTarget;
+                      if (img.src.includes('.jpg')) {
+                        img.src = `${GITHUB_BASE}Event4.png`;
+                      } else if (img.src.includes('.png')) {
+                        img.src = `${GITHUB_BASE}Event4.jpeg`;
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
