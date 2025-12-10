@@ -32,21 +32,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onB
             <button
               key={item.id}
               onClick={() => onViewChange(item.id)}
-              className={`flex items-center justify-center gap-4 py-4 transition-all duration-500 whitespace-nowrap md:whitespace-normal md:w-full group relative
+              className={`flex items-center gap-4 py-4 transition-all duration-500 whitespace-nowrap md:whitespace-normal md:w-full group relative
                 ${isActive 
                   ? (isDark ? 'bg-white text-black px-8 md:px-4' : 'bg-black text-white px-8 md:px-4')
                   : (isDark ? 'text-zinc-400 hover:text-white hover:bg-zinc-800 px-4' : 'text-zinc-500 hover:text-black hover:bg-zinc-200 px-4')}
               `}
             >
-              {item.id === View.HOME ? (
-                <img 
-                  src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
-                  alt="Home" 
-                  className={`w-5 h-5 object-contain transition-all duration-500 ${isActive ? '' : 'opacity-60 group-hover:opacity-100'}`}
-                />
-              ) : (
-                Icon && <Icon className={`w-4 h-4 transition-colors duration-500 ${isActive ? (isDark ? 'text-black' : 'text-white') : (isDark ? 'text-zinc-500' : 'text-zinc-400')}`} />
-              )}
+              <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
+                {item.id === View.HOME ? (
+                  <img 
+                    src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
+                    alt="Home" 
+                    className={`w-4 h-4 object-contain transition-all duration-500 ${isActive ? '' : 'opacity-60 group-hover:opacity-100'}`}
+                  />
+                ) : (
+                  Icon && <Icon className={`w-4 h-4 transition-colors duration-500 ${isActive ? (isDark ? 'text-black' : 'text-white') : (isDark ? 'text-zinc-500' : 'text-zinc-400')}`} />
+                )}
+              </div>
               
               <span className={`text-xs uppercase tracking-[0.15em] font-medium ${isActive ? 'font-bold' : ''}`}>
                 {item.label}
