@@ -13,30 +13,31 @@ declare global {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
-  const widgetRef = useRef<HTMLDivElement>(null);
+  const widgetContainerRef = useRef<HTMLDivElement>(null);
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
   const widgetInstanceRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!isOpen || !widgetRef.current) return;
+    if (!isOpen || !widgetContainerRef.current) return;
+
+    // 기존 위젯이 있으면 제거
+    if (widgetInstanceRef.current) {
+      try {
+        widgetInstanceRef.current.destroy?.();
+      } catch (e) {
+        // destroy 메서드가 없을 수 있음
+      }
+      widgetInstanceRef.current = null;
+    }
+
+    // 컨테이너 초기화
+    if (widgetContainerRef.current) {
+      widgetContainerRef.current.innerHTML = '';
+    }
 
     const loadWidget = () => {
-      if (typeof window !== 'undefined' && window.SimplybookWidget && widgetRef.current) {
+      if (typeof window !== 'undefined' && window.SimplybookWidget && widgetContainerRef.current) {
         try {
-          // 기존 위젯이 있으면 제거
-          if (widgetInstanceRef.current) {
-            try {
-              widgetInstanceRef.current.destroy?.();
-            } catch (e) {
-              // destroy 메서드가 없을 수 있음
-            }
-          }
-
-          // 위젯 컨테이너 초기화
-          if (widgetRef.current) {
-            widgetRef.current.innerHTML = '';
-          }
-
-          // 새 위젯 생성
           widgetInstanceRef.current = new window.SimplybookWidget({
             "widget_type": "iframe",
             "url": "https://emotionalstudios.simplybook.net",
@@ -68,10 +69,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
               "clear_session": 0,
               "allow_switch_to_ada": 0,
               "predefined": {
-                "provider": "2",
-                "category": "1"
+                "provider": "2"
               }
-            }
+            },
+            "container_id": "sbw_booking_modal"
           });
         } catch (error) {
           console.error('SimplyBook 위젯 로드 중 오류:', error);
@@ -85,14 +86,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
     } else {
       // 스크립트가 로드되지 않은 경우, 로드 후 실행
       const script = document.createElement('script');
-      script.src = '//widget.simplybook.net/v2/widget/widget.js';
-      script.type = 'text/javascript';
       script.async = true;
+      script.src = "//widget.simplybook.net/v2/widget/widget.js";
+      script.type = 'text/javascript';
       script.onload = loadWidget;
       script.onerror = () => {
         console.error('SimplyBook 위젯 스크립트 로드 실패');
       };
       document.head.appendChild(script);
+      scriptRef.current = script;
     }
 
     // 컴포넌트 언마운트 시 정리
@@ -103,6 +105,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
         } catch (e) {
           // destroy 메서드가 없을 수 있음
         }
+        widgetInstanceRef.current = null;
+      }
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        // 스크립트는 제거하지 않음 (다른 곳에서 사용할 수 있음)
       }
     };
   }, [isOpen]);
@@ -110,8 +116,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-0 md:p-4 animate-fade-in">
-      <div className="bg-white dark:bg-zinc-900 w-full h-full md:max-w-4xl md:h-[90vh] relative shadow-2xl flex flex-col rounded-sm overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-8 animate-fade-in" onClick={onClose}>
+      <div 
+        className="bg-white dark:bg-zinc-900 w-[1000px] h-[1200px] relative shadow-2xl flex flex-col rounded-lg overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-900 shrink-0">
           <span className="text-xs font-bold uppercase tracking-widest text-black dark:text-white">Book Session</span>
@@ -123,14 +132,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
           </button>
         </div>
         
-        {/* SimplyBook.me Widget */}
-        <div className="flex-1 w-full bg-white dark:bg-zinc-900 relative overflow-hidden">
+        {/* SimplyBook Widget Container */}
+        <div className="flex-1 w-full bg-white dark:bg-zinc-900 relative" style={{ maxHeight: 'calc(1200px - 60px)', overflowY: 'auto' }}>
           <div 
-            ref={widgetRef} 
-            className="simplybook-iframe-widget w-full h-full"
+            id="sbw_booking_modal" 
+            ref={widgetContainerRef}
+            className="w-full"
             style={{ 
-              minHeight: '100%',
-              width: '100%'
+              width: '100%',
+              minHeight: '100%'
             }}
           />
         </div>
