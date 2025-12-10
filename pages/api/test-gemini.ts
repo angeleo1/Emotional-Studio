@@ -12,8 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Use v1 API endpoint directly (not v1beta)
-    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    // Use v1beta API endpoint with gemini-pro (most stable)
+    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       hasKey: true,
       keyLength: apiKey.length,
       response: text,
-      usedEndpoint: 'v1/models/gemini-1.5-flash',
+      usedEndpoint: 'v1beta/models/gemini-pro',
       message: 'Gemini API is working correctly'
     });
   } catch (error: any) {

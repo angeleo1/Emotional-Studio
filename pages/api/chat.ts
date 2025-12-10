@@ -96,8 +96,8 @@ Keep answers short, chic, and helpful.`;
       parts: [{ text: message }]
     });
 
-    // Use v1 API endpoint (not v1beta)
-    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    // Use v1beta API endpoint with correct model name
+    const apiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
