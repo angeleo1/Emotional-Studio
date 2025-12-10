@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="preconnect" href="https://widget.simplybook.net" />
         <link rel="preconnect" href="https://emotionalstudios.simplybook.net" />
         {/* SimplyBook.net Widget Script */}
-        <script src="//widget.simplybook.net/v2/widget/widget.js" async />
+        <script src="//widget.simplybook.net/v2/widget/widget.js" type="text/javascript" async />
       </Head>
       <div className={`${inter.variable} ${playfairDisplay.variable}`}>
               <Component {...pageProps} />

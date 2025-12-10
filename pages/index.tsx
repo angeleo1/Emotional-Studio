@@ -30,7 +30,9 @@ export default function Home() {
     setIsDark(!isDark);
   };
 
-  const openBooking = () => setIsBookingOpen(true);
+  const openBooking = () => {
+    setIsBookingOpen(true);
+  };
   const closeBooking = () => setIsBookingOpen(false);
 
   // Scroll to top whenever view changes
