@@ -32,10 +32,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onB
             <button
               key={item.id}
               onClick={() => onViewChange(item.id)}
-              className={`flex items-center gap-4 px-4 py-4 transition-all duration-500 w-full whitespace-nowrap md:whitespace-normal group relative
+              className={`flex items-center justify-center gap-4 py-4 transition-all duration-500 whitespace-nowrap md:whitespace-normal md:w-full group relative
                 ${isActive 
-                  ? (isDark ? 'bg-white text-black' : 'bg-black text-white')
-                  : (isDark ? 'text-zinc-400 hover:text-white hover:bg-zinc-800' : 'text-zinc-500 hover:text-black hover:bg-zinc-200')}
+                  ? (isDark ? 'bg-white text-black px-8 md:px-4' : 'bg-black text-white px-8 md:px-4')
+                  : (isDark ? 'text-zinc-400 hover:text-white hover:bg-zinc-800 px-4' : 'text-zinc-500 hover:text-black hover:bg-zinc-200 px-4')}
               `}
             >
               {item.id === View.HOME ? (
