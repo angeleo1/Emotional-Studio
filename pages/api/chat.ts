@@ -79,10 +79,15 @@ Keep answers short, chic, and helpful.`;
 
     const model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-flash",
+      systemInstruction: systemInstruction,
     });
 
-    // Convert history format for Gemini API
-    const chatHistory = history?.map((h: any) => {
+    // Convert history format for Gemini API - exclude the initial greeting message
+    const chatHistory = history?.filter((h: any) => {
+      const text = h.parts?.[0]?.text || h.text || '';
+      // Skip the initial greeting message
+      return !text.includes("G'day! Welcome to emotional studios");
+    }).map((h: any) => {
       const role = h.role === 'model' ? 'model' : 'user';
       const text = h.parts?.[0]?.text || h.text || '';
       return {
@@ -94,7 +99,6 @@ Keep answers short, chic, and helpful.`;
     // Start chat with system instruction and history
     const chat = model.startChat({
       history: chatHistory,
-      systemInstruction: systemInstruction,
       generationConfig: {
         maxOutputTokens: 500,
         temperature: 0.7,
@@ -108,8 +112,15 @@ Keep answers short, chic, and helpful.`;
     return res.status(200).json({ text });
   } catch (error: any) {
     console.error('Chat API Error:', error);
+    console.error('Error details:', {
+      message: error?.message,
+      status: error?.status,
+      statusText: error?.statusText,
+      stack: error?.stack
+    });
     return res.status(500).json({ 
       error: 'Chat failed',
+      errorDetails: error?.message || 'Unknown error',
       text: "Sorry, I'm having trouble connecting. Please try emailing us at admin@emotionalstudios.com.au"
     });
   }
