@@ -1,49 +1,74 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
+import BookingModal from '../BookingModal';
 import { isBookingEnabled } from '../../config/booking';
-import SimplyBookWidget from '../SimplyBookWidget';
 
-const FloatingBookButton = () => {
-  const router = useRouter();
+interface FloatingBookButtonProps {
+  onClick?: () => void;
+}
+
+export default function FloatingBookButton({ onClick }: FloatingBookButtonProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useTranslation('common');
+  const bookingEnabled = isBookingEnabled();
 
-  // 모바일 감지
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
     };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // booking 페이지에서는 버튼 숨기기
-  useEffect(() => {
-    if (router.pathname === '/booking' || router.pathname === '/mobile-booking' || router.pathname === '/booking-backup') {
-      setIsVisible(false);
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
     } else {
-      setIsVisible(true);
+      setIsModalOpen(true);
     }
-  }, [router.pathname]);
+  };
 
-  // booking이 비활성화된 경우 버튼을 숨김
-  if (!isVisible || !isBookingEnabled()) return null;
+  // 예약이 비활성화되어 있으면 버튼을 렌더링하지 않음
+  if (!bookingEnabled) {
+    return null;
+  }
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: '2rem',
-        left: '0.5rem',
-        zIndex: 9999
-      }}
-    >
-      <SimplyBookWidget />
-    </div>
-  );
-};
+    <>
+      <AnimatePresence>
+        {isVisible && (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-8 right-8 z-40"
+          >
+            <button
+              onClick={handleClick}
+              className="group flex items-center justify-center bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full p-4 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              aria-label="Book Now"
+            >
+              <Calendar className="w-6 h-6 group-hover:animate-pulse" />
+              <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs group-hover:ml-2 transition-all duration-500 ease-in-out font-medium">
+                Book Now
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-export default FloatingBookButton;
+      <BookingModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+    </>
+  );
+}

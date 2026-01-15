@@ -1,0 +1,31 @@
+
+> emotional-studio@0.1.0 dev
+> cross-env PORT=3001 NODE_OPTIONS='--max-old-space-size=4096' next dev
+
+   ▲ Next.js 15.4.4
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.2:3001
+
+ ✓ Starting...
+ ⚠ Duplicate page detected. pages/api/debug-env.js and pages/api/debug-env.ts resolve to /api/debug-env
+ ⚠ Duplicate page detected. pages/api/debug-env.js and pages/api/debug-env.ts resolve to /api/debug-env
+ ✓ Ready in 2.2s
+ ○ Compiling / ...
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+warn - The class `duration-[2000ms]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `duration-&lsqb;2000ms&rsqb;` to silence this warning.
+ ✓ Compiled / in 7.6s (799 modules)
+Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+ GET / 200 in 8645ms
+ ○ Compiling /booking-backup ...
+ ✓ Compiled /booking-backup in 853ms (804 modules)
+Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+ GET /booking-backup 200 in 1193ms
+ ✓ Compiled /mobile-booking in 253ms (808 modules)
+Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+ GET /mobile-booking 200 in 527ms
+Warning: viewport meta tags should not be used in _document.js's <Head>. https://nextjs.org/docs/messages/no-document-viewport-meta
+ GET / 200 in 404ms
