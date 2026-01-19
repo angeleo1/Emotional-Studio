@@ -6,19 +6,10 @@ const IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 // 클라이언트에서는 원래 순서를 유지하거나 파일명 기준으로 정렬합니다.
 
 // 파일명에서 숫자를 추출하여 정렬하는 함수 (예: image_001.jpg, image_002.jpg)
+// 배열의 원래 순서를 유지합니다 (이미 최신순으로 정렬되어 있음)
 export function sortImagesByCreationTime(imagePaths: string[]): string[] {
-  return [...imagePaths].sort((a, b) => {
-    // 파일명에서 숫자 추출
-    const numA = extractNumber(a);
-    const numB = extractNumber(b);
-    
-    if (numA !== null && numB !== null) {
-      return numB - numA; // 내림차순 (최신 먼저)
-    }
-    
-    // 숫자가 없으면 알파벳 순으로 정렬
-    return b.localeCompare(a);
-  });
+  // 배열의 원래 순서를 유지 (이미 최신순으로 정렬되어 있음)
+  return [...imagePaths];
 }
 
 // 파일 경로에서 숫자 추출

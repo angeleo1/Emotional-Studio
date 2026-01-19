@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gift, Star, Mail, Check, Sparkles } from 'lucide-react';
+import { Gift, Star, Mail, Check, Sparkles, Calendar, Camera, Image } from 'lucide-react';
 
 const GITHUB_BASE = "https://raw.githubusercontent.com/angeleo1/google-images/main/";
 
@@ -22,47 +22,51 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
       </div>
 
       <div className="space-y-16 max-w-6xl px-8 pb-20">
-        {/* EVENT 1: CHRISTMAS */}
+        {/* EVENT 1: NEW YEAR */}
         <div className={`border overflow-hidden flex flex-col md:flex-row transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className="w-full md:w-1/2 p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
             <div className="flex flex-col gap-4 mb-6">
-              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Christmas Special Event</h3>
+              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Goodbye 2025, hello 2026! 🎉</h3>
               <p className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
-                <Gift className="w-4 h-4" /> Christmas sessions are now open!
+                <Sparkles className="w-4 h-4" /> January Exclusive Event
               </p>
             </div>
             <p className={`font-medium mb-6 leading-relaxed ${isDark ? 'text-white' : 'text-black'}`}>
-              Book any session or package — Christmas theme is automatically included at no extra cost!
+              We're starting the new year by giving back to our amazing community.
+            </p>
+            <p className={`mb-6 leading-relaxed ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
+              For the entire month of January, all weekday sessions will receive <span className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>FULL digital files</span> on us.
             </p>
             <div className={`space-y-6 mb-8 p-6 border ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-100'}`}>
               <p className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
-                <Sparkles className="w-3 h-3" /> What you'll get
+                <Gift className="w-3 h-3" /> What you'll get
               </p>
               <ul className="space-y-3">
-                {["Christmas-themed studio with festive props & outfits", "Limited edition Christmas frames & cuts", "Surprise Christmas gift box + cards", "All standard session benefits included"].map((text, i) => (
+                {[
+                  { icon: Camera, text: "Book any session or package from Monday to Friday" },
+                  { icon: Image, text: "Receive all high-resolution images from your session — no extras, no add-ons" },
+                  { icon: Calendar, text: "Valid from 01.01 – 31.01" }
+                ].map((item, i) => (
                   <li key={i} className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0"></span>
-                    <span>{text}</span>
+                    <item.icon className="w-4 h-4 mt-1 shrink-0" />
+                    <span>{item.text}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div className={`flex items-center gap-3 px-4 py-3 self-start ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
-              <Mail className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-widest">Sessions starting from only $65!</span>
+              <Calendar className="w-4 h-4" />
+              <span className="text-xs font-bold uppercase tracking-widest">Weekdays only | January exclusive</span>
             </div>
-            <p className={`text-xs italic mt-4 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
-              * Limited spots available. Just show up and shoot — everything is ready for you! 🎅
-            </p>
             <button 
               onClick={onBook}
               className={`mt-8 w-full py-4 text-center text-xs font-bold uppercase tracking-[0.2em] transition-colors ${isDark ? 'bg-zinc-800 text-white hover:bg-white hover:text-black' : 'bg-zinc-100 text-black hover:bg-black hover:text-white'}`}
             >
-              Book Christmas Session
+              Book January Session
             </button>
           </div>
-          <div className={`w-full md:w-1/2 h-96 md:h-auto relative order-1 md:order-2 ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
-            <img src={`${GITHUB_BASE}Event2.png`} alt="Christmas Event" className="w-full h-full object-contain" loading="eager" />
+          <div className={`w-full md:w-1/2 min-h-96 md:min-h-[500px] relative order-1 md:order-2 flex items-center justify-center ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
+            <img src="/images/Event/New year event.png" alt="New Year Event" className="w-full h-full object-contain p-4" loading="eager" />
           </div>
         </div>
 
@@ -108,34 +112,18 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
               <div className="w-full h-full flex gap-0">
                 <div className="w-1/2 h-full">
                   <img 
-                    src={`${GITHUB_BASE}Event44.jpg`} 
-                    alt="4-Cut 1" 
+                    src="/images/Event/3-Cut.png" 
+                    alt="3-Cut" 
                     className="w-full h-full object-contain p-4" 
                     loading="eager" 
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      if (img.src.includes('.jpg')) {
-                        img.src = `${GITHUB_BASE}Event44.png`;
-                      } else if (img.src.includes('.png')) {
-                        img.src = `${GITHUB_BASE}Event44.jpeg`;
-                      }
-                    }}
                   />
                 </div>
                 <div className="w-1/2 h-full">
                   <img 
-                    src={`${GITHUB_BASE}Event5.jpg`} 
-                    alt="4-Cut 2" 
+                    src="/images/Event/4-Cut.png" 
+                    alt="4-Cut" 
                     className="w-full h-full object-contain p-4" 
                     loading="eager" 
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      if (img.src.includes('.jpg')) {
-                        img.src = `${GITHUB_BASE}Event5.png`;
-                      } else if (img.src.includes('.png')) {
-                        img.src = `${GITHUB_BASE}Event5.jpeg`;
-                      }
-                    }}
                   />
                 </div>
               </div>

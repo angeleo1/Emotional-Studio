@@ -5,6 +5,10 @@ import { sortGalleryImagesByCreationTime, sortAllImagesByCreationTime } from '..
 // 갤러리 이미지 데이터 (실제 폴더의 사진들만 사용)
 const galleryImages = {
   'B&W': [
+    // Jan2026 최신 추가된 이미지
+    '/images/Gallery/BW/BW Jan2026/BW0115 (2).jpg',
+    '/images/Gallery/BW/BW Jan2026/BW0115 (3).jpg',
+    '/images/Gallery/BW/BW Jan2026/BW0115 (4).jpg',
     // NOV2025 최신 추가된 이미지
     '/images/Gallery/BW/NOV2025/E33C454B-7F78-4DDE-A061-63C031E9B3A9-m.jpeg',
     '/images/Gallery/BW/NOV2025/AC1BA719-7E8A-4ED5-AA5B-181331F56592-m.jpeg',
@@ -80,6 +84,21 @@ const galleryImages = {
     '/images/Gallery/BW/020.png',
   ],
   'Cool tone': [
+    // Jan2026 최신 추가된 이미지
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (1).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (2).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (3).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (4).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (5).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (6).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (7).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (8).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (9).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (10).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (11).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (12).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (14).jpg',
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (15).jpg',
     // NOV2025 최신 추가된 이미지
     '/images/Gallery/COOL/NOV2025/Retouched2.jpeg',
     '/images/Gallery/COOL/NOV2025/Retouched.jpeg',
@@ -130,6 +149,18 @@ const galleryImages = {
     '/images/Gallery/COOL/017.png',
   ],
   'Warm tone': [
+    // Jan2026 최신 추가된 이미지
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (1).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (2).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (3).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (4).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (5).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (6).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (7).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (8).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (9).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (10).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (11).jpg',
     // NOV2025 최신 추가된 이미지
     '/images/Gallery/WARM/NOV2025/Magnet.jpeg',
     '/images/Gallery/WARM/NOV2025/M.jpeg',
@@ -185,6 +216,35 @@ const galleryImages = {
 
 // All 탭용 최신순 정렬된 이미지 배열 (실제 폴더의 사진들만 사용)
 const allImagesLatestFirst = [
+  // Jan2026 최신 추가 이미지 - 카테고리 섞어서
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (1).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (1).jpg',
+  '/images/Gallery/BW/BW Jan2026/BW0115 (2).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (2).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (2).jpg',
+  '/images/Gallery/BW/BW Jan2026/BW0115 (3).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (3).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (3).jpg',
+  '/images/Gallery/BW/BW Jan2026/BW0115 (4).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (4).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (4).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (5).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (5).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (6).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (6).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (7).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (7).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (8).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (8).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (9).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (9).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (10).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (10).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (11).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/warm0115 (11).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (12).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (14).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (15).jpg',
   // NOV2025 최신 추가 이미지 - 카테고리 섞어서
   '/images/Gallery/COOL/NOV2025/Retouched2.jpeg',
   '/images/Gallery/WARM/NOV2025/Magnet.jpeg',
@@ -425,6 +485,7 @@ export default function GalleryContent() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
               </div>
