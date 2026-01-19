@@ -217,8 +217,8 @@ const galleryImages = {
 // All 탭용 최신순 정렬된 이미지 배열 (실제 폴더의 사진들만 사용)
 const allImagesLatestFirst = [
   // Jan2026 최신 추가 이미지 - 카테고리 섞어서
-  '/images/Gallery/COOL/COOL Jan2026/cool0115 (1).jpg',
-  '/images/Gallery/WARM/WARM Jan2026/warm0115 (1).jpg',
+  '/images/Gallery/COOL/COOL Jan2026/cool0115 (1) (1).jpg',
+  '/images/Gallery/WARM/WARM Jan2026/cool0115 (1).jpeg',
   '/images/Gallery/BW/BW Jan2026/BW0115 (2).jpg',
   '/images/Gallery/COOL/COOL Jan2026/cool0115 (2).jpg',
   '/images/Gallery/WARM/WARM Jan2026/warm0115 (2).jpg',
