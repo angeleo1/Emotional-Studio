@@ -2,9 +2,13 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { sortGalleryImagesByCreationTime, sortAllImagesByCreationTime } from '../utils/gallerySorting';
 
-// 갤러리 이미지 데이터 (실제 폴더의 사진들만 사용)
-const galleryImages = {
+export const galleryImages = {
   'B&W': [
+    // 0205 BW 최신 추가된 이미지
+    '/images/Gallery/BW/0205 BW/Magnet2.jpg',
+    '/images/Gallery/BW/0205 BW/Retouched-(1 of 6).jpg',
+    '/images/Gallery/BW/0205 BW/Retouched-(2 of 6).jpg',
+    '/images/Gallery/BW/0205 BW/Retouched-(4 of 5).jpg',
     // Jan2026 최신 추가된 이미지
     '/images/Gallery/BW/BW Jan2026/BW0115 (2).jpg',
     '/images/Gallery/BW/BW Jan2026/BW0115 (3).jpg',
@@ -84,6 +88,26 @@ const galleryImages = {
     '/images/Gallery/BW/020.png',
   ],
   'Cool tone': [
+    // 0205 Cool 최신 추가된 이미지
+    '/images/Gallery/COOL/0205 Cool/1.jpg',
+    '/images/Gallery/COOL/0205 Cool/2.jpg',
+    '/images/Gallery/COOL/0205 Cool/3.jpg',
+    '/images/Gallery/COOL/0205 Cool/4.jpg',
+    '/images/Gallery/COOL/0205 Cool/5.jpg',
+    '/images/Gallery/COOL/0205 Cool/6.jpg',
+    '/images/Gallery/COOL/0205 Cool/7.jpg',
+    '/images/Gallery/COOL/0205 Cool/8.jpg',
+    '/images/Gallery/COOL/0205 Cool/Magnet.jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(1 of 2) (2).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(1 of 4).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(1 of 5).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(2 of 2) (2).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(2 of 4).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(2 of 5).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(3 of 5).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(4 of 6).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(5 of 6).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(6 of 6).jpg',
     // Jan2026 최신 추가된 이미지
     '/images/Gallery/COOL/COOL Jan2026/cool0115 (1).jpg',
     '/images/Gallery/COOL/COOL Jan2026/cool0115 (2).jpg',
@@ -149,6 +173,11 @@ const galleryImages = {
     '/images/Gallery/COOL/017.png',
   ],
   'Warm tone': [
+    // 0205 Warm 최신 추가된 이미지
+    '/images/Gallery/WARM/0205 Warm/Retouched-(1 of 25).jpg',
+    '/images/Gallery/WARM/0205 Warm/Retouched-(2 of 25).jpg',
+    '/images/Gallery/WARM/0205 Warm/Retouched-(3 of 25).jpg',
+    '/images/Gallery/WARM/0205 Warm/Retouched-(4 of 25).jpg',
     // Jan2026 최신 추가된 이미지
     '/images/Gallery/WARM/WARM Jan2026/warm0115 (1).jpg',
     '/images/Gallery/WARM/WARM Jan2026/warm0115 (2).jpg',
@@ -200,6 +229,27 @@ const galleryImages = {
     '/images/Gallery/STUDIO/optimized/Studio (4).webp',
     '/images/Gallery/STUDIO/optimized/Studio (5).webp',
     '/images/Gallery/STUDIO/optimized/Studio (9).webp',
+    // Moved from Event tab
+    '/images/Gallery/Event/0AD8E3D3-AAE3-4199-AC72-39D3EF698648-m.jpeg',
+    '/images/Gallery/Event/1CF96EBD-CB56-4DD7-8F1F-A752A9DDFC2D-m.jpeg',
+    '/images/Gallery/Event/3CE2EF3D-F701-4DA3-8F51-66100474AAFF-m.jpeg',
+    '/images/Gallery/Event/58F40DA1-3DB9-4753-82A7-39CE9EACF5D1-m.jpeg',
+    '/images/Gallery/Event/79351B62-718B-4662-B3EE-47EF733A5441-m.jpeg',
+    '/images/Gallery/Event/80A7FB05-CA59-445F-B70B-916F332EBDC7-m.jpeg',
+    '/images/Gallery/Event/8D077A0F-D868-4FB8-8B7B-3AF8CC260139-m.jpeg',
+    '/images/Gallery/Event/9144E4E2-A969-4A92-B9BE-C9A32E456001-m.jpeg',
+    '/images/Gallery/Event/95B48ABD-03F1-40A6-B941-37EFCFE087C2-m.jpeg',
+    '/images/Gallery/Event/A1621873-88B6-42E3-ACCF-0A8135709267-m.jpeg',
+    '/images/Gallery/Event/B3039F99-7FBD-4DDA-84B6-9F797C487119-m.jpeg',
+    '/images/Gallery/Event/B968E031-7231-4DDE-B8AC-91F6BFAED5BC-m.jpeg',
+    '/images/Gallery/Event/C (1).jpeg',
+    '/images/Gallery/Event/C (2).jpeg',
+    '/images/Gallery/Event/C6820C6B-5AC1-42C0-8FA6-213EEE137708-m.jpeg',
+    '/images/Gallery/Event/C72F970C-A5DE-4E01-BB38-20F7CE725DA9-m.jpeg',
+    '/images/Gallery/Event/E36B2784-7937-4660-AA09-9A31768D6486-m.jpeg',
+    '/images/Gallery/Event/Magnet.jpeg',
+    '/images/Gallery/Event/Retouched.jpeg',
+    '/images/Gallery/Event/Retouched2.jpeg',
   ],
   'Customer Album': [
     '/images/Gallery/Customer Album/optimized/Studio (1).webp',
@@ -212,14 +262,118 @@ const galleryImages = {
     '/images/Gallery/Customer Album/optimized/Studio (15).webp',
     '/images/Gallery/Customer Album/optimized/Studio (16).webp',
   ],
+  'Event': [
+    '/images/Gallery/Event/2025 Event/Retouched-(1 of 2).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(10 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(11 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(12 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(13 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(14 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(15 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(16 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(17 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(18 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(19 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(2 of 2).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(20 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(21 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(22 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(23 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(24 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(25 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(3 of 4).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(4 of 4).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(5 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(6 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(7 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(8 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(9 of 25).jpg',
+  ],
 };
 
-// All 탭용 최신순 정렬된 이미지 배열 (실제 폴더의 사진들만 사용)
-const allImagesLatestFirst = [
-  // Jan2026 최신 추가 이미지 - 카테고리 섞어서
-  '/images/Gallery/COOL/COOL Jan2026/cool0115 (1) (1).jpg',
-  '/images/Gallery/WARM/WARM Jan2026/cool0115 (1).jpeg',
-  '/images/Gallery/BW/BW Jan2026/BW0115 (2).jpg',
+export const allImagesLatestFirst = [
+    // 0205 New Images
+    // BW
+    '/images/Gallery/BW/0205 BW/Magnet2.jpg',
+    '/images/Gallery/BW/0205 BW/Retouched-(1 of 6).jpg',
+    '/images/Gallery/BW/0205 BW/Retouched-(2 of 6).jpg',
+    '/images/Gallery/BW/0205 BW/Retouched-(4 of 5).jpg',
+    // Warm
+    '/images/Gallery/WARM/0205 Warm/Retouched-(1 of 25).jpg',
+    '/images/Gallery/WARM/0205 Warm/Retouched-(2 of 25).jpg',
+    '/images/Gallery/WARM/0205 Warm/Retouched-(3 of 25).jpg',
+    '/images/Gallery/WARM/0205 Warm/Retouched-(4 of 25).jpg',
+    // Cool
+    '/images/Gallery/COOL/0205 Cool/1.jpg',
+    '/images/Gallery/COOL/0205 Cool/2.jpg',
+    '/images/Gallery/COOL/0205 Cool/3.jpg',
+    '/images/Gallery/COOL/0205 Cool/4.jpg',
+    '/images/Gallery/COOL/0205 Cool/5.jpg',
+    '/images/Gallery/COOL/0205 Cool/6.jpg',
+    '/images/Gallery/COOL/0205 Cool/7.jpg',
+    '/images/Gallery/COOL/0205 Cool/8.jpg',
+    '/images/Gallery/COOL/0205 Cool/Magnet.jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(1 of 2) (2).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(1 of 4).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(1 of 5).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(2 of 2) (2).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(2 of 4).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(2 of 5).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(3 of 5).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(4 of 6).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(5 of 6).jpg',
+    '/images/Gallery/COOL/0205 Cool/Retouched-(6 of 6).jpg',
+    // 2025 Event Images
+    '/images/Gallery/Event/2025 Event/Retouched-(1 of 2).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(10 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(11 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(12 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(13 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(14 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(15 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(16 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(17 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(18 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(19 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(2 of 2).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(20 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(21 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(22 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(23 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(24 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(25 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(3 of 4).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(4 of 4).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(5 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(6 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(7 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(8 of 25).jpg',
+    '/images/Gallery/Event/2025 Event/Retouched-(9 of 25).jpg',
+    // Studio Images (Moved from Event)
+    '/images/Gallery/Event/0AD8E3D3-AAE3-4199-AC72-39D3EF698648-m.jpeg',
+    '/images/Gallery/Event/1CF96EBD-CB56-4DD7-8F1F-A752A9DDFC2D-m.jpeg',
+    '/images/Gallery/Event/3CE2EF3D-F701-4DA3-8F51-66100474AAFF-m.jpeg',
+    '/images/Gallery/Event/58F40DA1-3DB9-4753-82A7-39CE9EACF5D1-m.jpeg',
+    '/images/Gallery/Event/79351B62-718B-4662-B3EE-47EF733A5441-m.jpeg',
+    '/images/Gallery/Event/80A7FB05-CA59-445F-B70B-916F332EBDC7-m.jpeg',
+    '/images/Gallery/Event/8D077A0F-D868-4FB8-8B7B-3AF8CC260139-m.jpeg',
+    '/images/Gallery/Event/9144E4E2-A969-4A92-B9BE-C9A32E456001-m.jpeg',
+    '/images/Gallery/Event/95B48ABD-03F1-40A6-B941-37EFCFE087C2-m.jpeg',
+    '/images/Gallery/Event/A1621873-88B6-42E3-ACCF-0A8135709267-m.jpeg',
+    '/images/Gallery/Event/B3039F99-7FBD-4DDA-84B6-9F797C487119-m.jpeg',
+    '/images/Gallery/Event/B968E031-7231-4DDE-B8AC-91F6BFAED5BC-m.jpeg',
+    '/images/Gallery/Event/C (1).jpeg',
+    '/images/Gallery/Event/C (2).jpeg',
+    '/images/Gallery/Event/C6820C6B-5AC1-42C0-8FA6-213EEE137708-m.jpeg',
+    '/images/Gallery/Event/C72F970C-A5DE-4E01-BB38-20F7CE725DA9-m.jpeg',
+    '/images/Gallery/Event/E36B2784-7937-4660-AA09-9A31768D6486-m.jpeg',
+    '/images/Gallery/Event/Magnet.jpeg',
+    '/images/Gallery/Event/Retouched.jpeg',
+    '/images/Gallery/Event/Retouched2.jpeg',
+    // Jan2026 최신 추가 이미지 - 카테고리 섞어서
+    '/images/Gallery/COOL/COOL Jan2026/cool0115 (1).jpg',
+    '/images/Gallery/WARM/WARM Jan2026/warm0115 (1).jpg',
+    '/images/Gallery/BW/BW Jan2026/BW0115 (2).jpg',
   '/images/Gallery/COOL/COOL Jan2026/cool0115 (2).jpg',
   '/images/Gallery/WARM/WARM Jan2026/warm0115 (2).jpg',
   '/images/Gallery/BW/BW Jan2026/BW0115 (3).jpg',
@@ -450,7 +604,7 @@ export default function GalleryContent() {
       {/* 카테고리 필터 */}
       <div className="px-8 pb-12">
         <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-          {['All', 'B&W', 'Cool tone', 'Warm tone', 'Studio', 'Customer Album'].map((category) => (
+          {['All', 'B&W', 'Cool tone', 'Warm tone', 'Studio', 'Customer Album', 'Event'].map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}

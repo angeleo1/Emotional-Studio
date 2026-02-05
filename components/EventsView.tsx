@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gift, Star, Mail, Check, Sparkles, Calendar, Camera, Image } from 'lucide-react';
+import { Gift, Star, Check, Heart, Calendar, Clock, Camera, Sparkles, Image as ImageIcon } from 'lucide-react';
 
 const GITHUB_BASE = "https://raw.githubusercontent.com/angeleo1/google-images/main/";
 
@@ -22,51 +22,63 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
       </div>
 
       <div className="space-y-16 max-w-6xl px-8 pb-20">
-        {/* EVENT 1: NEW YEAR */}
+        {/* EVENT 1: VALENTINE'S DAY */}
         <div className={`border overflow-hidden flex flex-col md:flex-row transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className="w-full md:w-1/2 p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
             <div className="flex flex-col gap-4 mb-6">
-              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Goodbye 2025, hello 2026! 🎉</h3>
-              <p className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
-                <Sparkles className="w-4 h-4" /> January Exclusive Event
+              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Valentine’s Package ❣️</h3>
+              <p className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
+                <Heart className="w-4 h-4 fill-current" /> Limited Time Offer
               </p>
             </div>
-            <p className={`font-medium mb-6 leading-relaxed ${isDark ? 'text-white' : 'text-black'}`}>
-              We're starting the new year by giving back to our amazing community.
+            <p className={`font-medium mb-4 leading-relaxed ${isDark ? 'text-white' : 'text-black'}`}>
+              The Valentine’s package is officially open at emotional studios for a limited time! Be the first to experience the magic.
             </p>
             <p className={`mb-6 leading-relaxed ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-              For the entire month of January, all weekday sessions will receive <span className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>FULL digital files</span> on us.
+              Moments that bring an instant smile to your face—how can we not fall in love with moments like these? Capture your own moments at emotional studios’ cozy, signature space. 💌
             </p>
+            
             <div className={`space-y-6 mb-8 p-6 border ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-100'}`}>
-              <p className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
-                <Gift className="w-3 h-3" /> What you'll get
-              </p>
-              <ul className="space-y-3">
-                {[
-                  { icon: Camera, text: "Book any session or package from Monday to Friday" },
-                  { icon: Image, text: "Receive all high-resolution images from your session — no extras, no add-ons" },
-                  { icon: Calendar, text: "Valid from 01.01 – 31.01" }
-                ].map((item, i) => (
-                  <li key={i} className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                    <item.icon className="w-4 h-4 mt-1 shrink-0" />
-                    <span>{item.text}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-center justify-between border-b pb-4 border-dashed border-zinc-300 dark:border-zinc-700">
+                <span className={`text-xl font-serif italic ${isDark ? 'text-white' : 'text-black'}`}>Price</span>
+                <span className={`text-xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>$99</span>
+              </div>
+              
+              <div className="space-y-4">
+                <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
+                  <Calendar className="w-4 h-4 mt-1 shrink-0 text-rose-500" />
+                  <span>Available: 07.02.2026 – 21.02.2026</span>
+                </div>
+                
+                <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
+                  <Gift className="w-4 h-4 mt-1 shrink-0 text-rose-500" />
+                  <div className="space-y-2">
+                    <span className="font-medium block mb-1">Package Includes:</span>
+                    <ul className="list-disc pl-4 space-y-1 marker:text-rose-500">
+                      <li>20-minute private shoot</li>
+                      <li>2 Basic Cuts</li>
+                      <li>Exclusive Frames</li>
+                      <li>Mini phone decorative photo frames</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
+                  <Sparkles className="w-4 h-4 mt-1 shrink-0 text-rose-500" />
+                  <span><span className="font-bold">Bonus:</span> Free photo keyrings</span>
+                </div>
+              </div>
             </div>
-            <div className={`flex items-center gap-3 px-4 py-3 self-start ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
-              <Calendar className="w-4 h-4" />
-              <span className="text-xs font-bold uppercase tracking-widest">Weekdays only | January exclusive</span>
-            </div>
+
             <button 
               onClick={onBook}
-              className={`mt-8 w-full py-4 text-center text-xs font-bold uppercase tracking-[0.2em] transition-colors ${isDark ? 'bg-zinc-800 text-white hover:bg-white hover:text-black' : 'bg-zinc-100 text-black hover:bg-black hover:text-white'}`}
+              className={`w-full py-4 text-center text-xs font-bold uppercase tracking-[0.2em] transition-colors ${isDark ? 'bg-zinc-800 text-white hover:bg-white hover:text-black' : 'bg-zinc-100 text-black hover:bg-black hover:text-white'}`}
             >
-              Book January Session
+              Book Valentine's Session
             </button>
           </div>
           <div className={`w-full md:w-1/2 min-h-96 md:min-h-[500px] relative order-1 md:order-2 flex items-center justify-center ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
-            <img src="/images/Event/New year event.png" alt="New Year Event" className="w-full h-full object-contain p-4" loading="eager" />
+            <img src="/images/Event/valentines.jpg" alt="Valentine's Package" className="w-full h-full object-contain p-4" loading="eager" />
           </div>
         </div>
 
@@ -108,25 +120,13 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
                 Write a Review
               </a>
             </div>
-            <div className={`w-full md:w-1/2 relative ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
-              <div className="w-full h-full flex gap-0">
-                <div className="w-1/2 h-full">
-                  <img 
-                    src="/images/Event/3-Cut.png" 
-                    alt="3-Cut" 
-                    className="w-full h-full object-contain p-4" 
-                    loading="eager" 
-                  />
-                </div>
-                <div className="w-1/2 h-full">
-                  <img 
-                    src="/images/Event/4-Cut.png" 
-                    alt="4-Cut" 
-                    className="w-full h-full object-contain p-4" 
-                    loading="eager" 
-                  />
-                </div>
-              </div>
+            <div className={`w-full md:w-1/2 relative flex items-center justify-center ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
+              <img 
+                src="/images/Event/3,4cut.jpg" 
+                alt="Free 4-Cut Event" 
+                className="w-full h-full object-contain p-4" 
+                loading="eager" 
+              />
             </div>
           </div>
         </div>

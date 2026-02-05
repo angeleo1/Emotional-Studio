@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { SmartImage } from './SmartImage';
+import Image from 'next/image';
+import { allImagesLatestFirst } from './GalleryContent';
 import { X } from 'lucide-react';
 
-type Category = 'All' | 'B/W' | 'Cool' | 'Warm' | 'Event';
+type Category = 'All' | 'B/W' | 'Cool' | 'Warm' | 'Studio' | 'Event';
 
 interface ImageItem {
-  baseName: string;
+  src: string;
   title: string;
   category: Exclude<Category, 'All'>;
   timestamp: number;
@@ -15,22 +16,34 @@ interface PortfolioViewProps {
   isDark?: boolean;
 }
 
-const generateImages = (): ImageItem[] => {
-  const images: ImageItem[] = [];
-  const addImage = (prefix: string, count: number, category: Exclude<Category, 'All'>) => {
-    for (let i = 1; i <= count; i++) {
-      images.push({ baseName: `${prefix} (${i})`, title: `${category} Collection ${i}`, category, timestamp: i });
-    }
+const buildImagesFromGallery = (): ImageItem[] => {
+  const getCategoryFromPath = (path: string): Exclude<Category, 'All'> | null => {
+    if (path.includes('/BW/')) return 'B/W';
+    if (path.includes('/COOL/')) return 'Cool';
+    if (path.includes('/WARM/')) return 'Warm';
+    if (path.includes('/STUDIO/')) return 'Studio';
+    if (path.includes('/Event/')) return 'Event';
+    return null;
   };
-  addImage('event', 20, 'Event');
-  addImage('cool', 9, 'Cool');
-  addImage('warm', 23, 'Warm');
-  images.push({ baseName: 'warm', title: 'Warm Collection Special', category: 'Warm', timestamp: 24 });
-  addImage('bw', 24, 'B/W');
-  return images.sort((a, b) => b.timestamp - a.timestamp);
+
+  const images: ImageItem[] = [];
+
+  allImagesLatestFirst.forEach((src, index) => {
+    const category = getCategoryFromPath(src);
+    if (!category) return;
+
+    images.push({
+      src,
+      title: `${category} Collection ${index + 1}`,
+      category,
+      timestamp: index,
+    });
+  });
+
+  return images;
 };
 
-const IMAGE_FILES = generateImages();
+const IMAGE_FILES = buildImagesFromGallery();
 
 const PortfolioItem: React.FC<{ item: ImageItem; onClick: (item: ImageItem) => void; isDark: boolean }> = ({ item, onClick, isDark }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -41,11 +54,13 @@ const PortfolioItem: React.FC<{ item: ImageItem; onClick: (item: ImageItem) => v
       onClick={() => onClick(item)}
       className={`relative group cursor-zoom-in overflow-hidden aspect-[3/4] animate-fade-in transition-all duration-1000 ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}
     >
-      <SmartImage 
-        baseName={item.baseName}
+      <Image
+        src={item.src}
         alt={item.title}
-        className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
-        onImageError={() => setIsVisible(false)}
+        fill
+        className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+        onError={() => setIsVisible(false)}
+        sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
       />
     </div>
   );
@@ -63,7 +78,13 @@ const Lightbox: React.FC<{ item: ImageItem | null; onClose: () => void; isDark: 
         <X className="w-8 h-8" />
       </button>
       <div className="relative max-w-full max-h-full w-auto h-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <SmartImage baseName={item.baseName} alt={item.title} className="max-h-[90vh] max-w-[90vw] object-contain" />
+        <Image
+          src={item.src}
+          alt={item.title}
+          width={1000}
+          height={1500}
+          className="max-h-[90vh] max-w-[90vw] object-contain"
+        />
       </div>
     </div>
   );
@@ -72,7 +93,7 @@ const Lightbox: React.FC<{ item: ImageItem | null; onClose: () => void; isDark: 
 export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('All');
   const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
-  const categories: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Event'];
+  const categories: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Studio', 'Event'];
   const filteredImages = selectedCategory === 'All' ? IMAGE_FILES : IMAGE_FILES.filter(img => img.category === selectedCategory);
 
   return (
