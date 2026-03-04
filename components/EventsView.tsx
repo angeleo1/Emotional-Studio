@@ -22,50 +22,42 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
       </div>
 
       <div className="space-y-16 max-w-6xl px-8 pb-20">
-        {/* EVENT 1: VALENTINE'S DAY */}
+        {/* EVENT 1: WELCOME OFFER */}
         <div className={`border overflow-hidden flex flex-col md:flex-row transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className="w-full md:w-1/2 p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
             <div className="flex flex-col gap-4 mb-6">
-              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Valentine’s Package ❣️</h3>
-              <p className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-rose-400' : 'text-rose-600'}`}>
-                <Heart className="w-4 h-4 fill-current" /> Limited Time Offer
+              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Been hesitating to book your first session?</h3>
+              <p className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-green-400' : 'text-green-600'}`}>
+                <Sparkles className="w-4 h-4 fill-current" /> Welcome Offer
               </p>
             </div>
             <p className={`font-medium mb-4 leading-relaxed ${isDark ? 'text-white' : 'text-black'}`}>
-              The Valentine’s package is officially open at emotional studios for a limited time! Be the first to experience the magic.
+              Now is the perfect time! 📸 Claim your welcome perks and start making happy memories with us today. ✨
             </p>
             <p className={`mb-6 leading-relaxed ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-              Moments that bring an instant smile to your face—how can we not fall in love with moments like these? Capture your own moments at emotional studios’ cozy, signature space. 💌
+              We’re treating all our first-time guests to a little something special.
             </p>
             
             <div className={`space-y-6 mb-8 p-6 border ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-100'}`}>
               <div className="flex items-center justify-between border-b pb-4 border-dashed border-zinc-300 dark:border-zinc-700">
-                <span className={`text-xl font-serif italic ${isDark ? 'text-white' : 'text-black'}`}>Price</span>
-                <span className={`text-xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>$99</span>
+                <span className={`text-xl font-serif italic ${isDark ? 'text-white' : 'text-black'}`}>Enter code [ WELCOME ]</span>
               </div>
               
               <div className="space-y-4">
                 <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                  <Calendar className="w-4 h-4 mt-1 shrink-0 text-rose-500" />
-                  <span>Available: 07.02.2026 – 21.02.2026</span>
-                </div>
-                
-                <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                  <Gift className="w-4 h-4 mt-1 shrink-0 text-rose-500" />
+                  <Gift className="w-4 h-4 mt-1 shrink-0 text-green-500" />
                   <div className="space-y-2">
-                    <span className="font-medium block mb-1">Package Includes:</span>
-                    <ul className="list-disc pl-4 space-y-1 marker:text-rose-500">
-                      <li>20-minute private shoot</li>
-                      <li>2 Basic Cuts</li>
-                      <li>Exclusive Frames</li>
-                      <li>Mini phone decorative photo frames</li>
+                    <span className="font-medium block mb-1">At checkout to get:</span>
+                    <ul className="list-disc pl-4 space-y-1 marker:text-green-500">
+                      <li>10% OFF</li>
+                      <li>10 Extra Minutes on the clock ⏰</li>
                     </ul>
                   </div>
                 </div>
 
                 <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                  <Sparkles className="w-4 h-4 mt-1 shrink-0 text-rose-500" />
-                  <span><span className="font-bold">Bonus:</span> Free photo keyrings</span>
+                  <Calendar className="w-4 h-4 mt-1 shrink-0 text-green-500" />
+                  <span>Valid until 31.MAR.2026</span>
                 </div>
               </div>
             </div>
@@ -74,20 +66,20 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
               onClick={onBook}
               className={`w-full py-4 text-center text-xs font-bold uppercase tracking-[0.2em] transition-colors ${isDark ? 'bg-zinc-800 text-white hover:bg-white hover:text-black' : 'bg-zinc-100 text-black hover:bg-black hover:text-white'}`}
             >
-              Book Valentine's Session
+              Book Your First Session
             </button>
           </div>
           <div className={`w-full md:w-1/2 min-h-96 md:min-h-[500px] relative order-1 md:order-2 flex items-center justify-center ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
-            <img src="/images/Event/valentines.jpg" alt="Valentine's Package" className="w-full h-full object-contain p-4" loading="eager" />
+            <img src="/images/Event/Marchevent.png" alt="Welcome Offer" className="w-full h-full object-contain p-4" loading="eager" />
           </div>
         </div>
 
-        {/* EVENT 2: FREE 4-CUT */}
+        {/* EVENT 2: FREE 3-CUT */}
         <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Event</h3>
+            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 3-Cut Event</h3>
             <p className={`font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Leave a Google review after your session and receive complimentary 4-cut photos. Quantity matches your group size (for reviewers only).
+              Leave a Google review after your session and receive complimentary 3-cut photos. Quantity matches your group size (for reviewers only).
             </p>
           </div>
           <div className="flex flex-col md:flex-row h-auto md:h-96">
@@ -95,7 +87,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
               <div className="space-y-4">
                 {[
                   { icon: Star, title: "Leave a Review", desc: "Write a simple review on Google Maps about your experience." },
-                  { icon: Gift, title: "Get Free Prints", desc: "Receive free 4-cut photo strips immediately." },
+                  { icon: Gift, title: "Get Free Prints", desc: "Receive free 3-cut photo strips immediately." },
                   { icon: Check, title: "Quantity", desc: "For reviewers only: matches your group size (e.g. 2 people = 2 strips)." }
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
@@ -122,8 +114,8 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
             </div>
             <div className={`w-full md:w-1/2 relative flex items-center justify-center ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
               <img 
-                src="/images/Event/3,4cut.jpg" 
-                alt="Free 4-Cut Event" 
+                src="/images/Event/3-Cut Photo strip.png" 
+                alt="Free 3-Cut Event" 
                 className="w-full h-full object-contain p-4" 
                 loading="eager" 
               />
