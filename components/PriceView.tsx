@@ -58,7 +58,7 @@ export const PriceView: React.FC<PriceViewProps> = ({ isDark = false, onContact 
         <div className={`border-t my-16 ${isDark ? 'border-zinc-800' : 'border-zinc-200'}`}></div>
 
         {/* 2. SPLIT LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 relative px-8">
           {/* LEFT: PRICING TIERS */}
           <div className="space-y-12">
             <div className="mb-8">

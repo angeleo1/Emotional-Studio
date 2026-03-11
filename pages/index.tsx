@@ -10,6 +10,7 @@ import { FAQView } from '../components/FAQView';
 import { View } from '../types';
 import { Moon, Sun } from 'lucide-react';
 import { BookingModal } from '../components/BookingModal';
+import { EventPopup } from '../components/EventPopup';
 import Head from 'next/head';
 
 export default function Home() {
@@ -132,6 +133,9 @@ export default function Home() {
 
         {/* Booking Widget Overlay */}
         <BookingModal isOpen={isBookingOpen} onClose={closeBooking} />
+        
+        {/* Main Event Popup */}
+        <EventPopup onBook={openBooking} onViewEvent={() => setCurrentView(View.EVENT)} />
       </div>
     </>
   );

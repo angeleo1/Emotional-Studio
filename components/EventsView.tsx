@@ -74,12 +74,12 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
           </div>
         </div>
 
-        {/* EVENT 2: FREE 3-CUT */}
+        {/* EVENT 2: FREE 4-CUT */}
         <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 3-Cut Event</h3>
+            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Event</h3>
             <p className={`font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Leave a Google review after your session and receive complimentary 3-cut photos. Quantity matches your group size (for reviewers only).
+              Leave a Google review after your session and receive complimentary 4-cut photos. Quantity matches your group size (for reviewers only).
             </p>
           </div>
           <div className="flex flex-col md:flex-row h-auto md:h-96">
@@ -87,7 +87,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
               <div className="space-y-4">
                 {[
                   { icon: Star, title: "Leave a Review", desc: "Write a simple review on Google Maps about your experience." },
-                  { icon: Gift, title: "Get Free Prints", desc: "Receive free 3-cut photo strips immediately." },
+                  { icon: Gift, title: "Get Free Prints", desc: "Receive free 4-cut photo strips immediately." },
                   { icon: Check, title: "Quantity", desc: "For reviewers only: matches your group size (e.g. 2 people = 2 strips)." }
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
