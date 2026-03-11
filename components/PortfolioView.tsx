@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { allImagesLatestFirst } from './GalleryContent';
 import { X } from 'lucide-react';
 
-type Category = 'All' | 'B/W' | 'Cool' | 'Warm' | 'Studio' | 'Event';
+type Category = 'All' | 'B/W' | 'Cool' | 'Warm' | 'Studio' | 'Event' | 'Pet Portraits';
 
 interface ImageItem {
   src: string;
@@ -23,6 +23,7 @@ const buildImagesFromGallery = (): ImageItem[] => {
     if (path.includes('/WARM/')) return 'Warm';
     if (path.includes('/STUDIO/')) return 'Studio';
     if (path.includes('/Event/')) return 'Event';
+    if (path.includes('/Pet portraits/')) return 'Pet Portraits';
     return null;
   };
 
@@ -93,7 +94,7 @@ const Lightbox: React.FC<{ item: ImageItem | null; onClose: () => void; isDark: 
 export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('All');
   const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
-  const categories: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Studio', 'Event'];
+  const categories: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Studio', 'Event', 'Pet Portraits'];
   const filteredImages = selectedCategory === 'All' ? IMAGE_FILES : IMAGE_FILES.filter(img => img.category === selectedCategory);
 
   return (
