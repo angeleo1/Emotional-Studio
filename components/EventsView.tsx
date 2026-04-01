@@ -22,59 +22,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
       </div>
 
       <div className="space-y-16 max-w-6xl px-8 pb-20">
-        {/* EVENT 1: WELCOME OFFER */}
-        <div className={`border overflow-hidden flex flex-col md:flex-row transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
-          <div className="w-full md:w-1/2 p-8 md:p-12 order-2 md:order-1 flex flex-col justify-center">
-            <div className="flex flex-col gap-4 mb-6">
-              <h3 className={`text-3xl font-serif italic mb-2 ${isDark ? 'text-white' : 'text-black'}`}>Been hesitating to book your first session?</h3>
-              <p className={`text-sm font-bold uppercase tracking-widest flex items-center gap-2 ${isDark ? 'text-green-400' : 'text-green-600'}`}>
-                <Sparkles className="w-4 h-4 fill-current" /> Welcome Offer
-              </p>
-            </div>
-            <p className={`font-medium mb-4 leading-relaxed ${isDark ? 'text-white' : 'text-black'}`}>
-              Now is the perfect time! 📸 Claim your welcome perks and start making happy memories with us today. ✨
-            </p>
-            <p className={`mb-6 leading-relaxed ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-              We’re treating all our first-time guests to a little something special.
-            </p>
-            
-            <div className={`space-y-6 mb-8 p-6 border ${isDark ? 'bg-zinc-900/50 border-zinc-800' : 'bg-zinc-50 border-zinc-100'}`}>
-              <div className="flex items-center justify-between border-b pb-4 border-dashed border-zinc-300 dark:border-zinc-700">
-                <span className={`text-xl font-serif italic ${isDark ? 'text-white' : 'text-black'}`}>Enter code [ WELCOME ]</span>
-              </div>
-              
-              <div className="space-y-4">
-                <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                  <Gift className="w-4 h-4 mt-1 shrink-0 text-green-500" />
-                  <div className="space-y-2">
-                    <span className="font-medium block mb-1">At checkout to get:</span>
-                    <ul className="list-disc pl-4 space-y-1 marker:text-green-500">
-                      <li>10% OFF</li>
-                      <li>10 Extra Minutes on the clock ⏰</li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className={`flex items-start gap-3 text-sm font-light ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
-                  <Calendar className="w-4 h-4 mt-1 shrink-0 text-green-500" />
-                  <span>Valid until 31.MAR.2026</span>
-                </div>
-              </div>
-            </div>
-
-            <button 
-              onClick={onBook}
-              className={`w-full py-4 text-center text-xs font-bold uppercase tracking-[0.2em] transition-colors ${isDark ? 'bg-zinc-800 text-white hover:bg-white hover:text-black' : 'bg-zinc-100 text-black hover:bg-black hover:text-white'}`}
-            >
-              Book Your First Session
-            </button>
-          </div>
-          <div className={`w-full md:w-1/2 min-h-96 md:min-h-[500px] relative order-1 md:order-2 flex items-center justify-center ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
-            <img src="/images/Event/Marchevent.png" alt="Welcome Offer" className="w-full h-full object-contain p-4" loading="eager" />
-          </div>
-        </div>
-
-        {/* EVENT 2: FREE 4-CUT */}
+        {/* EVENT 1: FREE 4-CUT */}
         <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
             <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Event</h3>
