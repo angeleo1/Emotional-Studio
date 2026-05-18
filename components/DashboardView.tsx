@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { View } from '../types';
 
@@ -20,8 +20,11 @@ interface HomeViewProps {
 
 
 export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) => {
+  const [isMounted, setIsMounted] = useState(false);
 
-  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleNav = (view: View) => {
 
@@ -268,11 +271,15 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
 
           {/* Elfsight Google Reviews Widget */}
           <div className="w-full min-h-[400px]">
-            <style dangerouslySetInnerHTML={{ __html: `
-              [class*="header-title"], [class*="HeaderTitle"], .eapps-google-reviews-header { display: none !important; }
-            ` }} />
-            <script src="https://elfsightcdn.com/platform.js" async></script>
-            <div className="elfsight-app-1138071a-8a0e-4f88-b79f-d4de291fa2e6" data-elfsight-app-lazy></div>
+            {isMounted && (
+              <>
+                <style dangerouslySetInnerHTML={{ __html: `
+                  [class*="header-title"], [class*="HeaderTitle"], .eapps-google-reviews-header { display: none !important; }
+                ` }} />
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div className="elfsight-app-1138071a-8a0e-4f88-b79f-d4de291fa2e6" data-elfsight-app-lazy></div>
+              </>
+            )}
           </div>
         </div>
       </div>

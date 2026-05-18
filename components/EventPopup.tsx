@@ -12,7 +12,7 @@ export const EventPopup: React.FC<EventPopupProps> = ({ onBook, onViewEvent }) =
 
   useEffect(() => {
     // Force show for testing if needed, but normally check localStorage
-    const dontShowToday = localStorage.getItem('hideEventPopupUntil');
+    const dontShowToday = localStorage.getItem('hideMayEventPopupUntil');
     const isHiddenForToday = dontShowToday && new Date().getTime() < parseInt(dontShowToday);
 
     if (!isHiddenForToday) {
@@ -31,7 +31,7 @@ export const EventPopup: React.FC<EventPopupProps> = ({ onBook, onViewEvent }) =
     // Set expiry time to midnight of the next day
     const now = new Date();
     const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-    localStorage.setItem('hideEventPopupUntil', tomorrow.getTime().toString());
+    localStorage.setItem('hideMayEventPopupUntil', tomorrow.getTime().toString());
     handleClose();
   };
 
@@ -69,15 +69,15 @@ export const EventPopup: React.FC<EventPopupProps> = ({ onBook, onViewEvent }) =
               <div className="mb-6">
                 <p className="text-[8px] font-bold tracking-[0.4em] uppercase text-[#FF6100] mb-1.5 drop-shadow-sm">Special Offer</p>
                 <h2 className="text-3xl font-sans font-bold text-black dark:text-white leading-none tracking-tight drop-shadow-sm">
-                  March Event
+                  May Event
                 </h2>
               </div>
               
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-white/5 dark:bg-white/[0.02] rounded-[1.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] backdrop-blur-md border border-white/60 dark:border-white/10">
                 <img
-                  src="/images/Event/Marchevent.png"
-                  alt="Offer"
-                  className="w-full h-full object-contain p-4"
+                  src="/images/Event/MAY EVENT.png"
+                  alt="May Event"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
@@ -86,12 +86,12 @@ export const EventPopup: React.FC<EventPopupProps> = ({ onBook, onViewEvent }) =
             <div className="p-8 pt-2 relative z-10">
               <div className="space-y-3 mb-8">
                 <div className="flex items-center justify-between py-2 border-b border-black/10 dark:border-white/10">
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-600 dark:text-zinc-400">Benefit 01</span>
-                  <span className="text-xs font-bold text-black dark:text-white">10% OFF</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-600 dark:text-zinc-400">Benefit</span>
+                  <span className="text-xs font-bold text-black dark:text-white">2-Person Session</span>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-600 dark:text-zinc-400">Benefit 02</span>
-                  <span className="text-xs font-bold text-black dark:text-white">+10 Extra Mins</span>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-600 dark:text-zinc-400">Special Price</span>
+                  <span className="text-xs font-bold text-black dark:text-white">$99 ($120)</span>
                 </div>
               </div>
 
