@@ -22,58 +22,7 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
       </div>
 
       <div className="space-y-16 max-w-6xl px-8 pb-20">
-        {/* EVENT 1: MAY EVENT */}
-        <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
-          <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-            <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>May Special: Halfway through 2026</h3>
-            <p className={`font-light max-w-2xl mx-auto ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              From settling in with new friends to starting new relationships, a lot can happen in six months. You've worked hard this year, so take a moment to capture where you are right now.
-            </p>
-          </div>
-          <div className="flex flex-col md:flex-row h-auto md:h-[500px]">
-            <div className={`w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center border-r ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <Camera className={`w-5 h-5 mt-1 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`} />
-                  <div>
-                    <h4 className={`text-sm font-bold uppercase tracking-widest mb-1 ${isDark ? 'text-white' : 'text-black'}`}>2-Person Self-Portrait</h4>
-                    <p className={`text-sm font-light ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>Enjoy a professional self-portrait session for you and a friend.</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Sparkles className={`w-5 h-5 mt-1 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`} />
-                  <div>
-                    <h4 className={`text-sm font-bold uppercase tracking-widest mb-1 ${isDark ? 'text-white' : 'text-black'}`}>Special Pricing</h4>
-                    <p className={`text-sm font-light ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>Just $99 (Regularly $120)</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Calendar className={`w-5 h-5 mt-1 ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`} />
-                  <div>
-                    <h4 className={`text-sm font-bold uppercase tracking-widest mb-1 ${isDark ? 'text-white' : 'text-black'}`}>Limited Time</h4>
-                    <p className={`text-sm font-light ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>Available until May 30th, 2026.</p>
-                  </div>
-                </div>
-              </div>
-              <button 
-                onClick={onBook}
-                className={`mt-10 flex items-center justify-center gap-2 w-full py-4 text-center text-xs font-bold uppercase tracking-[0.2em] hover:opacity-80 transition-colors ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}
-              >
-                Book May Special
-              </button>
-            </div>
-            <div className={`w-full md:w-1/2 relative flex items-center justify-center overflow-hidden ${isDark ? 'bg-zinc-900' : 'bg-zinc-100'}`}>
-               <img 
-                 src="/images/Event/MAY EVENT.png" 
-                 alt="May Event" 
-                 className="w-full h-full object-cover" 
-                 loading="eager" 
-               />
-             </div>
-          </div>
-        </div>
-
-        {/* EVENT 2: FREE 4-CUT */}
+        {/* EVENT: FREE 4-CUT */}
         <div className={`border overflow-hidden transition-all duration-1000 ${isDark ? 'border-zinc-800 bg-[#0a0a0a]' : 'border-zinc-200 bg-white'}`}>
           <div className={`p-8 md:p-12 border-b text-center ${isDark ? 'border-zinc-800' : 'border-zinc-100'}`}>
             <h3 className={`text-3xl font-serif italic mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Free 4-Cut Event</h3>
