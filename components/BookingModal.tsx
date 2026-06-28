@@ -116,9 +116,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-8 animate-fade-in" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8 animate-fade-in" onClick={onClose}>
       <div 
-        className="bg-white dark:bg-zinc-900 w-[1000px] h-[1200px] relative shadow-2xl flex flex-col rounded-lg overflow-hidden"
+        className="bg-white dark:bg-zinc-900 w-full max-w-[1000px] h-[90vh] sm:h-[95vh] relative shadow-2xl flex flex-col rounded-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -133,7 +133,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) =
         </div>
         
         {/* SimplyBook Widget Container */}
-        <div className="flex-1 w-full bg-white dark:bg-zinc-900 relative" style={{ maxHeight: 'calc(1200px - 60px)', overflowY: 'auto' }}>
+        <div className="flex-1 w-full bg-white dark:bg-zinc-900 relative overflow-y-auto overflow-x-hidden">
           <div 
             id="sbw_booking_modal" 
             ref={widgetContainerRef}

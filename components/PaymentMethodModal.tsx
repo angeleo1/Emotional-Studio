@@ -507,7 +507,7 @@ const PaymentMethodModal: React.FC<PaymentMethodModalProps> = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-md sm:max-w-2xl max-h-[95vh] flex flex-col overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md sm:max-w-2xl h-[90vh] sm:h-[95vh] flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
