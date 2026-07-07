@@ -6,20 +6,17 @@ import Head from 'next/head';
 import { Star, ArrowRight, MapPin, Users, Heart, User } from 'lucide-react';
 
 import { SmartImage } from './SmartImage';
+import { GoogleReviews } from './GoogleReviews';
 
 
 
 interface HomeViewProps {
-
   onNavigate: (view: View) => void;
-
   onBook: () => void;
-
+  isDark?: boolean;
 }
 
-
-
-export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) => {
+export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -269,17 +266,9 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook }) =
             </div>
           </div>
 
-          {/* Elfsight Google Reviews Widget */}
-          <div className="w-full min-h-[400px]">
-            {isMounted && (
-              <>
-                <style dangerouslySetInnerHTML={{ __html: `
-                  [class*="header-title"], [class*="HeaderTitle"], .eapps-google-reviews-header { display: none !important; }
-                ` }} />
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div className="elfsight-app-1138071a-8a0e-4f88-b79f-d4de291fa2e6" data-elfsight-app-lazy></div>
-              </>
-            )}
+          {/* Custom Google Reviews Component */}
+          <div className="w-full">
+            <GoogleReviews isDark={isDark} />
           </div>
         </div>
       </div>

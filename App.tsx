@@ -35,28 +35,28 @@ function App() {
   const renderContent = () => {
     switch (currentView) {
       case View.HOME:
-        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} />;
+        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} isDark={isDarkMode} />;
       case View.EVENT:
-        return <EventsView onBook={openBooking} />;
+        return <EventsView onBook={openBooking} isDark={isDarkMode} />;
       case View.PORTFOLIO:
-        return <PortfolioView />;
+        return <PortfolioView isDark={isDarkMode} />;
       case View.PRICE:
-        return <PriceView />;
+        return <PriceView isDark={isDarkMode} />;
       case View.PACKAGES:
-        return <PackagesView onBook={openBooking} />;
+        return <PackagesView onBook={openBooking} isDark={isDarkMode} />;
       case View.FAQ:
-        return <FAQView />;
+        return <FAQView isDark={isDarkMode} />;
       case View.CONCIERGE:
-        return <ChatView />;
+        return <ChatView isDark={isDarkMode} />;
       default:
-        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} />;
+        return <DashboardView onNavigate={setCurrentView} onBook={openBooking} isDark={isDarkMode} />;
     }
   };
 
   return (
     <div className={isDarkMode ? 'dark' : ''}>
       <div className="flex flex-col md:flex-row h-screen bg-white dark:bg-[#050505] text-zinc-900 dark:text-zinc-100 overflow-hidden font-sans transition-colors duration-[1000ms] ease-in-out">
-        <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} />
+        <Sidebar currentView={currentView} onViewChange={setCurrentView} onBook={openBooking} isDark={isDarkMode} />
         
         <main className="flex-1 flex flex-col h-full relative overflow-hidden">
           {/* Minimal Header */}
