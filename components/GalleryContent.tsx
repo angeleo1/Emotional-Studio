@@ -96,6 +96,28 @@ export const galleryImages = {
     '/images/Gallery/BW/2025/bw1 (4).png',
   ],
   'Cool tone': [
+    // July 0713 COOL 최신 추가된 이미지
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 6).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(6 of 6).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(1 of 6).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(2 of 6).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/1 (1).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/1 (3).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/1 (2).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra Retouched.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra RetouchedRetouched-(2 of 3).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(1 of 2).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(8 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(11 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(3 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(2 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(1 of 1).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra Retouched (1).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 4).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched (1 of 4).jpg',
     // 0518 COOL
     '/images/Gallery/COOL/2026/COOL MAY0518/11 (1).jpg',
     '/images/Gallery/COOL/2026/COOL MAY0518/11 (2).jpg',
@@ -264,6 +286,14 @@ export const galleryImages = {
     '/images/Gallery/COOL/017.png',
   ],
   'Warm tone': [
+    // July 0713 WARM 최신 추가된 이미지
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(3 of 4).jpg',
+    '/images/Gallery/WARM/2026/WARM July 0713/Extra Retouch.jpg',
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(8 of 10).jpg',
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(6 of 10).jpg',
+    '/images/Gallery/WARM/2026/WARM July 0713/Extra Retouched.jpg',
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched 4.jpg',
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched 1.jpg',
     // 0518 WARM
     '/images/Gallery/WARM/2026/WARM MAY0518/444 (1).jpg',
     '/images/Gallery/WARM/2026/WARM MAY0518/444 (2).jpg',
@@ -458,6 +488,49 @@ export const galleryImages = {
 };
 
 export const allImagesLatestFirst = [
+    // July 0713 New Images - Interleaved (Warm, Cool)
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(3 of 4).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 6).jpg',
+    
+    '/images/Gallery/WARM/2026/WARM July 0713/Extra Retouch.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(6 of 6).jpg',
+    
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(8 of 10).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(1 of 6).jpg',
+    
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(6 of 10).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(2 of 6).jpg',
+    
+    '/images/Gallery/WARM/2026/WARM July 0713/Extra Retouched.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra.jpg',
+    
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched 4.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/1 (1).jpg',
+    
+    '/images/Gallery/WARM/2026/WARM July 0713/Retouched 1.jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/1 (3).jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/1 (2).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra Retouched.jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra RetouchedRetouched-(2 of 3).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(1 of 2).jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(8 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(11 of 12).jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(3 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 12).jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(2 of 12).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched.jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(1 of 1).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Extra Retouched (1).jpg',
+    
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 4).jpg',
+    '/images/Gallery/COOL/2026/COOL July 0713/Retouched (1 of 4).jpg',
+    
     // 0518 New Images - Interleaved (Warm, Cool)
     '/images/Gallery/WARM/2026/WARM MAY0518/Retouched-(5 of 5).jpg',
     '/images/Gallery/COOL/2026/COOL MAY0518/Retouched-(8 of 8).jpg',
