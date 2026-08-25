@@ -42,7 +42,7 @@ export const PriceView: React.FC<PriceViewProps> = ({ isDark = false, onContact 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
             {[
               { icon: Clock, title: "20 Mins", desc: "Private photo session time" },
-              { icon: Image, title: "Moodboard", desc: "Inspiration photo provided" },
+              { icon: Image, title: "Prints", desc: "4x6\" printed photos included" },
               { icon: Martini, title: "Elixir", desc: "Concentrate welcome drink" },
               { icon: Video, title: "Timelapse", desc: "Sketch video of your shoot" }
             ].map((item, i) => (
