@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { View } from '../types';
 
 import Head from 'next/head';
+import NextImage from 'next/image';
 import { Star, ArrowRight, MapPin, Users, Heart, User } from 'lucide-react';
 
 import { SmartImage } from './SmartImage';
@@ -19,23 +20,28 @@ interface HomeViewProps {
 export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
   const [isMounted, setIsMounted] = useState(false);
 
-  const heroImages = [
-    encodeURI('/images/Home/September Main (2).jpg'),
-    encodeURI('/images/Home/September Main (3).jpg'),
-    encodeURI('/images/Home/September Main (4).jpg'),
-    encodeURI('/images/Home/September Main (5).jpg'),
-    encodeURI('/images/Home/September Main (6).jpg'),
-    encodeURI('/images/Home/September Main (7).jpg'),
-    encodeURI('/images/Home/September Main (8).jpg'),
-    encodeURI('/images/Home/September Main (9).jpg'),
-    encodeURI('/images/Home/September Main.jpg'),
+  const HERO_BASES = [
+    'September Main (2)',
+    'September Main (3)',
+    'September Main (4)',
+    'September Main (5)',
+    'September Main (6)',
+    'September Main (7)',
+    'September Main (8)',
+    'September Main (9)',
+    'September Main',
   ];
+
+  const WEBPS = HERO_BASES.map(n => encodeURI(`/images/Home/${n}.webp`));
+  const OPT_JPGS = HERO_BASES.map(n => encodeURI(`/images/Home/${n}.optimized.jpg`));
+  const heroImages = WEBPS;
 
   const [queue, setQueue] = useState<number[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
+  const didPreloadRef = useRef(false);
 
   const shuffle = (excludeLast?: number): number[] => {
-    const arr = heroImages.map((_, i) => i);
+    const arr = HERO_BASES.map((_, i) => i);
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -47,30 +53,86 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
     return arr;
   };
 
+  const pickSupportedUrl = (i: number): string => {
+    if (typeof window === 'undefined') return WEBPS[i];
+    const canWebp = (window as any).__heroCanWebp;
+    if (canWebp === true) return WEBPS[i];
+    if (canWebp === false) return OPT_JPGS[i];
+    return WEBPS[i];
+  };
+
+  const makeNativeImage = () => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const NativeImageCtor = (globalThis as any).Image || (window as any).Image;
+      return new NativeImageCtor();
+    } catch {
+      return null;
+    }
+  };
+
   useEffect(() => {
+    // Detect WebP support once
+    const canWebp = (window as any).__heroCanWebp;
+    if (canWebp === undefined) {
+      try {
+        const elem = document.createElement('canvas');
+        if (elem.getContext && elem.getContext('2d')) {
+          (window as any).__heroCanWebp = elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+        } else {
+          (window as any).__heroCanWebp = true;
+        }
+      } catch {
+        (window as any).__heroCanWebp = true;
+      }
+    }
     setIsMounted(true);
     const initial = shuffle();
     setQueue(initial);
     setActiveIdx(initial[0]);
   }, []);
 
+  // Preload strategy: first image IMMEDIATE (high), remaining in idle 2-at-a-time
   useEffect(() => {
-    if (!isMounted || queue.length === 0) return;
-    const interval = setInterval(() => {
-      setQueue(prev => {
-        const currentFirst = prev[0];
-        if (prev.length <= 1) {
-          const next = shuffle(currentFirst);
-          setActiveIdx(next[0]);
-          return next;
-        }
-        const next = prev.slice(1);
-        setActiveIdx(next[0]);
-        return next;
+    if (!isMounted || queue.length === 0 || didPreloadRef.current) return;
+    didPreloadRef.current = true;
+
+    const order = [...queue];
+    const firstIdx = order[0];
+    const rest = order.slice(1);
+
+    // #1 preload first ASAP
+    const first = makeNativeImage();
+    if (first) {
+      (first as any).fetchPriority = 'high';
+      (first as any).decoding = 'async';
+      (first as any).src = pickSupportedUrl(firstIdx);
+    }
+
+    const preloadOne = (idx: number) => {
+      const im = makeNativeImage();
+      if (!im) return;
+      (im as any).decoding = 'async';
+      (im as any).fetchPriority = 'low';
+      (im as any).src = pickSupportedUrl(idx);
+    };
+
+    if (typeof (window as any).requestIdleCallback === 'function') {
+      const remaining = [...rest];
+      const loadBatch = () => {
+        const batch = remaining.splice(0, 2);
+        if (batch.length === 0) return;
+        batch.forEach(preloadOne);
+        (window as any).requestIdleCallback(loadBatch, { timeout: 1500 });
+      };
+      (window as any).requestIdleCallback(loadBatch, { timeout: 800 });
+    } else {
+      // Fallback: staggered with delays
+      rest.forEach((idx, k) => {
+        setTimeout(() => preloadOne(idx), 1200 + k * 350);
       });
-    }, 7000);
-    return () => clearInterval(interval);
-  }, [isMounted, queue.length]);
+    }
+  }, [isMounted, queue]);
 
   const handleNav = (view: View) => {
 
@@ -218,23 +280,43 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
 
 
-        {/* Right: Vertical Slideshow (clean crossfade only) */}
+        {/* Right: Vertical Slideshow (clean crossfade only, Next.js Image optimized) */}
 
         <div className="w-full md:w-1/2 h-[60vh] md:h-screen order-1 md:order-2 relative bg-zinc-100 dark:bg-zinc-900 overflow-visible transition-colors duration-[1000ms]">
 
           <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_160px_-30px_rgba(255,255,255,0.22)] z-10 overflow-hidden">
-            {heroImages.map((src, i) => (
-              <img
-                key={`curr-${src}`}
-                src={src}
-                alt={`Studio Atmosphere ${i + 1}`}
-                className={`absolute inset-0 w-full h-full object-cover object-[center_top] select-none transition-opacity duration-[2200ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-opacity ${activeIdx === i ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                style={{ zIndex: activeIdx === i ? 2 : 0 }}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                decoding="async"
-                draggable={false}
-              />
-            ))}
+            {heroImages.map((src, i) => {
+              const isActive = activeIdx === i;
+              const isFirstInQueue = queue[0] === i;
+              return (
+                <NextImage
+                  key={`curr-${src}`}
+                  src={src}
+                  alt={`Studio Atmosphere ${i + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={82}
+                  priority={isFirstInQueue}
+                  fetchPriority={isActive || isFirstInQueue ? 'high' : 'low'}
+                  loading={isFirstInQueue ? 'eager' : 'lazy'}
+                  decoding="async"
+                  draggable={false}
+                  unoptimized={false}
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABBQJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBBQJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBBQJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQAGPwJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPyFK/9k="
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                    zIndex: isActive ? 2 : 0,
+                    opacity: isActive ? 1 : 0,
+                    userSelect: 'none',
+                    transition: 'opacity 2200ms cubic-bezier(0.22, 1, 0.36, 1)',
+                    willChange: 'opacity',
+                    pointerEvents: isActive ? 'auto' : 'none',
+                  }}
+                />
+              );
+            })}
           </div>
 
         </div>
