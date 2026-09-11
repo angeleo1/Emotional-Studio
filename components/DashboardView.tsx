@@ -20,7 +20,6 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
   const [isMounted, setIsMounted] = useState(false);
 
   const heroImages = [
-    encodeURI('/images/Home/September Main (1).jpg'),
     encodeURI('/images/Home/September Main (2).jpg'),
     encodeURI('/images/Home/September Main (3).jpg'),
     encodeURI('/images/Home/September Main (4).jpg'),
