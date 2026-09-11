@@ -156,16 +156,12 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
         <div className="w-full md:w-1/2 h-[60vh] md:h-screen order-1 md:order-2 relative bg-zinc-100 dark:bg-zinc-900 overflow-visible transition-colors duration-[1000ms]">
 
-          <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_120px_-20px_rgba(255,255,255,0.25)] z-10">
+          <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_120px_-20px_rgba(255,255,255,0.25)] z-10 overflow-hidden">
 
-             <SmartImage 
-
-               baseName="hero" 
-
-               alt="Studio Atmosphere" 
-
+             <img
+               src="/images/Home/September Main.jpg"
+               alt="Studio Atmosphere"
                className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s]"
-
              />
 
           </div>
