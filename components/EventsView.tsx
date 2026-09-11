@@ -74,9 +74,10 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
                     <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-amber-500/15 text-amber-300' : 'bg-gradient-to-br from-amber-50 to-orange-50 text-amber-700 border border-amber-100'}`}>
                       <User className="w-5 h-5" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={`font-semibold text-base whitespace-nowrap overflow-hidden text-ellipsis ${isDark ? 'text-white' : 'text-stone-900'}`}>
-                        Anyone celebrating a birthday in the current month
+                    <div className="flex-1">
+                      <p className={`font-semibold text-base leading-snug ${isDark ? 'text-white' : 'text-stone-900'}`}>
+                        Anyone celebrating a birthday<br className="hidden sm:block max-md:hidden" />
+                        <span className="sm:hidden"> </span>in the current month
                       </p>
                     </div>
                   </div>
