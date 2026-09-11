@@ -19,9 +19,59 @@ interface HomeViewProps {
 export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
   const [isMounted, setIsMounted] = useState(false);
 
+  const heroImages = [
+    encodeURI('/images/Home/September Main (1).jpg'),
+    encodeURI('/images/Home/September Main (2).jpg'),
+    encodeURI('/images/Home/September Main (3).jpg'),
+    encodeURI('/images/Home/September Main (4).jpg'),
+    encodeURI('/images/Home/September Main (5).jpg'),
+    encodeURI('/images/Home/September Main (6).jpg'),
+    encodeURI('/images/Home/September Main (7).jpg'),
+    encodeURI('/images/Home/September Main (8).jpg'),
+    encodeURI('/images/Home/September Main (9).jpg'),
+    encodeURI('/images/Home/September Main.jpg'),
+  ];
+
+  const [queue, setQueue] = useState<number[]>([]);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const shuffle = (excludeLast?: number): number[] => {
+    const arr = heroImages.map((_, i) => i);
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    if (excludeLast !== undefined && arr[0] === excludeLast && arr.length > 1) {
+      const swapIdx = Math.floor(Math.random() * (arr.length - 1)) + 1;
+      [arr[0], arr[swapIdx]] = [arr[swapIdx], arr[0]];
+    }
+    return arr;
+  };
+
   useEffect(() => {
     setIsMounted(true);
+    const initial = shuffle();
+    setQueue(initial);
+    setActiveIdx(initial[0]);
   }, []);
+
+  useEffect(() => {
+    if (!isMounted || queue.length === 0) return;
+    const interval = setInterval(() => {
+      setQueue(prev => {
+        const currentFirst = prev[0];
+        if (prev.length <= 1) {
+          const next = shuffle(currentFirst);
+          setActiveIdx(next[0]);
+          return next;
+        }
+        const next = prev.slice(1);
+        setActiveIdx(next[0]);
+        return next;
+      });
+    }, 7000);
+    return () => clearInterval(interval);
+  }, [isMounted, queue.length]);
 
   const handleNav = (view: View) => {
 
@@ -117,7 +167,16 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
                  <button 
                    onClick={onBook}
-                   className="bg-black text-white dark:bg-white dark:text-black px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase hover:opacity-80 transition-all text-center flex items-center justify-center gap-2 group"
+                   className="relative overflow-hidden px-10 py-4 text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] text-center flex items-center justify-center gap-2 group
+                     text-black dark:text-white
+                     bg-white/10 dark:bg-white/5
+                     backdrop-blur-2xl
+                     border border-black/10 dark:border-white/15
+                     shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_8px_32px_-8px_rgba(0,0,0,0.15)]
+                     hover:bg-white/25 dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-white/25
+                     hover:shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_16px_48px_-12px_rgba(0,0,0,0.2)]
+                     hover:scale-[1.02] active:scale-[0.98]
+                     after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/40 after:via-transparent after:to-transparent after:opacity-50 dark:after:from-white/10 after:pointer-events-none"
                  >
                    Book Session <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                  </button>
@@ -126,7 +185,15 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
                    onClick={() => handleNav(View.PACKAGES)}
 
-                   className="px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase text-black dark:text-white border border-zinc-200 dark:border-none dark:bg-zinc-900 hover:border-black dark:hover:bg-zinc-800 transition-all text-center"
+                   className="relative overflow-hidden px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] text-center
+                     text-black/80 dark:text-white/80
+                     bg-white/5 dark:bg-black/20
+                     backdrop-blur-xl
+                     border border-black/10 dark:border-white/10
+                     shadow-[0_1px_0_rgba(255,255,255,0.4)_inset,0_4px_20px_-8px_rgba(0,0,0,0.08)]
+                     hover:text-black dark:hover:text-white hover:bg-white/15 dark:hover:bg-black/30 hover:border-black/20 dark:hover:border-white/20
+                     hover:scale-[1.02] active:scale-[0.98]
+                     after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/25 after:via-transparent after:to-transparent after:opacity-50 dark:after:from-white/5 after:pointer-events-none"
 
                  >
 
@@ -152,18 +219,23 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
 
 
-        {/* Right: Vertical Image */}
+        {/* Right: Vertical Slideshow (clean crossfade only) */}
 
         <div className="w-full md:w-1/2 h-[60vh] md:h-screen order-1 md:order-2 relative bg-zinc-100 dark:bg-zinc-900 overflow-visible transition-colors duration-[1000ms]">
 
-          <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_120px_-20px_rgba(255,255,255,0.25)] z-10 overflow-hidden">
-
-             <img
-               src="/images/Home/September Main.jpg"
-               alt="Studio Atmosphere"
-               className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s]"
-             />
-
+          <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_160px_-30px_rgba(255,255,255,0.22)] z-10 overflow-hidden">
+            {heroImages.map((src, i) => (
+              <img
+                key={`curr-${src}`}
+                src={src}
+                alt={`Studio Atmosphere ${i + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover object-[center_top] select-none transition-opacity duration-[2200ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-opacity ${activeIdx === i ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                style={{ zIndex: activeIdx === i ? 2 : 0 }}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                draggable={false}
+              />
+            ))}
           </div>
 
         </div>

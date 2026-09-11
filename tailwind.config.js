@@ -229,6 +229,24 @@ module.exports = {
   				'100%': {
   					opacity: '1'
   				}
+  			},
+  			'hero-fade-in': {
+  				'0%': { opacity: '0', filter: 'saturate(0.7) brightness(0.9)' },
+  				'40%': { opacity: '0.7' },
+  				'100%': { opacity: '1', filter: 'saturate(1.05) brightness(1)' }
+  			},
+  			'hero-fade-out': {
+  				'0%': { opacity: '1', filter: 'saturate(1.05) brightness(1)' },
+  				'50%': { opacity: '0.5', filter: 'saturate(0.9) brightness(0.95)' },
+  				'100%': { opacity: '0', filter: 'saturate(0.7) brightness(0.85)' }
+  			},
+  			'hero-ken-burns': {
+  				'0%': { transform: 'scale(1) translate3d(0, 0, 0)' },
+  				'100%': { transform: 'scale(1.02) translate3d(-0.2%, 0.5%, 0)' }
+  			},
+  			'hero-zoom-out': {
+  				'0%': { transform: 'scale(1.015) translate3d(-0.1%, 0.3%, 0)' },
+  				'100%': { transform: 'scale(1) translate3d(0, 0, 0)' }
   			}
   		},
   		animation: {

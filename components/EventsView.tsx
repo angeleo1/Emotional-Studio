@@ -132,7 +132,16 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
                 {onBook && (
                   <button
                     onClick={onBook}
-                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:scale-[1.02] text-white bg-gradient-to-r from-stone-800 via-amber-900 to-stone-800 hover:from-stone-900 hover:via-amber-800 hover:to-stone-900 shadow-amber-900/10 hover:shadow-amber-900/20"
+                    className="relative overflow-hidden flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-semibold transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+                      text-black dark:text-white
+                      bg-white/10 dark:bg-white/5
+                      backdrop-blur-2xl
+                      border border-black/10 dark:border-white/15
+                      shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_8px_32px_-8px_rgba(0,0,0,0.12)]
+                      hover:bg-white/25 dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-white/25
+                      hover:shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_16px_48px_-12px_rgba(0,0,0,0.18)]
+                      hover:scale-[1.015] active:scale-[0.985]
+                      after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/35 after:via-transparent after:to-transparent after:opacity-60 dark:after:from-white/10 after:pointer-events-none"
                   >
                     <Gift className="w-4 h-4" />
                     Book Your Birthday Session
