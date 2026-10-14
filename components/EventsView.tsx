@@ -1,5 +1,5 @@
 import React from 'react';
-import { Gift, Clock, Image as ImageIcon, Frame, PartyPopper, AlertCircle, Calendar, User } from 'lucide-react';
+import { Gift, Clock, Image as ImageIcon, Frame, PartyPopper, AlertCircle, Calendar, User, Sparkles, Tag, Heart } from 'lucide-react';
 
 interface EventsViewProps {
   onBook?: () => void;
@@ -146,6 +146,99 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
                   >
                     <Gift className="w-4 h-4" />
                     Book Your Birthday Session
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. 1ST ANNIVERSARY EVENT */}
+      <div className="mb-12 px-8">
+        <span className={`text-xs uppercase tracking-[0.25em] font-bold px-4 py-1.5 rounded-full ${isDark ? 'text-rose-200 bg-rose-500/10 border border-rose-400/20' : 'text-rose-800 bg-rose-50 border border-rose-200'}`}>Anniversary Special</span>
+        <h2 className={`text-4xl md:text-5xl font-serif italic mt-4 mb-6 transition-colors duration-1000 ${isDark ? 'text-white' : 'text-stone-900'}`}>
+          1st Anniversary Event
+        </h2>
+        <p className={`font-light max-w-xl leading-relaxed ${isDark ? 'text-stone-400' : 'text-stone-600'}`}>
+          Emotional Studios is turning one. Thank you for being part of our journey.
+        </p>
+      </div>
+
+      <div className="max-w-6xl px-8 pb-20">
+        <div className={`rounded-3xl overflow-hidden border ${isDark ? 'border-rose-500/10 bg-gradient-to-br from-stone-900/80 to-stone-950' : 'border-rose-100 bg-gradient-to-br from-rose-50/60 to-stone-50'}`}>
+          <div className="grid md:grid-cols-2 gap-0">
+            <div className="relative aspect-[4/5] md:aspect-auto overflow-hidden">
+              <img
+                src="/images/Event/1yr event.png"
+                alt="1st Anniversary Event"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/75 via-black/15 to-transparent md:from-black/45 md:via-transparent"></div>
+              <div className="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-auto md:w-3/4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-rose-200/20">
+                  <Sparkles className="w-4 h-4 text-rose-200" />
+                  <span className="text-[11px] font-semibold text-rose-50 tracking-[0.15em] uppercase">Limited Time</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-8 md:p-10 flex flex-col">
+              <div className="mb-8">
+                <p className={`text-lg leading-relaxed mb-5 ${isDark ? 'text-stone-300' : 'text-stone-700'}`}>
+                  A year ago, we opened our doors. Today, Emotional Studios is officially turning one — and we couldn&apos;t have made it this far without you.
+                </p>
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-stone-400' : 'text-stone-600'}`}>
+                  Every smile, every visit, and every memory you&apos;ve shared with us has meant the world. From the bottom of our hearts, thank you for being part of our story.
+                </p>
+              </div>
+
+              <div className="space-y-3 mb-8">
+                <div className={`flex items-start gap-4 p-4 rounded-2xl ${isDark ? 'bg-stone-900/40 border border-stone-800/70' : 'bg-white border border-rose-100/70'}`}>
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-rose-500/15 text-rose-300' : 'bg-rose-50 text-rose-700 border border-rose-100'}`}>
+                    <Tag className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className={`font-semibold mb-0.5 ${isDark ? 'text-white' : 'text-stone-900'}`}>20% Off All Sessions</h4>
+                    <p className={`text-sm ${isDark ? 'text-stone-400' : 'text-stone-600'}`}>Apply code <strong>HAPPY</strong> at checkout</p>
+                  </div>
+                </div>
+
+                <div className={`flex items-start gap-4 p-4 rounded-2xl ${isDark ? 'bg-stone-900/40 border border-stone-800/70' : 'bg-white border border-rose-100/70'}`}>
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-rose-500/15 text-rose-300' : 'bg-rose-50 text-rose-700 border border-rose-100'}`}>
+                    <Gift className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className={`font-semibold mb-0.5 ${isDark ? 'text-white' : 'text-stone-900'}`}>Anniversary Lucky Dip</h4>
+                    <p className={`text-sm ${isDark ? 'text-stone-400' : 'text-stone-600'}`}>Exciting prizes including free photo sessions</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className={`mt-auto p-5 rounded-2xl border flex items-center gap-3 ${isDark ? 'bg-rose-500/5 border-rose-500/15' : 'bg-gradient-to-br from-rose-50 to-pink-50/60 border-rose-100'}`}>
+                <Heart className={`w-5 h-5 flex-shrink-0 ${isDark ? 'text-rose-400' : 'text-rose-700'}`} fill="currentColor" />
+                <p className={`text-sm leading-relaxed ${isDark ? 'text-rose-100/70' : 'text-rose-800'}`}>
+                  Here&apos;s to many more memories together.
+                </p>
+              </div>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                {onBook && (
+                  <button
+                    onClick={onBook}
+                    className="relative overflow-hidden flex-1 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl font-semibold transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+                      text-black dark:text-white
+                      bg-white/10 dark:bg-white/5
+                      backdrop-blur-2xl
+                      border border-black/10 dark:border-white/15
+                      shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_8px_32px_-8px_rgba(0,0,0,0.12)]
+                      hover:bg-white/25 dark:hover:bg-white/[0.08] hover:border-black/20 dark:hover:border-white/25
+                      hover:shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_16px_48px_-12px_rgba(0,0,0,0.18)]
+                      hover:scale-[1.015] active:scale-[0.985]
+                      after:absolute after:inset-0 after:bg-gradient-to-b after:from-white/35 after:via-transparent after:to-transparent after:opacity-60 dark:after:from-white/10 after:pointer-events-none"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    Book Anniversary Session
                   </button>
                 )}
               </div>

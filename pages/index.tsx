@@ -8,6 +8,7 @@ import { PriceView } from '../components/PriceView';
 import { EventsView } from '../components/EventsView';
 import { FAQView } from '../components/FAQView';
 import { EventPopup } from '../components/EventPopup';
+import { AnniversaryPopup } from '../components/AnniversaryPopup';
 import { View } from '../types';
 import { Moon, Sun } from 'lucide-react';
 import { BookingModal } from '../components/BookingModal';
@@ -136,8 +137,13 @@ export default function Home() {
         {/* Booking Widget Overlay */}
         <BookingModal isOpen={isBookingOpen} onClose={closeBooking} />
 
-        {/* Event Welcome Popup */}
+        {/* Event Welcome Popups */}
         <EventPopup
+          isDark={isDark}
+          onClose={() => {}}
+          onGoToEvent={() => setCurrentView(View.EVENT)}
+        />
+        <AnniversaryPopup
           isDark={isDark}
           onClose={() => {}}
           onGoToEvent={() => setCurrentView(View.EVENT)}
