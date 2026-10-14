@@ -28,7 +28,7 @@ export const AnniversaryPopup: React.FC<AnniversaryPopupProps> = ({ isDark = fal
       /* ignore */
     }
     setShouldShow(true);
-    const t = setTimeout(() => setIsOpen(true), 700);
+    const t = setTimeout(() => setIsOpen(true), 500);
     return () => clearTimeout(t);
   }, []);
 
@@ -58,7 +58,7 @@ export const AnniversaryPopup: React.FC<AnniversaryPopupProps> = ({ isDark = fal
 
   return (
     <div
-      className={`fixed inset-0 z-[99] flex items-center justify-center p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed inset-0 z-[101] flex items-center justify-center p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       aria-modal="true"
       role="dialog"
     >

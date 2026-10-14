@@ -28,7 +28,7 @@ export const EventPopup: React.FC<EventPopupProps> = ({ isDark = false, onClose,
       /* ignore */
     }
     setShouldShow(true);
-    const t = setTimeout(() => setIsOpen(true), 500);
+    const t = setTimeout(() => setIsOpen(true), 700);
     return () => clearTimeout(t);
   }, []);
 
@@ -58,7 +58,7 @@ export const EventPopup: React.FC<EventPopupProps> = ({ isDark = false, onClose,
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed inset-0 z-[99] flex items-center justify-center p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
       aria-modal="true"
       role="dialog"
     >
