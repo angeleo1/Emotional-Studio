@@ -247,6 +247,10 @@ module.exports = {
   			'hero-zoom-out': {
   				'0%': { transform: 'scale(1.015) translate3d(-0.1%, 0.3%, 0)' },
   				'100%': { transform: 'scale(1) translate3d(0, 0, 0)' }
+			},
+			fadeIn: {
+				'0%': { opacity: '0' },
+				'100%': { opacity: '1' }
   			}
   		},
   		animation: {
@@ -268,7 +272,8 @@ module.exports = {
 			'slide-left': 'slide-left 2.5s linear infinite',
 			'slide-right': 'slide-right 2.5s linear infinite',
 			'focus-in-expand': 'focus-in-expand 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
-			'tracking-in': 'tracking-in 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both'
+			'tracking-in': 'tracking-in 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both',
+			'fade-in': 'fadeIn 0.5s ease-in-out'
 		},
   		borderRadius: {
   			lg: 'var(--radius)',

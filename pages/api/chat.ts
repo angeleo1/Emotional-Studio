@@ -84,7 +84,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         SPECIAL PACKAGES (View 'Packages' tab):
 
-        - Couple: Couple Suite $159 (was $200) - For 2 People Only. Includes Two 4x6" Prints, Two 4x6" Frames, Elixir Experience, Time-Lapse Video, Two Key Rings, Digital Original Film.
+        - Couple: Couple Suite $159 (was $200) - For 2 People Only. Includes Two 4x6" Prints, Two 4x6" Frames, Time-Lapse Video, Two Key Rings, Digital Original Film.
 
         - Maternity: Plan A $109 (was $120) - For One Person. Includes Two 4x6" Prints, Photo Calendar, Photo Mug, Time-Lapse Video, 4x6" Frame. *Add Person: $30. Plan B $499 - For One Person. Includes Two 4x6" Prints, Photo Calendar, Photo Book B, Time-Lapse Video, 4x6" Frame, Mini Photo Cards. *6 Sessions Provided. *Add One Extra Person: Free.
 
@@ -104,7 +104,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         - Concept: Private suites with pro lighting/camera + wireless shutter remote.
 
-        - Session Basics Included: 20 mins private photo session time, Moodboard inspiration photos, Elixir concentrate welcome drink, Time-lapse video of your shoot.
+        - Session Basics Included: 20 mins private photo session time, Moodboard inspiration photos, Professional retouched photos, Time-lapse video of your shoot.
 
 
 

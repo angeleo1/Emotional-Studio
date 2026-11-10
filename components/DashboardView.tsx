@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { View } from '../types';
 
-import Head from 'next/head';
 import NextImage from 'next/image';
-import { Star, ArrowRight, MapPin, Users, Heart, User } from 'lucide-react';
+import { Star, ArrowRight, MapPin } from 'lucide-react';
 
-import { SmartImage } from './SmartImage';
 import { GoogleReviews } from './GoogleReviews';
 
 
@@ -17,122 +15,121 @@ interface HomeViewProps {
   isDark?: boolean;
 }
 
+export const HERO_BASES = [
+  'September Main (2)',
+  'September Main (3)',
+  'September Main (4)',
+  'September Main (5)',
+  'September Main (6)',
+  'September Main (7)',
+  'September Main (8)',
+  'September Main (9)',
+  'September Main',
+];
+
+// Already-optimised assets — served as-is (no second optimisation pass).
+const HERO_SRCS = HERO_BASES.map(n => encodeURI(`/images/Home/${n}.webp`));
+
+const HERO_BLUR =
+  'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAAQABADASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAX/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k=';
+
+const HERO_INTERVAL_MS = 7000;
+const HERO_FADE_MS = 2200;
+
 export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isDark = false }) => {
   const [isMounted, setIsMounted] = useState(false);
+  // Cursor points at the active position inside the (append-only) sequence.
+  const [cursor, setCursor] = useState(0);
+  const [showPrev, setShowPrev] = useState(false);
+  const [showNext, setShowNext] = useState(false);
 
-  const HERO_BASES = [
-    'September Main (2)',
-    'September Main (3)',
-    'September Main (4)',
-    'September Main (5)',
-    'September Main (6)',
-    'September Main (7)',
-    'September Main (8)',
-    'September Main (9)',
-    'September Main',
-  ];
+  const seqRef = useRef<number[]>([]);
+  const cursorRef = useRef(0);
+  const prevTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const WEBPS = HERO_BASES.map(n => encodeURI(`/images/Home/${n}.webp`));
-  const OPT_JPGS = HERO_BASES.map(n => encodeURI(`/images/Home/${n}.optimized.jpg`));
-  const heroImages = WEBPS;
-
-  const [queue, setQueue] = useState<number[]>([]);
-  const [activeIdx, setActiveIdx] = useState(0);
-  const didPreloadRef = useRef(false);
-
-  const shuffle = (excludeLast?: number): number[] => {
+  // A fully random permutation of every hero index.
+  const buildPermutation = (excludeFirst?: number): number[] => {
     const arr = HERO_BASES.map((_, i) => i);
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    if (excludeLast !== undefined && arr[0] === excludeLast && arr.length > 1) {
+    if (excludeFirst !== undefined && arr[0] === excludeFirst && arr.length > 1) {
       const swapIdx = Math.floor(Math.random() * (arr.length - 1)) + 1;
       [arr[0], arr[swapIdx]] = [arr[swapIdx], arr[0]];
     }
     return arr;
   };
 
-  const pickSupportedUrl = (i: number): string => {
-    if (typeof window === 'undefined') return WEBPS[i];
-    const canWebp = (window as any).__heroCanWebp;
-    if (canWebp === true) return WEBPS[i];
-    if (canWebp === false) return OPT_JPGS[i];
-    return WEBPS[i];
-  };
-
-  const makeNativeImage = () => {
-    if (typeof window === 'undefined') return null;
-    try {
-      const NativeImageCtor = (globalThis as any).Image || (window as any).Image;
-      return new NativeImageCtor();
-    } catch {
-      return null;
-    }
-  };
-
+  // #1 First image: reuse the one preloaded at HTML parse time so only that
+  // single file is fetched for the first paint.
   useEffect(() => {
-    // Detect WebP support once
-    const canWebp = (window as any).__heroCanWebp;
-    if (canWebp === undefined) {
-      try {
-        const elem = document.createElement('canvas');
-        if (elem.getContext && elem.getContext('2d')) {
-          (window as any).__heroCanWebp = elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
-        } else {
-          (window as any).__heroCanWebp = true;
-        }
-      } catch {
-        (window as any).__heroCanWebp = true;
-      }
+    const w = window as any;
+    const start =
+      Number.isInteger(w.__heroIdx) && w.__heroIdx >= 0 && w.__heroIdx < HERO_BASES.length
+        ? w.__heroIdx
+        : Math.floor(Math.random() * HERO_BASES.length);
+
+    const seed = buildPermutation();
+    const pos = seed.indexOf(start);
+    if (pos > 0) {
+      [seed[0], seed[pos]] = [seed[pos], seed[0]];
     }
+
+    seqRef.current = seed;
+    cursorRef.current = 0;
+    setCursor(0);
     setIsMounted(true);
-    const initial = shuffle();
-    setQueue(initial);
-    setActiveIdx(initial[0]);
   }, []);
 
-  // Preload strategy: first image IMMEDIATE (high), remaining in idle 2-at-a-time
+  // #2 Advance every 7s. Only prev / active / next are ever mounted.
   useEffect(() => {
-    if (!isMounted || queue.length === 0 || didPreloadRef.current) return;
-    didPreloadRef.current = true;
+    if (!isMounted || seqRef.current.length < 2) return;
 
-    const order = [...queue];
-    const firstIdx = order[0];
-    const rest = order.slice(1);
+    const id = setInterval(() => {
+      const nextCursor = cursorRef.current + 1;
 
-    // #1 preload first ASAP
-    const first = makeNativeImage();
-    if (first) {
-      (first as any).fetchPriority = 'high';
-      (first as any).decoding = 'async';
-      (first as any).src = pickSupportedUrl(firstIdx);
-    }
+      while (seqRef.current.length <= nextCursor + 1) {
+        seqRef.current = seqRef.current.concat(
+          buildPermutation(seqRef.current[seqRef.current.length - 1])
+        );
+      }
 
-    const preloadOne = (idx: number) => {
-      const im = makeNativeImage();
-      if (!im) return;
-      (im as any).decoding = 'async';
-      (im as any).fetchPriority = 'low';
-      (im as any).src = pickSupportedUrl(idx);
+      cursorRef.current = nextCursor;
+      setCursor(nextCursor);
+      setShowPrev(true);
+
+      if (prevTimerRef.current) clearTimeout(prevTimerRef.current);
+      prevTimerRef.current = setTimeout(() => setShowPrev(false), HERO_FADE_MS + 200);
+    }, HERO_INTERVAL_MS);
+
+    return () => {
+      clearInterval(id);
+      if (prevTimerRef.current) clearTimeout(prevTimerRef.current);
     };
+  }, [isMounted]);
 
-    if (typeof (window as any).requestIdleCallback === 'function') {
-      const remaining = [...rest];
-      const loadBatch = () => {
-        const batch = remaining.splice(0, 2);
-        if (batch.length === 0) return;
-        batch.forEach(preloadOne);
-        (window as any).requestIdleCallback(loadBatch, { timeout: 1500 });
-      };
-      (window as any).requestIdleCallback(loadBatch, { timeout: 800 });
-    } else {
-      // Fallback: staggered with delays
-      rest.forEach((idx, k) => {
-        setTimeout(() => preloadOne(idx), 1200 + k * 350);
-      });
-    }
-  }, [isMounted, queue]);
+  // #3 Mount the upcoming slide only after the first one has settled, so it
+  // never competes with the critical first paint. It then stays mounted and
+  // rolls forward, so each next slide is always already fetched.
+  useEffect(() => {
+    if (!isMounted) return;
+    const t = setTimeout(() => setShowNext(true), 1800);
+    return () => clearTimeout(t);
+  }, [isMounted]);
+
+  // Positions (not image indexes) are used as React keys: a position always
+  // points at the same image, which lets the browser run a real crossfade.
+  const seq = seqRef.current;
+  const activeIdx: number | undefined = isMounted ? seq[cursor] : undefined;
+  const prevIdx: number | undefined = isMounted && showPrev && cursor > 0 ? seq[cursor - 1] : undefined;
+  const nextIdx: number | undefined = isMounted && showNext ? seq[cursor + 1] : undefined;
+
+  const heroSlides = [
+    prevIdx !== undefined ? { key: `p${cursor - 1}`, idx: prevIdx, active: false } : null,
+    activeIdx !== undefined ? { key: `p${cursor}`, idx: activeIdx, active: true } : null,
+    nextIdx !== undefined ? { key: `p${cursor + 1}`, idx: nextIdx, active: false } : null,
+  ].filter((s): s is { key: string; idx: number; active: boolean } => s !== null);
 
   const handleNav = (view: View) => {
 
@@ -168,7 +165,7 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
             <img 
 
-               src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
+               src="/images/brand-logo.webp" 
 
                alt="Brand Logo" 
 
@@ -280,43 +277,37 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
 
 
 
-        {/* Right: Vertical Slideshow (clean crossfade only, Next.js Image optimized) */}
+        {/* Right: Vertical Slideshow — only prev / active / next are mounted */}
 
         <div className="w-full md:w-1/2 h-[60vh] md:h-screen order-1 md:order-2 relative bg-zinc-100 dark:bg-zinc-900 overflow-visible transition-colors duration-[1000ms]">
 
           <div className="relative w-full h-full transition-all duration-[1500ms] dark:shadow-[0_0_160px_-30px_rgba(255,255,255,0.22)] z-10 overflow-hidden">
-            {heroImages.map((src, i) => {
-              const isActive = activeIdx === i;
-              const isFirstInQueue = queue[0] === i;
-              return (
-                <NextImage
-                  key={`curr-${src}`}
-                  src={src}
-                  alt={`Studio Atmosphere ${i + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  quality={82}
-                  priority={isFirstInQueue}
-                  fetchPriority={isActive || isFirstInQueue ? 'high' : 'low'}
-                  loading={isFirstInQueue ? 'eager' : 'lazy'}
-                  decoding="async"
-                  draggable={false}
-                  unoptimized={false}
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABBQJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAwEBBQJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAgEBBQJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQAGPwJK/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPyFK/9k="
-                  style={{
-                    objectFit: 'cover',
-                    objectPosition: 'center top',
-                    zIndex: isActive ? 2 : 0,
-                    opacity: isActive ? 1 : 0,
-                    userSelect: 'none',
-                    transition: 'opacity 2200ms cubic-bezier(0.22, 1, 0.36, 1)',
-                    willChange: 'opacity',
-                    pointerEvents: isActive ? 'auto' : 'none',
-                  }}
-                />
-              );
-            })}
+            {heroSlides.map(slide => (
+              <NextImage
+                key={slide.key}
+                src={HERO_SRCS[slide.idx]}
+                alt={`Studio Atmosphere ${slide.idx + 1}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                unoptimized
+                fetchPriority={slide.active ? 'high' : 'low'}
+                loading={slide.active ? 'eager' : 'lazy'}
+                decoding="async"
+                draggable={false}
+                placeholder="blur"
+                blurDataURL={HERO_BLUR}
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  zIndex: slide.active ? 2 : 0,
+                  opacity: slide.active ? 1 : 0,
+                  userSelect: 'none',
+                  transition: `opacity ${HERO_FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
+                  willChange: 'opacity',
+                  pointerEvents: slide.active ? 'auto' : 'none',
+                }}
+              />
+            ))}
           </div>
 
         </div>

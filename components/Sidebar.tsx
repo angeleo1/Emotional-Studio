@@ -41,7 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onB
               <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
                 {item.id === View.HOME ? (
                   <img 
-                    src="https://raw.githubusercontent.com/angeleo1/google-images/main/%EB%B0%95%EC%A7%84%EC%98%81%EB%8B%98%EB%A1%9C%EA%B3%A0.png" 
+                    src="/images/brand-logo.webp" 
                     alt="Home" 
                     className={`w-4 h-4 object-contain transition-all duration-500 ${isActive ? '' : 'opacity-60 group-hover:opacity-100'}`}
                   />

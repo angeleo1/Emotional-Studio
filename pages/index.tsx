@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from '../components/Sidebar';
-import { DashboardView } from '../components/DashboardView'; 
+import { DashboardView, HERO_BASES } from '../components/DashboardView'; 
 import { PortfolioView } from '../components/PortfolioView'; 
 import { ChatView } from '../components/ChatView';
 import { PackagesView } from '../components/ImageView'; 
@@ -72,6 +72,13 @@ export default function Home() {
         <title>emotional studios | Self Photo Studio Melbourne</title>
         <meta name="description" content="Premium self-portrait studio in North Melbourne. Private suites, professional lighting, no photographer." />
         <link rel="icon" href="/favicon.ico" />
+        {/* Pick the random hero at HTML parse time and start fetching it before
+            React hydrates, so the first paint needs only one image request. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var B=${JSON.stringify(HERO_BASES)};var k=Math.floor(Math.random()*B.length);window.__heroIdx=k;var l=document.createElement('link');l.rel='preload';l.as='image';l.fetchPriority='high';l.href=encodeURI('/images/Home/'+B[k]+'.webp');document.head.appendChild(l);}catch(e){}})();`
+          }}
+        />
       </Head>
       
       <div className={`min-h-screen transition-all duration-1000 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}>
