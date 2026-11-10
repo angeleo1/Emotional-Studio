@@ -28,7 +28,7 @@ export const EventPopup: React.FC<EventPopupProps> = ({ isDark = false, onClose,
       /* ignore */
     }
     setShouldShow(true);
-    const t = setTimeout(() => setIsOpen(true), 700);
+    const t = setTimeout(() => setIsOpen(true), 500);
     return () => clearTimeout(t);
   }, []);
 
