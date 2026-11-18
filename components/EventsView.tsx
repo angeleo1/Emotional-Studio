@@ -47,8 +47,10 @@ export const EventsView: React.FC<EventsViewProps> = ({ onBook, isDark = false }
           <div className="grid md:grid-cols-2 gap-0">
             <div className="relative aspect-[4/5] md:aspect-auto overflow-hidden">
               <img
-                src="/images/Event/final2.png"
+                src="/images/Event/final2.webp"
                 alt="Birthday Month Event"
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/75 via-black/15 to-transparent md:from-black/45 md:via-transparent"></div>

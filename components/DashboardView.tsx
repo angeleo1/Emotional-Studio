@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View } from '../types';
 
 import NextImage from 'next/image';
-import { Star, ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 
 import { GoogleReviews } from './GoogleReviews';
 
@@ -396,13 +396,6 @@ export const DashboardView: React.FC<HomeViewProps> = ({ onNavigate, onBook, isD
               <h3 className="text-4xl md:text-5xl font-sans font-bold text-black dark:text-white transition-colors duration-[1000ms]">
                 Reviews on Google
               </h3>
-              <div className="flex items-center gap-2 mt-4">
-                  <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">5.0</span>
-                  <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-3 h-3 text-[#F4B400] fill-[#F4B400]" />)}
-                  </div>
-                  <a href="https://g.page/emotionalstudios" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-400 underline ml-2">88 Google reviews</a>
-               </div>
             </div>
           </div>
 

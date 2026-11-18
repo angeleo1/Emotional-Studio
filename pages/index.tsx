@@ -8,6 +8,7 @@ import { PriceView } from '../components/PriceView';
 import { EventsView } from '../components/EventsView';
 import { FAQView } from '../components/FAQView';
 import { EventPopup } from '../components/EventPopup';
+import { ProfileEditionView } from '../components/ProfileEditionView';
 import { View } from '../types';
 import { Moon, Sun } from 'lucide-react';
 import { BookingModal } from '../components/BookingModal';
@@ -57,6 +58,8 @@ export default function Home() {
         return <PriceView isDark={isDark} onContact={() => setCurrentView(View.CONCIERGE)} />;
       case View.PACKAGES:
         return <PackagesView onBook={openBooking} isDark={isDark} />;
+      case View.PROFILE:
+        return <ProfileEditionView onBook={openBooking} isDark={isDark} />;
       case View.FAQ:
         return <FAQView isDark={isDark} />;
       case View.CONCIERGE:
@@ -95,6 +98,7 @@ export default function Home() {
                   {currentView === View.PORTFOLIO && 'Selected Works'}
                   {currentView === View.PRICE && 'Standard Sessions'}
                   {currentView === View.PACKAGES && 'Special Packages'}
+                  {currentView === View.PROFILE && 'The Portrait Edition'}
                   {currentView === View.FAQ && 'Common Questions'}
                   {currentView === View.CONCIERGE && 'Enquiries'}
                 </span>

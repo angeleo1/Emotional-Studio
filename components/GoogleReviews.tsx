@@ -6,7 +6,6 @@ interface Review {
   rating: number;
   text: string;
   time: number;
-  profile_photo_url?: string;
 }
 
 interface GoogleReviewsProps {
@@ -19,6 +18,15 @@ export const GoogleReviews: React.FC<GoogleReviewsProps> = ({ isDark = false }) 
   const [error, setError] = useState<string | null>(null);
   const [rating, setRating] = useState<number | null>(null);
   const [totalReviews, setTotalReviews] = useState<number | null>(null);
+
+  const getReviewerInitials = (name: string) =>
+    (name || 'Google guest')
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0))
+      .join('')
+      .toUpperCase();
 
   useEffect(() => {
     fetchReviews();
@@ -128,13 +136,14 @@ export const GoogleReviews: React.FC<GoogleReviewsProps> = ({ isDark = false }) 
             </p>
             
             <div className="flex items-center gap-3">
-              {review.profile_photo_url && (
-                <img
-                  src={review.profile_photo_url}
-                  alt={review.author_name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              )}
+              <div
+                aria-hidden="true"
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-semibold tracking-wide ${
+                  isDark ? 'bg-amber-400/15 text-amber-200' : 'bg-amber-100 text-amber-900'
+                }`}
+              >
+                {getReviewerInitials(review.author_name)}
+              </div>
               <div>
                 <div className={`font-semibold text-sm ${
                   isDark ? 'text-white' : 'text-black'

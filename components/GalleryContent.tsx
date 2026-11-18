@@ -1,6 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
-import { sortGalleryImagesByCreationTime, sortAllImagesByCreationTime } from '../utils/gallerySorting';
+import { ArrowRight, X } from 'lucide-react';
+import { sortGalleryImagesByCreationTime } from '../utils/gallerySorting';
+
+const profileGalleryImages = Array.from(
+  { length: 24 },
+  (_, index) => `/images/ProfileEdition/gallery-${String(index + 1).padStart(2, '0')}.webp`,
+);
 
 export const galleryImages = {
   'B&W': [
@@ -412,6 +418,9 @@ export const galleryImages = {
     '/images/Gallery/Customer Album/optimized/Studio (15).webp',
     '/images/Gallery/Customer Album/optimized/Studio (16).webp',
   ],
+  'Profile': [
+    ...profileGalleryImages,
+  ],
   'Event': [
     // 2026 Valentines 최신 추가된 이미지
     '/images/Gallery/Event/2026/Valentines/Extra Retouched (10).jpg',
@@ -488,6 +497,7 @@ export const galleryImages = {
 };
 
 export const allImagesLatestFirst = [
+    ...profileGalleryImages,
     // July 0713 New Images - Interleaved (Warm, Cool)
     '/images/Gallery/WARM/2026/WARM July 0713/Retouched-(3 of 4).jpg',
     '/images/Gallery/COOL/2026/COOL July 0713/Retouched-(4 of 6).jpg',
@@ -987,26 +997,62 @@ export const allImagesLatestFirst = [
 
 export default function GalleryContent() {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
-  // 정렬된 갤러리 이미지 (생성 시간 순)
   const sortedGalleryImages = useMemo(() => {
     return sortGalleryImagesByCreationTime(galleryImages);
   }, []);
 
-  // 정렬된 All 탭 이미지 (생성 시간 순)
-  const sortedAllImages = useMemo(() => {
-    return sortAllImagesByCreationTime(allImagesLatestFirst);
-  }, []);
+  const [categoryPreviews, setCategoryPreviews] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      Object.entries(galleryImages).map(([category, images]) => [category, images[0]]),
+    ),
+  );
+  const [failedPreviews, setFailedPreviews] = useState<Record<string, string[]>>({});
 
-  // 현재 선택된 카테고리에 따른 이미지 목록
-  const getCurrentImages = () => {
-    if (selectedCategory === 'All') {
-      return sortedAllImages;
+  useEffect(() => {
+    setCategoryPreviews(
+      Object.fromEntries(
+        Object.entries(sortedGalleryImages)
+          .filter(([, images]) => images.length > 0)
+          .map(([category, images]) => [
+            category,
+            images[Math.floor(Math.random() * images.length)],
+          ]),
+      ),
+    );
+  }, [sortedGalleryImages]);
+
+  useEffect(() => {
+    if (!selectedPhoto) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedPhoto(null);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPhoto]);
+
+  const currentImages =
+    sortedGalleryImages[selectedCategory as keyof typeof sortedGalleryImages] || [];
+
+  const replaceFailedPreview = (category: string, failedSrc: string) => {
+    const failedForCategory = [...(failedPreviews[category] || []), failedSrc];
+    const alternatives = (sortedGalleryImages[category] || []).filter(
+      (image) => !failedForCategory.includes(image),
+    );
+
+    setFailedPreviews((current) => ({
+      ...current,
+      [category]: [...new Set([...(current[category] || []), failedSrc])],
+    }));
+
+    if (alternatives.length > 0) {
+      const replacement = alternatives[Math.floor(Math.random() * alternatives.length)];
+      setCategoryPreviews((current) => ({ ...current, [category]: replacement }));
     }
-    return sortedGalleryImages[selectedCategory as keyof typeof sortedGalleryImages] || [];
   };
-
-  const currentImages = getCurrentImages();
 
   return (
     <div className="min-h-screen bg-[#111] text-white">
@@ -1026,7 +1072,7 @@ export default function GalleryContent() {
       {/* 카테고리 필터 */}
       <div className="px-8 pb-12">
         <div className="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
-          {['All', 'B&W', 'Cool tone', 'Warm tone', 'Studio', 'Customer Album', 'Event', 'Pet Portraits'].map((category) => (
+          {['All', 'B&W', 'Cool tone', 'Warm tone', 'Studio', 'Customer Album', 'Event', 'Pet Portraits', 'Profile'].map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
@@ -1047,7 +1093,45 @@ export default function GalleryContent() {
 
       {/* 이미지 갤러리 */}
       <div className="px-8 pb-20">
-        {currentImages.length > 0 ? (
+        {selectedCategory === 'All' ? (
+          <div className="mx-auto max-w-5xl divide-y divide-white/10 border-y border-white/10">
+            {Object.entries(sortedGalleryImages).map(([category, images]) => {
+              const preview = categoryPreviews[category] || images[0];
+              if (!preview) return null;
+
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSelectedCategory(category)}
+                  className="group grid w-full grid-cols-[96px_1fr_auto] items-center gap-4 py-4 text-left transition-colors hover:bg-white/[0.04] md:grid-cols-[160px_1fr_auto] md:gap-7 md:py-5"
+                >
+                  <span className="relative aspect-[3/4] w-24 overflow-hidden rounded-sm bg-white/5 md:w-40">
+                    <Image
+                      src={preview}
+                      alt={`${category} collection`}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 768px) 96px, 160px"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={() => replaceFailedPreview(category, preview)}
+                    />
+                  </span>
+                  <span>
+                    <span className="mb-1 block text-[9px] uppercase tracking-[0.22em] text-white/45">
+                      Collection · {images.length} photographs
+                    </span>
+                    <span className="block font-serif text-xl md:text-3xl">{category}</span>
+                  </span>
+                  <span className="flex items-center gap-2 text-[9px] uppercase tracking-[0.16em] text-white/60 transition-colors group-hover:text-white">
+                    <span className="hidden sm:inline">Explore</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ) : currentImages.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {currentImages.map((image, index) => (
               <div
@@ -1055,15 +1139,39 @@ export default function GalleryContent() {
                 className="relative overflow-hidden rounded-lg group hover:scale-105 transition-transform duration-300"
                 style={{ aspectRatio: '2/3' }}
               >
-                <Image
-                  src={image}
-                  alt={`Gallery image ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                  unoptimized
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                {selectedCategory === 'Profile' ? (
+                  <button
+                    type="button"
+                    aria-label={`View profile portrait ${index + 1} full size`}
+                    onClick={() => setSelectedPhoto(image)}
+                    className="absolute inset-0 h-full w-full cursor-zoom-in"
+                  >
+                    <Image
+                      src={image}
+                      alt={`Profile portrait ${index + 1}`}
+                      fill
+                      className="origin-top object-cover object-top scale-y-[1.025]"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      unoptimized
+                    />
+                    <span className="absolute bottom-3 right-3 rounded-full bg-black/55 p-2 text-white">
+                      <ArrowRight className="h-4 w-4 -rotate-45" aria-hidden="true" />
+                    </span>
+                    <span className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/15" />
+                  </button>
+                ) : (
+                  <>
+                    <Image
+                      src={image}
+                      alt={`Gallery image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -1081,6 +1189,40 @@ export default function GalleryContent() {
           </div>
         )}
       </div>
+
+      {selectedPhoto && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Profile portrait preview"
+          className="fixed inset-0 z-[120] flex items-center justify-center p-4"
+        >
+          <button
+            type="button"
+            aria-label="Close portrait preview"
+            onClick={() => setSelectedPhoto(null)}
+            className="absolute inset-0 bg-black/90"
+          />
+          <div className="pointer-events-none relative z-10 h-[88vh] w-[92vw] max-w-5xl overflow-hidden">
+            <Image
+              src={selectedPhoto}
+              alt="Profile portrait"
+              fill
+              unoptimized
+              sizes="92vw"
+              className="origin-top object-contain scale-y-[1.025]"
+            />
+          </div>
+          <button
+            type="button"
+            aria-label="Close portrait preview"
+            onClick={() => setSelectedPhoto(null)}
+            className="absolute right-5 top-5 z-20 rounded-full border border-white/25 bg-black/50 p-3 text-white backdrop-blur"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+      )}
 
     </div>
   );

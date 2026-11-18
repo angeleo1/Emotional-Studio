@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from '../types';
-import { Camera, CreditCard, MessageCircle, HelpCircle, Tag, Sparkles, Instagram } from 'lucide-react';
+import { Camera, CreditCard, MessageCircle, HelpCircle, Tag, Sparkles, Instagram, UserRound } from 'lucide-react';
 
 interface SidebarProps {
   currentView: View;
@@ -11,13 +11,14 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onBook, isDark = false }) => {
   const navItems = [
-    { id: View.HOME, label: 'home', icon: null }, 
-    { id: View.PRICE, label: 'price', icon: Tag },
-    { id: View.PACKAGES, label: 'packages', icon: CreditCard },
-    { id: View.PORTFOLIO, label: 'gallery', icon: Camera },
-    { id: View.EVENT, label: 'events', icon: Sparkles },
-    { id: View.FAQ, label: 'help', icon: HelpCircle },
-    { id: View.CONCIERGE, label: 'contact', icon: MessageCircle },
+    { id: View.HOME, label: 'home', icon: null, badge: null },
+    { id: View.PRICE, label: 'price', icon: Tag, badge: null },
+    { id: View.PACKAGES, label: 'packages', icon: CreditCard, badge: null },
+    { id: View.PROFILE, label: 'profile', icon: UserRound, badge: 'NEW' },
+    { id: View.PORTFOLIO, label: 'gallery', icon: Camera, badge: null },
+    { id: View.EVENT, label: 'events', icon: Sparkles, badge: null },
+    { id: View.FAQ, label: 'help', icon: HelpCircle, badge: null },
+    { id: View.CONCIERGE, label: 'contact', icon: MessageCircle, badge: null },
   ];
 
   return (
@@ -53,6 +54,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onB
               <span className={`text-xs uppercase tracking-[0.15em] font-medium ${isActive ? 'font-bold' : ''}`}>
                 {item.label}
               </span>
+              {item.badge && (
+                <span className={`rounded-full px-1.5 py-0.5 text-[8px] font-bold tracking-widest ${
+                  isDark ? 'bg-amber-300 text-black' : 'bg-amber-700 text-white'
+                }`}>
+                  {item.badge}
+                </span>
+              )}
             </button>
           );
         })}

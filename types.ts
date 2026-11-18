@@ -3,6 +3,7 @@ export enum View {
   PORTFOLIO = 'PORTFOLIO',
   PRICE = 'PRICE',
   PACKAGES = 'PACKAGES',
+  PROFILE = 'PROFILE',
   EVENT = 'EVENT',
   FAQ = 'FAQ',
   CONCIERGE = 'CONCIERGE'

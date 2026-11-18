@@ -82,6 +82,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 
+        PROFILE SESSION (View 'Profile' tab):
+
+        - The Portrait Edition, 'ME, ON MY TERMS': $179 for one person, 60 minutes. A Korean-style colour self-portrait session. Includes a four-cut portrait print, a small photo print in emotional studios' signature packaging, one larger colour portrait in a clear frame, one custom photo keyring, all original photos, and four professionally retouched portraits. Session timing: 5 min welcome, 10 min self-portrait shoot, 5 min to choose four portraits, 40 min retouching and printing. Retouching follows the guest's preferences and may include skin tone correction and facial/body proportion adjustments. Light version: $119 for four professionally retouched profile portraits delivered as digital files; photo merchandise and physical prints are not included. Allow up to 90 minutes in total if retouching takes longer or the studio is busy.
+
         SPECIAL PACKAGES (View 'Packages' tab):
 
         - Couple: Couple Suite $159 (was $200) - For 2 People Only. Includes Two 4x6" Prints, Two 4x6" Frames, Time-Lapse Video, Two Key Rings, Digital Original Film.

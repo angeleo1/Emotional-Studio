@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { allImagesLatestFirst } from './GalleryContent';
-import { X } from 'lucide-react';
+import { ArrowRight, X } from 'lucide-react';
 
-type Category = 'All' | 'B/W' | 'Cool' | 'Warm' | 'Studio' | 'Event' | 'Pet Portraits';
+type Category = 'All' | 'B/W' | 'Cool' | 'Warm' | 'Studio' | 'Event' | 'Pet Portraits' | 'Profile';
 
 interface ImageItem {
   src: string;
@@ -24,6 +24,7 @@ const buildImagesFromGallery = (): ImageItem[] => {
     if (path.includes('/STUDIO/')) return 'Studio';
     if (path.includes('/Event/')) return 'Event';
     if (path.includes('/Pet portraits/')) return 'Pet Portraits';
+    if (path.includes('/ProfileEdition/')) return 'Profile';
     return null;
   };
 
@@ -45,6 +46,21 @@ const buildImagesFromGallery = (): ImageItem[] => {
 };
 
 const IMAGE_FILES = buildImagesFromGallery();
+const CATEGORIES: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Studio', 'Event', 'Pet Portraits', 'Profile'];
+
+const getCategoryPreviews = (random = false): Record<string, ImageItem> => {
+  const previews: Record<string, ImageItem> = {};
+
+  CATEGORIES.filter((category): category is Exclude<Category, 'All'> => category !== 'All').forEach((category) => {
+    const categoryImages = IMAGE_FILES.filter((image) => image.category === category);
+    if (categoryImages.length === 0) return;
+
+    const index = random ? Math.floor(Math.random() * categoryImages.length) : 0;
+    previews[category] = categoryImages[index];
+  });
+
+  return previews;
+};
 
 const PortfolioItem: React.FC<{ item: ImageItem; onClick: (item: ImageItem) => void; isDark: boolean }> = ({ item, onClick, isDark }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -59,7 +75,10 @@ const PortfolioItem: React.FC<{ item: ImageItem; onClick: (item: ImageItem) => v
         src={item.src}
         alt={item.title}
         fill
-        className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+        unoptimized={item.src.includes('/ProfileEdition/')}
+        className={`object-cover transition-transform duration-700 ease-in-out group-hover:scale-110 ${
+          item.category === 'Profile' ? 'origin-top scale-y-[1.025]' : ''
+        }`}
         onError={() => setIsVisible(false)}
         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
       />
@@ -78,13 +97,16 @@ const Lightbox: React.FC<{ item: ImageItem | null; onClose: () => void; isDark: 
       <button onClick={onClose} className={`absolute top-6 right-6 p-2 hover:opacity-50 transition-opacity z-[110] ${isDark ? 'text-white' : 'text-black'}`}>
         <X className="w-8 h-8" />
       </button>
-      <div className="relative max-w-full max-h-full w-auto h-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div className="relative max-w-full max-h-full w-auto h-auto overflow-hidden shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <Image
           src={item.src}
           alt={item.title}
           width={1000}
           height={1500}
-          className="max-h-[90vh] max-w-[90vw] object-contain"
+          unoptimized={item.src.includes('/ProfileEdition/')}
+          className={`max-h-[90vh] max-w-[90vw] object-contain ${
+            item.category === 'Profile' ? 'origin-top scale-y-[1.025]' : ''
+          }`}
         />
       </div>
     </div>
@@ -94,8 +116,31 @@ const Lightbox: React.FC<{ item: ImageItem | null; onClose: () => void; isDark: 
 export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('All');
   const [selectedImage, setSelectedImage] = useState<ImageItem | null>(null);
-  const categories: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Studio', 'Event', 'Pet Portraits'];
+  const [categoryPreviews, setCategoryPreviews] = useState(() => getCategoryPreviews());
+  const [failedPreviews, setFailedPreviews] = useState<Record<string, string[]>>({});
+  const categories = CATEGORIES;
   const filteredImages = selectedCategory === 'All' ? IMAGE_FILES : IMAGE_FILES.filter(img => img.category === selectedCategory);
+
+  useEffect(() => {
+    setCategoryPreviews(getCategoryPreviews(true));
+  }, []);
+
+  const replaceFailedPreview = (category: string, failedSrc: string) => {
+    const failedForCategory = [...(failedPreviews[category] || []), failedSrc];
+    const alternatives = IMAGE_FILES.filter(
+      (image) => image.category === category && !failedForCategory.includes(image.src),
+    );
+
+    setFailedPreviews((current) => ({
+      ...current,
+      [category]: [...new Set([...(current[category] || []), failedSrc])],
+    }));
+
+    if (alternatives.length > 0) {
+      const replacement = alternatives[Math.floor(Math.random() * alternatives.length)];
+      setCategoryPreviews((current) => ({ ...current, [category]: replacement }));
+    }
+  };
 
   return (
     <>
@@ -123,11 +168,58 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) 
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-1">
-          {filteredImages.map((item, index) => (
-            <PortfolioItem key={`${item.baseName}-${index}`} item={item} onClick={setSelectedImage} isDark={isDark} />
-          ))}
-        </div>
+        {selectedCategory === 'All' ? (
+          <div className={`mx-auto max-w-6xl divide-y px-4 md:px-8 ${isDark ? 'divide-zinc-800' : 'divide-zinc-200'}`}>
+            {categories.filter((category) => category !== 'All').map((category, index) => {
+              const item = categoryPreviews[category];
+              const count = IMAGE_FILES.filter((image) => image.category === category).length;
+              if (!item) return null;
+
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSelectedCategory(category)}
+                  className={`group grid w-full grid-cols-[96px_1fr_auto] items-center gap-4 py-4 text-left transition-colors md:grid-cols-[180px_1fr_auto] md:gap-8 md:py-5 ${
+                    isDark ? 'hover:bg-white/[0.03]' : 'hover:bg-zinc-50'
+                  }`}
+                >
+                  <span className={`relative block aspect-[3/4] w-24 shrink-0 overflow-hidden bg-stone-100 md:w-[180px] ${isDark ? 'bg-zinc-900' : ''}`}>
+                    <Image
+                      src={item.src}
+                      alt={`${category} collection`}
+                      fill
+                      unoptimized
+                      className="object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                      sizes="(max-width: 768px) 96px, 180px"
+                      onError={() => replaceFailedPreview(category, item.src)}
+                    />
+                  </span>
+                  <span>
+                    <span className={`mb-1 block text-[9px] uppercase tracking-[0.2em] ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                      Collection {String(index + 1).padStart(2, '0')} · {count} portraits
+                    </span>
+                    <span className={`block font-serif text-xl md:text-3xl ${isDark ? 'text-white' : 'text-black'}`}>
+                      {category}
+                    </span>
+                  </span>
+                  <span className={`flex items-center gap-2 text-[9px] uppercase tracking-[0.16em] transition-colors ${
+                    isDark ? 'text-zinc-500 group-hover:text-white' : 'text-zinc-400 group-hover:text-black'
+                  }`}>
+                    <span className="hidden sm:inline">Explore</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 px-1">
+            {filteredImages.map((item) => (
+              <PortfolioItem key={item.src} item={item} onClick={setSelectedImage} isDark={isDark} />
+            ))}
+          </div>
+        )}
 
         {filteredImages.length === 0 && (
           <div className={`py-32 text-center ${isDark ? 'text-zinc-600' : 'text-zinc-400'}`}>
