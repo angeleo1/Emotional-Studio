@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { allImagesLatestFirst } from './GalleryContent';
 import { ArrowRight, X } from 'lucide-react';
@@ -48,15 +48,14 @@ const buildImagesFromGallery = (): ImageItem[] => {
 const IMAGE_FILES = buildImagesFromGallery();
 const CATEGORIES: Category[] = ['All', 'B/W', 'Cool', 'Warm', 'Studio', 'Event', 'Pet Portraits', 'Profile'];
 
-const getCategoryPreviews = (random = false): Record<string, ImageItem> => {
+const getCategoryPreviews = (): Record<string, ImageItem> => {
   const previews: Record<string, ImageItem> = {};
 
   CATEGORIES.filter((category): category is Exclude<Category, 'All'> => category !== 'All').forEach((category) => {
     const categoryImages = IMAGE_FILES.filter((image) => image.category === category);
     if (categoryImages.length === 0) return;
 
-    const index = random ? Math.floor(Math.random() * categoryImages.length) : 0;
-    previews[category] = categoryImages[index];
+    previews[category] = categoryImages[0];
   });
 
   return previews;
@@ -75,7 +74,7 @@ const PortfolioItem: React.FC<{ item: ImageItem; onClick: (item: ImageItem) => v
         src={item.src}
         alt={item.title}
         fill
-        unoptimized={item.src.includes('/ProfileEdition/')}
+        quality={70}
         className={`object-cover transition-transform duration-700 ease-in-out group-hover:scale-110 ${
           item.category === 'Profile' ? 'origin-top scale-y-[1.025]' : ''
         }`}
@@ -103,7 +102,7 @@ const Lightbox: React.FC<{ item: ImageItem | null; onClose: () => void; isDark: 
           alt={item.title}
           width={1000}
           height={1500}
-          unoptimized={item.src.includes('/ProfileEdition/')}
+          quality={80}
           className={`max-h-[90vh] max-w-[90vw] object-contain ${
             item.category === 'Profile' ? 'origin-top scale-y-[1.025]' : ''
           }`}
@@ -120,10 +119,6 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) 
   const [failedPreviews, setFailedPreviews] = useState<Record<string, string[]>>({});
   const categories = CATEGORIES;
   const filteredImages = selectedCategory === 'All' ? IMAGE_FILES : IMAGE_FILES.filter(img => img.category === selectedCategory);
-
-  useEffect(() => {
-    setCategoryPreviews(getCategoryPreviews(true));
-  }, []);
 
   const replaceFailedPreview = (category: string, failedSrc: string) => {
     const failedForCategory = [...(failedPreviews[category] || []), failedSrc];
@@ -189,7 +184,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ isDark = false }) 
                       src={item.src}
                       alt={`${category} collection`}
                       fill
-                      unoptimized
+                      quality={65}
                       className="object-contain transition-transform duration-700 group-hover:scale-[1.02]"
                       sizes="(max-width: 768px) 96px, 180px"
                       onError={() => replaceFailedPreview(category, item.src)}

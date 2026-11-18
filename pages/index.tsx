@@ -75,6 +75,7 @@ export default function Home() {
         <title>emotional studios | Self Photo Studio Melbourne</title>
         <meta name="description" content="Premium self-portrait studio in North Melbourne. Private suites, professional lighting, no photographer." />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preload" as="image" href="/images/Event/final2-popup.webp" fetchPriority="high" />
         {/* Pick the random hero at HTML parse time and start fetching it before
             React hydrates, so the first paint needs only one image request. */}
         <script

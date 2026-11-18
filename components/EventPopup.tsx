@@ -80,7 +80,7 @@ export const EventPopup: React.FC<EventPopupProps> = ({ isDark = false, onClose,
 
           <div className="relative aspect-[4/5] overflow-hidden bg-stone-100 dark:bg-stone-900">
             <img
-              src="/images/Event/final2.webp"
+              src="/images/Event/final2-popup.webp"
               alt="Birthday Month Event"
               loading="eager"
               fetchPriority="high"
